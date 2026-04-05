@@ -20,7 +20,7 @@
 
         .container {
             padding: 40px;
-            max-width: 700px; /* Increased max-width to accommodate three social buttons in a row */
+            max-width: 800px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -34,7 +34,7 @@
             position: relative;
             margin-bottom: 25px;
             animation: collisionShake 0.2s linear forwards;
-            animation-delay: 1.5s; /* Sync with Tyler's arrival */
+            animation-delay: 1.5s; 
         }
 
         h1.animated-logo {
@@ -50,7 +50,6 @@
         .animated-logo .name {
             display: inline-block;
             opacity: 0;
-            /* Starts completely off-screen, moves slower (1.8s) */
             animation: tylerHit 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
             z-index: 5;
         }
@@ -65,25 +64,22 @@
             z-index: 5;
         }
 
-        /* The Dot (.) character between tyler and fun, now part of the impact */
         .animated-logo .logo-dot {
             display: inline-block;
             color: #60a5fa;
             opacity: 0;
             transform: scale(0);
-            width: 0; /* Starts with no width so they are touching */
+            width: 0; 
             overflow: hidden;
             animation: dotImpact 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            animation-delay: 1.5s; /* Sync with impact */
+            animation-delay: 1.5s; 
             z-index: 6;
         }
-
-        /* --- ANIMATION KEYFRAMES --- */
 
         @keyframes tylerHit {
             0% { transform: translateX(-100vw); opacity: 0; }
             70% { transform: translateX(0); opacity: 1; }
-            80% { transform: translateX(-15px); opacity: 1; } /* The rebound */
+            80% { transform: translateX(-15px); opacity: 1; }
             100% { transform: translateX(0); opacity: 1; }
         }
 
@@ -94,7 +90,7 @@
 
         @keyframes dotImpact {
             0% { transform: scale(0); opacity: 0; width: 0; }
-            100% { transform: scale(1); opacity: 1; width: 0.3em; /* Restores standard space */ }
+            100% { transform: scale(1); opacity: 1; width: 0.3em; }
         }
 
         @keyframes collisionShake {
@@ -104,19 +100,18 @@
             75% { transform: translateX(5px); }
         }
 
-        /* --- CONTENT REVEAL AFTER INTRO --- */
+        /* --- CONTENT REVEAL --- */
         .badge, .tagline, .info-box, .bottom-section {
             opacity: 0;
             animation: fadeInContent 1s ease-out forwards;
-            animation-delay: 2s; /* Waits for the intro animation to finish */
+            animation-delay: 2s;
         }
 
         @keyframes fadeInContent {
             to { opacity: 1; }
         }
 
-        /* --- REST OF STYLING --- */
-
+        /* --- UI STYLING --- */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -133,8 +128,7 @@
         }
 
         .dot {
-            height: 10px;
-            width: 10px;
+            height: 10px; width: 10px;
             background-color: #10b981;
             border-radius: 50%;
             display: inline-block;
@@ -149,132 +143,80 @@
         }
 
         .tagline {
-            font-size: 1.15rem;
-            color: #cbd5e1;
-            margin: 20px 0 30px 0;
-            line-height: 1.7;
+            font-size: 1.15rem; color: #cbd5e1;
+            margin: 20px 0 30px 0; line-height: 1.7;
         }
 
         .tagline a {
-            color: #ffffff;
-            font-weight: 700;
-            text-decoration: none;
+            color: #ffffff; font-weight: 700; text-decoration: none;
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.2s ease;
         }
 
-        .tagline a:hover {
-            color: #60a5fa;
-            border-bottom-color: #60a5fa;
-        }
+        .tagline a:hover { color: #60a5fa; border-bottom-color: #60a5fa; }
 
         .info-box {
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(51, 65, 85, 0.8);
-            padding: 25px;
-            border-radius: 16px;
-            backdrop-filter: blur(12px);
-            margin-bottom: 20px;
-            width: 100%;
+            padding: 25px; border-radius: 16px;
+            backdrop-filter: blur(12px); margin-bottom: 20px; width: 100%;
         }
 
-        .label {
-            font-size: 0.75rem;
-            color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
+        .label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; font-weight: 600; }
+        .value { font-size: 1.4rem; font-weight: 700; color: #f8fafc; }
+        .value span { color: #fbbf24; }
 
-        .value {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #f8fafc;
-        }
+        .disclaimer { margin-top: 15px; font-size: 0.85rem; color: #64748b; font-style: italic; line-height: 1.4; }
 
-        .value span {
-            color: #fbbf24; 
-        }
-
-        .disclaimer {
-            margin-top: 15px;
-            font-size: 0.85rem;
-            color: #64748b;
-            font-style: italic;
-            line-height: 1.4;
-        }
-
-        .bottom-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-            width: 100%;
-        }
-
-        /* --- Social Buttons Row --- */
+        /* --- SOCIAL BUTTONS --- */
+        .bottom-section { display: flex; flex-direction: column; align-items: center; margin-top: 20px; width: 100%; }
+        
         .social-row {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 20px; /* Spacing between the three buttons */
-            margin-top: 20px;
-            flex-wrap: wrap; /* Allows wrapping on very small screens */
+            display: flex; flex-direction: row; justify-content: center; align-items: center;
+            gap: 15px; margin-top: 20px; flex-wrap: wrap;
         }
 
-        /* Base styling for all social buttons */
         .social-box {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background-color: #1e3a8a; /* Dark blue background from reference images */
-            border: 1.5px solid #d1d5db; /* Light grey border */
-            padding: 10px 24px; 
-            border-radius: 999px; /* Pill shape */
-            text-decoration: none;
-            color: #ffffff; 
-            font-weight: 500;
-            font-size: 1.2rem;
+            display: inline-flex; align-items: center; gap: 10px;
+            background-color: #1e3a8a; 
+            border: 1.5px solid #d1d5db; 
+            padding: 10px 22px; border-radius: 999px;
+            text-decoration: none; color: #ffffff; 
+            font-weight: 600; font-size: 1.1rem;
             transition: transform 0.2s ease, border-color 0.2s ease;
         }
 
-        .social-box:hover {
-            transform: translateY(-2px);
-            border-color: #ffffff;
+        .social-box:hover { transform: translateY(-3px); border-color: #ffffff; }
+
+        .social-box svg { width: 24px; height: 24px; }
+
+        /* Instagram Gradient Text/Icon Effect */
+        .insta-box .insta-icon {
+            fill: url(#instaGradient);
         }
 
-        /* Styling for the SVGs */
-        .social-box svg {
-            width: 26px; 
-            height: 26px;
-        }
+        /* TikTok Color Offset Effect */
+        .tiktok-box svg { filter: drop-shadow(2px 0px 0px #ff0050) drop-shadow(-2px 0px 0px #00f2ea); }
 
-        /* Brand Colors for Icons */
         .twitter-box svg { fill: #1da1f2; }
-        .insta-box svg { fill: #ffffff; /* Instagram logo is complex, simple white works well on the blue */ }
-        .tiktok-box svg { fill: #ffffff; }
 
-        .made-by-text {
-            font-size: 0.95rem;
-            color: #94a3b8;
-        }
-
-        .made-by-text a {
-            color: #ffffff;
-            font-weight: 600;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .made-by-text a:hover {
-            color: #60a5fa;
-            text-decoration: underline;
-        }
+        .made-by-text { font-size: 0.95rem; color: #94a3b8; }
+        .made-by-text a { color: #ffffff; font-weight: 600; text-decoration: none; }
     </style>
 </head>
 <body>
+
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <linearGradient id="instaGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#f09433;stop-opacity:1" />
+                <stop offset="25%" style="stop-color:#e6683c;stop-opacity:1" />
+                <stop offset="50%" style="stop-color:#dc2743;stop-opacity:1" />
+                <stop offset="75%" style="stop-color:#cc2366;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#bc1888;stop-opacity:1" />
+            </linearGradient>
+        </defs>
+    </svg>
 
     <div class="container">
         <div class="badge">
@@ -306,19 +248,17 @@
             
             <div class="social-row">
                 <a href="https://www.tiktok.com/@tylergameryt" target="_blank" class="social-box tiktok-box">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12.525.965c2.193.003 4.19.721 5.793 2.052.008.006.015.012.023.018 1.487.653 2.753.84 3.996.84V6.26c-.846.013-1.688-.131-2.518-.475-.01-.004-.02-.008-.031-.013-1.125-.262-2.12-.267-3.085-.13V15.22c0 3.39-2.73 6.136-6.134 6.14a6.137 6.137 0 01-6.14-6.14c0-3.376 2.709-6.12 6.115-6.14h.02c.81 0 1.588.164 2.301.482V4.868c-.71-.24-1.488-.363-2.301-.363-3.39 0-6.136 2.746-6.136 6.136s2.746 6.136 6.136 6.136c3.376 0 6.12-2.709 6.14-6.115v-9.7c2.193 0 4.19-.721 5.793-2.052z"/>
-                    </svg>
+                    <svg viewBox="0 0 448 512"><path fill="white" d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/></svg>
                     TikTok
                 </a>
 
                 <a href="https://x.com/TylerGamerYT" target="_blank" class="social-box twitter-box">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"></path></svg>
                     Twitter
                 </a>
 
                 <a href="https://www.instagram.com/tylergameryt_" target="_blank" class="social-box insta-box">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="insta-icon">
                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.56.216.96.475 1.382.896.421.422.68.822.896 1.382.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.013 3.584-.07 4.85c-.054 1.17-.249 1.805-.413 2.227-.216.56-.475.96-.896 1.382-.422.421-.822.68-1.382.896-.422.164-1.057.36-2.227.413-1.266.057-1.646.07-4.85.07s-3.584-.013-4.85-.07c-1.17-.054-1.805-.249-2.227-.413-.56-.216-.96-.475-1.382-.896-.421-.422-.68-.822-.896-1.382-.164-.422-.36-1.057-.413-2.227-.057-1.266-.07-1.646-.07-4.85s.013-3.584.07-4.85c.054-1.17.249-1.805.413-2.227.216-.56.475-.96.896-1.382.422-.421.822-.68 1.382-.896.422-.164 1.057-.36 2.227-.413 1.266-.057 1.646-.07 4.85-.07M12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.901.333 4.14.627c-.785.306-1.448.717-2.11 1.38-.663.663-1.075 1.325-1.381 2.11-.293.76-.495 1.634-.552 2.914C.014 8.333 0 8.741 0 12s.014 3.667.072 4.947c.057 1.28.259 2.154.552 2.914.306.785.717 1.448 1.38 2.11.663.663 1.325 1.075 2.11 1.381.76.293 1.634.495 2.914.552C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.28-.057 2.154-.259 2.914-.552.785-.306 1.448-.717 2.11-1.38.663-.663 1.075-1.325 1.381-2.11.293-.76.495-1.634.552-2.914.057-1.28.072-1.634.072-4.947s-.014-3.667-.072-4.947c-.057-1.28-.259-2.154-.552-2.914-.306-.785-.717-1.448-1.38-2.11-.663-.663-1.325-1.075-2.11-1.381-.76-.293-1.634-.495-2.914-.552C15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4.162 4.162 0 110-8.324A4.162 4.162 0 0112 16zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
                     </svg>
                     Instagram
