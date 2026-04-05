@@ -33,8 +33,9 @@
             justify-content: center;
             position: relative;
             margin-bottom: 25px;
+            /* Shake happens exactly when Tyler hits Fun */
             animation: collisionShake 0.2s linear forwards;
-            animation-delay: 0.75s; 
+            animation-delay: 1.2s; 
         }
 
         h1.animated-logo {
@@ -45,14 +46,16 @@
             line-height: 1;
             display: flex;
             align-items: center;
-            gap: 20px; /* Space for the dot to live in */
+            position: relative;
         }
 
         .animated-logo .name {
             display: inline-block;
             opacity: 0;
-            animation: tylerHit 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
-            z-index: 2;
+            /* Starts far off the left screen (-100vw) and moves slower (1.5s) */
+            animation: tylerHit 1.5s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+            z-index: 5;
+            padding-right: 15px; /* Creates space for the dot to appear */
         }
 
         .animated-logo .fun {
@@ -60,63 +63,65 @@
             color: #60a5fa; 
             text-shadow: 0 0 40px rgba(59, 130, 246, 0.4);
             opacity: 0;
-            animation: funAppear 0.4s ease-out forwards;
-            animation-delay: 0.2s;
-            z-index: 2;
+            animation: funAppear 0.5s ease-out forwards;
+            animation-delay: 0.3s;
+            z-index: 5;
         }
 
-        /* Fixed Centered Dot */
+        /* The Dot Fix: Positioned relatively within the flow now to ensure it stays in the middle */
         .animated-logo .logo-dot {
             width: 14px;
             height: 14px;
             background-color: #60a5fa;
             border-radius: 50%;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%) scale(0);
+            display: inline-block;
             opacity: 0;
+            transform: scale(0);
             box-shadow: 0 0 20px #60a5fa;
+            /* Dot pops in right at the 1.2s mark (the hit) */
             animation: dotImpact 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            animation-delay: 0.75s; 
-            z-index: 1;
+            animation-delay: 1.2s; 
+            z-index: 6;
+            margin: 0 -5px; /* Tightens the gap during impact */
         }
 
         @keyframes tylerHit {
-            0% { transform: translateX(-500px); opacity: 0; }
-            70% { transform: translateX(30px); opacity: 1; } /* The "Hit" overshoot */
+            0% { transform: translateX(-100vw); opacity: 0; }
+            80% { transform: translateX(0); opacity: 1; }
+            /* The "Bounce" back after hitting */
+            90% { transform: translateX(-10px); opacity: 1; }
             100% { transform: translateX(0); opacity: 1; }
         }
 
         @keyframes funAppear {
-            0% { opacity: 0; transform: scale(0.9); }
+            0% { opacity: 0; transform: scale(0.8); }
             100% { opacity: 1; transform: scale(1); }
         }
 
         @keyframes dotImpact {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         @keyframes collisionShake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(6px); }
-            50% { transform: translateX(-6px); }
-            75% { transform: translateX(3px); }
+            25% { transform: translateX(8px); }
+            50% { transform: translateX(-8px); }
+            75% { transform: translateX(4px); }
         }
 
         /* --- CONTENT REVEAL --- */
         .badge, .tagline, .info-box, .bottom-section {
             opacity: 0;
             animation: fadeInContent 0.8s ease-out forwards;
-            animation-delay: 1.3s;
+            animation-delay: 1.8s; /* Waits for the slower animation to finish */
         }
 
         @keyframes fadeInContent {
             to { opacity: 1; }
         }
 
-        /* --- UI STYLING --- */
+        /* --- REST OF STYLING --- */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -212,7 +217,6 @@
             margin-top: 20px;
         }
 
-        /* Twitter Box: Matches reference shape and background */
         .social-box {
             display: inline-flex;
             align-items: center;
@@ -266,9 +270,9 @@
         </div>
         
         <div class="logo-wrapper">
-            <div class="logo-dot"></div>
             <h1 class="animated-logo">
                 <span class="name">tyler</span>
+                <span class="logo-dot"></span>
                 <span class="fun">fun</span>
             </h1>
         </div>
