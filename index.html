@@ -27,16 +27,14 @@
         }
 
         /* --- LOGO HIT ANIMATION --- */
-        
         .logo-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             margin-bottom: 25px;
-            /* The shake effect happens to the whole wrapper on impact */
             animation: collisionShake 0.2s linear forwards;
-            animation-delay: 0.8s; 
+            animation-delay: 0.75s; 
         }
 
         h1.animated-logo {
@@ -47,13 +45,14 @@
             line-height: 1;
             display: flex;
             align-items: center;
+            gap: 20px; /* Space for the dot to live in */
         }
 
         .animated-logo .name {
             display: inline-block;
             opacity: 0;
-            /* Tyler flies in from the left */
             animation: tylerHit 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+            z-index: 2;
         }
 
         .animated-logo .fun {
@@ -61,30 +60,31 @@
             color: #60a5fa; 
             text-shadow: 0 0 40px rgba(59, 130, 246, 0.4);
             opacity: 0;
-            /* Fun is already there, just waiting to be hit */
             animation: funAppear 0.4s ease-out forwards;
             animation-delay: 0.2s;
+            z-index: 2;
         }
 
+        /* Fixed Centered Dot */
         .animated-logo .logo-dot {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             background-color: #60a5fa;
             border-radius: 50%;
-            display: inline-block;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(0);
             opacity: 0;
-            transform: scale(0);
-            box-shadow: 0 0 15px #60a5fa;
-            /* Dot is created by the impact */
+            box-shadow: 0 0 20px #60a5fa;
             animation: dotImpact 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            animation-delay: 0.8s; 
+            animation-delay: 0.75s; 
+            z-index: 1;
         }
-
-        /* --- KEYFRAMES --- */
 
         @keyframes tylerHit {
             0% { transform: translateX(-500px); opacity: 0; }
-            80% { transform: translateX(20px); opacity: 1; } /* Slight overshoot for the hit */
+            70% { transform: translateX(30px); opacity: 1; } /* The "Hit" overshoot */
             100% { transform: translateX(0); opacity: 1; }
         }
 
@@ -94,24 +94,22 @@
         }
 
         @keyframes dotImpact {
-            0% { transform: scale(0); opacity: 0; margin: 0; }
-            100% { transform: scale(1); opacity: 1; margin: 0 12px; }
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
 
         @keyframes collisionShake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(5px); }
-            50% { transform: translateX(-5px); }
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(6px); }
+            50% { transform: translateX(-6px); }
             75% { transform: translateX(3px); }
-            100% { transform: translateX(0); }
         }
 
         /* --- CONTENT REVEAL --- */
-        
         .badge, .tagline, .info-box, .bottom-section {
             opacity: 0;
             animation: fadeInContent 0.8s ease-out forwards;
-            animation-delay: 1.4s;
+            animation-delay: 1.3s;
         }
 
         @keyframes fadeInContent {
@@ -119,7 +117,6 @@
         }
 
         /* --- UI STYLING --- */
-
         .badge {
             display: inline-flex;
             align-items: center;
@@ -215,31 +212,31 @@
             margin-top: 20px;
         }
 
+        /* Twitter Box: Matches reference shape and background */
         .social-box {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            background-color: #020617; 
-            border: 1px solid rgba(255, 255, 255, 0.15); 
-            padding: 8px 18px; 
+            gap: 12px;
+            background-color: #1e3a8a; 
+            border: 1.5px solid #d1d5db; 
+            padding: 10px 24px; 
             border-radius: 999px;
             text-decoration: none;
-            color: white; 
+            color: #ffffff; 
             font-weight: 500;
-            font-size: 1.1rem;
-            transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+            font-size: 1.2rem;
+            transition: transform 0.2s ease, border-color 0.2s ease;
             margin-top: 15px;
         }
 
         .social-box:hover {
             transform: translateY(-2px);
-            border-color: rgba(255, 255, 255, 0.3);
-            background-color: rgba(255, 255, 255, 0.05);
+            border-color: #ffffff;
         }
 
         .social-box svg {
-            width: 22px; 
-            height: 22px;
+            width: 26px; 
+            height: 26px;
             fill: #1da1f2; 
         }
 
@@ -269,9 +266,9 @@
         </div>
         
         <div class="logo-wrapper">
+            <div class="logo-dot"></div>
             <h1 class="animated-logo">
                 <span class="name">tyler</span>
-                <span class="logo-dot"></span>
                 <span class="fun">fun</span>
             </h1>
         </div>
