@@ -6,7 +6,6 @@
     <title>tyler.fun | Coming Soon</title>
     <style>
         body {
-            /* Vibrant deep blue gradient */
             background: radial-gradient(circle at center, #1e3a8a 0%, #020617 100%);
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
@@ -26,6 +25,100 @@
             flex-direction: column;
             align-items: center;
         }
+
+        /* --- LOGO HIT ANIMATION --- */
+        
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 25px;
+            /* The shake effect happens to the whole wrapper on impact */
+            animation: collisionShake 0.2s linear forwards;
+            animation-delay: 0.8s; 
+        }
+
+        h1.animated-logo {
+            font-size: clamp(3.5rem, 12vw, 5rem);
+            margin: 0;
+            font-weight: 900;
+            letter-spacing: -3px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .animated-logo .name {
+            display: inline-block;
+            opacity: 0;
+            /* Tyler flies in from the left */
+            animation: tylerHit 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+        }
+
+        .animated-logo .fun {
+            display: inline-block;
+            color: #60a5fa; 
+            text-shadow: 0 0 40px rgba(59, 130, 246, 0.4);
+            opacity: 0;
+            /* Fun is already there, just waiting to be hit */
+            animation: funAppear 0.4s ease-out forwards;
+            animation-delay: 0.2s;
+        }
+
+        .animated-logo .logo-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #60a5fa;
+            border-radius: 50%;
+            display: inline-block;
+            opacity: 0;
+            transform: scale(0);
+            box-shadow: 0 0 15px #60a5fa;
+            /* Dot is created by the impact */
+            animation: dotImpact 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation-delay: 0.8s; 
+        }
+
+        /* --- KEYFRAMES --- */
+
+        @keyframes tylerHit {
+            0% { transform: translateX(-500px); opacity: 0; }
+            80% { transform: translateX(20px); opacity: 1; } /* Slight overshoot for the hit */
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes funAppear {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes dotImpact {
+            0% { transform: scale(0); opacity: 0; margin: 0; }
+            100% { transform: scale(1); opacity: 1; margin: 0 12px; }
+        }
+
+        @keyframes collisionShake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(5px); }
+            50% { transform: translateX(-5px); }
+            75% { transform: translateX(3px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* --- CONTENT REVEAL --- */
+        
+        .badge, .tagline, .info-box, .bottom-section {
+            opacity: 0;
+            animation: fadeInContent 0.8s ease-out forwards;
+            animation-delay: 1.4s;
+        }
+
+        @keyframes fadeInContent {
+            to { opacity: 1; }
+        }
+
+        /* --- UI STYLING --- */
 
         .badge {
             display: inline-flex;
@@ -58,19 +151,6 @@
             50% { opacity: 0.4; transform: scale(0.9); }
         }
 
-        h1 {
-            font-size: clamp(3.5rem, 12vw, 5rem);
-            margin: 0;
-            font-weight: 900;
-            letter-spacing: -3px;
-            line-height: 1;
-        }
-
-        h1 span {
-            color: #60a5fa; 
-            text-shadow: 0 0 40px rgba(59, 130, 246, 0.4);
-        }
-
         .tagline {
             font-size: 1.15rem;
             color: #cbd5e1;
@@ -80,13 +160,15 @@
 
         .tagline a {
             color: #ffffff;
-            text-decoration: underline;
-            text-decoration-color: #3b82f6;
-            transition: color 0.2s ease;
+            font-weight: 700;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.2s ease;
         }
 
         .tagline a:hover {
             color: #60a5fa;
+            border-bottom-color: #60a5fa;
         }
 
         .info-box {
@@ -186,10 +268,16 @@
             <span class="dot"></span> Development Active
         </div>
         
-        <h1>tyler<span>.fun</span></h1>
+        <div class="logo-wrapper">
+            <h1 class="animated-logo">
+                <span class="name">tyler</span>
+                <span class="logo-dot"></span>
+                <span class="fun">fun</span>
+            </h1>
+        </div>
         
         <p class="tagline">
-            A collection of interactive web experiments and creative projects, inspired by <strong><a href="https://neal.fun/" target="_blank">neal.fun</a></strong> and the work of <strong><a href="https://en.wikipedia.org/wiki/Neal_Agarwal" target="_blank">Neal Agarwal</a></strong>.
+            A collection of interactive web experiments and creative projects, inspired by <a href="https://neal.fun/" target="_blank">neal.fun</a> and the work of <a href="https://en.wikipedia.org/wiki/Neal_Agarwal" target="_blank">Neal Agarwal</a>.
         </p>
         
         <div class="info-box">
@@ -202,7 +290,7 @@
 
         <div class="bottom-section">
             <div class="made-by-text">
-                Made by <strong><a href="https://github.com/TylerGamerYT" target="_blank">Tyler</a></strong>
+                Made by <a href="https://github.com/TylerGamerYT" target="_blank">Tyler</a>
             </div>
             
             <a href="https://x.com/TylerGamerYT" target="_blank" class="social-box">
@@ -210,7 +298,6 @@
                 Twitter
             </a>
         </div>
-
     </div>
 
 </body>
