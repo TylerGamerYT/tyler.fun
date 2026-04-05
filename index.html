@@ -116,9 +116,17 @@
             color: #94a3b8;
         }
 
-        .footer strong {
+        /* Styling for the clickable link */
+        .footer a {
             color: #ffffff;
             font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer a:hover {
+            color: #60a5fa;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -145,7 +153,7 @@
     </div>
 
     <div class="footer">
-        Made by <strong>Tyler</strong>
+        Made by <strong><a href="https://github.com/TylerGamerYT" target="_blank">Tyler</a></strong>
     </div>
 
 </body>
