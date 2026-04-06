@@ -4,139 +4,249 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Socials | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        *, *::before, *::after { box-sizing: border-box; }
+
         body {
-            background: radial-gradient(circle at center, #1e3a8a 0%, #020617 100%);
+            background: #020617;
             color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+            font-family: 'Inter', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            overflow: hidden;
+        }
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
         }
 
         .links-container {
+            position: relative;
+            z-index: 1;
             width: 90%;
-            max-width: 400px;
+            max-width: 420px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            align-items: center;
+            gap: 0;
             text-align: center;
-            padding: 20px;
+            padding: 32px 20px;
         }
 
-        /* --- Updated PFP Styling --- */
+        /* --- PFP --- */
         .profile-pic {
-            width: 90px;
-            height: 90px;
+            width: 88px;
+            height: 88px;
             border-radius: 50%;
-            margin: 0 auto 15px;
-            border: 3px solid #60a5fa;
-            overflow: hidden; /* Keeps the image inside the circle */
-            box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+            margin-bottom: 16px;
+            border: 2.5px solid #60a5fa;
+            overflow: hidden;
+            box-shadow: 0 0 24px rgba(96, 165, 250, 0.25);
             background: #1e3a8a;
+            opacity: 0;
+            animation: fadeUp 0.5s ease forwards 0.1s;
         }
 
         .profile-pic img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensures the photo isn't stretched */
+            object-fit: cover;
         }
 
-        h2 { 
-            margin: 0 0 5px 0; 
-            font-weight: 800; 
-            font-size: 1.8rem;
-            letter-spacing: -1px; 
+        h2 {
+            font-family: 'Syne', sans-serif;
+            margin: 0 0 4px;
+            font-weight: 900;
+            font-size: 1.75rem;
+            letter-spacing: -1px;
+            opacity: 0;
+            animation: fadeUp 0.5s ease forwards 0.2s;
         }
 
         .username {
-            color: #94a3b8;
-            margin-bottom: 25px;
-            font-size: 1rem;
+            color: #64748b;
+            margin-bottom: 28px;
+            font-size: 0.9rem;
+            opacity: 0;
+            animation: fadeUp 0.5s ease forwards 0.3s;
         }
 
+        /* --- LINKS --- */
         .social-link {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            background: rgba(30, 58, 138, 0.4);
-            border: 1.5px solid rgba(209, 213, 219, 0.2);
-            padding: 16px;
+            gap: 11px;
+            background: rgba(30, 58, 138, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
             border-radius: 14px;
             text-decoration: none;
             color: white;
             font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1rem;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            width: 100%;
+            margin-bottom: 12px;
+            opacity: 0;
         }
 
         .social-link:hover {
             transform: translateY(-2px);
-            background: rgba(30, 58, 138, 0.7);
-            border-color: #ffffff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: rgba(30, 58, 138, 0.6);
+            border-color: rgba(255,255,255,0.3);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
         }
 
-        .social-link svg { width: 24px; height: 24px; }
-        
-        .twitter svg { fill: #1da1f2; }
-        .insta svg { fill: url(#instaGradient); }
-        .tiktok svg { filter: drop-shadow(2px 0px 0px #ff0050) drop-shadow(-2px 0px 0px #00f2ea); }
+        .social-link:active { transform: translateY(0px); }
+
+        .social-link svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+        /* per-platform colours */
+        .tiktok svg  { filter: drop-shadow(1.5px 0 0 #ff0050) drop-shadow(-1.5px 0 0 #00f2ea); }
+        .twitter svg { fill: #1d9bf0; }
+        .insta svg   { fill: url(#instaGradient); }
+        .github svg  { fill: #e6edf3; }
+
+        /* staggered reveals */
+        .link-1 { animation: fadeUp 0.5s ease forwards 0.4s; }
+        .link-2 { animation: fadeUp 0.5s ease forwards 0.5s; }
+        .link-3 { animation: fadeUp 0.5s ease forwards 0.6s; }
+        .link-4 { animation: fadeUp 0.5s ease forwards 0.7s; }
 
         .back-home {
-            margin-top: 40px;
-            font-size: 0.9rem;
-            color: #64748b;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #475569;
             text-decoration: none;
             transition: color 0.2s;
+            opacity: 0;
+            animation: fadeUp 0.5s ease forwards 0.85s;
         }
 
         .back-home:hover { color: #ffffff; }
+
+        @keyframes fadeUp {
+            0%   { opacity: 0; transform: translateY(12px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
-    <svg width="0" height="0" style="position: absolute;">
-        <defs>
-            <linearGradient id="instaGradient" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" style="stop-color:#f09433;" />
-                <stop offset="25%" style="stop-color:#e6683c;" />
-                <stop offset="50%" style="stop-color:#dc2743;" />
-                <stop offset="75%" style="stop-color:#cc2366;" />
-                <stop offset="100%" style="stop-color:#bc1888;" />
-            </linearGradient>
-        </defs>
-    </svg>
+<svg width="0" height="0" style="position:absolute;">
+    <defs>
+        <linearGradient id="instaGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%"   style="stop-color:#f09433;"/>
+            <stop offset="25%"  style="stop-color:#e6683c;"/>
+            <stop offset="50%"  style="stop-color:#dc2743;"/>
+            <stop offset="75%"  style="stop-color:#cc2366;"/>
+            <stop offset="100%" style="stop-color:#bc1888;"/>
+        </linearGradient>
+    </defs>
+</svg>
 
-    <div class="links-container">
-        <div class="profile-pic">
-            <img src="https://github.com/TylerGamerYT.png" alt="Tyler's Profile Picture">
-        </div>
-        
-        <h2>tyler.fun</h2>
-        <div class="username">@tylergameryt</div>
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
 
-        <a href="https://www.tiktok.com/@tylergameryt" target="_blank" class="social-link tiktok">
-            <svg viewBox="0 0 448 512"><path fill="white" d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/></svg>
-            TikTok
-        </a>
+<div class="links-container">
 
-        <a href="https://x.com/TylerGamerYT" target="_blank" class="social-link twitter">
-            <svg viewBox="0 0 24 24"><path d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"></path></svg>
-            Twitter
-        </a>
-
-        <a href="https://www.instagram.com/tylergameryt_" target="_blank" class="social-link insta">
-            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.56.216.96.475 1.382.896.421.422.68.822.896 1.382.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.013 3.584-.07 4.85c-.054 1.17-.249 1.805-.413 2.227-.216.56-.475.96-.896 1.382-.422.421-.822.68-1.382.896-.422.164-1.057.36-2.227.413-1.266.057-1.646.07-4.85.07s-3.584-.013-4.85-.07c-1.17-.054-1.805-.249-2.227-.413-.56-.216-.96-.475-1.382-.896-.421-.422-.68-.822-.896-1.382-.164-.422-.36-1.057-.413-2.227-.057-1.266-.07-1.646-.07-4.85s.013-3.584.07-4.85c.054-1.17.249-1.805.413-2.227.216-.56.475-.96.896-1.382.422-.421.822-.68 1.382-.896.422-.164 1.057-.36 2.227-.413 1.266-.057 1.646-.07 4.85-.07M12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.901.333 4.14.627c-.785.306-1.448.717-2.11 1.38-.663.663-1.075 1.325-1.381 2.11-.293.76-.495 1.634-.552 2.914C.014 8.333 0 8.741 0 12s.014 3.667.072 4.947c.057 1.28.259 2.154.552 2.914.306.785.717 1.448 1.38 2.11.663.663 1.325 1.075 2.11 1.381.76.293 1.634.495 2.914.552C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.28-.057 2.154-.259 2.914-.552.785-.306 1.448-.717 2.11-1.38.663-.663 1.075-1.325 1.381-2.11.293-.76.495-1.634.552-2.914.057-1.28.072-1.634.072-4.947s-.014-3.667-.072-4.947c-.057-1.28-.259-2.154-.552-2.914-.306-.785-.717-1.448-1.38-2.11-.663-.663-1.325-1.075-2.11-1.381-.76-.293-1.634-.495-2.914-.552C15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4.162 4.162 0 110-8.324A4.162 4.162 0 0112 16zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-            Instagram
-        </a>
-
-        <a href="index.html" class="back-home">← Back to tyler.fun</a>
+    <div class="profile-pic">
+        <img src="https://avatars.githubusercontent.com/TylerGamerYT?v=4" alt="Tyler's Profile Picture">
     </div>
+
+    <h2>tyler.fun</h2>
+    <div class="username">@tylergameryt</div>
+
+    <a href="https://www.tiktok.com/@tylergameryt" target="_blank" class="social-link tiktok link-1">
+        <svg viewBox="0 0 448 512"><path fill="white" d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/></svg>
+        TikTok
+    </a>
+
+    <a href="https://x.com/TylerGamerYT" target="_blank" class="social-link twitter link-2">
+        <svg viewBox="0 0 24 24"><path d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"/></svg>
+        Twitter
+    </a>
+
+    <a href="https://www.instagram.com/tylergameryt_" target="_blank" class="social-link insta link-3">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.56.216.96.475 1.382.896.421.422.68.822.896 1.382.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.013 3.584-.07 4.85c-.054 1.17-.249 1.805-.413 2.227-.216.56-.475.96-.896 1.382-.422.421-.822.68-1.382.896-.422.164-1.057.36-2.227.413-1.266.057-1.646.07-4.85.07s-3.584-.013-4.85-.07c-1.17-.054-1.805-.249-2.227-.413-.56-.216-.96-.475-1.382-.896-.421-.422-.68-.822-.896-1.382-.164-.422-.36-1.057-.413-2.227-.057-1.266-.07-1.646-.07-4.85s.013-3.584.07-4.85c.054-1.17.249-1.805.413-2.227.216-.56.475-.96.896-1.382.422-.421.822-.68 1.382-.896.422-.164 1.057-.36 2.227-.413 1.266-.057 1.646-.07 4.85-.07M12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.901.333 4.14.627c-.785.306-1.448.717-2.11 1.38-.663.663-1.075 1.325-1.381 2.11-.293.76-.495 1.634-.552 2.914C.014 8.333 0 8.741 0 12s.014 3.667.072 4.947c.057 1.28.259 2.154.552 2.914.306.785.717 1.448 1.38 2.11.663.663 1.325 1.075 2.11 1.381.76.293 1.634.495 2.914.552C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.28-.057 2.154-.259 2.914-.552.785-.306 1.448-.717 2.11-1.38.663-.663 1.075-1.325 1.381-2.11.293-.76.495-1.634.552-2.914.057-1.28.072-1.634.072-4.947s-.014-3.667-.072-4.947c-.057-1.28-.259-2.154-.552-2.914-.306-.785-.717-1.448-1.38-2.11-.663-.663-1.325-1.075-2.11-1.381-.76-.293-1.634-.495-2.914-.552C15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4.162 4.162 0 110-8.324A4.162 4.162 0 0112 16zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        Instagram
+    </a>
+
+    <a href="https://github.com/TylerGamerYT" target="_blank" class="social-link github link-4">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+    </a>
+
+    <a href="index.html" class="back-home">← Back to tyler.fun</a>
+
+</div>
+
+<script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H, stars = [];
+
+    function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+    }
+
+    function initStars() {
+        stars = [];
+        const count = Math.floor((W * H) / 8000);
+        for (let i = 0; i < count; i++) {
+            stars.push({
+                x: Math.random() * W,
+                y: Math.random() * H,
+                r: Math.random() * 1.1 + 0.3,
+                speed: Math.random() * 0.14 + 0.03,
+                opacity: Math.random() * 0.45 + 0.1,
+                twinkleSpeed: Math.random() * 0.01 + 0.003,
+                twinkleOffset: Math.random() * Math.PI * 2,
+            });
+        }
+    }
+
+    let t = 0;
+    function draw() {
+        ctx.clearRect(0, 0, W, H);
+        t += 0.016;
+        for (const s of stars) {
+            const alpha = s.opacity + Math.sin(t * s.twinkleSpeed * 60 + s.twinkleOffset) * 0.14;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(148, 197, 255, ${Math.max(0, alpha)})`;
+            ctx.fill();
+            s.y -= s.speed;
+            if (s.y < -2) { s.y = H + 2; s.x = Math.random() * W; }
+        }
+        requestAnimationFrame(draw);
+    }
+
+    resize();
+    initStars();
+    draw();
+    window.addEventListener('resize', () => { resize(); initStars(); });
+</script>
 
 </body>
 </html>
