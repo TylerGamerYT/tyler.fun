@@ -4,233 +4,372 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tyler.fun | Coming Soon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        *, *::before, *::after { box-sizing: border-box; }
+
+        :root {
+            --blue-deep: #020617;
+            --blue-mid: #1e3a8a;
+            --blue-accent: #60a5fa;
+            --green: #10b981;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+        }
+
         body {
-            background: radial-gradient(circle at center, #1e3a8a 0%, #020617 100%);
+            background: var(--blue-deep);
             color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+            font-family: 'Inter', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             text-align: center;
             overflow: hidden;
         }
 
+        /* ---- CANVAS PARTICLES ---- */
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ---- RADIAL BG ---- */
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a55 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
         .container {
-            padding: 40px;
-            max-width: 800px;
+            position: relative;
+            z-index: 1;
+            padding: 40px 24px;
+            max-width: 720px;
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* --- LOGO IMPACT ANIMATION --- */
-        .logo-wrapper {
-            display: flex;
+        /* ---- BADGE ---- */
+        .badge {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            position: relative;
-            margin-bottom: 25px;
-            animation: collisionShake 0.2s linear forwards;
-            animation-delay: 1.5s; 
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--green);
+            padding: 7px 16px;
+            border-radius: 99px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            margin-bottom: 28px;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 2.2s;
+        }
+
+        .dot {
+            height: 8px; width: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            margin-right: 9px;
+            box-shadow: 0 0 8px var(--green);
+            animation: blink 2.2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ---- LOGO ---- */
+        .logo-wrapper {
+            margin-bottom: 20px;
+            animation: shake 0.25s linear forwards 1.55s;
         }
 
         h1.animated-logo {
-            font-size: clamp(3.5rem, 12vw, 5rem);
-            margin: 0;
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(3.8rem, 13vw, 5.5rem);
             font-weight: 900;
+            margin: 0;
             letter-spacing: -3px;
             line-height: 1;
             display: flex;
             align-items: baseline;
         }
 
-        .animated-logo .name {
+        .name {
             display: inline-block;
             opacity: 0;
-            animation: tylerHit 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-            z-index: 5;
+            animation: slideIn 1.6s cubic-bezier(0.19, 1, 0.22, 1) forwards 0s;
         }
 
-        .animated-logo .fun {
+        .logo-dot {
             display: inline-block;
-            color: #60a5fa; 
-            text-shadow: 0 0 40px rgba(59, 130, 246, 0.4);
+            color: var(--blue-accent);
             opacity: 0;
-            animation: funAppear 0.6s ease-out forwards;
-            animation-delay: 0.4s;
-            z-index: 5;
-        }
-
-        .animated-logo .logo-dot {
-            display: inline-block;
-            color: #60a5fa;
-            opacity: 0;
-            transform: scale(0);
-            width: 0; 
+            width: 0;
             overflow: hidden;
-            animation: dotImpact 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            animation-delay: 1.5s; 
-            z-index: 6;
+            animation: dotPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 1.55s;
         }
 
-        @keyframes tylerHit {
-            0% { transform: translateX(-100vw); opacity: 0; }
-            70% { transform: translateX(0); opacity: 1; }
-            80% { transform: translateX(-15px); opacity: 1; }
-            100% { transform: translateX(0); opacity: 1; }
+        .fun {
+            display: inline-block;
+            color: var(--blue-accent);
+            text-shadow: 0 0 50px rgba(96, 165, 250, 0.35);
+            opacity: 0;
+            animation: fadeScale 0.5s ease forwards 0.45s;
         }
 
-        @keyframes funAppear {
-            0% { opacity: 0; transform: scale(0.9); }
+        @keyframes slideIn {
+            0%   { transform: translateX(-110vw); opacity: 0; }
+            65%  { transform: translateX(0);      opacity: 1; }
+            80%  { transform: translateX(-12px);  opacity: 1; }
+            100% { transform: translateX(0);      opacity: 1; }
+        }
+
+        @keyframes fadeScale {
+            0%   { opacity: 0; transform: scale(0.88); }
             100% { opacity: 1; transform: scale(1); }
         }
 
-        @keyframes dotImpact {
-            0% { transform: scale(0); opacity: 0; width: 0; }
-            100% { transform: scale(1); opacity: 1; width: 0.3em; }
+        @keyframes dotPop {
+            0%   { opacity: 0; width: 0;      transform: scale(0); }
+            100% { opacity: 1; width: 0.28em; transform: scale(1); }
         }
 
-        @keyframes collisionShake {
+        @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(10px); }
-            50% { transform: translateX(-10px); }
-            75% { transform: translateX(5px); }
+            20%       { transform: translateX(8px); }
+            50%       { transform: translateX(-8px); }
+            80%       { transform: translateX(4px); }
         }
 
-        /* --- CONTENT REVEAL --- */
-        .badge, .tagline, .info-box, .bottom-section {
-            opacity: 0;
-            animation: fadeInContent 1s ease-out forwards;
-            animation-delay: 2s;
-        }
-
-        @keyframes fadeInContent {
-            to { opacity: 1; }
-        }
-
-        /* --- UI STYLING --- */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(16, 185, 129, 0.15);
-            color: #10b981;
-            padding: 8px 16px;
-            border-radius: 99px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            border: 1px solid rgba(16, 185, 129, 0.4);
-            margin-bottom: 25px;
-        }
-
-        .dot {
-            height: 10px; width: 10px;
-            background-color: #10b981;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 10px;
-            box-shadow: 0 0 10px #10b981;
-            animation: blink 2s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.9); }
-        }
-
+        /* ---- TAGLINE ---- */
         .tagline {
-            font-size: 1.15rem; color: #cbd5e1;
-            margin: 20px 0 30px 0; line-height: 1.7;
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            margin: 16px 0 28px;
+            line-height: 1.75;
+            max-width: 560px;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 2.3s;
         }
 
         .tagline a {
-            color: #ffffff; font-weight: 700; text-decoration: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.2s ease;
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.25);
+            transition: color 0.2s, border-color 0.2s;
         }
 
-        .tagline a:hover { color: #60a5fa; border-bottom-color: #60a5fa; }
+        .tagline a:hover { color: var(--blue-accent); border-color: var(--blue-accent); }
 
+        /* ---- INFO BOX ---- */
         .info-box {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(51, 65, 85, 0.8);
-            padding: 25px; border-radius: 16px;
-            backdrop-filter: blur(12px); margin-bottom: 20px; width: 100%;
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(51, 65, 85, 0.7);
+            padding: 24px 28px;
+            border-radius: 18px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            margin-bottom: 24px;
+            width: 100%;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 2.4s;
         }
 
-        .label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; font-weight: 600; }
-        .value { font-size: 1.4rem; font-weight: 700; color: #f8fafc; }
+        .label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .value {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+
         .value span { color: #fbbf24; }
 
-        .disclaimer { margin-top: 15px; font-size: 0.85rem; color: #64748b; font-style: italic; line-height: 1.4; }
+        .disclaimer {
+            margin-top: 12px;
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            font-style: italic;
+            line-height: 1.5;
+        }
 
-        .bottom-section { display: flex; flex-direction: column; align-items: center; margin-top: 20px; width: 100%; }
+        /* ---- BOTTOM ---- */
+        .bottom-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 2.5s;
+        }
 
-        /* The New Clean Button */
+        .made-by-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .made-by-text a {
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .made-by-text a:hover { color: var(--blue-accent); }
+
+        /* ---- BUTTON ---- */
         .social-button {
             display: inline-flex;
             align-items: center;
-            background-color: #1e3a8a; 
-            border: 1.5px solid #d1d5db; 
-            padding: 12px 30px; 
+            gap: 10px;
+            background: rgba(37, 99, 235, 0.2);
+            border: 1.5px solid rgba(96, 165, 250, 0.45);
+            padding: 13px 32px;
             border-radius: 999px;
-            text-decoration: none; 
-            color: #ffffff; 
-            font-weight: 600; 
+            text-decoration: none;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+        }
+
+        .social-button:hover {
+            transform: translateY(-3px);
+            border-color: var(--blue-accent);
+            background: rgba(37, 99, 235, 0.38);
+            box-shadow: 0 0 22px rgba(96, 165, 250, 0.2);
+        }
+
+        .social-button:active { transform: translateY(-1px); }
+
+        .arrow {
+            display: inline-block;
+            transition: transform 0.2s ease;
+            font-style: normal;
             font-size: 1.1rem;
-            margin-top: 20px;
-            transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
         }
 
-        .social-button:hover { 
-            transform: translateY(-3px); 
-            border-color: #ffffff;
-            background-color: #2563eb;
-        }
+        .social-button:hover .arrow { transform: translateX(4px); }
 
-        .made-by-text { font-size: 0.95rem; color: #94a3b8; }
-        .made-by-text a { color: #ffffff; font-weight: 600; text-decoration: none; }
+        /* ---- SHARED FADE UP ---- */
+        @keyframes fadeUp {
+            0%   { opacity: 0; transform: translateY(14px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="badge">
-            <span class="dot"></span> Development Active
-        </div>
-        
-        <div class="logo-wrapper">
-            <h1 class="animated-logo">
-                <span class="name">tyler</span><span class="logo-dot">.</span><span class="fun">fun</span>
-            </h1>
-        </div>
-        
-        <p class="tagline">
-            A collection of interactive web experiments and creative projects, inspired by <a href="https://neal.fun/" target="_blank">neal.fun</a> and the work of <a href="https://en.wikipedia.org/wiki/Neal_Agarwal" target="_blank">Neal Agarwal</a>.
-        </p>
-        
-        <div class="info-box">
-            <div class="label">Current Status</div>
-            <div class="value"><span>Coming Soon</span> (Summer 2026 / Early 2027)</div>
-            <div class="disclaimer">
-                To be honest, I'm not sure if this will ever be finished or if I'll actually commit to the project.
-            </div>
-        </div>
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
 
-        <div class="bottom-section">
-            <div class="made-by-text">
-                Made by <a href="https://github.com/TylerGamerYT" target="_blank">Tyler</a>
-            </div>
-            
-            <a href="socials.html" class="social-button">
-                View My Socials
-            </a>
+<div class="container">
+    <div class="badge">
+        <span class="dot"></span> Development Active
+    </div>
+
+    <div class="logo-wrapper">
+        <h1 class="animated-logo">
+            <span class="name">tyler</span><span class="logo-dot">.</span><span class="fun">fun</span>
+        </h1>
+    </div>
+
+    <p class="tagline">
+        A collection of interactive web experiments and creative projects, inspired by
+        <a href="https://neal.fun/" target="_blank">neal.fun</a> and the work of
+        <a href="https://en.wikipedia.org/wiki/Neal_Agarwal" target="_blank">Neal Agarwal</a>.
+    </p>
+
+    <div class="info-box">
+        <div class="label">Current Status</div>
+        <div class="value"><span>Coming Soon</span> (Summer 2026 / Early 2027)</div>
+        <div class="disclaimer">
+            To be honest, I'm not sure if this will ever be finished or if I'll actually commit to the project.
         </div>
     </div>
+
+    <div class="bottom-section">
+        <div class="made-by-text">
+            Made by <a href="https://github.com/TylerGamerYT" target="_blank">Tyler</a>
+        </div>
+        <a href="socials.html" class="social-button">
+            View My Socials <span class="arrow">→</span>
+        </a>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+
+    let W, H, stars = [];
+
+    function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+    }
+
+    function initStars() {
+        stars = [];
+        const count = Math.floor((W * H) / 8000);
+        for (let i = 0; i < count; i++) {
+            stars.push({
+                x: Math.random() * W,
+                y: Math.random() * H,
+                r: Math.random() * 1.2 + 0.3,
+                speed: Math.random() * 0.15 + 0.03,
+                opacity: Math.random() * 0.5 + 0.1,
+                twinkleSpeed: Math.random() * 0.01 + 0.003,
+                twinkleOffset: Math.random() * Math.PI * 2,
+            });
+        }
+    }
+
+    let t = 0;
+    function draw() {
+        ctx.clearRect(0, 0, W, H);
+        t += 0.016;
+        for (const s of stars) {
+            const alpha = s.opacity + Math.sin(t * s.twinkleSpeed * 60 + s.twinkleOffset) * 0.15;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(148, 197, 255, ${Math.max(0, alpha)})`;
+            ctx.fill();
+            s.y -= s.speed;
+            if (s.y < -2) { s.y = H + 2; s.x = Math.random() * W; }
+        }
+        requestAnimationFrame(draw);
+    }
+
+    resize();
+    initStars();
+    draw();
+    window.addEventListener('resize', () => { resize(); initStars(); });
+</script>
 
 </body>
 </html>
