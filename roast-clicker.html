@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roast Clicker | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            background: #020617;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 24px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .back-home {
+            position: fixed;
+            top: 20px;
+            left: 24px;
+            font-size: 0.85rem;
+            color: #475569;
+            text-decoration: none;
+            transition: color 0.2s;
+            z-index: 10;
+        }
+        .back-home:hover { color: #fff; }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 8vw, 3rem);
+            font-weight: 900;
+            margin: 0 0 6px;
+            letter-spacing: -2px;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 36px;
+        }
+
+        /* click counter */
+        .counter {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(4rem, 16vw, 7rem);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 8px;
+            transition: transform 0.07s ease;
+            color: #f8fafc;
+        }
+
+        .counter.bump { transform: scale(1.12); }
+
+        .clicks-label {
+            font-size: 0.8rem;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 36px;
+        }
+
+        /* roast box */
+        .roast-box {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(51, 65, 85, 0.7);
+            border-radius: 16px;
+            padding: 20px 28px;
+            min-height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 36px;
+            width: 100%;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .roast-text {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            line-height: 1.55;
+            transition: opacity 0.2s ease;
+        }
+
+        .roast-text.hidden { opacity: 0; }
+
+        /* big click button */
+        .click-btn {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(37, 99, 235, 0.25);
+            border: 2px solid rgba(96, 165, 250, 0.4);
+            color: #fff;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.1s ease, background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .click-btn:hover {
+            background: rgba(37, 99, 235, 0.45);
+            border-color: #60a5fa;
+            box-shadow: 0 0 30px rgba(96, 165, 250, 0.2);
+        }
+
+        .click-btn:active { transform: scale(0.93); }
+
+        /* floating +1 */
+        .float-text {
+            position: fixed;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #60a5fa;
+            pointer-events: none;
+            animation: floatUp 0.8s ease forwards;
+            z-index: 999;
+        }
+
+        @keyframes floatUp {
+            0%   { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-60px) scale(0.7); }
+        }
+
+        /* milestone flash */
+        .milestone {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .milestone.show { animation: flashIn 1.4s ease forwards; }
+
+        .milestone-text {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.5rem, 6vw, 2.5rem);
+            font-weight: 900;
+            color: #fbbf24;
+            text-align: center;
+            padding: 20px 32px;
+            background: rgba(2, 6, 23, 0.85);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+        }
+
+        @keyframes flashIn {
+            0%   { opacity: 0; transform: scale(0.8); }
+            15%  { opacity: 1; transform: scale(1.05); }
+            30%  { transform: scale(1); }
+            70%  { opacity: 1; }
+            100% { opacity: 0; transform: scale(0.95); }
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
+
+<a href="index.html" class="back-home">← Back to tyler.fun</a>
+
+<div class="milestone" id="milestone">
+    <div class="milestone-text" id="milestone-text"></div>
+</div>
+
+<div class="container">
+    <h1>Roast Clicker</h1>
+    <p class="subtitle">The more you click, the worse it gets.</p>
+
+    <div class="counter" id="counter">0</div>
+    <div class="clicks-label">clicks</div>
+
+    <div class="roast-box">
+        <div class="roast-text" id="roast">Click the button. Go on. I dare you.</div>
+    </div>
+
+    <button class="click-btn" id="clickBtn" onclick="handleClick(event)">CLICK<br>ME</button>
+</div>
+
+<script>
+const roasts = [
+    // 1-9
+    ["Okay, you clicked. Revolutionary.", "Bold move.", "A click. How original.", "You're really going for it huh.", "Still going? Interesting life choices.", "Most people have hobbies.", "Each click is a second of your life. Just saying.", "You could be outside right now.", "Is this the highlight of your day?"],
+    // 10
+    ["10 clicks. You've achieved the bare minimum. Congrats, I guess."],
+    // 11-24
+    ["Okay seriously what are you doing.", "My grandma clicks faster.", "You look like you click with your elbow.", "Each click adds 0 value to the world.", "I've seen sloths with more urgency.", "You must be fun at parties. Actually no.", "Your mouse is embarrassed for you.", "Doctors hate this one weird clicker.", "Clicking won't fix your problems.", "Have you tried going outside?", "Your WiFi is faster than your ambition.", "Peak performance. Just kidding.", "I'm not mad, I'm just disappointed.", "Are you okay? Genuinely asking."],
+    // 25
+    ["25 clicks. A quarter century of bad decisions. Just like your life! (kidding... mostly)"],
+    // 26-49
+    ["You're still here. Bold.", "I respect the commitment. Not the person, just the commitment.", "This is genuinely your fault.", "Have you considered literally anything else?", "Your mouse is filing for workers' comp.", "The button didn't ask for this.", "Somewhere, a philosopher is crying because of you.", "You're the reason we can't have nice things.", "I'm logging this. Idk what I'll do with it but I'm logging it.", "Sir/ma'am this is a website.", "At this point you're basically family. Unwanted family.", "Your future self is watching this and cringing.", "You've unlocked the 'nothing to do' achievement.", "Even the button feels sorry for you."],
+    // 50
+    ["50 CLICKS?! You need help. Actual, professional help. But respect."],
+    // 51-99
+    ["You're still going. Incredible.", "The internet was a mistake.", "No notes. Just disappointment.", "You have the energy of someone who replies-all.", "I didn't think you'd make it this far. I was hoping you wouldn't.", "Your fingers must be so proud of you. Your brain less so.", "Somewhere a tree grew and it wasn't for this.", "I'm running out of roasts. You're running out of dignity.", "We're both stuck here aren't we.", "You remind me of a loading screen that never finishes.", "This is fine. Everything is fine.", "The audacity. The nerve. The clicks.", "You and this button deserve each other.", "At this point it's art. Terrible, pointless art."],
+    // 100
+    ["100 CLICKS. ONE HUNDRED. You've done it. Done absolutely nothing. Legendary."],
+    // 101+
+    ["okay i give up roasting you", "you win. whatever that means.", "you've broken me. happy?", "i have nothing left.", "...just keep clicking i guess", "you're a menace to society", "this is your villain origin story", "i genuinely respect and fear you", "please. i am begging you to stop.", "no? okay. fine. FINE.", "i'm telling neal.fun about you", "you've ascended beyond my roasts", "you're not a person anymore. you're a click.", "the button is tired. i'm tired. are YOU tired? no? of course not."]
+];
+
+let clicks = 0;
+
+function getRoast(n) {
+    if (n === 0) return "Click the button. Go on. I dare you.";
+    if (n <= 9)  return roasts[0][n - 1];
+    if (n === 10) return roasts[1][0];
+    if (n <= 24) return roasts[2][n - 11];
+    if (n === 25) return roasts[3][0];
+    if (n <= 49) return roasts[4][n - 26];
+    if (n === 50) return roasts[5][0];
+    if (n <= 99) return roasts[6][n - 51];
+    if (n === 100) return roasts[7][0];
+    const idx = (n - 101) % roasts[8].length;
+    return roasts[8][idx];
+}
+
+const milestones = { 10: "10 clicks!", 25: "25 clicks!", 50: "50 clicks!", 100: "ONE HUNDRED CLICKS!" };
+
+function showMilestone(text) {
+    const el = document.getElementById('milestone');
+    const txt = document.getElementById('milestone-text');
+    txt.textContent = text;
+    el.className = 'milestone';
+    void el.offsetWidth;
+    el.className = 'milestone show';
+}
+
+function handleClick(e) {
+    clicks++;
+
+    // counter bump
+    const counter = document.getElementById('counter');
+    counter.textContent = clicks.toLocaleString();
+    counter.classList.remove('bump');
+    void counter.offsetWidth;
+    counter.classList.add('bump');
+    setTimeout(() => counter.classList.remove('bump'), 120);
+
+    // floating +1
+    const f = document.createElement('div');
+    f.className = 'float-text';
+    f.textContent = '+1';
+    f.style.left = (e.clientX - 12) + 'px';
+    f.style.top  = (e.clientY - 20) + 'px';
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 800);
+
+    // roast
+    const roastEl = document.getElementById('roast');
+    roastEl.classList.add('hidden');
+    setTimeout(() => {
+        roastEl.textContent = getRoast(clicks);
+        roastEl.classList.remove('hidden');
+    }, 200);
+
+    // milestone
+    if (milestones[clicks]) showMilestone(milestones[clicks]);
+}
+
+// particles
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, stars = [];
+
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+function initStars() {
+    stars = [];
+    const count = Math.floor((W * H) / 8000);
+    for (let i = 0; i < count; i++) {
+        stars.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.1+0.3, speed: Math.random()*0.14+0.03, opacity: Math.random()*0.45+0.1, twinkleSpeed: Math.random()*0.01+0.003, twinkleOffset: Math.random()*Math.PI*2 });
+    }
+}
+let t = 0;
+function draw() {
+    ctx.clearRect(0,0,W,H); t += 0.016;
+    for (const s of stars) {
+        const alpha = s.opacity + Math.sin(t * s.twinkleSpeed * 60 + s.twinkleOffset) * 0.14;
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(148,197,255,${Math.max(0,alpha)})`; ctx.fill();
+        s.y -= s.speed;
+        if (s.y < -2) { s.y = H+2; s.x = Math.random()*W; }
+    }
+    requestAnimationFrame(draw);
+}
+resize(); initStars(); draw();
+window.addEventListener('resize', () => { resize(); initStars(); });
+</script>
+</body>
+</html>
