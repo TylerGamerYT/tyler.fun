@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Useless Machine | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            background: #020617;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            min-height: 100vh; margin: 0;
+            text-align: center; overflow: hidden;
+        }
+        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%); z-index: 0; pointer-events: none; }
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
+        .back-home:hover { color: #fff; }
+
+        .container { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 40px 24px; max-width: 560px; width: 100%; }
+
+        h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 8vw, 3rem); font-weight: 900; margin: 0 0 6px; letter-spacing: -2px; }
+        .subtitle { font-size: 0.95rem; color: #64748b; margin-bottom: 48px; }
+
+        /* ---- MACHINE BOX ---- */
+        .machine {
+            background: rgba(15,23,42,0.8);
+            border: 1px solid rgba(51,65,85,0.8);
+            border-radius: 24px;
+            padding: 48px 40px;
+            width: 100%; max-width: 400px;
+            backdrop-filter: blur(14px);
+            display: flex; flex-direction: column; align-items: center; gap: 32px;
+            position: relative;
+        }
+
+        .machine-label {
+            font-size: 0.7rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 3px;
+            color: #334155;
+        }
+
+        /* ---- TOGGLE SWITCH ---- */
+        .switch-wrap {
+            display: flex; align-items: center; gap: 20px;
+            font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700;
+        }
+
+        .switch-track {
+            width: 100px; height: 50px;
+            background: rgba(30,58,138,0.3);
+            border: 2px solid rgba(96,165,250,0.25);
+            border-radius: 999px;
+            position: relative; cursor: pointer;
+            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .switch-track.on {
+            background: rgba(37,99,235,0.45);
+            border-color: #60a5fa;
+            box-shadow: 0 0 30px rgba(96,165,250,0.2);
+        }
+
+        .switch-thumb {
+            width: 38px; height: 38px;
+            background: #334155;
+            border-radius: 50%;
+            position: absolute; top: 4px; left: 4px;
+            transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), background 0.3s;
+        }
+
+        .switch-track.on .switch-thumb {
+            transform: translateX(50px);
+            background: #60a5fa;
+        }
+
+        .switch-side { color: #334155; transition: color 0.3s; min-width: 28px; }
+        .switch-side.active { color: #f8fafc; }
+
+        /* ---- FINGER ARM ---- */
+        .arm-wrap {
+            position: absolute;
+            top: 50%; right: 0;
+            transform: translateY(-50%);
+            width: 90px; height: 90px;
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        .arm {
+            position: absolute;
+            right: -80px; top: 50%;
+            transform-origin: right center;
+            transform: translateY(-50%) rotate(0deg);
+            transition: transform 0.4s cubic-bezier(0.34,1.2,0.64,1);
+            font-size: 2rem;
+            opacity: 0;
+        }
+
+        .arm.reaching {
+            opacity: 1;
+            transform: translateY(-50%) rotate(0deg) translateX(-60px);
+        }
+
+        /* ---- COUNTER ---- */
+        .counter-row {
+            display: flex; gap: 24px;
+        }
+
+        .stat {
+            display: flex; flex-direction: column; gap: 4px; align-items: center;
+        }
+        .stat-val {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.6rem; font-weight: 900; color: #f8fafc;
+        }
+        .stat-label { font-size: 0.7rem; color: #475569; text-transform: uppercase; letter-spacing: 1.5px; }
+
+        /* ---- COMMENT ---- */
+        .comment {
+            font-size: 0.9rem; color: #475569;
+            min-height: 22px; transition: opacity 0.3s;
+            font-style: italic;
+        }
+
+        /* ---- LIGHT ---- */
+        .indicator {
+            width: 12px; height: 12px; border-radius: 50%;
+            background: #1e293b;
+            transition: background 0.3s, box-shadow 0.3s;
+            position: absolute; top: 20px; right: 20px;
+        }
+        .indicator.on { background: #10b981; box-shadow: 0 0 10px #10b981; }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
+<a href="index.html" class="back-home">← Back to tyler.fun</a>
+
+<div class="container">
+    <h1>Useless Machine</h1>
+    <p class="subtitle">Turn it on. It turns itself off. That's it.</p>
+
+    <div class="machine">
+        <div class="indicator" id="indicator"></div>
+        <div class="machine-label">Model UM-01 &nbsp;·&nbsp; Purpose: None</div>
+
+        <div class="switch-wrap">
+            <span class="switch-side active" id="offLabel">OFF</span>
+            <div class="switch-track" id="switchTrack" onclick="tryFlip()">
+                <div class="switch-thumb" id="switchThumb"></div>
+            </div>
+            <span class="switch-side" id="onLabel">ON</span>
+        </div>
+
+        <div class="counter-row">
+            <div class="stat"><div class="stat-val" id="flipCount">0</div><div class="stat-label">attempts</div></div>
+            <div class="stat"><div class="stat-val" id="defeatCount">0</div><div class="stat-label">defeated</div></div>
+        </div>
+
+        <div class="comment" id="comment">Go on then.</div>
+    </div>
+</div>
+
+<script>
+let flips = 0, isOn = false, busy = false;
+
+const comments = [
+    ["Go on then.", "I dare you.", "What are you waiting for?", "It won't do anything. Promise."],
+    ["Nope.", "No.", "Try again.", "Nice try.", "lol", "Really?", "I said no.", "Still no."],
+    [
+        "You've tried {n} times.", "Getting tired?", "I'm not.", "I have all day.",
+        "This is literally my purpose.", "I was built for this.", "You were not.",
+        "Maybe try the impossible button instead.", "At least that one moves.",
+        "I just sit here and undo your work.", "It's kind of my thing.",
+        "You do know this is pointless right?", "Like genuinely nothing will happen.",
+        "Not even a little bit.", "I feel bad. Actually no I don't.",
+        "Keep going though I guess.", "You're really something.",
+        "My creator made me just to spite people like you.",
+        "And yet here we both are.", "Remarkable."
+    ]
+];
+
+function getComment(n) {
+    if (n === 0) return comments[0][Math.floor(Math.random()*comments[0].length)];
+    if (n < 5)  return comments[1][Math.floor(Math.random()*comments[1].length)];
+    const pool = comments[2];
+    const c = pool[Math.floor(Math.random()*pool.length)];
+    return c.replace('{n}', n);
+}
+
+function setComment(txt) {
+    const el = document.getElementById('comment');
+    el.style.opacity = '0';
+    setTimeout(() => { el.textContent = txt; el.style.opacity = '1'; }, 200);
+}
+
+function tryFlip() {
+    if (busy) return;
+    busy = true;
+    flips++;
+    document.getElementById('flipCount').textContent = flips;
+
+    // turn ON briefly
+    isOn = true;
+    const track = document.getElementById('switchTrack');
+    track.classList.add('on');
+    document.getElementById('onLabel').classList.add('active');
+    document.getElementById('offLabel').classList.remove('active');
+    document.getElementById('indicator').classList.add('on');
+    setComment('...');
+
+    // after a short delay, turn back OFF
+    const delay = 300 + Math.random() * 400;
+    setTimeout(() => {
+        // finger comes in
+        turnOff();
+    }, delay);
+}
+
+function turnOff() {
+    const track = document.getElementById('switchTrack');
+    track.classList.remove('on');
+    document.getElementById('onLabel').classList.remove('active');
+    document.getElementById('offLabel').classList.add('active');
+    document.getElementById('indicator').classList.remove('on');
+    isOn = false;
+
+    const defeated = parseInt(document.getElementById('defeatCount').textContent) + 1;
+    document.getElementById('defeatCount').textContent = defeated;
+
+    setTimeout(() => {
+        setComment(getComment(flips));
+        busy = false;
+    }, 350);
+}
+
+// ---- particles ----
+const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
+let W, H, stars = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+function initStars() {
+    stars = [];
+    for (let i = 0; i < Math.floor((W*H)/8000); i++)
+        stars.push({ x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.1+0.3, speed:Math.random()*0.14+0.03, opacity:Math.random()*0.45+0.1, ts:Math.random()*0.01+0.003, to:Math.random()*Math.PI*2 });
+}
+let t=0;
+function draw() {
+    ctx.clearRect(0,0,W,H); t+=0.016;
+    for (const s of stars) {
+        ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`; ctx.fill();
+        s.y-=s.speed; if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}
+    }
+    requestAnimationFrame(draw);
+}
+resize(); initStars(); draw();
+window.addEventListener('resize', ()=>{ resize(); initStars(); });
+</script>
+</body>
+</html>
