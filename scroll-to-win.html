@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll to Win | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            background: #020617;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            min-height: 100vh; margin: 0;
+            text-align: center; overflow: hidden;
+            user-select: none;
+        }
+        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%); z-index: 0; pointer-events: none; }
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
+        .back-home:hover { color: #fff; }
+
+        .container { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 40px 24px; max-width: 600px; width: 100%; }
+
+        h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 8vw, 3rem); font-weight: 900; margin: 0 0 6px; letter-spacing: -2px; }
+        .subtitle { font-size: 0.95rem; color: #64748b; margin-bottom: 48px; }
+
+        /* percentage */
+        .pct {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(5rem, 20vw, 9rem);
+            font-weight: 900; line-height: 1;
+            letter-spacing: -6px;
+            margin-bottom: 6px;
+            transition: color 0.3s;
+            color: #f8fafc;
+        }
+        .pct.danger { color: #f87171; }
+        .pct.winning { color: #10b981; }
+
+        .pct-label { font-size: 0.8rem; color: #475569; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 32px; }
+
+        /* progress bar */
+        .bar-wrap {
+            width: 100%; height: 28px;
+            background: rgba(30,58,138,0.2);
+            border: 1px solid rgba(51,65,85,0.6);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 999px;
+            background: #3b82f6;
+            transition: width 0.08s linear, background 0.3s;
+            width: 0%;
+        }
+
+        .bar-fill.danger  { background: #ef4444; }
+        .bar-fill.winning { background: #10b981; }
+
+        /* scroll instruction */
+        .scroll-hint {
+            font-size: 0.95rem; color: #64748b;
+            margin-bottom: 36px; min-height: 24px;
+            transition: color 0.3s;
+        }
+        .scroll-hint.urgent { color: #fbbf24; }
+
+        /* comment */
+        .comment {
+            font-size: 1rem; color: #475569;
+            min-height: 26px; font-style: italic;
+            transition: opacity 0.25s;
+        }
+
+        /* win screen */
+        .win-screen {
+            position: fixed; inset: 0;
+            background: rgba(2,6,23,0.92);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            z-index: 50; opacity: 0; pointer-events: none;
+            transition: opacity 0.5s;
+            backdrop-filter: blur(8px);
+        }
+        .win-screen.show { opacity: 1; pointer-events: all; }
+        .win-emoji { font-size: 5rem; margin-bottom: 16px; animation: bounce 0.6s ease infinite alternate; }
+        @keyframes bounce { to { transform: translateY(-12px); } }
+        .win-title { font-family: 'Syne', sans-serif; font-size: clamp(2rem,8vw,3.5rem); font-weight: 900; margin: 0 0 10px; color: #10b981; }
+        .win-sub { color: #64748b; font-size: 1rem; margin-bottom: 28px; }
+        .win-btn {
+            padding: 14px 36px;
+            background: rgba(16,185,129,0.2);
+            border: 1.5px solid rgba(16,185,129,0.5);
+            border-radius: 999px; color: #fff;
+            font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+            cursor: pointer; transition: background 0.2s, transform 0.1s;
+        }
+        .win-btn:hover { background: rgba(16,185,129,0.35); }
+        .win-btn:active { transform: scale(0.97); }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
+<a href="index.html" class="back-home">← Back to tyler.fun</a>
+
+<div class="win-screen" id="winScreen">
+    <div class="win-emoji">🏆</div>
+    <div class="win-title">You actually won.</div>
+    <div class="win-sub">I genuinely didn't think you'd make it.</div>
+    <button class="win-btn" onclick="resetGame()">Play again (why?)</button>
+</div>
+
+<div class="container">
+    <h1>Scroll to Win</h1>
+    <p class="subtitle">Scroll up to fill the bar. It drains when you stop.</p>
+
+    <div class="pct" id="pct">0%</div>
+    <div class="pct-label">complete</div>
+
+    <div class="bar-wrap">
+        <div class="bar-fill" id="barFill"></div>
+    </div>
+
+    <div class="scroll-hint" id="scrollHint">↑ Scroll up to begin</div>
+    <div class="comment" id="comment">You've got this. Probably.</div>
+</div>
+
+<script>
+let progress = 0;
+let drainInterval = null;
+let lastScrollTime = 0;
+let started = false;
+let won = false;
+
+const drainComments = [
+    "It's slipping away.", "Don't stop now.", "I told you.", "Almost had it.",
+    "Oh no.", "Keep going!", "It's draining...", "Focus.", "You hesitated.",
+    "So close. So, so close."
+];
+
+const scrollComments = [
+    "You've got this. Probably.", "Keep scrolling!", "Yes! Like that!",
+    "You're doing it!", "Don't slow down.", "Go go go!", "Nearly there!",
+    "I'm impressed. A little.", "The bar hungers for more.", "Almost!"
+];
+
+const highComments = [
+    "You're actually doing it.", "Don't jinx it.", "So close...",
+    "One slip and it's over.", "I'm watching.", "Stay focused.", "Breathe."
+];
+
+function setComment(txt) {
+    const el = document.getElementById('comment');
+    el.style.opacity = '0';
+    setTimeout(() => { el.textContent = txt; el.style.opacity = '1'; }, 200);
+}
+
+function randomFrom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function updateUI() {
+    const pct = document.getElementById('pct');
+    const fill = document.getElementById('barFill');
+    const hint = document.getElementById('scrollHint');
+
+    const p = Math.max(0, Math.min(100, progress));
+    pct.textContent = Math.round(p) + '%';
+    fill.style.width = p + '%';
+
+    // colours
+    if (p >= 80) {
+        pct.className = 'pct winning';
+        fill.className = 'bar-fill winning';
+    } else if (p < 20 && started) {
+        pct.className = 'pct danger';
+        fill.className = 'bar-fill danger';
+    } else {
+        pct.className = 'pct';
+        fill.className = 'bar-fill';
+    }
+
+    // hint
+    const idle = Date.now() - lastScrollTime > 400;
+    if (!started) {
+        hint.textContent = '↑ Scroll up to begin';
+        hint.className = 'scroll-hint';
+    } else if (idle && p > 0) {
+        hint.textContent = '⚠️ It\'s draining! Keep scrolling!';
+        hint.className = 'scroll-hint urgent';
+    } else {
+        hint.textContent = '↑ Keep scrolling!';
+        hint.className = 'scroll-hint';
+    }
+}
+
+// drain loop — runs always, progress drains when not scrolling
+drainInterval = setInterval(() => {
+    if (!started || won) return;
+    const idle = Date.now() - lastScrollTime > 300;
+    if (idle && progress > 0) {
+        // drain speed increases as you get higher — cruel
+        const drainRate = 0.4 + (progress / 100) * 0.6;
+        progress = Math.max(0, progress - drainRate);
+        updateUI();
+        if (Math.random() < 0.08) setComment(randomFrom(drainComments));
+    }
+}, 50);
+
+function handleScroll(delta) {
+    if (won) return;
+    if (delta > 0) return; // only scroll up counts (negative delta = up)
+
+    started = true;
+    lastScrollTime = Date.now();
+    const gain = Math.min(Math.abs(delta) * 0.18, 3.5);
+    progress = Math.min(100, progress + gain);
+    updateUI();
+
+    if (Math.random() < 0.06) {
+        if (progress >= 75) setComment(randomFrom(highComments));
+        else setComment(randomFrom(scrollComments));
+    }
+
+    if (progress >= 100) triggerWin();
+}
+
+function triggerWin() {
+    won = true;
+    progress = 100;
+    updateUI();
+    setTimeout(() => document.getElementById('winScreen').classList.add('show'), 400);
+}
+
+function resetGame() {
+    won = false; started = false; progress = 0;
+    lastScrollTime = 0;
+    document.getElementById('winScreen').classList.remove('show');
+    document.getElementById('scrollHint').textContent = '↑ Scroll up to begin';
+    document.getElementById('scrollHint').className = 'scroll-hint';
+    setComment("You've got this. Probably.");
+    updateUI();
+}
+
+// mouse wheel
+window.addEventListener('wheel', e => {
+    e.preventDefault();
+    handleScroll(e.deltaY);
+}, { passive: false });
+
+// touch
+let lastTouchY = null;
+window.addEventListener('touchstart', e => { lastTouchY = e.touches[0].clientY; }, { passive: false });
+window.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (lastTouchY === null) return;
+    const delta = lastTouchY - e.touches[0].clientY; // positive = scrolling down, negative = up
+    lastTouchY = e.touches[0].clientY;
+    handleScroll(delta); // pass as-is, up swipe = negative delta
+}, { passive: false });
+window.addEventListener('touchend', () => { lastTouchY = null; });
+
+updateUI();
+
+// particles
+const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
+let W, H, stars = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+function initStars() {
+    stars = [];
+    for (let i = 0; i < Math.floor((W*H)/8000); i++)
+        stars.push({ x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.1+0.3, speed:Math.random()*0.14+0.03, opacity:Math.random()*0.45+0.1, ts:Math.random()*0.01+0.003, to:Math.random()*Math.PI*2 });
+}
+let t=0;
+function draw() {
+    ctx.clearRect(0,0,W,H); t+=0.016;
+    for (const s of stars) {
+        ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`; ctx.fill();
+        s.y-=s.speed; if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}
+    }
+    requestAnimationFrame(draw);
+}
+resize(); initStars(); draw();
+window.addEventListener('resize', ()=>{ resize(); initStars(); });
+</script>
+</body>
+</html
