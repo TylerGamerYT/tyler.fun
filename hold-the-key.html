@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hold the Key | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            background: #020617;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden;
+            user-select: none;
+        }
+        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%); z-index: 0; pointer-events: none; }
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
+        .back-home:hover { color: #fff; }
+
+        .container {
+            position: relative; z-index: 1;
+            display: flex; flex-direction: column; align-items: center;
+            padding: 40px 24px; max-width: 640px; width: 100%;
+        }
+
+        h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 8vw, 3rem); font-weight: 900; margin: 0 0 6px; letter-spacing: -2px; }
+        .subtitle { font-size: 0.95rem; color: #64748b; margin-bottom: 40px; }
+
+        /* big timer */
+        .timer-display {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(4.5rem, 18vw, 8rem);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+            color: #f8fafc;
+            letter-spacing: -4px;
+        }
+        .timer-display.holding { color: #60a5fa; }
+        .timer-display.new-best { color: #10b981; }
+
+        .timer-label { font-size: 0.8rem; color: #475569; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 40px; }
+
+        /* key visual */
+        .key-visual {
+            width: 220px; height: 64px;
+            background: rgba(30, 58, 138, 0.3);
+            border: 2px solid rgba(96, 165, 250, 0.3);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+            color: #64748b;
+            transition: all 0.1s ease;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .key-visual.pressed {
+            background: rgba(37, 99, 235, 0.4);
+            border-color: #60a5fa;
+            color: #fff;
+            box-shadow: 0 0 30px rgba(96, 165, 250, 0.25);
+            transform: translateY(2px);
+        }
+        .key-fill {
+            position: absolute; inset: 0;
+            background: rgba(96, 165, 250, 0.1);
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 0.1s linear;
+        }
+        .key-label { position: relative; z-index: 1; }
+
+        /* status message */
+        .status { font-size: 1rem; color: #64748b; min-height: 24px; margin-bottom: 36px; transition: color 0.3s; }
+        .status.good { color: #10b981; }
+        .status.fail { color: #f87171; }
+
+        /* leaderboard */
+        .leaderboard {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(51, 65, 85, 0.7);
+            border-radius: 18px;
+            padding: 22px 24px;
+            backdrop-filter: blur(14px);
+        }
+        .lb-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.85rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px;
+            color: #94a3b8; margin-bottom: 16px;
+        }
+        .lb-row {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(51,65,85,0.4);
+            font-size: 0.9rem;
+        }
+        .lb-row:last-child { border-bottom: none; }
+        .lb-rank { font-family: 'Syne', sans-serif; font-weight: 700; color: #475569; min-width: 24px; }
+        .lb-rank.gold { color: #fbbf24; }
+        .lb-rank.silver { color: #94a3b8; }
+        .lb-rank.bronze { color: #b45309; }
+        .lb-name { flex: 1; text-align: left; color: #cbd5e1; }
+        .lb-time { font-family: 'Syne', sans-serif; font-weight: 700; color: #60a5fa; }
+        .lb-empty { color: #334155; font-size: 0.85rem; padding: 12px 0; }
+
+        /* name input modal */
+        .modal-bg {
+            position: fixed; inset: 0;
+            background: rgba(2,6,23,0.85);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100; opacity: 0; pointer-events: none;
+            transition: opacity 0.3s;
+            backdrop-filter: blur(6px);
+        }
+        .modal-bg.show { opacity: 1; pointer-events: all; }
+        .modal {
+            background: rgba(15,23,42,0.95);
+            border: 1px solid rgba(96,165,250,0.3);
+            border-radius: 20px;
+            padding: 32px 36px;
+            max-width: 360px; width: 90%;
+            text-align: center;
+        }
+        .modal h2 { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 900; margin: 0 0 6px; }
+        .modal p { color: #64748b; font-size: 0.9rem; margin: 0 0 20px; }
+        .modal input {
+            width: 100%; padding: 12px 16px;
+            background: rgba(30,58,138,0.3);
+            border: 1px solid rgba(96,165,250,0.3);
+            border-radius: 10px; color: #fff;
+            font-family: 'Inter', sans-serif; font-size: 1rem;
+            outline: none; margin-bottom: 14px;
+            transition: border-color 0.2s;
+        }
+        .modal input:focus { border-color: #60a5fa; }
+        .modal button {
+            width: 100%; padding: 12px;
+            background: rgba(37,99,235,0.35);
+            border: 1.5px solid rgba(96,165,250,0.45);
+            border-radius: 10px; color: #fff;
+            font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+            cursor: pointer; transition: background 0.2s, transform 0.1s;
+        }
+        .modal button:hover { background: rgba(37,99,235,0.55); }
+        .modal button:active { transform: scale(0.98); }
+
+        /* mobile tap zone */
+        .tap-hint { display: none; font-size: 0.8rem; color: #334155; margin-top: -28px; margin-bottom: 28px; }
+        @media (hover: none) { .tap-hint { display: block; } }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
+<a href="index.html" class="back-home">← Back to tyler.fun</a>
+
+<div class="modal-bg" id="modalBg">
+    <div class="modal">
+        <h2 id="modalTitle">New best!</h2>
+        <p id="modalSub">Enter your name for the leaderboard</p>
+        <input type="text" id="nameInput" placeholder="your name" maxlength="20" />
+        <button id="modalSubmit">Submit score</button>
+    </div>
+</div>
+
+<div class="container">
+    <h1>Hold the Key</h1>
+    <p class="subtitle">Hold spacebar as long as you can. Don't let go.</p>
+
+    <div class="timer-display" id="timerDisplay">0.00</div>
+    <div class="timer-label" id="timerLabel">seconds</div>
+
+    <div class="key-visual" id="keyVisual">
+        <div class="key-fill" id="keyFill"></div>
+        <span class="key-label" id="keyLabel">HOLD SPACEBAR</span>
+    </div>
+    <p class="tap-hint">Tap and hold anywhere on screen</p>
+
+    <div class="status" id="status">Press and hold spacebar to start</div>
+
+    <div class="leaderboard">
+        <div class="lb-title">🏆 Leaderboard</div>
+        <div id="lbRows"><div class="lb-empty">No scores yet. Be the first!</div></div>
+    </div>
+</div>
+
+<script>
+// ---- state ----
+let holding = false, startTime = null, interval = null, elapsed = 0;
+let personalBest = parseFloat(localStorage.getItem('holdkey_pb') || '0');
+
+// ---- timer ----
+function fmt(s) { return s.toFixed(2); }
+
+function startHold() {
+    if (holding) return;
+    holding = true;
+    startTime = Date.now();
+    elapsed = 0;
+    document.getElementById('timerDisplay').className = 'timer-display holding';
+    document.getElementById('keyVisual').classList.add('pressed');
+    document.getElementById('keyLabel').textContent = 'HOLDING...';
+    document.getElementById('status').textContent = '';
+    document.getElementById('status').className = 'status';
+    interval = setInterval(() => {
+        elapsed = (Date.now() - startTime) / 1000;
+        document.getElementById('timerDisplay').textContent = fmt(elapsed);
+    }, 16);
+}
+
+function stopHold() {
+    if (!holding) return;
+    holding = false;
+    clearInterval(interval);
+    elapsed = (Date.now() - startTime) / 1000;
+    document.getElementById('timerDisplay').textContent = fmt(elapsed);
+    document.getElementById('keyVisual').classList.remove('pressed');
+    document.getElementById('keyLabel').textContent = 'HOLD SPACEBAR';
+
+    const isBest = elapsed > personalBest;
+    if (isBest) {
+        personalBest = elapsed;
+        localStorage.setItem('holdkey_pb', personalBest);
+        document.getElementById('timerDisplay').className = 'timer-display new-best';
+        document.getElementById('status').textContent = '🎉 New personal best!';
+        document.getElementById('status').className = 'status good';
+        showModal(elapsed);
+    } else {
+        document.getElementById('timerDisplay').className = 'timer-display';
+        document.getElementById('status').textContent = `Held for ${fmt(elapsed)}s. Personal best: ${fmt(personalBest)}s`;
+        document.getElementById('status').className = 'status';
+    }
+}
+
+// ---- keyboard ----
+document.addEventListener('keydown', e => { if (e.code === 'Space' && !e.repeat) { e.preventDefault(); startHold(); } });
+document.addEventListener('keyup',   e => { if (e.code === 'Space') stopHold(); });
+
+// ---- touch (mobile) ----
+document.addEventListener('touchstart', e => { e.preventDefault(); startHold(); }, { passive: false });
+document.addEventListener('touchend',   e => { e.preventDefault(); stopHold();  }, { passive: false });
+
+// ---- leaderboard (shared via artifact storage) ----
+async function loadLeaderboard() {
+    try {
+        const result = await window.storage.get('holdkey_scores', true);
+        const scores = result ? JSON.parse(result.value) : [];
+        renderLeaderboard(scores);
+    } catch { renderLeaderboard([]); }
+}
+
+async function saveScore(name, time) {
+    let scores = [];
+    try {
+        const result = await window.storage.get('holdkey_scores', true);
+        scores = result ? JSON.parse(result.value) : [];
+    } catch {}
+    scores.push({ name: name.trim().slice(0, 20) || 'Anonymous', time });
+    scores.sort((a, b) => b.time - a.time);
+    scores = scores.slice(0, 10);
+    try { await window.storage.set('holdkey_scores', JSON.stringify(scores), true); } catch {}
+    renderLeaderboard(scores);
+}
+
+function renderLeaderboard(scores) {
+    const el = document.getElementById('lbRows');
+    if (!scores.length) { el.innerHTML = '<div class="lb-empty">No scores yet. Be the first!</div>'; return; }
+    const medals = ['gold','silver','bronze'];
+    el.innerHTML = scores.map((s, i) => `
+        <div class="lb-row">
+            <span class="lb-rank ${medals[i] || ''}">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i+1}</span>
+            <span class="lb-name">${s.name}</span>
+            <span class="lb-time">${fmt(s.time)}s</span>
+        </div>
+    `).join('');
+}
+
+// ---- modal ----
+function showModal(time) {
+    document.getElementById('modalTitle').textContent = `${fmt(time)}s — nice!`;
+    document.getElementById('modalSub').textContent = 'Enter your name for the leaderboard';
+    document.getElementById('nameInput').value = localStorage.getItem('holdkey_lastname') || '';
+    document.getElementById('modalBg').classList.add('show');
+    setTimeout(() => document.getElementById('nameInput').focus(), 100);
+}
+
+document.getElementById('modalSubmit').addEventListener('click', submitScore);
+document.getElementById('nameInput').addEventListener('keydown', e => { if (e.key === 'Enter') submitScore(); });
+
+function submitScore() {
+    const name = document.getElementById('nameInput').value.trim() || 'Anonymous';
+    localStorage.setItem('holdkey_lastname', name);
+    document.getElementById('modalBg').classList.remove('show');
+    saveScore(name, personalBest);
+}
+
+loadLeaderboard();
+
+// ---- particles ----
+const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
+let W, H, stars = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+function initStars() {
+    stars = [];
+    for (let i = 0; i < Math.floor((W*H)/8000); i++)
+        stars.push({ x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.1+0.3, speed:Math.random()*0.14+0.03, opacity:Math.random()*0.45+0.1, ts:Math.random()*0.01+0.003, to:Math.random()*Math.PI*2 });
+}
+let t=0;
+function draw() {
+    ctx.clearRect(0,0,W,H); t+=0.016;
+    for (const s of stars) {
+        ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`; ctx.fill();
+        s.y-=s.speed; if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}
+    }
+    requestAnimationFrame(draw);
+}
+resize(); initStars(); draw();
+window.addEventListener('resize', ()=>{ resize(); initStars(); });
+</script>
+</body>
+</html>
