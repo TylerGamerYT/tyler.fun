@@ -1,1 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Type Fast | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; overflow: hidden; }
+        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%); z-index: 0; pointer-events: none; }
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
+        .back-home:hover { color: #fff; }
+        .container { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 40px 24px; max-width: 640px; width: 100%; }
 
+        h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem,8vw,3rem); font-weight: 900; margin: 0 0 6px; letter-spacing: -2px; }
+        .subtitle { font-size: 0.95rem; color: #64748b; margin-bottom: 32px; }
+
+        /* stats */
+        .stats-row { display: flex; gap: 24px; margin-bottom: 28px; }
+        .stat { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+        .stat-val { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 900; color: #f8fafc; transition: color 0.3s; }
+        .stat-label { font-size: 0.7rem; color: #475569; text-transform: uppercase; letter-spacing: 1.5px; }
+
+        /* timer bar */
+        .timer-wrap { width: 100%; height: 8px; background: rgba(30,58,138,0.25); border-radius: 999px; overflow: hidden; margin-bottom: 24px; }
+        .timer-bar { height: 100%; border-radius: 999px; background: #3b82f6; transition: width 0.1s linear, background 0.3s; width: 100%; }
+        .timer-bar.warn { background: #fbbf24; }
+        .timer-bar.danger { background: #ef4444; }
+
+        /* text display */
+        .text-display {
+            background: rgba(15,23,42,0.7); border: 1px solid rgba(51,65,85,0.6);
+            border-radius: 16px; padding: 24px 28px; width: 100%;
+            margin-bottom: 18px; backdrop-filter: blur(14px);
+            font-size: 1.15rem; line-height: 1.8; text-align: left;
+            min-height: 100px;
+        }
+        .char-correct { color: #10b981; }
+        .char-wrong   { color: #f87171; background: rgba(239,68,68,0.15); border-radius: 2px; }
+        .char-pending { color: #475569; }
+        .char-current { color: #f8fafc; background: rgba(96,165,250,0.25); border-radius: 2px; border-bottom: 2px solid #60a5fa; }
+
+        /* input */
+        .type-input {
+            width: 100%; padding: 14px 18px;
+            background: rgba(30,58,138,0.2);
+            border: 1.5px solid rgba(96,165,250,0.3);
+            border-radius: 12px; color: #fff;
+            font-family: 'Inter', sans-serif; font-size: 1rem;
+            outline: none; margin-bottom: 20px;
+            transition: border-color 0.2s;
+        }
+        .type-input:focus { border-color: #60a5fa; }
+        .type-input:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .hint { font-size: 0.85rem; color: #334155; margin-bottom: 0; }
+
+        /* results */
+        .results-panel {
+            position: fixed; inset: 0; background: rgba(2,6,23,0.92);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.4s; backdrop-filter: blur(8px);
+            padding: 24px;
+        }
+        .results-panel.show { opacity: 1; pointer-events: all; }
+        .res-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+        .res-title { font-family: 'Syne', sans-serif; font-size: clamp(1.6rem,6vw,2.4rem); font-weight: 900; margin: 0 0 6px; }
+        .res-wpm { font-family: 'Syne', sans-serif; font-size: clamp(3rem,12vw,5rem); font-weight: 900; color: #60a5fa; line-height: 1; margin-bottom: 4px; }
+        .res-wpm-label { font-size: 0.8rem; color: #475569; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; }
+        .res-stats { display: flex; gap: 24px; margin-bottom: 24px; }
+        .res-stat { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .res-stat-val { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; color: #f8fafc; }
+        .res-stat-label { font-size: 0.7rem; color: #475569; text-transform: uppercase; letter-spacing: 1.5px; }
+
+        /* TWIST box */
+        .twist-box {
+            background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3);
+            border-radius: 14px; padding: 16px 20px; margin-bottom: 24px; max-width: 420px;
+            font-size: 0.9rem; color: #fbbf24; line-height: 1.5;
+        }
+        .twist-box strong { font-family: 'Syne', sans-serif; display: block; margin-bottom: 6px; font-size: 1rem; }
+
+        .res-btn { padding: 13px 36px; background: rgba(37,99,235,0.3); border: 1.5px solid rgba(96,165,250,0.45); border-radius: 999px; color: #fff; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+        .res-btn:hover { background: rgba(37,99,235,0.5); }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
+<a href="index.html" class="back-home">← Back to tyler.fun</a>
+
+<div class="results-panel" id="results">
+    <div class="res-emoji" id="resEmoji">🎉</div>
+    <div class="res-title" id="resTitle">Not bad!</div>
+    <div class="res-wpm" id="resWpm">0</div>
+    <div class="res-wpm-label">words per minute</div>
+    <div class="res-stats">
+        <div class="res-stat"><div class="res-stat-val" id="resAcc">0%</div><div class="res-stat-label">accuracy</div></div>
+        <div class="res-stat"><div class="res-stat-val" id="resTime">0s</div><div class="res-stat-label">time</div></div>
+        <div class="res-stat"><div class="res-stat-val" id="resErrors">0</div><div class="res-stat-label">errors</div></div>
+    </div>
+    <div class="twist-box" id="twistBox">
+        <strong>🌀 The Twist</strong>
+        <span id="twistText"></span>
+    </div>
+    <button class="res-btn" onclick="startGame()">Try again</button>
+</div>
+
+<div class="container">
+    <h1>Type Fast</h1>
+    <p class="subtitle">Type the text below as fast as you can. There's a catch.</p>
+
+    <div class="stats-row">
+        <div class="stat"><div class="stat-val" id="wpmVal">0</div><div class="stat-label">WPM</div></div>
+        <div class="stat"><div class="stat-val" id="accVal">100%</div><div class="stat-label">accuracy</div></div>
+        <div class="stat"><div class="stat-val" id="timeVal">60</div><div class="stat-label">seconds</div></div>
+    </div>
+
+    <div class="timer-wrap"><div class="timer-bar" id="timerBar"></div></div>
+
+    <div class="text-display" id="textDisplay"></div>
+    <input type="text" class="type-input" id="typeInput" placeholder="Start typing to begin..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+    <p class="hint" id="hintText">Type the highlighted character to begin the timer</p>
+</div>
+
+<script>
+const TEXTS = [
+    "The quick brown fox jumps over the lazy dog while the cat watches from afar.",
+    "Pack my box with five dozen liquor jugs and a brand new pair of gloves.",
+    "How vexingly quick daft zebras jump over the sleeping fox near the pond.",
+    "The five boxing wizards jump quickly before the match starts at dawn.",
+    "Sphinx of black quartz judge my vow while the river flows past the ancient stones.",
+    "Crazy Fredrick bought many very exquisite opal jewels and some rare gems.",
+    "We promptly judged antique ivory buckles for the next prize in the quiet town.",
+];
+
+const TWISTS = [
+    { condition: wpm => wpm < 30,  emoji: '🐌', title: 'Glacially slow.', text: 'You typed slower than most people think. The average person types 40 WPM. You typed {wpm} WPM. Maybe try again?' },
+    { condition: wpm => wpm >= 30 && wpm < 50, emoji: '🙂', title: 'Average. Painfully average.', text: 'You got {wpm} WPM. That\'s... fine. Not impressive. Not embarrassing. Just fine. You are the beige of typists.' },
+    { condition: wpm => wpm >= 50 && wpm < 70, emoji: '👏', title: 'Above average!', text: '{wpm} WPM puts you ahead of most people. Still not a typing god, but you\'re getting there. Keep practicing.' },
+    { condition: wpm => wpm >= 70 && wpm < 100, emoji: '🔥', title: 'Legitimately fast.', text: '{wpm} WPM. That\'s impressive. Your fingers must be very happy. You have probably annoyed many coworkers with your typing speed.' },
+    { condition: wpm => wpm >= 100, emoji: '⚡', title: 'Are you even human?', text: '{wpm} WPM?! The world record is 212 WPM. You\'re not there yet, but honestly at this point you might be some kind of keyboard wizard.' },
+];
+
+const TIME_LIMIT = 60;
+let text = '', typed = '', started = false, finished = false;
+let startTime = null, timerInterval = null, timeLeft = TIME_LIMIT;
+let errors = 0, totalTyped = 0;
+
+function startGame() {
+    text = TEXTS[Math.floor(Math.random() * TEXTS.length)];
+    typed = ''; started = false; finished = false;
+    errors = 0; totalTyped = 0; timeLeft = TIME_LIMIT;
+    document.getElementById('results').classList.remove('show');
+    document.getElementById('typeInput').value = '';
+    document.getElementById('typeInput').disabled = false;
+    document.getElementById('typeInput').focus();
+    document.getElementById('wpmVal').textContent = '0';
+    document.getElementById('accVal').textContent = '100%';
+    document.getElementById('timeVal').textContent = TIME_LIMIT;
+    document.getElementById('timerBar').style.width = '100%';
+    document.getElementById('timerBar').className = 'timer-bar';
+    document.getElementById('hintText').textContent = 'Type the highlighted character to begin the timer';
+    clearInterval(timerInterval);
+    renderText();
+}
+
+function renderText() {
+    const display = document.getElementById('textDisplay');
+    display.innerHTML = text.split('').map((ch, i) => {
+        if (i < typed.length) {
+            const correct = typed[i] === text[i];
+            return `<span class="char-${correct ? 'correct' : 'wrong'}">${ch}</span>`;
+        }
+        if (i === typed.length) return `<span class="char-current">${ch}</span>`;
+        return `<span class="char-pending">${ch}</span>`;
+    }).join('');
+}
+
+document.getElementById('typeInput').addEventListener('input', e => {
+    if (finished) return;
+    const val = e.target.value;
+
+    if (!started && val.length > 0) {
+        started = true;
+        startTime = Date.now();
+        document.getElementById('hintText').textContent = '';
+        startTimer();
+    }
+
+    // only allow typing forward
+    if (val.length > text.length) { e.target.value = val.slice(0, text.length); return; }
+
+    totalTyped = Math.max(totalTyped, val.length);
+    // count errors
+    errors = 0;
+    for (let i = 0; i < val.length; i++) {
+        if (val[i] !== text[i]) errors++;
+    }
+
+    typed = val;
+    renderText();
+    updateStats();
+
+    if (val === text) finishGame();
+});
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timeLeft = Math.max(0, TIME_LIMIT - (Date.now() - startTime) / 1000);
+        document.getElementById('timeVal').textContent = Math.ceil(timeLeft);
+        const pct = (timeLeft / TIME_LIMIT) * 100;
+        const bar = document.getElementById('timerBar');
+        bar.style.width = pct + '%';
+        bar.className = 'timer-bar' + (pct < 25 ? ' danger' : pct < 50 ? ' warn' : '');
+        updateStats();
+        if (timeLeft <= 0) finishGame();
+    }, 100);
+}
+
+function updateStats() {
+    const elapsed = started ? (Date.now() - startTime) / 60000 : 0;
+    const words = typed.trim().split(/\s+/).filter(w => w).length;
+    const wpm = elapsed > 0 ? Math.round(words / elapsed) : 0;
+    const acc = totalTyped > 0 ? Math.round(((totalTyped - errors) / totalTyped) * 100) : 100;
+    document.getElementById('wpmVal').textContent = wpm;
+    document.getElementById('accVal').textContent = acc + '%';
+}
+
+function finishGame() {
+    if (finished) return;
+    finished = true;
+    clearInterval(timerInterval);
+    document.getElementById('typeInput').disabled = true;
+
+    const elapsed = (Date.now() - startTime) / 60000;
+    const words = typed.trim().split(/\s+/).filter(w=>w).length;
+    const wpm = Math.round(words / elapsed);
+    const acc = totalTyped > 0 ? Math.round(((totalTyped - errors) / totalTyped) * 100) : 100;
+    const timeTaken = Math.round((Date.now() - startTime) / 100) / 10;
+
+    document.getElementById('resWpm').textContent = wpm;
+    document.getElementById('resAcc').textContent = acc + '%';
+    document.getElementById('resTime').textContent = timeTaken + 's';
+    document.getElementById('resErrors').textContent = errors;
+
+    const twist = TWISTS.find(t => t.condition(wpm)) || TWISTS[TWISTS.length - 1];
+    document.getElementById('resEmoji').textContent = twist.emoji;
+    document.getElementById('resTitle').textContent = twist.title;
+    document.getElementById('twistText').textContent = twist.text.replace('{wpm}', wpm);
+
+    setTimeout(() => document.getElementById('results').classList.add('show'), 300);
+}
+
+startGame();
+
+const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
+let W, H, stars = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+function initStars() { stars = []; for(let i=0;i<Math.floor((W*H)/8000);i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.3,speed:Math.random()*0.14+0.03,opacity:Math.random()*0.45+0.1,ts:Math.random()*0.01+0.003,to:Math.random()*Math.PI*2}); }
+let t=0;
+function draw() { ctx.clearRect(0,0,W,H); t+=0.016; for(const s of stars){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`;ctx.fill();s.y-=s.speed;if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}} requestAnimationFrame(draw); }
+resize(); initStars(); draw();
+window.addEventListener('resize',()=>{resize();initStars();});
+</script>
+</body>
+</html>
