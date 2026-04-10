@@ -1,1 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whack a Mole | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; overflow: hidden; user-select: none; }
+        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%); z-index: 0; pointer-events: none; }
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
+        .back-home:hover { color: #fff; }
+        .container { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 32px 24px; max-width: 540px; width: 100%; }
+        h1 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem,7vw,2.8rem); font-weight: 900; margin: 0 0 4px; letter-spacing: -2px; }
+        .subtitle { font-size: 0.9rem; color: #64748b; margin-bottom: 20px; }
 
+        .hud { display: flex; gap: 20px; margin-bottom: 16px; }
+        .hud-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+        .hud-val { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 900; color: #f8fafc; }
+        .hud-label { font-size: 0.65rem; color: #475569; text-transform: uppercase; letter-spacing: 1.5px; }
+
+        /* timer bar */
+        .timer-wrap { width: 100%; height: 7px; background: rgba(30,58,138,0.25); border-radius: 999px; overflow: hidden; margin-bottom: 16px; }
+        .timer-bar { height: 100%; border-radius: 999px; background: #3b82f6; transition: width 0.1s linear, background 0.3s; }
+        .timer-bar.warn { background: #fbbf24; }
+        .timer-bar.danger { background: #ef4444; }
+
+        /* roast display */
+        .roast-display { font-size: 0.9rem; color: #f87171; min-height: 20px; margin-bottom: 14px; font-style: italic; transition: opacity 0.2s; }
+
+        /* mole grid */
+        .mole-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 360px; margin-bottom: 20px; }
+        .hole {
+            aspect-ratio: 1; border-radius: 16px;
+            background: rgba(15,23,42,0.8); border: 1.5px solid rgba(51,65,85,0.6);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.8rem; cursor: pointer; position: relative; overflow: hidden;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .hole .mole {
+            position: absolute; bottom: -100%; transition: bottom 0.15s cubic-bezier(0.34,1.2,0.64,1);
+            font-size: 2.8rem; line-height: 1;
+        }
+        .hole.active .mole { bottom: 10%; }
+        .hole.whacked .mole { bottom: -100%; transition: bottom 0.1s ease-in; }
+        .hole.active { background: rgba(30,58,138,0.35); border-color: rgba(96,165,250,0.3); }
+        .hole:hover.active { background: rgba(37,99,235,0.4); }
+
+        /* hit flash */
+        .hit-flash { position: absolute; inset: 0; background: rgba(96,165,250,0.3); border-radius: 14px; opacity: 0; pointer-events: none; }
+        .hole.hit .hit-flash { animation: flashAnim 0.3s ease; }
+        @keyframes flashAnim { 0%{opacity:1} 100%{opacity:0} }
+
+        /* score pop */
+        .score-pop { position: fixed; font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 900; color: #60a5fa; pointer-events: none; animation: popUp 0.7s ease forwards; z-index: 20; }
+        @keyframes popUp { 0%{opacity:1;transform:translateY(0) scale(1)} 100%{opacity:0;transform:translateY(-50px) scale(0.8)} }
+
+        .gameover { position: fixed; inset: 0; background: rgba(2,6,23,0.92); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.4s; backdrop-filter: blur(8px); }
+        .gameover.show { opacity: 1; pointer-events: all; }
+        .go-emoji { font-size: 4rem; margin-bottom: 12px; }
+        .go-title { font-family: 'Syne', sans-serif; font-size: clamp(1.6rem,6vw,2.4rem); font-weight: 900; margin: 0 0 8px; }
+        .go-sub { color: #64748b; font-size: 1rem; margin-bottom: 24px; }
+        .go-sub span { color: #60a5fa; font-weight: 700; }
+        .go-btn { padding: 13px 36px; background: rgba(37,99,235,0.3); border: 1.5px solid rgba(96,165,250,0.45); border-radius: 999px; color: #fff; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; }
+        .go-btn:hover { background: rgba(37,99,235,0.5); }
+
+        .start-overlay { position: fixed; inset: 0; background: rgba(2,6,23,0.92); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 50; backdrop-filter: blur(8px); }
+        .start-overlay h2 { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 900; margin: 0 0 8px; }
+        .start-overlay p { color: #64748b; margin-bottom: 24px; }
+        .start-btn { padding: 13px 36px; background: rgba(37,99,235,0.3); border: 1.5px solid rgba(96,165,250,0.45); border-radius: 999px; color: #fff; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; }
+        .start-btn:hover { background: rgba(37,99,235,0.5); }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
+<a href="index.html" class="back-home">← Back to tyler.fun</a>
+
+<div class="start-overlay" id="startOverlay">
+    <div style="font-size:3rem;margin-bottom:12px">🐭</div>
+    <h2>Whack-a-Mole</h2>
+    <p>Whack the moles. Miss and they roast you.</p>
+    <button class="start-btn" onclick="startGame()">Play</button>
+</div>
+
+<div class="gameover" id="gameover">
+    <div class="go-emoji">🐭</div>
+    <div class="go-title" id="goTitle">Time's up!</div>
+    <div class="go-sub">Score: <span id="goScore">0</span> · Missed: <span id="goMissed">0</span></div>
+    <button class="go-btn" onclick="startGame()">Play again</button>
+</div>
+
+<div class="container">
+    <h1>Whack-a-Mole</h1>
+    <p class="subtitle">Hit them. Miss and they talk back.</p>
+    <div class="hud">
+        <div class="hud-stat"><div class="hud-val" id="scoreVal">0</div><div class="hud-label">score</div></div>
+        <div class="hud-stat"><div class="hud-val" id="missVal">0</div><div class="hud-label">missed</div></div>
+        <div class="hud-stat"><div class="hud-val" id="timeVal">30</div><div class="hud-label">seconds</div></div>
+    </div>
+    <div class="timer-wrap"><div class="timer-bar" id="timerBar"></div></div>
+    <div class="roast-display" id="roastDisplay"></div>
+    <div class="mole-grid" id="moleGrid"></div>
+</div>
+
+<script>
+const ROASTS = [
+    "Seriously?", "Too slow!", "lmaooo", "You missed me!", "Try harder.",
+    "I'm literally right here.", "skill issue.", "My grandma's faster.",
+    "Are you even trying?", "I saw that coming.", "Pathetic.",
+    "You blinked didn't you.", "Touch grass first, then try again.",
+    "I'll be here all day.", "Miss me miss me now you gotta kiss me.",
+    "I'm not even moving fast.", "Your reaction time is criminal.",
+    "Bro clicked the wrong hole again.", "I felt the wind from that.",
+];
+
+const GRID = 9;
+const GAME_TIME = 30;
+let score = 0, misses = 0, timeLeft = GAME_TIME;
+let activeMoles = new Set();
+let moleTimeouts = {}, moleIntervals = {};
+let gameInterval = null, moleSpawnInterval = null;
+let running = false;
+
+function buildGrid() {
+    const grid = document.getElementById('moleGrid');
+    grid.innerHTML = '';
+    for (let i = 0; i < GRID; i++) {
+        const hole = document.createElement('div');
+        hole.className = 'hole';
+        hole.dataset.idx = i;
+        hole.innerHTML = `<div class="mole">🐭</div><div class="hit-flash"></div>`;
+        hole.onclick = () => whack(i);
+        grid.appendChild(hole);
+    }
+}
+
+function startGame() {
+    score = 0; misses = 0; timeLeft = GAME_TIME; running = true;
+    activeMoles.clear();
+    Object.values(moleTimeouts).forEach(clearTimeout);
+    Object.values(moleIntervals).forEach(clearInterval);
+    clearInterval(gameInterval); clearInterval(moleSpawnInterval);
+    document.getElementById('gameover').classList.remove('show');
+    document.getElementById('startOverlay').style.display = 'none';
+    document.getElementById('roastDisplay').textContent = '';
+    updateHud();
+    buildGrid();
+
+    // game timer
+    gameInterval = setInterval(() => {
+        timeLeft = Math.max(0, timeLeft - 0.1);
+        updateHud();
+        if (timeLeft <= 0) endGame();
+    }, 100);
+
+    // mole spawner — gets faster over time
+    spawnMoles();
+    moleSpawnInterval = setInterval(spawnMoles, 1200);
+    setTimeout(() => { clearInterval(moleSpawnInterval); moleSpawnInterval = setInterval(spawnMoles, 800); }, 10000);
+    setTimeout(() => { clearInterval(moleSpawnInterval); moleSpawnInterval = setInterval(spawnMoles, 550); }, 20000);
+}
+
+function spawnMoles() {
+    if (!running) return;
+    // pick a random inactive hole
+    const inactive = [];
+    for (let i = 0; i < GRID; i++) { if (!activeMoles.has(i)) inactive.push(i); }
+    if (!inactive.length) return;
+    const idx = inactive[Math.floor(Math.random() * inactive.length)];
+    showMole(idx);
+}
+
+function showMole(idx) {
+    if (activeMoles.has(idx) || !running) return;
+    activeMoles.add(idx);
+    const hole = document.querySelector(`.hole[data-idx="${idx}"]`);
+    if (!hole) return;
+    hole.classList.add('active');
+
+    const stayTime = Math.max(600, 1400 - (GAME_TIME - timeLeft) * 20);
+    moleTimeouts[idx] = setTimeout(() => {
+        if (activeMoles.has(idx)) {
+            hideMole(idx, true); // missed
+        }
+    }, stayTime);
+}
+
+function hideMole(idx, missed) {
+    activeMoles.delete(idx);
+    const hole = document.querySelector(`.hole[data-idx="${idx}"]`);
+    if (!hole) return;
+    hole.classList.remove('active');
+    if (missed) {
+        misses++;
+        updateHud();
+        showRoast();
+    }
+}
+
+function whack(idx) {
+    if (!running || !activeMoles.has(idx)) return;
+    clearTimeout(moleTimeouts[idx]);
+    score += 10;
+    updateHud();
+
+    const hole = document.querySelector(`.hole[data-idx="${idx}"]`);
+    hole.classList.add('whacked', 'hit');
+    setTimeout(() => { hole.classList.remove('whacked', 'hit', 'active'); }, 300);
+
+    // score pop
+    const rect = hole.getBoundingClientRect();
+    const pop = document.createElement('div');
+    pop.className = 'score-pop';
+    pop.textContent = '+10';
+    pop.style.left = (rect.left + rect.width/2 - 20) + 'px';
+    pop.style.top  = (rect.top - 10) + 'px';
+    document.body.appendChild(pop);
+    setTimeout(() => pop.remove(), 700);
+
+    activeMoles.delete(idx);
+}
+
+function showRoast() {
+    const el = document.getElementById('roastDisplay');
+    el.style.opacity = '0';
+    setTimeout(() => {
+        el.textContent = ROASTS[Math.floor(Math.random()*ROASTS.length)];
+        el.style.opacity = '1';
+    }, 150);
+    setTimeout(() => { el.style.opacity = '0'; }, 1500);
+}
+
+function updateHud() {
+    document.getElementById('scoreVal').textContent = score;
+    document.getElementById('missVal').textContent = misses;
+    document.getElementById('timeVal').textContent = Math.ceil(timeLeft);
+    const pct = (timeLeft / GAME_TIME) * 100;
+    const bar = document.getElementById('timerBar');
+    bar.style.width = pct + '%';
+    bar.className = 'timer-bar' + (pct < 25 ? ' danger' : pct < 50 ? ' warn' : '');
+}
+
+function endGame() {
+    running = false;
+    clearInterval(gameInterval); clearInterval(moleSpawnInterval);
+    Object.values(moleTimeouts).forEach(clearTimeout);
+    const title = score < 50 ? 'The moles won.' : score < 150 ? 'Not bad!' : score < 300 ? 'Solid!' : 'Mole destroyer.';
+    document.getElementById('goTitle').textContent = title;
+    document.getElementById('goScore').textContent = score;
+    document.getElementById('goMissed').textContent = misses;
+    setTimeout(() => document.getElementById('gameover').classList.add('show'), 400);
+}
+
+const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
+let W, H, stars = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+function initStars() { stars = []; for(let i=0;i<Math.floor((W*H)/8000);i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.3,speed:Math.random()*0.14+0.03,opacity:Math.random()*0.45+0.1,ts:Math.random()*0.01+0.003,to:Math.random()*Math.PI*2}); }
+let t=0;
+function draw() { ctx.clearRect(0,0,W,H); t+=0.016; for(const s of stars){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`;ctx.fill();s.y-=s.speed;if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}} requestAnimationFrame(draw); }
+resize(); initStars(); draw();
+window.addEventListener('resize',()=>{resize();initStars();});
+</script>
+</body>
+</html>
