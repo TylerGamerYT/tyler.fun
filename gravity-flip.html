@@ -1,1 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravity Flip | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; overflow: hidden; user-select: none; }
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
+        .back-home:hover { color: #fff; }
+        .container { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 16px 24px; width: 100%; }
+        h1 { font-family: 'Syne', sans-serif; font-size: clamp(1.6rem,6vw,2.4rem); font-weight: 900; margin: 0 0 3px; letter-spacing: -1px; }
+        .subtitle { font-size: 0.85rem; color: #64748b; margin-bottom: 10px; }
+        .hud { display: flex; gap: 24px; margin-bottom: 8px; }
+        .hud-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+        .hud-val { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 900; color: #f8fafc; }
+        .hud-label { font-size: 0.65rem; color: #475569; text-transform: uppercase; letter-spacing: 1.5px; }
+        canvas#game { display: block; border-radius: 14px; border: 1px solid rgba(51,65,85,0.7); background: rgba(5,10,30,0.95); touch-action: none; }
+        .controls-hint { font-size: 0.75rem; color: #334155; margin-top: 8px; }
 
+        .overlay { position: fixed; inset: 0; background: rgba(2,6,23,0.92); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 50; backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .overlay.show { opacity: 1; pointer-events: all; }
+        .ov-emoji { font-size: 3.5rem; margin-bottom: 10px; }
+        .ov-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem,6vw,2.6rem); font-weight: 900; margin: 0 0 8px; }
+        .ov-sub { color: #64748b; font-size: 0.95rem; margin-bottom: 24px; }
+        .ov-sub span { color: #60a5fa; font-weight: 700; }
+        .ov-btn { padding: 12px 32px; background: rgba(37,99,235,0.3); border: 1.5px solid rgba(96,165,250,0.45); border-radius: 999px; color: #fff; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; }
+        .ov-btn:hover { background: rgba(37,99,235,0.5); }
+    </style>
+</head>
+<body>
+<a href="index.html" class="back-home">← Back to tyler.fun</a>
+
+<div class="overlay show" id="startOverlay">
+    <div class="ov-emoji">🔄</div>
+    <div class="ov-title">Gravity Flip</div>
+    <div class="ov-sub">Press <span>Space / Tap</span> to flip gravity. Don't hit the spikes.</div>
+    <button class="ov-btn" onclick="startGame()">Play</button>
+</div>
+
+<div class="overlay" id="deadOverlay">
+    <div class="ov-emoji">💀</div>
+    <div class="ov-title" id="deadTitle">Ouch.</div>
+    <div class="ov-sub">You survived <span id="deadScore">0</span>m · Best: <span id="deadBest">0</span>m</div>
+    <button class="ov-btn" onclick="startGame()">Try again</button>
+</div>
+
+<div class="container">
+    <h1>Gravity Flip</h1>
+    <p class="subtitle">Flip gravity to survive. It gets faster.</p>
+    <div class="hud">
+        <div class="hud-stat"><div class="hud-val" id="scoreHud">0m</div><div class="hud-label">distance</div></div>
+        <div class="hud-stat"><div class="hud-val" id="bestHud">0m</div><div class="hud-label">best</div></div>
+    </div>
+    <canvas id="game"></canvas>
+    <p class="controls-hint">Space / Click / Tap to flip gravity</p>
+</div>
+
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+    canvas.width  = Math.min(window.innerWidth - 32, 520);
+    canvas.height = Math.min(window.innerHeight - 200, 340);
+}
+resize();
+window.addEventListener('resize', resize);
+
+const W = () => canvas.width, H = () => canvas.height;
+
+// game state
+let player, obstacles, score, best = 0, running = false, animId;
+let cameraX, speed, gravDir, frameCount;
+
+const PLAYER_X = 80;
+const PLAYER_SIZE = 22;
+const OBS_W = 28;
+const GAP = 150;
+
+function startGame() {
+    document.getElementById('startOverlay').classList.remove('show');
+    document.getElementById('deadOverlay').classList.remove('show');
+
+    player = { y: H()/2, vy: 0, grounded: false };
+    obstacles = [];
+    score = 0; cameraX = 0; speed = 3; gravDir = 1; frameCount = 0;
+    running = true;
+
+    // pre-generate first gap
+    generateObs(W() + 100);
+    generateObs(W() + 100 + GAP + OBS_W + 180);
+
+    if (animId) cancelAnimationFrame(animId);
+    loop();
+}
+
+function generateObs(x) {
+    // random gap position
+    const gapY = 60 + Math.random() * (H() - 140);
+    const gapH = 90 + Math.random() * 40;
+    obstacles.push({ x, gapY, gapH });
+}
+
+function flipGravity() {
+    if (!running) return;
+    gravDir *= -1;
+    player.vy = 0;
+}
+
+function loop() {
+    if (!running) return;
+    update();
+    draw();
+    animId = requestAnimationFrame(loop);
+}
+
+function update() {
+    frameCount++;
+    // speed up
+    speed = 3 + frameCount * 0.001;
+
+    // gravity
+    const GRAV = 0.45;
+    player.vy += GRAV * gravDir;
+    player.vy = Math.max(-10, Math.min(10, player.vy));
+    player.y += player.vy;
+
+    // wall collision
+    if (player.y - PLAYER_SIZE/2 < 0) { player.y = PLAYER_SIZE/2; player.vy = Math.abs(player.vy) * 0.5; die(); return; }
+    if (player.y + PLAYER_SIZE/2 > H()) { player.y = H() - PLAYER_SIZE/2; player.vy = -Math.abs(player.vy) * 0.5; die(); return; }
+
+    // move obstacles
+    obstacles.forEach(o => o.x -= speed);
+
+    // remove off-screen, spawn new
+    if (obstacles[0] && obstacles[0].x + OBS_W < -20) {
+        obstacles.shift();
+        const lastX = obstacles[obstacles.length-1]?.x ?? W();
+        generateObs(lastX + GAP + OBS_W + 100 + Math.random()*80);
+    }
+
+    // collision with obstacles
+    for (const o of obstacles) {
+        const px = PLAYER_X, py = player.y;
+        const pr = PLAYER_SIZE/2 - 3;
+        // top bar: from 0 to gapY
+        if (px+pr > o.x && px-pr < o.x+OBS_W) {
+            if (py-pr < o.gapY || py+pr > o.gapY+o.gapH) { die(); return; }
+        }
+    }
+
+    score = Math.floor(frameCount * speed / 10);
+    if (score > best) best = score;
+    document.getElementById('scoreHud').textContent = score + 'm';
+    document.getElementById('bestHud').textContent  = best + 'm';
+}
+
+function die() {
+    running = false;
+    const title = score < 20 ? 'Ouch.' : score < 60 ? 'Getting there.' : score < 150 ? 'Not bad!' : 'Gravity wizard!';
+    document.getElementById('deadTitle').textContent = title;
+    document.getElementById('deadScore').textContent = score + 'm';
+    document.getElementById('deadBest').textContent  = best + 'm';
+    setTimeout(() => document.getElementById('deadOverlay').classList.add('show'), 500);
+}
+
+function draw() {
+    ctx.clearRect(0,0,W(),H());
+
+    // bg grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+    ctx.lineWidth = 1;
+    for (let x=0; x<W(); x+=40) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H()); ctx.stroke(); }
+    for (let y=0; y<H(); y+=40) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W(),y); ctx.stroke(); }
+
+    // obstacles
+    obstacles.forEach(o => {
+        // top bar
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath(); ctx.roundRect(o.x, 0, OBS_W, o.gapY, [0,0,6,6]); ctx.fill();
+        // bottom bar
+        ctx.beginPath(); ctx.roundRect(o.x, o.gapY+o.gapH, OBS_W, H()-o.gapY-o.gapH, [6,6,0,0]); ctx.fill();
+        // spikes on edges
+        ctx.fillStyle = '#fca5a5';
+        drawSpike(o.x + OBS_W/2, o.gapY, false);
+        drawSpike(o.x + OBS_W/2, o.gapY + o.gapH, true);
+    });
+
+    // player
+    const px = PLAYER_X, py = player.y;
+    ctx.save();
+    ctx.translate(px, py);
+    ctx.rotate(gravDir === -1 ? Math.PI : 0);
+    // body
+    ctx.fillStyle = '#60a5fa';
+    ctx.beginPath();
+    ctx.roundRect(-PLAYER_SIZE/2, -PLAYER_SIZE/2, PLAYER_SIZE, PLAYER_SIZE, 6);
+    ctx.fill();
+    // eye
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(4, -4, 4, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#1e3a8a';
+    ctx.beginPath(); ctx.arc(5, -4, 2, 0, Math.PI*2); ctx.fill();
+    ctx.restore();
+
+    // gravity indicator
+    ctx.font = '16px serif';
+    ctx.textAlign = 'right'; ctx.textBaseline = 'top';
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.fillText(gravDir === 1 ? '↓ gravity' : '↑ gravity', W()-10, 10);
+}
+
+function drawSpike(x, y, pointUp) {
+    ctx.beginPath();
+    if (pointUp) { ctx.moveTo(x-8,y); ctx.lineTo(x+8,y); ctx.lineTo(x,y-12); }
+    else          { ctx.moveTo(x-8,y); ctx.lineTo(x+8,y); ctx.lineTo(x,y+12); }
+    ctx.closePath(); ctx.fill();
+}
+
+// controls
+document.addEventListener('keydown', e => { if (e.code==='Space') { e.preventDefault(); flipGravity(); } });
+canvas.addEventListener('click', flipGravity);
+canvas.addEventListener('touchstart', e => { e.preventDefault(); flipGravity(); }, {passive:false});
+</script>
+</body>
+</html>
