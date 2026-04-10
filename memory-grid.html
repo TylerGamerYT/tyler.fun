@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Grid | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; overflow: hidden; user-select: none; }
+        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%); z-index: 0; pointer-events: none; }
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
+        .back-home:hover { color: #fff; }
+        .container { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 40px 24px; max-width: 560px; width: 100%; }
+        h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem,8vw,3rem); font-weight: 900; margin: 0 0 6px; letter-spacing: -2px; }
+        .subtitle { font-size: 0.95rem; color: #64748b; margin-bottom: 28px; }
+        .stats-row { display: flex; gap: 24px; margin-bottom: 24px; }
+        .stat { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+        .stat-val { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 900; color: #f8fafc; }
+        .stat-label { font-size: 0.7rem; color: #475569; text-transform: uppercase; letter-spacing: 1.5px; }
+
+        .phase-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 7px 18px; border-radius: 99px;
+            font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+            margin-bottom: 20px; transition: all 0.3s;
+            background: rgba(96,165,250,0.15); color: #60a5fa; border: 1px solid rgba(96,165,250,0.3);
+        }
+        .phase-badge.recall { background: rgba(251,191,36,0.15); color: #fbbf24; border-color: rgba(251,191,36,0.3); }
+        .phase-badge.result-good { background: rgba(16,185,129,0.15); color: #10b981; border-color: rgba(16,185,129,0.3); }
+        .phase-badge.result-bad  { background: rgba(239,68,68,0.15);  color: #f87171; border-color: rgba(239,68,68,0.3); }
+
+        .grid { display: grid; gap: 8px; margin-bottom: 24px; }
+        .tile {
+            width: 60px; height: 60px; border-radius: 12px;
+            background: rgba(30,58,138,0.25);
+            border: 1.5px solid rgba(51,65,85,0.6);
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, transform 0.1s;
+        }
+        .tile.lit    { background: #60a5fa; border-color: #3b82f6; box-shadow: 0 0 18px rgba(96,165,250,0.4); }
+        .tile.correct { background: #10b981; border-color: #059669; }
+        .tile.wrong   { background: #ef4444; border-color: #dc2626; animation: tileShake 0.3s ease; }
+        .tile.missed  { background: rgba(251,191,36,0.4); border-color: #fbbf24; }
+        .tile:hover:not(.lit):not(.correct):not(.wrong) { background: rgba(37,99,235,0.3); border-color: rgba(96,165,250,0.4); transform: scale(1.05); }
+        @keyframes tileShake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+
+        .status { font-size: 0.95rem; color: #64748b; min-height: 24px; margin-bottom: 20px; transition: color 0.3s; }
+        .status.good { color: #10b981; }
+        .status.bad  { color: #f87171; }
+
+        .next-btn {
+            padding: 12px 32px; background: rgba(37,99,235,0.25); border: 1.5px solid rgba(96,165,250,0.4);
+            border-radius: 999px; color: #fff; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+            cursor: pointer; transition: background 0.2s; display: none;
+        }
+        .next-btn:hover { background: rgba(37,99,235,0.45); }
+        .next-btn.show { display: inline-block; }
+
+        .gameover { position: fixed; inset: 0; background: rgba(2,6,23,0.92); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.4s; backdrop-filter: blur(8px); }
+        .gameover.show { opacity: 1; pointer-events: all; }
+        .go-emoji { font-size: 4rem; margin-bottom: 12px; }
+        .go-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem,7vw,2.8rem); font-weight: 900; margin: 0 0 8px; }
+        .go-sub { color: #64748b; font-size: 1rem; margin-bottom: 28px; }
+        .go-sub span { color: #60a5fa; font-weight: 700; }
+        .go-btn { padding: 13px 36px; background: rgba(37,99,235,0.3); border: 1.5px solid rgba(96,165,250,0.45); border-radius: 999px; color: #fff; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; }
+        .go-btn:hover { background: rgba(37,99,235,0.5); }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
+<a href="index.html" class="back-home">← Back to tyler.fun</a>
+
+<div class="gameover" id="gameover">
+    <div class="go-emoji">🧠</div>
+    <div class="go-title" id="goTitle">Brain empty.</div>
+    <div class="go-sub">You reached level <span id="goLevel">1</span> · Score: <span id="goScore">0</span></div>
+    <button class="go-btn" onclick="startGame()">Try again</button>
+</div>
+
+<div class="container">
+    <h1>Memory Grid</h1>
+    <p class="subtitle">Memorise the pattern. Recreate it.</p>
+    <div class="stats-row">
+        <div class="stat"><div class="stat-val" id="levelVal">1</div><div class="stat-label">level</div></div>
+        <div class="stat"><div class="stat-val" id="scoreVal">0</div><div class="stat-label">score</div></div>
+        <div class="stat"><div class="stat-val" id="tilesVal">3</div><div class="stat-label">tiles</div></div>
+    </div>
+    <div class="phase-badge" id="phaseBadge">Memorise</div>
+    <div class="grid" id="grid"></div>
+    <div class="status" id="status">Watch the pattern...</div>
+    <button class="next-btn" id="nextBtn" onclick="nextRound()">Next round →</button>
+</div>
+
+<script>
+let level = 1, score = 0, phase = 'show'; // show | recall | result
+let gridSize = 3, litCount = 3;
+let pattern = [], playerClicks = [], gridTiles = [];
+let showTimeout = null;
+
+function startGame() {
+    level = 1; score = 0;
+    document.getElementById('gameover').classList.remove('show');
+    document.getElementById('nextBtn').classList.remove('show');
+    startRound();
+}
+
+function startRound() {
+    gridSize = level < 3 ? 3 : level < 6 ? 4 : 5;
+    litCount = 2 + level;
+    if (litCount > gridSize * gridSize) litCount = Math.floor(gridSize * gridSize * 0.6);
+    phase = 'show';
+    playerClicks = [];
+    pattern = [];
+
+    updateHud();
+    setBadge('memorise', 'Memorise');
+    setStatus('Watch the pattern...');
+    document.getElementById('nextBtn').classList.remove('show');
+
+    buildGrid();
+
+    // pick random tiles to light
+    const all = Array.from({length: gridSize*gridSize}, (_,i)=>i);
+    while (pattern.length < litCount) {
+        const idx = all.splice(Math.floor(Math.random()*all.length), 1)[0];
+        pattern.push(idx);
+    }
+
+    // show pattern briefly
+    setTimeout(() => {
+        pattern.forEach(i => gridTiles[i].classList.add('lit'));
+        const showTime = Math.max(800, 2000 - level * 80);
+        showTimeout = setTimeout(() => {
+            pattern.forEach(i => gridTiles[i].classList.remove('lit'));
+            phase = 'recall';
+            setBadge('recall', 'Recall');
+            setStatus(`Click the ${litCount} tiles you saw`);
+        }, showTime);
+    }, 300);
+}
+
+function buildGrid() {
+    const grid = document.getElementById('grid');
+    const size = Math.min(360, window.innerWidth - 60);
+    const tileSize = Math.floor((size - (gridSize-1)*8) / gridSize);
+    grid.style.gridTemplateColumns = `repeat(${gridSize}, ${tileSize}px)`;
+    grid.innerHTML = '';
+    gridTiles = [];
+    for (let i = 0; i < gridSize*gridSize; i++) {
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.style.width = tileSize + 'px';
+        tile.style.height = tileSize + 'px';
+        tile.dataset.idx = i;
+        tile.onclick = () => tileClick(i);
+        grid.appendChild(tile);
+        gridTiles.push(tile);
+    }
+}
+
+function tileClick(idx) {
+    if (phase !== 'recall') return;
+    if (playerClicks.includes(idx)) return;
+    playerClicks.push(idx);
+
+    if (pattern.includes(idx)) {
+        gridTiles[idx].classList.add('correct');
+    } else {
+        gridTiles[idx].classList.add('wrong');
+        revealMissed();
+        endRound(false);
+        return;
+    }
+
+    if (playerClicks.length === pattern.length) {
+        endRound(true);
+    }
+}
+
+function revealMissed() {
+    pattern.forEach(i => {
+        if (!playerClicks.includes(i)) gridTiles[i].classList.add('missed');
+    });
+}
+
+function endRound(success) {
+    phase = 'result';
+    if (success) {
+        score += level * litCount * 10;
+        level++;
+        setBadge('result-good', '✓ Correct!');
+        setStatus(`Nice! +${(level-1) * (litCount) * 10} points`, 'good');
+        updateHud();
+        setTimeout(() => {
+            document.getElementById('nextBtn').classList.add('show');
+        }, 400);
+    } else {
+        setBadge('result-bad', '✗ Wrong');
+        setStatus('You missed one. Game over.', 'bad');
+        setTimeout(() => {
+            document.getElementById('goLevel').textContent = level;
+            document.getElementById('goScore').textContent = score;
+            document.getElementById('goTitle').textContent = level < 3 ? 'Brain empty.' : level < 6 ? 'Not bad!' : level < 10 ? 'Solid memory!' : 'Absolutely massive brain.';
+            document.getElementById('gameover').classList.add('show');
+        }, 1200);
+    }
+}
+
+function nextRound() {
+    document.getElementById('nextBtn').classList.remove('show');
+    startRound();
+}
+
+function updateHud() {
+    document.getElementById('levelVal').textContent = level;
+    document.getElementById('scoreVal').textContent = score;
+    document.getElementById('tilesVal').textContent = Math.min(litCount, (level<3?3:level<6?4:5)**2);
+}
+
+function setBadge(cls, text) {
+    const b = document.getElementById('phaseBadge');
+    b.className = 'phase-badge ' + cls;
+    b.textContent = text;
+}
+
+function setStatus(msg, cls='') {
+    const el = document.getElementById('status');
+    el.textContent = msg; el.className = 'status' + (cls?' '+cls:'');
+}
+
+startGame();
+
+const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
+let W, H, stars = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+function initStars() { stars = []; for(let i=0;i<Math.floor((W*H)/8000);i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.3,speed:Math.random()*0.14+0.03,opacity:Math.random()*0.45+0.1,ts:Math.random()*0.01+0.003,to:Math.random()*Math.PI*2}); }
+let t=0;
+function draw() { ctx.clearRect(0,0,W,H); t+=0.016; for(const s of stars){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`;ctx.fill();s.y-=s.speed;if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}} requestAnimationFrame(draw); }
+resize(); initStars(); draw();
+window.addEventListener('resize',()=>{resize();initStars();});
+</script>
+</body>
+</html>
