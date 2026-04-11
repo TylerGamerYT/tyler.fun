@@ -1,1 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survive the Clicks | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; overflow: hidden; user-select: none; transition: background 0.4s; }
+        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%); z-index: 0; pointer-events: none; }
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
+        .back-home:hover { color: #fff; }
+        .container { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 40px 24px; max-width: 560px; width: 100%; }
+        h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem,8vw,3rem); font-weight: 900; margin: 0 0 4px; letter-spacing: -2px; }
+        .subtitle { font-size: 0.9rem; color: #64748b; margin-bottom: 28px; }
 
+        .click-count { font-family: 'Syne', sans-serif; font-size: clamp(4rem,16vw,7rem); font-weight: 900; line-height: 1; margin-bottom: 6px; color: #f8fafc; }
+        .click-label { font-size: 0.8rem; color: #475569; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 32px; }
+
+        /* THE BUTTON — gets harder */
+        #theBtn {
+            padding: 20px 48px;
+            background: rgba(37,99,235,0.25);
+            border: 2px solid rgba(96,165,250,0.45);
+            border-radius: 999px; color: #fff;
+            font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.15s, background 0.2s, border-color 0.2s, box-shadow 0.2s, filter 0.3s;
+            margin-bottom: 32px;
+            position: relative;
+        }
+        #theBtn:hover { background: rgba(37,99,235,0.45); border-color: #60a5fa; }
+
+        .challenge-box {
+            background: rgba(15,23,42,0.7); border: 1px solid rgba(51,65,85,0.6);
+            border-radius: 16px; padding: 18px 24px; width: 100%;
+            backdrop-filter: blur(14px); margin-bottom: 16px;
+            min-height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .challenge-label { font-size: 0.65rem; color: #475569; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; font-weight: 700; }
+        .challenge-text { font-size: 0.95rem; color: #cbd5e1; }
+        .challenge-text.urgent { color: #fbbf24; font-weight: 600; }
+
+        .status { font-size: 0.9rem; color: #64748b; min-height: 20px; }
+
+        /* hold progress bar for hold challenges */
+        .hold-bar-wrap { width: 100%; height: 8px; background: rgba(30,58,138,0.25); border-radius: 999px; overflow: hidden; margin-top: 10px; display: none; }
+        .hold-bar { height: 100%; border-radius: 999px; background: #60a5fa; width: 0%; transition: width 0.05s linear; }
+
+        .gameover { position: fixed; inset: 0; background: rgba(2,6,23,0.92); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.4s; backdrop-filter: blur(8px); }
+        .gameover.show { opacity: 1; pointer-events: all; }
+        .go-emoji { font-size: 4rem; margin-bottom: 12px; }
+        .go-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem,7vw,2.8rem); font-weight: 900; margin: 0 0 8px; }
+        .go-sub { color: #64748b; font-size: 1rem; margin-bottom: 28px; }
+        .go-sub span { color: #60a5fa; font-weight: 700; }
+        .go-btn { padding: 13px 36px; background: rgba(37,99,235,0.3); border: 1.5px solid rgba(96,165,250,0.45); border-radius: 999px; color: #fff; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; }
+        .go-btn:hover { background: rgba(37,99,235,0.5); }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
+<a href="index.html" class="back-home">← Back to tyler.fun</a>
+
+<div class="gameover" id="gameover">
+    <div class="go-emoji" id="goEmoji">💀</div>
+    <div class="go-title" id="goTitle">You failed.</div>
+    <div class="go-sub">You survived <span id="goClicks">0</span> clicks</div>
+    <button class="go-btn" onclick="startGame()">Try again</button>
+</div>
+
+<div class="container">
+    <h1>Survive the Clicks</h1>
+    <p class="subtitle">Click the button. Each click makes it harder.</p>
+
+    <div class="click-count" id="clickCount">0</div>
+    <div class="click-label">clicks survived</div>
+
+    <button id="theBtn" onclick="handleClick()">CLICK ME</button>
+
+    <div class="challenge-box">
+        <div class="challenge-label">Current challenge</div>
+        <div class="challenge-text" id="challengeText">Just click. Easy.</div>
+        <div class="hold-bar-wrap" id="holdBarWrap"><div class="hold-bar" id="holdBar"></div></div>
+    </div>
+    <div class="status" id="status"></div>
+</div>
+
+<script>
+let clicks = 0, phase = 'normal', holdProgress = 0, holdInterval = null;
+let doubleClickFirst = false, doubleClickTimer = null;
+let moveTarget = null, moveInterval = null;
+let waitUntil = 0;
+
+const challenges = [
+    { at: 0,  text: 'Just click. Easy.',              type: 'normal' },
+    { at: 5,  text: 'Click it 3 times fast!',         type: 'rapid', count: 3 },
+    { at: 10, text: 'Hold the button for 2 seconds.', type: 'hold',  duration: 2000 },
+    { at: 15, text: 'Wait 3 seconds before clicking.',type: 'wait',  duration: 3000 },
+    { at: 20, text: 'Double-click only!',             type: 'double' },
+    { at: 25, text: 'Hold for 3 seconds.',            type: 'hold',  duration: 3000 },
+    { at: 30, text: 'The button runs away. Catch it!',type: 'move' },
+    { at: 35, text: 'Click 5 times fast!',            type: 'rapid', count: 5 },
+    { at: 40, text: 'Wait 5 seconds. Don\'t you dare click early.', type: 'wait', duration: 5000 },
+    { at: 45, text: 'Hold for 4 seconds. And it\'s blurry.', type: 'hold', duration: 4000, blur: true },
+    { at: 50, text: 'The button is tiny now. Good luck.', type: 'tiny' },
+    { at: 60, text: 'ALL CHALLENGES AT ONCE. Chaos mode.', type: 'chaos' },
+];
+
+let rapidCount = 0, rapidNeeded = 0;
+let currentChallenge = null;
+
+function startGame() {
+    clicks = 0; phase = 'normal'; doubleClickFirst = false;
+    clearInterval(holdInterval); clearInterval(moveInterval);
+    clearTimeout(doubleClickTimer);
+    const btn = document.getElementById('theBtn');
+    btn.style = '';
+    btn.textContent = 'CLICK ME';
+    document.getElementById('gameover').classList.remove('show');
+    document.getElementById('holdBarWrap').style.display = 'none';
+    document.getElementById('holdBar').style.width = '0%';
+    updateDisplay();
+    applyChallenge();
+}
+
+function applyChallenge() {
+    const ch = [...challenges].reverse().find(c => clicks >= c.at) || challenges[0];
+    currentChallenge = ch;
+    document.getElementById('challengeText').textContent = ch.text;
+    document.getElementById('challengeText').className = 'challenge-text' + (clicks >= 40 ? ' urgent' : '');
+    document.getElementById('status').textContent = '';
+
+    const btn = document.getElementById('theBtn');
+    btn.style.filter = ch.blur ? 'blur(4px)' : '';
+
+    // stop any running effects
+    clearInterval(moveInterval);
+
+    if (ch.type === 'tiny') {
+        btn.style.transform = 'scale(0.35)';
+    } else {
+        btn.style.transform = '';
+    }
+
+    if (ch.type === 'move') {
+        startMoveMode();
+    }
+
+    if (ch.type === 'rapid') { rapidCount = 0; rapidNeeded = ch.count; }
+    if (ch.type === 'wait') {
+        waitUntil = Date.now() + ch.duration;
+        btn.disabled = true;
+        const iv = setInterval(() => {
+            const rem = Math.max(0, (waitUntil - Date.now()) / 1000);
+            document.getElementById('status').textContent = `Wait ${rem.toFixed(1)}s...`;
+            if (rem <= 0) { btn.disabled = false; document.getElementById('status').textContent = 'NOW!'; clearInterval(iv); }
+        }, 50);
+    }
+}
+
+function startMoveMode() {
+    const btn = document.getElementById('theBtn');
+    moveInterval = setInterval(() => {
+        const maxX = Math.min(200, window.innerWidth / 4);
+        const maxY = 80;
+        const x = (Math.random() - 0.5) * maxX;
+        const y = (Math.random() - 0.5) * maxY;
+        btn.style.transform = `translate(${x}px, ${y}px)`;
+    }, 600);
+}
+
+function handleClick() {
+    const ch = currentChallenge;
+    if (!ch) return;
+
+    if (ch.type === 'wait' && Date.now() < waitUntil) {
+        fail('You clicked too early!'); return;
+    }
+
+    if (ch.type === 'double') {
+        if (!doubleClickFirst) {
+            doubleClickFirst = true;
+            doubleClickTimer = setTimeout(() => { doubleClickFirst = false; fail('Too slow! Double-click needed.'); }, 600);
+            return;
+        }
+        clearTimeout(doubleClickTimer);
+        doubleClickFirst = false;
+        succeed(); return;
+    }
+
+    if (ch.type === 'hold') {
+        // hold handled by mousedown/mouseup
+        return;
+    }
+
+    if (ch.type === 'rapid') {
+        rapidCount++;
+        document.getElementById('status').textContent = `${rapidCount}/${rapidNeeded}`;
+        if (rapidCount >= rapidNeeded) { succeed(); }
+        clearTimeout(doubleClickTimer);
+        doubleClickTimer = setTimeout(() => { if (rapidCount < rapidNeeded) fail(`Only got ${rapidCount}/${rapidNeeded}!`); }, 1500);
+        return;
+    }
+
+    succeed();
+}
+
+// hold detection
+document.getElementById('theBtn').addEventListener('mousedown', startHold);
+document.getElementById('theBtn').addEventListener('touchstart', startHold, { passive: true });
+document.getElementById('theBtn').addEventListener('mouseup', endHold);
+document.getElementById('theBtn').addEventListener('mouseleave', endHold);
+document.getElementById('theBtn').addEventListener('touchend', endHold);
+
+let holdStart = null;
+function startHold(e) {
+    const ch = currentChallenge;
+    if (!ch || ch.type !== 'hold') return;
+    holdStart = Date.now();
+    document.getElementById('holdBarWrap').style.display = 'block';
+    holdInterval = setInterval(() => {
+        const elapsed = Date.now() - holdStart;
+        const pct = Math.min(100, (elapsed / ch.duration) * 100);
+        document.getElementById('holdBar').style.width = pct + '%';
+        if (elapsed >= ch.duration) { clearInterval(holdInterval); succeed(); }
+    }, 30);
+}
+
+function endHold(e) {
+    const ch = currentChallenge;
+    if (!ch || ch.type !== 'hold') return;
+    if (!holdStart) return;
+    const elapsed = Date.now() - holdStart;
+    holdStart = null;
+    clearInterval(holdInterval);
+    document.getElementById('holdBarWrap').style.display = 'none';
+    document.getElementById('holdBar').style.width = '0%';
+    if (elapsed < (ch.duration - 100)) fail(`Held for ${(elapsed/1000).toFixed(1)}s, needed ${ch.duration/1000}s`);
+}
+
+function succeed() {
+    clicks++;
+    clearInterval(moveInterval);
+    document.getElementById('theBtn').style.transform = '';
+    updateDisplay();
+    applyChallenge();
+}
+
+function fail(msg) {
+    clearInterval(holdInterval); clearInterval(moveInterval);
+    document.getElementById('theBtn').style.transform = '';
+    const title = clicks < 10 ? 'You failed.' : clicks < 25 ? 'Not bad!' : clicks < 45 ? 'Impressive!' : 'Absolute legend.';
+    document.getElementById('goEmoji').textContent = clicks >= 45 ? '🏆' : '💀';
+    document.getElementById('goTitle').textContent = title;
+    document.getElementById('goClicks').textContent = clicks;
+    setTimeout(() => document.getElementById('gameover').classList.add('show'), 300);
+}
+
+function updateDisplay() {
+    document.getElementById('clickCount').textContent = clicks;
+}
+
+startGame();
+
+const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
+let W, H, stars = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+function initStars() { stars = []; for(let i=0;i<Math.floor((W*H)/8000);i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.3,speed:Math.random()*0.14+0.03,opacity:Math.random()*0.45+0.1,ts:Math.random()*0.01+0.003,to:Math.random()*Math.PI*2}); }
+let t=0;
+function draw() { ctx.clearRect(0,0,W,H); t+=0.016; for(const s of stars){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`;ctx.fill();s.y-=s.speed;if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}} requestAnimationFrame(draw); }
+resize(); initStars(); draw();
+window.addEventListener('resize',()=>{resize();initStars();});
+</script>
+</body>
+</html>
