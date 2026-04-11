@@ -307,6 +307,12 @@
             border-radius: 99px;
         }
 
+        .game-badge.public {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
         /* ---- BOTTOM ---- */
         .bottom-section {
             display: flex;
@@ -401,46 +407,53 @@
         </div>
     </div>
 
-    <!-- PREVIEW ONLY — visit ?preview to see this -->
-    <div class="games-section" id="gamesSection">
-        <div class="games-label">🔒 Preview Only</div>
+    <!-- PUBLIC GAMES — always visible -->
+    <div class="games-section visible" id="publicGames">
+        <div class="games-label">🎮 Games</div>
         <div class="games-grid">
             <a href="roast-clicker.html" class="game-card">
                 <div class="game-emoji">🔥</div>
                 <div class="game-title">Roast Clicker</div>
                 <div class="game-desc">Click a button. Get roasted. Keep clicking. Get destroyed.</div>
-                <span class="game-badge">In Development</span>
+                <span class="game-badge public">Public</span>
             </a>
             <a href="impossible-button.html" class="game-card">
                 <div class="game-emoji">🏃</div>
                 <div class="game-title">Impossible Button</div>
                 <div class="game-desc">A button that refuses to be clicked. It runs. Forever.</div>
-                <span class="game-badge">In Development</span>
+                <span class="game-badge public">Public</span>
             </a>
             <a href="hold-the-key.html" class="game-card">
                 <div class="game-emoji">⌨️</div>
                 <div class="game-title">Hold the Key</div>
                 <div class="game-desc">Hold spacebar as long as you can. Global leaderboard. No excuses.</div>
-                <span class="game-badge">In Development</span>
+                <span class="game-badge public">Public</span>
             </a>
             <a href="useless-machine.html" class="game-card">
                 <div class="game-emoji">🔘</div>
                 <div class="game-title">Useless Machine</div>
                 <div class="game-desc">Turn it on. It turns itself off. There is no point. That's the point.</div>
-                <span class="game-badge">In Development</span>
+                <span class="game-badge public">Public</span>
             </a>
             <a href="scroll-to-win.html" class="game-card">
                 <div class="game-emoji">📜</div>
                 <div class="game-title">Scroll to Win</div>
                 <div class="game-desc">Scroll up to fill the bar. It drains the moment you stop. Pure evil.</div>
-                <span class="game-badge">In Development</span>
+                <span class="game-badge public">Public</span>
             </a>
             <a href="word-scramble.html" class="game-card">
                 <div class="game-emoji">🔤</div>
                 <div class="game-title">Word Scramble</div>
                 <div class="game-desc">Unscramble the word before the timer hits zero. 40+ words across 6 categories.</div>
-                <span class="game-badge">In Development</span>
+                <span class="game-badge public">Public</span>
             </a>
+        </div>
+    </div>
+
+    <!-- PREVIEW ONLY — visit ?preview to see this -->
+    <div class="games-section" id="gamesSection">
+        <div class="games-label">🔒 Preview Only</div>
+        <div class="games-grid">
             <a href="reaction-time.html" class="game-card">
                 <div class="game-emoji">⚡</div>
                 <div class="game-title">Reaction Time</div>
@@ -516,7 +529,7 @@
         </div>
     </div>
 
-    <div class="bottom-section">
+        <div class="bottom-section">
         <div class="made-by-text">
             Made by <a href="https://github.com/TylerGamerYT" target="_blank">Tyler</a>
         </div>
@@ -527,7 +540,8 @@
 </div>
 
 <script>
-    // Games only show when you visit with ?preview in the URL
+    // Public games always show
+    // Preview games only show with ?preview in the URL
     // e.g. tylergameryt.github.io/tyler.fun?preview
     if (window.location.search.includes('preview')) {
         document.getElementById('gamesSection').classList.add('visible');
