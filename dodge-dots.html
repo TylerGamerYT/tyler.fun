@@ -1,1 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodge the Dots | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; overflow: hidden; user-select: none; cursor: none; }
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; cursor: auto; }
+        .back-home:hover { color: #fff; }
 
+        canvas#game { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 1; }
+
+        .hud { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 5; display: flex; gap: 24px; pointer-events: none; }
+        .hud-stat { display: flex; flex-direction: column; align-items: center; background: rgba(2,6,23,0.7); border: 1px solid rgba(51,65,85,0.5); border-radius: 12px; padding: 8px 16px; backdrop-filter: blur(10px); }
+        .hud-val { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 900; color: #f8fafc; }
+        .hud-label { font-size: 0.65rem; color: #475569; text-transform: uppercase; letter-spacing: 1.5px; }
+
+        .overlay { position: fixed; inset: 0; background: rgba(2,6,23,0.92); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20; backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity 0.3s; cursor: auto; }
+        .overlay.show { opacity: 1; pointer-events: all; }
+        .ov-emoji { font-size: 3.5rem; margin-bottom: 10px; }
+        .ov-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem,6vw,2.6rem); font-weight: 900; margin: 0 0 8px; }
+        .ov-sub { color: #64748b; font-size: 0.95rem; margin-bottom: 24px; }
+        .ov-sub span { color: #60a5fa; font-weight: 700; }
+        .ov-btn { padding: 12px 32px; background: rgba(37,99,235,0.3); border: 1.5px solid rgba(96,165,250,0.45); border-radius: 999px; color: #fff; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; }
+        .ov-btn:hover { background: rgba(37,99,235,0.5); }
+    </style>
+</head>
+<body>
+<a href="index.html" class="back-home">← Back to tyler.fun</a>
+
+<canvas id="game"></canvas>
+
+<div class="hud">
+    <div class="hud-stat"><div class="hud-val" id="timeHud">0.0</div><div class="hud-label">seconds</div></div>
+    <div class="hud-stat"><div class="hud-val" id="bestHud">0.0</div><div class="hud-label">best</div></div>
+</div>
+
+<div class="overlay show" id="startOverlay">
+    <div class="ov-emoji">🔵</div>
+    <div class="ov-title">Dodge the Dots</div>
+    <div class="ov-sub">Move your cursor to survive.<br>Don't touch the <span>red circles</span>.</div>
+    <button class="ov-btn" onclick="startGame()">Play</button>
+</div>
+
+<div class="overlay" id="deadOverlay">
+    <div class="ov-emoji">💥</div>
+    <div class="ov-title" id="deadTitle">Hit!</div>
+    <div class="ov-sub">Survived <span id="deadTime">0.0</span>s · Best: <span id="deadBest">0.0</span>s</div>
+    <button class="ov-btn" onclick="startGame()">Try again</button>
+</div>
+
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+let W, H;
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+
+let mx = -999, my = -999;
+let dots = [], running = false, startTime, animId, best = 0, elapsed = 0;
+const PLAYER_R = 10;
+
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; if (!running) startGame(); });
+document.addEventListener('touchmove', e => { e.preventDefault(); mx = e.touches[0].clientX; my = e.touches[0].clientY; if (!running) startGame(); }, { passive: false });
+document.addEventListener('touchstart', e => { mx = e.touches[0].clientX; my = e.touches[0].clientY; }, { passive: true });
+
+function spawnDot() {
+    const side = Math.floor(Math.random() * 4);
+    let x, y, vx, vy;
+    const speed = 2 + elapsed * 0.3;
+    const r = 18 + Math.random() * 22;
+    if (side === 0) { x = Math.random()*W; y = -r; vx = (Math.random()-0.5)*speed; vy = speed; }
+    else if (side === 1) { x = W+r; y = Math.random()*H; vx = -speed; vy = (Math.random()-0.5)*speed; }
+    else if (side === 2) { x = Math.random()*W; y = H+r; vx = (Math.random()-0.5)*speed; vy = -speed; }
+    else { x = -r; y = Math.random()*H; vx = speed; vy = (Math.random()-0.5)*speed; }
+    // aim slightly toward player
+    const dx = mx - x, dy = my - y, dist = Math.sqrt(dx*dx+dy*dy);
+    if (dist > 0 && Math.random() < 0.4) { vx += (dx/dist)*speed*0.5; vy += (dy/dist)*speed*0.5; }
+    dots.push({ x, y, vx, vy, r, opacity: 0 });
+}
+
+let spawnTimer = 0, spawnRate = 1.2;
+
+function startGame() {
+    document.getElementById('startOverlay').classList.remove('show');
+    document.getElementById('deadOverlay').classList.remove('show');
+    dots = []; running = true; startTime = Date.now(); elapsed = 0;
+    spawnTimer = 0; spawnRate = 1.2;
+    if (animId) cancelAnimationFrame(animId);
+    loop();
+}
+
+function loop() {
+    if (!running) return;
+    elapsed = (Date.now() - startTime) / 1000;
+    spawnTimer += 1/60;
+    spawnRate = Math.max(0.3, 1.2 - elapsed * 0.04);
+    if (spawnTimer >= spawnRate) { spawnDot(); spawnTimer = 0; }
+
+    update();
+    draw();
+    document.getElementById('timeHud').textContent = elapsed.toFixed(1);
+    animId = requestAnimationFrame(loop);
+}
+
+function update() {
+    dots.forEach(d => {
+        d.x += d.vx; d.y += d.vy;
+        if (d.opacity < 1) d.opacity = Math.min(1, d.opacity + 0.05);
+        // check collision with player
+        const dx = mx - d.x, dy = my - d.y;
+        if (Math.sqrt(dx*dx+dy*dy) < PLAYER_R + d.r - 4) { die(); }
+    });
+    // remove off-screen
+    dots = dots.filter(d => d.x > -100 && d.x < W+100 && d.y > -100 && d.y < H+100);
+}
+
+function draw() {
+    ctx.clearRect(0,0,W,H);
+
+    // bg grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.02)';
+    ctx.lineWidth = 1;
+    for (let x=0;x<W;x+=60){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for (let y=0;y<H;y+=60){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
+    // dots
+    dots.forEach(d => {
+        ctx.globalAlpha = d.opacity;
+        ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+        ctx.fillStyle = '#ef4444'; ctx.fill();
+        ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+        ctx.strokeStyle = '#fca5a5'; ctx.lineWidth = 2; ctx.stroke();
+    });
+    ctx.globalAlpha = 1;
+
+    // player
+    if (mx > 0) {
+        ctx.beginPath(); ctx.arc(mx, my, PLAYER_R, 0, Math.PI*2);
+        ctx.fillStyle = '#60a5fa'; ctx.fill();
+        ctx.beginPath(); ctx.arc(mx, my, PLAYER_R+4, 0, Math.PI*2);
+        ctx.strokeStyle = 'rgba(96,165,250,0.3)'; ctx.lineWidth = 3; ctx.stroke();
+    }
+}
+
+function die() {
+    running = false;
+    if (elapsed > best) best = elapsed;
+    document.getElementById('bestHud').textContent = best.toFixed(1);
+    const title = elapsed < 3 ? 'Brutal.' : elapsed < 8 ? 'Not bad!' : elapsed < 20 ? 'Impressive!' : 'Are you a wizard?';
+    document.getElementById('deadTitle').textContent = title;
+    document.getElementById('deadTime').textContent = elapsed.toFixed(1);
+    document.getElementById('deadBest').textContent = best.toFixed(1);
+    setTimeout(() => document.getElementById('deadOverlay').classList.add('show'), 400);
+}
+</script>
+</body>
+</html>
