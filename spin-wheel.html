@@ -1,1 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spin the Wheel | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; overflow: hidden; user-select: none; transition: background 0.5s; }
+        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%); z-index: 0; pointer-events: none; }
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
+        .back-home:hover { color: #fff; }
+        .container { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 32px 24px; max-width: 560px; width: 100%; }
+        h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem,8vw,3rem); font-weight: 900; margin: 0 0 4px; letter-spacing: -2px; }
+        .subtitle { font-size: 0.9rem; color: #64748b; margin-bottom: 20px; }
 
+        /* wheel */
+        .wheel-wrap { position: relative; width: 300px; height: 300px; margin-bottom: 20px; }
+        canvas#wheel { display: block; border-radius: 50%; }
+        .wheel-pointer {
+            position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 24px solid #f8fafc;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+            z-index: 5;
+        }
+
+        /* spin button */
+        .spin-btn {
+            padding: 14px 44px;
+            background: rgba(37,99,235,0.25); border: 1.5px solid rgba(96,165,250,0.45);
+            border-radius: 999px; color: #fff;
+            font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; transition: background 0.2s, transform 0.1s;
+            margin-bottom: 24px;
+        }
+        .spin-btn:hover { background: rgba(37,99,235,0.45); }
+        .spin-btn:active { transform: scale(0.97); }
+        .spin-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+        /* result */
+        .result-box {
+            background: rgba(15,23,42,0.7); border: 1px solid rgba(51,65,85,0.6);
+            border-radius: 18px; padding: 20px 28px; width: 100%;
+            backdrop-filter: blur(14px); min-height: 80px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+        }
+        .result-emoji { font-size: 2.2rem; }
+        .result-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: #f8fafc; }
+        .result-desc { font-size: 0.85rem; color: #64748b; }
+
+        .spins-label { font-size: 0.75rem; color: #334155; margin-top: 14px; }
+        .spins-label span { color: #60a5fa; font-weight: 700; }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
+<a href="index.html" class="back-home">← Back to tyler.fun</a>
+
+<div class="container">
+    <h1>Spin the Wheel</h1>
+    <p class="subtitle">Every spin has a consequence. Spin responsibly.</p>
+
+    <div class="wheel-wrap">
+        <div class="wheel-pointer"></div>
+        <canvas id="wheel" width="300" height="300"></canvas>
+    </div>
+
+    <button class="spin-btn" id="spinBtn" onclick="spin()">SPIN</button>
+
+    <div class="result-box">
+        <div class="result-emoji" id="resEmoji">🎰</div>
+        <div class="result-title" id="resTitle">Spin the wheel to see your fate.</div>
+        <div class="result-desc" id="resDesc"></div>
+    </div>
+    <div class="spins-label">Total spins: <span id="spinCount">0</span></div>
+</div>
+
+<script>
+const segments = [
+    { label:'Nothing', emoji:'😐', color:'#1e3a8a', title:'Absolutely nothing happened.', desc:'You spun the wheel for this. I hope you\'re proud.', action: null },
+    { label:'Confetti!', emoji:'🎉', color:'#7c3aed', title:'Confetti!!', desc:'You earned confetti. No cookies, no prizes. Just confetti.', action: ()=>launchConfetti() },
+    { label:'Roasted', emoji:'🔥', color:'#dc2626', title:'You got roasted.', desc:roastMe(), action: null },
+    { label:'Spin Again', emoji:'🔄', color:'#0891b2', title:'Spin again! (Lucky you)', desc:'The wheel demands another spin.', action: ()=>setTimeout(spin,800) },
+    { label:'Screen Flip', emoji:'🙃', color:'#059669', title:'Enjoy your new perspective.', desc:'The page is upside down now. You did this.', action: ()=>flipScreen() },
+    { label:'+100 Points', emoji:'💯', color:'#d97706', title:'+100 Points!', desc:'Points for what? Nobody knows. But you have them.', action: ()=>addPoints(100) },
+    { label:'LOSE Points', emoji:'💀', color:'#991b1b', title:'-50 Points. Ouch.', desc:'The wheel giveth and the wheel taketh away.', action: ()=>addPoints(-50) },
+    { label:'Big Mode', emoji:'🔍', color:'#4338ca', title:'Everything is BIG now.', desc:'The wheel has spoken. Embrace the bigness.', action: ()=>bigMode() },
+    { label:'Rick Roll', emoji:'🎵', color:'#065f46', title:'Never gonna give you up...', desc:'You just got Rick Roll\'d. Classic.', action: ()=>rickRoll() },
+    { label:'Grandma', emoji:'👵', color:'#6d28d9', title:'The grandma has appeared.', desc:'She watches. She knows.', action: ()=>grandmaAppear() },
+    { label:'Ghost Mode', emoji:'👻', color:'#374151', title:'You can\'t see the wheel anymore.', desc:'The wheel is shy now.', action: ()=>ghostWheel() },
+    { label:'Jackpot!', emoji:'🏆', color:'#b45309', title:'JACKPOT! ...just kidding.', desc:'There is no jackpot. There never was.', action: ()=>launchConfetti() },
+];
+
+function roastMe() { return ['You spin wheels instead of getting a hobby.','The wheel is embarrassed for you.','Even the wheel didn\'t want to stop here.'][Math.floor(Math.random()*3)]; }
+
+let angle = 0, spinning = false, spinCount = 0, points = 0;
+const wCanvas = document.getElementById('wheel');
+const wCtx = wCanvas.getContext('2d');
+const R = 148, CX = 150, CY = 150;
+const ARC = (Math.PI * 2) / segments.length;
+
+function drawWheel(rot) {
+    wCtx.clearRect(0,0,300,300);
+    segments.forEach((seg, i) => {
+        const start = rot + i * ARC - Math.PI/2;
+        const end   = start + ARC;
+        wCtx.beginPath();
+        wCtx.moveTo(CX, CY);
+        wCtx.arc(CX, CY, R, start, end);
+        wCtx.closePath();
+        wCtx.fillStyle = seg.color;
+        wCtx.fill();
+        wCtx.strokeStyle = 'rgba(0,0,0,0.3)';
+        wCtx.lineWidth = 2;
+        wCtx.stroke();
+
+        // label
+        wCtx.save();
+        wCtx.translate(CX, CY);
+        wCtx.rotate(start + ARC/2);
+        wCtx.textAlign = 'right';
+        wCtx.fillStyle = '#fff';
+        wCtx.font = 'bold 11px Inter';
+        wCtx.fillText(seg.emoji + ' ' + seg.label, R - 8, 4);
+        wCtx.restore();
+    });
+    // center circle
+    wCtx.beginPath(); wCtx.arc(CX, CY, 18, 0, Math.PI*2);
+    wCtx.fillStyle = '#020617'; wCtx.fill();
+    wCtx.strokeStyle = 'rgba(255,255,255,0.2)'; wCtx.lineWidth = 2; wCtx.stroke();
+}
+
+drawWheel(0);
+
+function spin() {
+    if (spinning) return;
+    spinning = true;
+    document.getElementById('spinBtn').disabled = true;
+    spinCount++;
+    document.getElementById('spinCount').textContent = spinCount;
+
+    const extraSpins = 5 + Math.random() * 5;
+    const targetAngle = angle + extraSpins * Math.PI * 2 + Math.random() * Math.PI * 2;
+    const duration = 3000 + Math.random() * 1500;
+    const start = performance.now();
+    const startAngle = angle;
+
+    function animate(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 4);
+        angle = startAngle + (targetAngle - startAngle) * ease;
+        drawWheel(angle);
+        if (progress < 1) { requestAnimationFrame(animate); return; }
+
+        // find winning segment
+        // pointer is at top (angle = -PI/2 from center)
+        // normalize angle to find which segment is at top
+        let normalised = ((-angle + Math.PI/2) % (Math.PI*2) + Math.PI*2) % (Math.PI*2);
+        const segIdx = Math.floor(normalised / ARC) % segments.length;
+        const seg = segments[segIdx];
+
+        document.getElementById('resEmoji').textContent = seg.emoji;
+        document.getElementById('resTitle').textContent = seg.title;
+        document.getElementById('resDesc').textContent = seg.desc;
+        if (seg.action) seg.action();
+
+        spinning = false;
+        document.getElementById('spinBtn').disabled = false;
+    }
+    requestAnimationFrame(animate);
+}
+
+// effects
+function launchConfetti() {
+    const colors = ['#60a5fa','#f87171','#fbbf24','#10b981','#a78bfa'];
+    for (let i=0;i<80;i++) {
+        const p = document.createElement('div');
+        p.style.cssText=`position:fixed;width:8px;height:8px;background:${colors[Math.floor(Math.random()*colors.length)]};left:${Math.random()*100}%;top:-10px;border-radius:${Math.random()<.5?'50%':'2px'};animation:cfall ${1+Math.random()*2}s linear forwards;z-index:99;`;
+        document.body.appendChild(p);
+        setTimeout(()=>p.remove(),3000);
+    }
+    const s=document.createElement('style');
+    s.textContent='@keyframes cfall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}';
+    document.head.appendChild(s);
+}
+
+let flipped = false;
+function flipScreen() {
+    flipped = !flipped;
+    document.querySelector('.container').style.transform = flipped ? 'rotate(180deg)' : '';
+}
+
+let pts = 0;
+function addPoints(n) {
+    pts += n;
+    document.getElementById('resDesc').textContent = `Total points: ${pts}. (Still meaningless.)`;
+}
+
+let big = false;
+function bigMode() {
+    big = !big;
+    document.querySelector('.wheel-wrap').style.transform = big ? 'scale(1.3)' : '';
+}
+
+function rickRoll() {
+    window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ','_blank');
+}
+
+function grandmaAppear() {
+    const g = document.createElement('div');
+    g.style.cssText='position:fixed;font-size:8rem;bottom:0;right:20px;z-index:50;animation:grandmaRise 3s ease forwards;pointer-events:none;';
+    g.textContent='👵';
+    document.body.appendChild(g);
+    const s=document.createElement('style');
+    s.textContent='@keyframes grandmaRise{0%{transform:translateY(100%)}30%{transform:translateY(0)}70%{transform:translateY(0)}100%{transform:translateY(100%)}}';
+    document.head.appendChild(s);
+    setTimeout(()=>g.remove(),3000);
+}
+
+let ghosted = false;
+function ghostWheel() {
+    ghosted = !ghosted;
+    document.getElementById('wheel').style.opacity = ghosted ? '0' : '1';
+    document.getElementById('resDesc').textContent = ghosted ? 'The wheel is invisible. Good luck.' : 'The wheel is back.';
+}
+
+// particles
+const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
+let W, H, stars = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+function initStars() { stars = []; for(let i=0;i<Math.floor((W*H)/8000);i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.3,speed:Math.random()*0.14+0.03,opacity:Math.random()*0.45+0.1,ts:Math.random()*0.01+0.003,to:Math.random()*Math.PI*2}); }
+let t=0;
+function draw() { ctx.clearRect(0,0,W,H); t+=0.016; for(const s of stars){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`;ctx.fill();s.y-=s.speed;if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}} requestAnimationFrame(draw); }
+resize(); initStars(); draw();
+window.addEventListener('resize',()=>{resize();initStars();});
+</script>
+</body>
+</html>
