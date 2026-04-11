@@ -1,1 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evil Simon | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; overflow: hidden; user-select: none; }
+        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%); z-index: 0; pointer-events: none; }
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
+        .back-home:hover { color: #fff; }
+        .container { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 40px 24px; max-width: 500px; width: 100%; }
+        h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem,8vw,3rem); font-weight: 900; margin: 0 0 4px; letter-spacing: -2px; }
+        .subtitle { font-size: 0.9rem; color: #64748b; margin-bottom: 28px; }
 
+        .stats-row { display: flex; gap: 24px; margin-bottom: 24px; }
+        .stat { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+        .stat-val { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 900; color: #f8fafc; }
+        .stat-label { font-size: 0.7rem; color: #475569; text-transform: uppercase; letter-spacing: 1.5px; }
+
+        /* simon grid */
+        .simon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 280px; height: 280px; margin-bottom: 24px; }
+        .simon-btn {
+            border-radius: 16px; border: none; cursor: pointer;
+            opacity: 0.35; transition: opacity 0.15s, transform 0.1s;
+            position: relative; overflow: hidden;
+        }
+        .simon-btn.lit { opacity: 1; transform: scale(1.04); }
+        .simon-btn.clicked { opacity: 0.85; transform: scale(0.96); }
+        .simon-btn[data-color="red"]    { background: #ef4444; }
+        .simon-btn[data-color="blue"]   { background: #3b82f6; }
+        .simon-btn[data-color="green"]  { background: #10b981; }
+        .simon-btn[data-color="yellow"] { background: #fbbf24; }
+        .simon-btn:disabled { cursor: not-allowed; }
+
+        /* evil trick label */
+        .trick-label {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+            font-family: 'Syne', sans-serif; font-size: clamp(1.2rem,5vw,2rem); font-weight: 900;
+            color: #f87171; background: rgba(2,6,23,0.9); border: 1px solid rgba(239,68,68,0.4);
+            border-radius: 16px; padding: 16px 28px; z-index: 30;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+            text-align: center; max-width: 320px;
+        }
+        .trick-label.show { opacity: 1; }
+
+        .status { font-size: 1rem; color: #64748b; min-height: 24px; margin-bottom: 20px; transition: color 0.3s; }
+        .status.good { color: #10b981; }
+        .status.bad  { color: #f87171; }
+        .status.evil { color: #fbbf24; }
+
+        .gameover { position: fixed; inset: 0; background: rgba(2,6,23,0.92); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.4s; backdrop-filter: blur(8px); }
+        .gameover.show { opacity: 1; pointer-events: all; }
+        .go-emoji { font-size: 4rem; margin-bottom: 12px; }
+        .go-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem,7vw,2.8rem); font-weight: 900; margin: 0 0 8px; }
+        .go-sub { color: #64748b; font-size: 1rem; margin-bottom: 28px; }
+        .go-sub span { color: #60a5fa; font-weight: 700; }
+        .go-btn { padding: 13px 36px; background: rgba(37,99,235,0.3); border: 1.5px solid rgba(96,165,250,0.45); border-radius: 999px; color: #fff; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; }
+        .go-btn:hover { background: rgba(37,99,235,0.5); }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
+<a href="index.html" class="back-home">← Back to tyler.fun</a>
+
+<div class="trick-label" id="trickLabel"></div>
+
+<div class="gameover" id="gameover">
+    <div class="go-emoji">😈</div>
+    <div class="go-title" id="goTitle">Got you.</div>
+    <div class="go-sub">You reached round <span id="goRound">1</span></div>
+    <button class="go-btn" onclick="startGame()">Try again</button>
+</div>
+
+<div class="container">
+    <h1>Evil Simon</h1>
+    <p class="subtitle">Repeat the pattern. But Simon cheats.</p>
+    <div class="stats-row">
+        <div class="stat"><div class="stat-val" id="roundVal">1</div><div class="stat-label">round</div></div>
+        <div class="stat"><div class="stat-val" id="bestVal">0</div><div class="stat-label">best</div></div>
+    </div>
+
+    <div class="simon-grid">
+        <button class="simon-btn" data-color="red"    onclick="playerClick('red')"></button>
+        <button class="simon-btn" data-color="blue"   onclick="playerClick('blue')"></button>
+        <button class="simon-btn" data-color="green"  onclick="playerClick('green')"></button>
+        <button class="simon-btn" data-color="yellow" onclick="playerClick('yellow')"></button>
+    </div>
+
+    <div class="status" id="status">Watch the sequence...</div>
+</div>
+
+<script>
+const COLORS = ['red','blue','green','yellow'];
+let sequence = [], playerSeq = [], round = 1, best = 0;
+let showing = false, canClick = false;
+
+// Evil tricks — applied at certain rounds
+const tricks = {
+    3:  { msg: '😈 The buttons have swapped positions!', fn: swapButtons },
+    6:  { msg: '😈 One wrong button is in the sequence!', fn: addFakeStep },
+    9:  { msg: '😈 The colours have switched names!', fn: swapColors },
+    12: { msg: '😈 The sequence plays backwards!', fn: () => {} }, // handled in show
+    15: { msg: '😈 Lights flash twice as fast!', fn: () => {} },   // handled in show
+};
+
+let colorsSwapped = false, buttonsSwapped = false, hasFakeStep = false, fakeIdx = -1;
+
+function startGame() {
+    sequence = []; round = 1;
+    colorsSwapped = false; buttonsSwapped = false; hasFakeStep = false; fakeIdx = -1;
+    resetButtonPositions();
+    document.getElementById('gameover').classList.remove('show');
+    setButtons(false);
+    nextRound();
+}
+
+function nextRound() {
+    document.getElementById('roundVal').textContent = round;
+    setStatus('Watch the sequence...', '');
+    // apply trick if applicable
+    const trick = tricks[round];
+    if (trick) {
+        showTrick(trick.msg, trick.fn);
+        setTimeout(() => addAndShow(), 1800);
+    } else {
+        addAndShow();
+    }
+}
+
+function addAndShow() {
+    sequence.push(COLORS[Math.floor(Math.random()*4)]);
+    // fake step for round 6+
+    if (round >= 6 && Math.random() < 0.3) {
+        hasFakeStep = true;
+        fakeIdx = Math.floor(Math.random() * sequence.length);
+    } else { hasFakeStep = false; fakeIdx = -1; }
+
+    playerSeq = [];
+    showSequence();
+}
+
+function showSequence() {
+    showing = true; canClick = false;
+    setButtons(true);
+
+    let displaySeq = [...sequence];
+    if (round >= 12) displaySeq = [...sequence].reverse();
+
+    const speed = round >= 15 ? 300 : 600;
+    let i = 0;
+
+    function showNext() {
+        if (i >= displaySeq.length) {
+            showing = false;
+            setTimeout(() => { canClick = true; setButtons(false); setStatus('Your turn!', 'good'); }, 300);
+            return;
+        }
+        const color = displaySeq[i];
+        lightUp(color, () => { i++; setTimeout(showNext, speed * 0.4); }, speed * 0.5);
+    }
+    setTimeout(showNext, 400);
+}
+
+function lightUp(color, cb, duration) {
+    // if colors swapped, show a different colour visually
+    let displayColor = color;
+    if (colorsSwapped) {
+        const swapMap = { red:'blue', blue:'red', green:'yellow', yellow:'green' };
+        displayColor = swapMap[color];
+    }
+    const btn = document.querySelector(`.simon-btn[data-color="${displayColor}"]`);
+    if (btn) {
+        btn.classList.add('lit');
+        setTimeout(() => { btn.classList.remove('lit'); if(cb) cb(); }, duration);
+    } else { if(cb) cb(); }
+}
+
+function playerClick(color) {
+    if (!canClick || showing) return;
+    const btn = document.querySelector(`.simon-btn[data-color="${color}"]`);
+    btn.classList.add('clicked');
+    setTimeout(() => btn.classList.remove('clicked'), 150);
+
+    // if colors swapped, player's click maps differently
+    let actualColor = color;
+    if (colorsSwapped) {
+        const swapMap = { red:'blue', blue:'red', green:'yellow', yellow:'green' };
+        actualColor = swapMap[color];
+    }
+
+    playerSeq.push(actualColor);
+    const idx = playerSeq.length - 1;
+
+    // check fake step — fake step should NOT be repeated by player
+    if (hasFakeStep && idx === fakeIdx) {
+        // if player repeats the fake step, they lose
+        // actually the fake step was shown but shouldn't be in real sequence
+        // player should skip it — if they press the fake colour, wrong
+        setStatus('You repeated the fake!', 'bad');
+        gameover(); return;
+    }
+
+    const expected = sequence[hasFakeStep && idx >= fakeIdx ? idx - 1 : idx];
+    if (actualColor !== expected) {
+        setStatus('Wrong!', 'bad');
+        gameover(); return;
+    }
+
+    const seqLen = sequence.length;
+    if (playerSeq.length >= seqLen) {
+        round++;
+        if (round - 1 > best) best = round - 1;
+        document.getElementById('bestVal').textContent = best;
+        setStatus('✓ Correct!', 'good');
+        canClick = false;
+        setTimeout(nextRound, 800);
+    }
+}
+
+function gameover() {
+    canClick = false; setButtons(false);
+    document.getElementById('goTitle').textContent = round < 4 ? 'Got you.' : round < 8 ? 'Almost!' : round < 12 ? 'Impressive!' : 'Unkillable??';
+    document.getElementById('goRound').textContent = round;
+    setTimeout(() => document.getElementById('gameover').classList.add('show'), 800);
+}
+
+function setButtons(disabled) {
+    document.querySelectorAll('.simon-btn').forEach(b => b.disabled = disabled);
+}
+function setStatus(msg, cls) { const el = document.getElementById('status'); el.textContent = msg; el.className = 'status' + (cls?' '+cls:''); }
+function showTrick(msg, fn) {
+    const el = document.getElementById('trickLabel');
+    el.textContent = msg; el.classList.add('show');
+    fn();
+    setTimeout(() => el.classList.remove('show'), 1600);
+}
+
+function swapButtons() {
+    buttonsSwapped = true;
+    const grid = document.querySelector('.simon-grid');
+    const btns = [...grid.children];
+    // swap red<->yellow, blue<->green visually
+    grid.appendChild(btns[3]); grid.appendChild(btns[2]);
+    grid.appendChild(btns[1]); grid.appendChild(btns[0]);
+}
+function resetButtonPositions() {
+    if (!buttonsSwapped) return;
+    const grid = document.querySelector('.simon-grid');
+    const btns = [...grid.children];
+    // restore original order: red, blue, green, yellow
+    const ordered = ['red','blue','green','yellow'].map(c => document.querySelector(`.simon-btn[data-color="${c}"]`));
+    ordered.forEach(b => grid.appendChild(b));
+    buttonsSwapped = false;
+}
+function addFakeStep() { /* handled in showSequence */ }
+function swapColors() { colorsSwapped = !colorsSwapped; }
+
+startGame();
+
+const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
+let W, H, stars = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+function initStars() { stars = []; for(let i=0;i<Math.floor((W*H)/8000);i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.3,speed:Math.random()*0.14+0.03,opacity:Math.random()*0.45+0.1,ts:Math.random()*0.01+0.003,to:Math.random()*Math.PI*2}); }
+let t=0;
+function draw() { ctx.clearRect(0,0,W,H); t+=0.016; for(const s of stars){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`;ctx.fill();s.y-=s.speed;if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}} requestAnimationFrame(draw); }
+resize(); initStars(); draw();
+window.addEventListener('resize',()=>{resize();initStars();});
+</script>
+</body>
+</html>
