@@ -375,12 +375,22 @@
             0%   { opacity: 0; transform: translateY(14px); }
             100% { opacity: 1; transform: translateY(0); }
         }
+
+        .changelog-link {
+            position: fixed; top: 20px; right: 24px;
+            font-size: 0.85rem; color: #475569;
+            text-decoration: none; transition: color 0.2s;
+            z-index: 10;
+        }
+        .changelog-link:hover { color: #fff; }
     </style>
 </head>
 <body>
 
 <canvas id="particles"></canvas>
 <div class="bg-glow"></div>
+
+<a href="changelog.html" class="changelog-link">Changelog</a>
 
 <div class="container">
     <div class="badge">
