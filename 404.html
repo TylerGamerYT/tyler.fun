@@ -1,1 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            background: #020617;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden;
+        }
+        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%); z-index: 0; pointer-events: none; }
 
+        .container {
+            position: relative; z-index: 1;
+            display: flex; flex-direction: column;
+            align-items: center; padding: 40px 24px;
+            max-width: 560px; width: 100%;
+        }
+
+        .error-num {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(7rem, 28vw, 12rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -8px;
+            margin-bottom: 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #475569 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .error-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.4rem, 5vw, 2rem);
+            font-weight: 900;
+            margin: 8px 0 12px;
+            letter-spacing: -1px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.1s;
+        }
+
+        .error-sub {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            max-width: 380px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.2s;
+        }
+
+        .btn-row {
+            display: flex; gap: 12px; flex-wrap: wrap;
+            justify-content: center; margin-bottom: 48px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.3s;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.95rem; font-weight: 700;
+            transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+            cursor: pointer; border: none;
+        }
+        .btn:active { transform: scale(0.97); }
+
+        .btn-primary {
+            background: rgba(37,99,235,0.3);
+            border: 1.5px solid rgba(96,165,250,0.45);
+            color: #fff;
+        }
+        .btn-primary:hover { background: rgba(37,99,235,0.5); box-shadow: 0 0 20px rgba(96,165,250,0.2); }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1.5px solid rgba(51,65,85,0.7);
+            color: #64748b;
+        }
+        .btn-ghost:hover { border-color: rgba(255,255,255,0.2); color: #fff; }
+
+        /* fun suggestions */
+        .suggestions {
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.4s;
+            width: 100%;
+        }
+        .sug-label {
+            font-size: 0.7rem; color: #334155;
+            text-transform: uppercase; letter-spacing: 2px;
+            font-weight: 700; margin-bottom: 12px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .sug-label::before, .sug-label::after {
+            content: ''; flex: 1; height: 1px;
+            background: rgba(51,65,85,0.4);
+        }
+        .sug-grid {
+            display: flex; gap: 8px;
+            flex-wrap: wrap; justify-content: center;
+        }
+        .sug-chip {
+            padding: 8px 16px;
+            background: rgba(15,23,42,0.7);
+            border: 1px solid rgba(51,65,85,0.5);
+            border-radius: 999px;
+            text-decoration: none; color: #94a3b8;
+            font-size: 0.8rem; font-weight: 600;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+        .sug-chip:hover { background: rgba(30,58,138,0.4); color: #fff; border-color: rgba(96,165,250,0.3); }
+
+        /* glitch animation on 404 */
+        @keyframes glitch {
+            0%,100% { transform: translate(0); }
+            20% { transform: translate(-3px, 1px); }
+            40% { transform: translate(3px, -1px); }
+            60% { transform: translate(-2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+        .error-num:hover { animation: glitch 0.4s ease, fadeUp 0s; }
+
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(14px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
+
+<div class="container">
+    <div class="error-num">404</div>
+    <div class="error-title">You got lost.</div>
+    <p class="error-sub">
+        Whatever you were looking for, it's not here. Maybe it never existed. Maybe it did and something went wrong. Either way — this page isn't it.
+    </p>
+
+    <div class="btn-row">
+        <a href="index.html" class="btn btn-primary">← Back to tyler.fun</a>
+        <a href="changelog.html" class="btn btn-ghost">Changelog</a>
+    </div>
+
+    <div class="suggestions">
+        <div class="sug-label">Maybe try one of these</div>
+        <div class="sug-grid">
+            <a href="roast-clicker.html" class="sug-chip">🔥 Roast Clicker</a>
+            <a href="impossible-button.html" class="sug-chip">🏃 Impossible Button</a>
+            <a href="word-scramble.html" class="sug-chip">🔤 Word Scramble</a>
+            <a href="gravity-flip.html" class="sug-chip">🔄 Gravity Flip</a>
+            <a href="chair-simulator.html" class="sug-chip">🪑 Chair Simulator</a>
+            <a href="dont-press.html" class="sug-chip">🔴 Don't Press It</a>
+        </div>
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
+let W, H, stars = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+function initStars() { stars = []; for(let i=0;i<Math.floor((W*H)/8000);i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.3,speed:Math.random()*0.14+0.03,opacity:Math.random()*0.45+0.1,ts:Math.random()*0.01+0.003,to:Math.random()*Math.PI*2}); }
+let t=0;
+function draw() { ctx.clearRect(0,0,W,H); t+=0.016; for(const s of stars){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`;ctx.fill();s.y-=s.speed;if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}} requestAnimationFrame(draw); }
+resize(); initStars(); draw();
+window.addEventListener('resize',()=>{resize();initStars();});
+</script>
+</body>
+</html>
