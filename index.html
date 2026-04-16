@@ -383,6 +383,54 @@
             z-index: 10;
         }
         .changelog-link:hover { color: #fff; }
+
+        /* profile icon */
+        .profile-icon {
+            position: fixed; top: 14px; right: 110px;
+            z-index: 10; text-decoration: none;
+            display: flex; align-items: center; gap: 7px;
+            background: rgba(15,23,42,0.7);
+            border: 1px solid rgba(51,65,85,0.6);
+            border-radius: 999px; padding: 5px 12px 5px 6px;
+            transition: border-color 0.2s, background 0.2s;
+            backdrop-filter: blur(10px);
+        }
+        .profile-icon:hover { border-color: rgba(96,165,250,0.35); background: rgba(30,58,138,0.3); }
+        .profile-avatar {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: rgba(51,65,85,0.8);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 700; color: #64748b;
+            border: 1px solid rgba(51,65,85,0.6);
+        }
+        .profile-name { font-size: 0.75rem; color: #64748b; font-weight: 600; }
+
+        /* search bar */
+        .search-wrap {
+            width: 100%; margin-bottom: 20px;
+            opacity: 0; animation: fadeUp 0.7s ease forwards 2.45s;
+            position: relative;
+        }
+        .search-input {
+            width: 100%; padding: 12px 44px 12px 18px;
+            background: rgba(15,23,42,0.65);
+            border: 1px solid rgba(51,65,85,0.7);
+            border-radius: 14px; color: #fff;
+            font-family: 'Inter', sans-serif; font-size: 0.95rem;
+            outline: none; backdrop-filter: blur(14px);
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .search-input::placeholder { color: #334155; }
+        .search-input:focus { border-color: rgba(96,165,250,0.4); background: rgba(15,23,42,0.85); }
+        .search-icon {
+            position: absolute; right: 14px; top: 50%;
+            transform: translateY(-50%); color: #334155;
+            pointer-events: none; font-size: 1rem;
+        }
+        .no-results {
+            font-size: 0.9rem; color: #334155;
+            padding: 16px 0; display: none;
+        }
     </style>
 </head>
 <body>
@@ -391,6 +439,10 @@
 <div class="bg-glow"></div>
 
 <a href="changelog.html" class="changelog-link">Changelog</a>
+<a href="#" class="profile-icon" title="Profiles coming soon">
+    <div class="profile-avatar">?</div>
+    <span class="profile-name">@Guest</span>
+</a>
 
 <div class="container">
     <div class="badge">
@@ -416,6 +468,13 @@
             To be honest, I'm not sure if this will ever be finished or if I'll actually commit to the project.
         </div>
     </div>
+
+    <!-- SEARCH -->
+    <div class="search-wrap" id="searchWrap">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search games..." oninput="filterGames(this.value)" />
+        <span class="search-icon">⌕</span>
+    </div>
+    <div class="no-results" id="noResults">No games found for that search.</div>
 
     <!-- PUBLIC GAMES — always visible -->
     <div class="games-section visible" id="publicGames">
@@ -598,6 +657,26 @@
     // e.g. tylergameryt.github.io/tyler.fun?preview
     if (window.location.search.includes('preview')) {
         document.getElementById('gamesSection').classList.add('visible');
+    }
+
+    // Search filter
+    function filterGames(query) {
+        const q = query.toLowerCase().trim();
+        const cards = document.querySelectorAll('.game-card');
+        let visible = 0;
+        cards.forEach(card => {
+            const title = card.querySelector('.game-title')?.textContent.toLowerCase() || '';
+            const desc  = card.querySelector('.game-desc')?.textContent.toLowerCase() || '';
+            const match = !q || title.includes(q) || desc.includes(q);
+            card.style.display = match ? '' : 'none';
+            if (match) visible++;
+        });
+        document.getElementById('noResults').style.display = (q && visible === 0) ? 'block' : 'none';
+        // hide/show section labels
+        document.querySelectorAll('.games-section').forEach(sec => {
+            const anyVisible = [...sec.querySelectorAll('.game-card')].some(c => c.style.display !== 'none');
+            sec.style.opacity = anyVisible ? '1' : '0.3';
+        });
     }
 
     // particles
