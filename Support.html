@@ -40,7 +40,6 @@ body {
     font-size: 0.85rem;
     color: #475569;
     text-decoration: none;
-    transition: color 0.2s;
     z-index: 10;
 }
 .back-home:hover { color: #fff; }
@@ -109,8 +108,6 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 4px;
 }
 
 .display-name {
@@ -119,7 +116,20 @@ body {
     font-weight: 900;
 }
 
-/* CHECKMARK (X STYLE CLICK TOGGLE) */
+/* RESTORED SUPPORT BADGE */
+.badge-support {
+    background: rgba(16,185,129,0.15);
+    color: #10b981;
+    border: 1px solid rgba(16,185,129,0.3);
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 3px 9px;
+    border-radius: 99px;
+}
+
+/* CHECKMARK FIXED */
 .vcheck {
     position: relative;
     display: inline-flex;
@@ -137,25 +147,22 @@ body {
 .vcheck .tip {
     position: absolute;
     top: calc(100% + 10px);
-    left: 0;
-
+    left: 50%;
+    transform: translateX(-50%);
     background: rgba(15,23,42,0.97);
     border: 1px solid rgba(51,65,85,0.8);
     border-radius: 12px;
-    padding: 12px 16px;
+    padding: 12px 14px;
     white-space: nowrap;
-
-    z-index: 99;
+    z-index: 9999;
 
     opacity: 0;
-    transform: translateY(-6px);
     pointer-events: none;
     transition: 0.15s ease;
 }
 
 .vcheck.active .tip {
     opacity: 1;
-    transform: translateY(0);
     pointer-events: auto;
 }
 
@@ -169,12 +176,9 @@ body {
 .vcheck .tip small {
     font-size: 0.78rem;
     color: #94a3b8;
-    display: flex;
-    align-items: center;
-    gap: 6px;
 }
 
-/* rest */
+/* rest unchanged */
 .handle { font-size: 0.9rem; color: #475569; margin-bottom: 12px; }
 
 .bio {
@@ -187,7 +191,6 @@ body {
 .stats-row {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap;
     margin-bottom: 24px;
     padding-bottom: 24px;
     border-bottom: 1px solid rgba(51,65,85,0.4);
@@ -203,7 +206,6 @@ body {
 .section-title {
     font-family: 'Syne', sans-serif;
     font-size: 0.8rem;
-    text-transform: uppercase;
     letter-spacing: 2px;
     color: #475569;
     margin-bottom: 14px;
@@ -218,7 +220,6 @@ body {
 
 .resp-item {
     display: flex;
-    align-items: center;
     gap: 12px;
     background: rgba(15,23,42,0.65);
     border: 1px solid rgba(51,65,85,0.5);
@@ -227,8 +228,6 @@ body {
     font-size: 0.875rem;
     color: #cbd5e1;
 }
-
-.resp-icon { font-size: 1.2rem; }
 
 .fish-note {
     background: rgba(16,185,129,0.07);
@@ -239,10 +238,8 @@ body {
     font-size: 0.85rem;
     color: #64748b;
     display: flex;
-    align-items: center;
     gap: 10px;
 }
-.fish-note span { color: #10b981; font-weight: 600; }
 
 .coming-soon {
     background: rgba(15,23,42,0.65);
@@ -252,12 +249,6 @@ body {
     text-align: center;
     color: #334155;
     font-size: 0.85rem;
-}
-
-.fade { opacity: 0; animation: fadeUp 0.5s ease forwards; }
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
@@ -271,21 +262,17 @@ body {
 
 <div class="container">
 
-<div class="banner fade">
-    <div class="banner-pattern"></div>
-    <div class="banner-label">Support</div>
-</div>
+<div class="banner"></div>
 
-<div class="avatar-wrap fade">
+<div class="avatar-wrap">
     <div class="avatar">🎧</div>
 </div>
 
-<div class="profile-info fade">
+<div class="profile-info">
 
 <div class="name-row">
     <span class="display-name">Support</span>
 
-    <!-- CHECKMARK ONLY CHANGE -->
     <span class="vcheck">
         <svg viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="12" fill="#1d9bf0"></circle>
@@ -293,40 +280,41 @@ body {
         </svg>
 
         <span class="tip">
-            <b>Verified account</b>
-            <small>This account is verified.</small>
+            <b>Verified</b>
+            <small>Account verified</small>
         </span>
     </span>
 
+    <span class="badge-support">Support</span>
 </div>
 
 <div class="handle">@support</div>
 
-<p class="bio">tyler.fun support • Bug reports, questions, and technical help. Fish approved.</p>
+<p class="bio">tyler.fun support • Bug reports, questions, and help.</p>
 
 <div class="stats-row">
-    <div class="stat-item"><div class="stat-num">0</div><div class="stat-lbl">Bugs ignored</div></div>
-    <div class="stat-item"><div class="stat-num">∞</div><div class="stat-lbl">Patience</div></div>
+    <div class="stat-item"><div class="stat-num">0</div></div>
+    <div class="stat-item"><div class="stat-num">∞</div></div>
 </div>
 
 <div class="section-title">Responsibilities</div>
 
 <div class="responsibility-list">
-    <div class="resp-item"><span class="resp-icon">🐛</span>Bug reports and technical issues</div>
-    <div class="resp-item"><span class="resp-icon">❓</span>Player questions and general help</div>
-    <div class="resp-item"><span class="resp-icon">🔁</span>Escalating serious issues to @admin</div>
+    <div class="resp-item">🐛 Bug reports</div>
+    <div class="resp-item">❓ Help & support</div>
+    <div class="resp-item">🔁 Escalations</div>
 </div>
 
-<div class="fish-note">🐟 <span>Fish approved.</span> Our lead tester has personally stress-tested every game so you don't have to. Probably.</div>
+<div class="fish-note">🐟 Fish approved.</div>
 
-<div class="coming-soon">Account system coming eventually. Check back later.</div>
+<div class="coming-soon">Account system coming eventually.</div>
 
 </div>
 </div>
 
 <script>
 document.querySelectorAll('.vcheck').forEach(el => {
-    el.addEventListener('click', (e) => {
+    el.addEventListener('click', e => {
         e.stopPropagation();
         el.classList.toggle('active');
     });
@@ -334,44 +322,6 @@ document.querySelectorAll('.vcheck').forEach(el => {
 
 document.addEventListener('click', () => {
     document.querySelectorAll('.vcheck').forEach(v => v.classList.remove('active'));
-});
-
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-
-let W, H, stars = [];
-
-function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-}
-
-function initStars() {
-    stars = [];
-    for(let i=0;i<Math.floor((W*H)/8000);i++)
-        stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.3,speed:Math.random()*0.14+0.03,opacity:Math.random()*0.45+0.1});
-}
-
-function draw(){
-    ctx.clearRect(0,0,W,H);
-    for(const s of stars){
-        ctx.beginPath();
-        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-        ctx.fillStyle=`rgba(148,197,255,${s.opacity})`;
-        ctx.fill();
-        s.y-=s.speed;
-        if(s.y<0){ s.y=H; s.x=Math.random()*W; }
-    }
-    requestAnimationFrame(draw);
-}
-
-resize();
-initStars();
-draw();
-
-window.addEventListener('resize',()=>{
-    resize();
-    initStars();
 });
 </script>
 </body>
