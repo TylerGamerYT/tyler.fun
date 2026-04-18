@@ -61,6 +61,21 @@
         .fade:nth-child(3) { animation-delay: 0.15s; }
         .fade:nth-child(4) { animation-delay: 0.2s; }
         @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(12px); } }
+
+        
+
+        .vcheck { position: relative; display: inline-flex; align-items: center; cursor: help; }
+        .vcheck svg { width: 20px; height: 20px; display: block; }
+        .vcheck .tip {
+            display: none; position: absolute; bottom: calc(100% + 8px); left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15,23,42,0.97); border: 1px solid rgba(51,65,85,0.8);
+            border-radius: 10px; padding: 10px 14px; white-space: nowrap;
+            z-index: 99; text-align: left; pointer-events: none;
+        }
+        .vcheck:hover .tip { display: block; }
+        .vcheck .tip b { font-family: "Syne", sans-serif; font-size: 0.8rem; color: #f8fafc; display: block; margin-bottom: 2px; }
+        .vcheck .tip small { font-size: 0.72rem; color: #64748b; }
     </style>
 </head>
 <body>
@@ -72,10 +87,19 @@
     <div class="avatar-wrap fade"><div class="avatar">👥</div></div>
     <div class="profile-info fade">
         <div class="name-row">
-            <span class="display-name">Staff</span>
-            <span class="badge badge-official">Official</span>
-            <span class="badge badge-staff">Staff</span>
-        </div>
+                <span class="display-name">Staff</span>
+                <span class="vcheck">
+                    <svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="11" r="11" fill="#1d9bf0"/>
+                        <path d="M6 11.5L9.5 15L16 8" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="tip">
+                        <b>Verified account</b>
+                        <small>This account is verified.</small>
+                    </span>
+                </span>
+                <span class="badge badge-staff">Staff</span>
+            </div>
         <div class="handle">@staff</div>
         <p class="bio">tyler.fun staff • Helping with general questions and keeping things smooth.</p>
         <div class="stats-row">
