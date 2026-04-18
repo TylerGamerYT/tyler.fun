@@ -135,7 +135,7 @@ body {
     border: 1px solid rgba(167,139,250,0.3);
 }
 
-/* VERIFIED CHECK (FIXED) */
+/* VERIFIED CHECK */
 .vcheck {
     position: relative;
     display: inline-flex;
@@ -180,7 +180,7 @@ body {
     gap: 6px;
 }
 
-/* rest */
+/* content */
 .handle { font-size: 0.9rem; color: #475569; margin-bottom: 12px; }
 
 .bio {
@@ -193,10 +193,13 @@ body {
 .stats-row {
     display: flex;
     gap: 20px;
+    flex-wrap: wrap;
     margin-bottom: 24px;
     padding-bottom: 24px;
     border-bottom: 1px solid rgba(51,65,85,0.4);
 }
+
+.stat-item { display: flex; flex-direction: column; }
 
 .stat-num {
     font-family: 'Syne', sans-serif;
@@ -211,6 +214,61 @@ body {
     color: #475569;
     margin-bottom: 14px;
 }
+
+.responsibility-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.resp-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(15,23,42,0.65);
+    border: 1px solid rgba(51,65,85,0.5);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.875rem;
+    color: #cbd5e1;
+}
+
+.resp-icon { font-size: 1.2rem; }
+
+.info-box {
+    background: rgba(124,58,237,0.07);
+    border: 1px solid rgba(124,58,237,0.2);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+.info-box strong {
+    color: #a78bfa;
+    font-family: 'Syne', sans-serif;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.coming-soon {
+    background: rgba(15,23,42,0.65);
+    border: 1px solid rgba(51,65,85,0.5);
+    border-radius: 14px;
+    padding: 20px 24px;
+    text-align: center;
+    color: #334155;
+    font-size: 0.85rem;
+}
+
+/* animation */
+.fade { opacity: 0; animation: fadeUp 0.5s ease forwards; }
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 </style>
 </head>
 
@@ -222,23 +280,26 @@ body {
 <a href="index.html" class="back-home">← Back to tyler.fun</a>
 
 <div class="container">
-<div class="banner"><div class="banner-pattern"></div><div class="banner-label">Admin</div></div>
 
-<div class="avatar-wrap">
+<div class="banner fade">
+    <div class="banner-pattern"></div>
+    <div class="banner-label">Admin</div>
+</div>
+
+<div class="avatar-wrap fade">
     <div class="avatar">🛡️</div>
 </div>
 
-<div class="profile-info">
+<div class="profile-info fade">
+
 <div class="name-row">
     <span class="display-name">Admin</span>
 
-    <!-- FIXED CHECK -->
     <span class="vcheck">
         <svg viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="12" fill="#1d9bf0"></circle>
             <path d="M9.6 16.2l-3.2-3.2 1.4-1.4 1.8 1.8 6.6-6.6 1.4 1.4z" fill="#fff"></path>
         </svg>
-
         <span class="tip">
             <b>Verified account</b>
             <small>This account is verified.</small>
@@ -249,14 +310,39 @@ body {
 </div>
 
 <div class="handle">@admin</div>
-<p class="bio">Official tyler.fun admin account.</p>
+
+<p class="bio">
+Official tyler.fun admin account. Big updates and important announcements only.
+</p>
 
 <div class="stats-row">
-    <div><div class="stat-num">1</div><div>Account</div></div>
-    <div><div class="stat-num">∞</div><div>Permissions</div></div>
+    <div class="stat-item">
+        <div class="stat-num">1</div>
+        <div class="stat-lbl">Account</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-num">∞</div>
+        <div class="stat-lbl">Permissions</div>
+    </div>
 </div>
 
 <div class="section-title">Responsibilities</div>
+
+<div class="responsibility-list">
+    <div class="resp-item"><span class="resp-icon">📢</span>Official announcements and major site updates</div>
+    <div class="resp-item"><span class="resp-icon">🔒</span>Site moderation and account management</div>
+    <div class="resp-item"><span class="resp-icon">🚀</span>Game launch announcements and public rollouts</div>
+</div>
+
+<div class="info-box">
+    <strong>⚠️ Heads up</strong>
+    The @admin account will never DM you first asking for personal info or passwords. If you see that, it's not us.
+</div>
+
+<div class="coming-soon">
+    Account system coming eventually. Check back later.
+</div>
+
 </div>
 </div>
 
@@ -306,6 +392,5 @@ window.addEventListener('resize',()=>{
     initStars();
 });
 </script>
-
 </body>
 </html>
