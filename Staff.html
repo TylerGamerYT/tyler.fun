@@ -11,12 +11,17 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; }
 body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; overflow-x: hidden; }
+
 #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
 .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #0c2a4a33 0%, transparent 70%); z-index: 0; pointer-events: none; }
+
 .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
 .back-home:hover { color: #fff; }
+
 .container { position: relative; z-index: 1; padding: 80px 24px 60px; max-width: 680px; width: 100%; margin: 0 auto; }
 
+/* banner */
 .banner {
     width: 100%; height: 140px; border-radius: 20px;
     background: linear-gradient(135deg, #0c2a4a 0%, #1e3a8a 50%, #0f172a 100%);
@@ -34,11 +39,11 @@ body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; displ
 .avatar-wrap { padding: 0 24px; position: relative; z-index: 2; }
 .avatar { width: 88px; height: 88px; border-radius: 50%; border: 4px solid #020617; background: linear-gradient(135deg, #0c2a4a, #1e3a8a); display: flex; align-items: center; justify-content: center; font-size: 2.8rem; }
 
-.profile-info { padding: 12px 24px 24px; }
+.profile-info { padding: 12px 24px 24px; position: relative; z-index: 5; }
 .name-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
 .display-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 900; color: #f8fafc; }
+
 .badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; padding: 3px 9px; border-radius: 99px; }
-.badge-official { background: rgba(96,165,250,0.15); color: #60a5fa; border: 1px solid rgba(96,165,250,0.3); }
 .badge-staff { background: rgba(59,130,246,0.15); color: #93c5fd; border: 1px solid rgba(59,130,246,0.3); }
 
 .handle { font-size: 0.9rem; color: #475569; margin-bottom: 12px; }
@@ -64,36 +69,56 @@ body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; displ
 .fade:nth-child(4) { animation-delay: 0.2s; }
 @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(12px); } }
 
-/* CHECK FIX */
-.vcheck { position: relative; display: inline-flex; align-items: center; transform: translateY(1px); }
+/* CHECKMARK */
+.vcheck { position: relative; display: inline-flex; align-items: center; transform: translateY(1px); cursor: pointer; }
 .vcheck svg { width: 18px; height: 18px; display: block; }
+
 .vcheck .tip {
-    display: none; position: absolute; bottom: calc(100% + 8px); left: 50%;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
     transform: translateX(-50%);
-    background: rgba(15,23,42,0.97); border: 1px solid rgba(51,65,85,0.8);
-    border-radius: 10px; padding: 10px 14px; white-space: nowrap;
-    z-index: 99; pointer-events: none;
+    background: rgba(15,23,42,0.97);
+    border: 1px solid rgba(51,65,85,0.8);
+    border-radius: 10px;
+    padding: 10px 14px;
+    white-space: nowrap;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
 }
-.vcheck:hover .tip { display: block; }
-.vcheck .tip b { font-family: "Syne", sans-serif; font-size: 0.8rem; color: #f8fafc; display: block; margin-bottom: 2px; }
-.vcheck .tip small { font-size: 0.72rem; color: #64748b; }
+
+.vcheck.active .tip {
+    opacity: 1;
+    pointer-events: auto;
+}
 </style>
 </head>
 
 <body>
 <canvas id="particles"></canvas>
 <div class="bg-glow"></div>
+
 <a href="index.html" class="back-home">← Back to tyler.fun</a>
 
 <div class="container">
-<div class="banner fade"><div class="banner-pattern"></div><div class="banner-label">Staff</div></div>
-<div class="avatar-wrap fade"><div class="avatar">👥</div></div>
+
+<div class="banner fade">
+    <div class="banner-pattern"></div>
+    <div class="banner-label">Staff</div>
+</div>
+
+<div class="avatar-wrap fade">
+    <div class="avatar">👥</div>
+</div>
 
 <div class="profile-info fade">
+
 <div class="name-row">
     <span class="display-name">Staff</span>
 
-    <!-- FIXED CHECK -->
+    <!-- CHECKMARK -->
     <span class="vcheck">
         <svg viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="12" fill="#1d9bf0"/>
@@ -109,7 +134,10 @@ body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; displ
 </div>
 
 <div class="handle">@staff</div>
-<p class="bio">tyler.fun staff • Helping with general questions and keeping things smooth.</p>
+
+<p class="bio">
+tyler.fun staff • Helping with general questions and keeping things smooth.
+</p>
 
 <div class="stats-row">
     <div class="stat-item"><div class="stat-num">—</div><div class="stat-lbl">Members</div></div>
@@ -117,17 +145,41 @@ body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; displ
 </div>
 
 <div class="section-title">Responsibilities</div>
+
 <div class="responsibility-list">
     <div class="resp-item"><span class="resp-icon">💬</span>Day-to-day community help and general questions</div>
     <div class="resp-item"><span class="resp-icon">🔧</span>Light moderation and keeping things running smoothly</div>
     <div class="resp-item"><span class="resp-icon">📋</span>Passing feedback and reports up to admin</div>
 </div>
 
-<div class="coming-soon">Account system coming eventually. Check back later.</div>
+<div class="coming-soon">
+    Account system coming eventually. Check back later.
+</div>
+
 </div>
 </div>
 
 <script>
+// CLICK TO TOGGLE CHECK
+document.querySelectorAll('.vcheck').forEach(el => {
+    el.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        document.querySelectorAll('.vcheck').forEach(v => {
+            if (v !== el) v.classList.remove('active');
+        });
+
+        el.classList.toggle('active');
+    });
+});
+
+document.addEventListener('click', () => {
+    document.querySelectorAll('.vcheck').forEach(v => {
+        v.classList.remove('active');
+    });
+});
+
+// particles (unchanged)
 const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
 let W, H, stars = [];
 function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
