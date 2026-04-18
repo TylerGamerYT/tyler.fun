@@ -54,6 +54,7 @@ body {
     margin: 0 auto;
 }
 
+/* banner */
 .banner {
     width: 100%;
     height: 140px;
@@ -82,10 +83,12 @@ body {
     font-family: 'Syne', sans-serif;
     font-size: 0.65rem;
     font-weight: 700;
+    text-transform: uppercase;
     letter-spacing: 3px;
     color: rgba(167,139,250,0.4);
 }
 
+/* avatar */
 .avatar-wrap { padding: 0 24px; position: relative; z-index: 2; }
 
 .avatar {
@@ -100,6 +103,7 @@ body {
     font-size: 2.8rem;
 }
 
+/* profile */
 .profile-info { padding: 12px 24px 24px; }
 
 .name-row {
@@ -116,22 +120,7 @@ body {
     font-weight: 900;
 }
 
-.badge-admin {
-    background: rgba(167,139,250,0.15);
-    color: #a78bfa;
-    border: 1px solid rgba(167,139,250,0.3);
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    padding: 3px 9px;
-    border-radius: 99px;
-}
-
-/* ===================== */
-/* FIXED VERIFIED CHECK  */
-/* ===================== */
-
+/* VERIFIED CHECK (FIXED LIKE STAFF) */
 .vcheck {
     position: relative;
     display: inline-flex;
@@ -149,28 +138,26 @@ body {
 .vcheck .tip {
     position: absolute;
     top: calc(100% + 10px);
-    left: 0;
-
+    left: 50%;
+    transform: translateX(-50%);
     background: rgba(15,23,42,0.97);
     border: 1px solid rgba(51,65,85,0.8);
     border-radius: 12px;
-    padding: 12px 16px;
+    padding: 12px 14px;
     white-space: nowrap;
-
-    z-index: 99;
+    z-index: 9999;
 
     opacity: 0;
-    transform: translateY(-6px);
     pointer-events: none;
     transition: 0.15s ease;
 }
 
 .vcheck.active .tip {
     opacity: 1;
-    transform: translateY(0);
     pointer-events: auto;
 }
 
+/* tooltip text */
 .vcheck .tip b {
     font-family: "Syne", sans-serif;
     font-size: 0.9rem;
@@ -181,11 +168,9 @@ body {
 .vcheck .tip small {
     font-size: 0.78rem;
     color: #94a3b8;
-    display: flex;
-    align-items: center;
-    gap: 6px;
 }
 
+/* rest unchanged */
 .handle { font-size: 0.9rem; color: #475569; margin-bottom: 12px; }
 
 .bio {
@@ -239,8 +224,6 @@ body {
     color: #cbd5e1;
 }
 
-.resp-icon { font-size: 1.2rem; }
-
 .info-box {
     background: rgba(124,58,237,0.07);
     border: 1px solid rgba(124,58,237,0.2);
@@ -249,13 +232,6 @@ body {
     margin-bottom: 16px;
     font-size: 0.9rem;
     color: #94a3b8;
-}
-
-.info-box strong {
-    color: #a78bfa;
-    font-family: 'Syne', sans-serif;
-    display: block;
-    margin-bottom: 6px;
 }
 
 .coming-soon {
@@ -306,12 +282,10 @@ body {
         </svg>
 
         <span class="tip">
-            <b>Verified account</b>
-            <small>This account is verified.</small>
+            <b>Verified</b>
+            <small>Account verified</small>
         </span>
     </span>
-
-    <span class="badge-admin">Admin</span>
 </div>
 
 <div class="handle">@admin</div>
@@ -334,18 +308,17 @@ Official tyler.fun admin account. Big updates and important announcements only.
 <div class="section-title">Responsibilities</div>
 
 <div class="responsibility-list">
-    <div class="resp-item"><span class="resp-icon">📢</span>Official announcements and major site updates</div>
-    <div class="resp-item"><span class="resp-icon">🔒</span>Site moderation and account management</div>
-    <div class="resp-item"><span class="resp-icon">🚀</span>Game launch announcements and public rollouts</div>
+    <div class="resp-item">📢 Official announcements and updates</div>
+    <div class="resp-item">🔒 Site moderation and account management</div>
+    <div class="resp-item">🚀 Game launches and rollouts</div>
 </div>
 
 <div class="info-box">
-    <strong>⚠️ Heads up</strong>
-    The @admin account will never DM you first asking for personal info or passwords. If you see that, it's not us.
+⚠️ Heads up: The @admin account will never DM first asking for passwords.
 </div>
 
 <div class="coming-soon">
-    Account system coming eventually. Check back later.
+Account system coming eventually. Check back later.
 </div>
 
 </div>
@@ -361,51 +334,6 @@ document.querySelectorAll('.vcheck').forEach(el => {
 
 document.addEventListener('click', () => {
     document.querySelectorAll('.vcheck').forEach(v => v.classList.remove('active'));
-});
-
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-
-let W, H, stars = [];
-
-function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-}
-
-function initStars() {
-    stars = [];
-    for(let i=0;i<Math.floor((W*H)/8000);i++){
-        stars.push({
-            x:Math.random()*W,
-            y:Math.random()*H,
-            r:Math.random()*1.1+0.3,
-            speed:Math.random()*0.14+0.03,
-            opacity:Math.random()*0.45+0.1
-        });
-    }
-}
-
-function draw(){
-    ctx.clearRect(0,0,W,H);
-    for(const s of stars){
-        ctx.beginPath();
-        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-        ctx.fillStyle=`rgba(148,197,255,${s.opacity})`;
-        ctx.fill();
-        s.y-=s.speed;
-        if(s.y<0){ s.y=H; s.x=Math.random()*W; }
-    }
-    requestAnimationFrame(draw);
-}
-
-resize();
-initStars();
-draw();
-
-window.addEventListener('resize',()=>{
-    resize();
-    initStars();
 });
 </script>
 </body>
