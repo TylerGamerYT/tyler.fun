@@ -42,6 +42,32 @@
         .display-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 900; color: #f8fafc; }
         .badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; padding: 3px 9px; border-radius: 99px; }
         .badge-member { background: rgba(148,163,184,0.1); color: #94a3b8; border: 1px solid rgba(148,163,184,0.2); }
+        .badge-banned { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+
+        /* ban reason dropdown */
+        .ban-reason-wrap { position: relative; display: inline-block; margin-top: 6px; margin-bottom: 16px; }
+        .ban-reason-btn {
+            display: flex; align-items: center; gap: 7px;
+            background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2);
+            border-radius: 8px; padding: 6px 12px; font-size: 0.8rem;
+            color: #f87171; cursor: pointer; font-family: 'Inter', sans-serif;
+            font-weight: 600; transition: background 0.2s;
+        }
+        .ban-reason-btn:hover { background: rgba(239,68,68,0.15); }
+        .ban-reason-dropdown {
+            display: none; position: absolute; top: calc(100% + 6px); left: 0;
+            background: rgba(15,23,42,0.97); border: 1px solid rgba(51,65,85,0.8);
+            border-radius: 12px; padding: 8px 0; min-width: 260px;
+            z-index: 99; box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+        .ban-reason-wrap:hover .ban-reason-dropdown { display: block; }
+        .ban-reason-item {
+            padding: 9px 16px; font-size: 0.82rem; color: #94a3b8;
+            display: flex; align-items: center; gap: 10px;
+            border-bottom: 1px solid rgba(51,65,85,0.3);
+        }
+        .ban-reason-item:last-child { border-bottom: none; }
+        .ban-reason-item span { color: #f87171; font-weight: 700; flex-shrink: 0; }
 
         .handle { font-size: 0.9rem; color: #475569; margin-bottom: 12px; }
 
@@ -84,8 +110,22 @@
         <div class="name-row">
             <span class="display-name">Ban</span>
             <span class="badge badge-member">Member</span>
+            <span class="badge badge-banned">🔨 Banned</span>
         </div>
         <div class="handle">@ban</div>
+        <div class="ban-reason-wrap">
+            <div class="ban-reason-btn">⚠️ View ban reasons ▾</div>
+            <div class="ban-reason-dropdown">
+                <div class="ban-reason-item"><span>Reason 1</span> Their username is literally "Ban".</div>
+                <div class="ban-reason-item"><span>Reason 2</span> Existing with that name is a bannable offence.</div>
+                <div class="ban-reason-item"><span>Reason 3</span> Being too on the nose about it.</div>
+                <div class="ban-reason-item"><span>Reason 4</span> The ban hammer chose them.</div>
+                <div class="ban-reason-item"><span>Reason 5</span> Attempted to appeal. Denied before it was even submitted.</div>
+                <div class="ban-reason-item"><span>Reason 6</span> Made a tyler.fun account with this name. Bold choice.</div>
+                <div class="ban-reason-item"><span>Reason 7</span> The @admin saw the username and just sighed.</div>
+                <div class="ban-reason-item"><span>Status</span> Temporary. Expires: never.</div>
+            </div>
+        </div>
 
         <div class="stats-row">
             <div class="stat-item"><div class="stat-num">—</div><div class="stat-lbl">Joined</div></div>
@@ -98,6 +138,11 @@
             <div class="claimed-text">
                 This profile is reserved for Tyler. Full profile details, bio, and stats will be available once the tyler.fun account system launches.
             </div>
+        </div>
+
+        <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:14px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:12px;font-size:0.85rem;color:#f87171;">
+            <span style="font-size:1.2rem;flex-shrink:0;">🔨</span>
+            <span>This account is <strong>temporarily banned</strong> from all tyler.fun services. Reason: their name is Ban. That's it. That's the reason.</span>
         </div>
 
         <div class="coming-soon">
