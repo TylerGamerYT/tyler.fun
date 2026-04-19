@@ -14,7 +14,7 @@
 ### 🚧 Work in Progress
 This project is currently a **huge work in progress**. I’m constantly tweaking the code, breaking things, and adding new experiments. 
 
-* **Live Site:** [tylergameryt.github.io/tyler.fun](https://tyler-fun.vercel.app/)
+* **Live Site:** [tyler-fun.vercel.app](https://tyler-fun.vercel.app/)
 * **Status:** Early Development. More "fun" is being coded as we speak.
 
 ### 🧪 About the Project
