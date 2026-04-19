@@ -1,56 +1,52 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
   "rewrites": [
-    { "source": "/users/tyler",    "destination": "/users/Tyler/Index.html" },
-    { "source": "/users/Tyler",    "destination": "/users/Tyler/Index.html" },
-    { "source": "/users/TYLER",    "destination": "/users/Tyler/Index.html" },
+    { "source": "/users/tyler",     "destination": "/users/Tyler/Index.html" },
+    { "source": "/users/Tyler",     "destination": "/users/Tyler/Index.html" },
+    { "source": "/users/TYLER",     "destination": "/users/Tyler/Index.html" },
 
-    { "source": "/users/fish",     "destination": "/users/Fish/Index.html" },
-    { "source": "/users/Fish",     "destination": "/users/Fish/Index.html" },
-    { "source": "/users/FISH",     "destination": "/users/Fish/Index.html" },
+    { "source": "/users/fish",      "destination": "/users/Fish/Index.html" },
+    { "source": "/users/Fish",      "destination": "/users/Fish/Index.html" },
+    { "source": "/users/FISH",      "destination": "/users/Fish/Index.html" },
 
-    { "source": "/users/tawsif",   "destination": "/users/tawsif/Index.html" },
-    { "source": "/users/Tawsif",   "destination": "/users/tawsif/Index.html" },
-    { "source": "/users/TAWSIF",   "destination": "/users/tawsif/Index.html" },
+    { "source": "/users/tawsif",    "destination": "/users/tawsif/Index.html" },
+    { "source": "/users/Tawsif",    "destination": "/users/tawsif/Index.html" },
+    { "source": "/users/TAWSIF",    "destination": "/users/tawsif/Index.html" },
 
-    { "source": "/users/yoiashley","destination": "/users/yoiashley/Index.html" },
-    { "source": "/users/Yoiashley","destination": "/users/yoiashley/Index.html" },
-    { "source": "/users/YOIASHLEY","destination": "/users/yoiashley/Index.html" },
+    { "source": "/users/yoiashley", "destination": "/users/yoiashley/Index.html" },
+    { "source": "/users/Yoiashley", "destination": "/users/yoiashley/Index.html" },
+    { "source": "/users/YOIASHLEY", "destination": "/users/yoiashley/Index.html" },
 
-    { "source": "/users/angle",    "destination": "/users/angle/Index.html" },
-    { "source": "/users/Angle",    "destination": "/users/angle/Index.html" },
-    { "source": "/users/ANGLE",    "destination": "/users/angle/Index.html" },
+    { "source": "/users/angle",     "destination": "/users/angle/Index.html" },
+    { "source": "/users/Angle",     "destination": "/users/angle/Index.html" },
+    { "source": "/users/ANGLE",     "destination": "/users/angle/Index.html" },
 
-    { "source": "/users/aaban",    "destination": "/users/Aaban/Index.html" },
-    { "source": "/users/Aaban",    "destination": "/users/Aaban/Index.html" },
-    { "source": "/users/AABAN",    "destination": "/users/Aaban/Index.html" },
+    { "source": "/users/aaban",     "destination": "/users/Aaban/Index.html" },
+    { "source": "/users/Aaban",     "destination": "/users/Aaban/Index.html" },
+    { "source": "/users/AABAN",     "destination": "/users/Aaban/Index.html" },
 
-    { "source": "/users/ban",      "destination": "/users/Ban/Index.html" },
-    { "source": "/users/Ban",      "destination": "/users/Ban/Index.html" },
-    { "source": "/users/BAN",      "destination": "/users/Ban/Index.html" },
-    { "source": "/users/banned",   "destination": "/users/Ban/Index.html" },
-    { "source": "/users/Banned",   "destination": "/users/Ban/Index.html" },
-    { "source": "/users/BANNED",   "destination": "/users/Ban/Index.html" },
+    { "source": "/users/ban",       "destination": "/users/Ban/Index.html" },
+    { "source": "/users/Ban",       "destination": "/users/Ban/Index.html" },
+    { "source": "/users/BAN",       "destination": "/users/Ban/Index.html" },
+    { "source": "/users/banned",    "destination": "/users/Ban/Index.html" },
+    { "source": "/users/Banned",    "destination": "/users/Ban/Index.html" },
+    { "source": "/users/BANNED",    "destination": "/users/Ban/Index.html" },
 
-    { "source": "/users/guest",    "destination": "/users/Guest/Index.html" },
-    { "source": "/users/Guest",    "destination": "/users/Guest/Index.html" },
-    { "source": "/users/GUEST",    "destination": "/users/Guest/Index.html" },
+    { "source": "/users/guest",     "destination": "/users/Guest/Index.html" },
+    { "source": "/users/Guest",     "destination": "/users/Guest/Index.html" },
+    { "source": "/users/GUEST",     "destination": "/users/Guest/Index.html" },
 
-    { "source": "/users/admin",    "destination": "/users/Admin/Index.html" },
-    { "source": "/users/Admin",    "destination": "/users/Admin/Index.html" },
-    { "source": "/users/ADMIN",    "destination": "/users/Admin/Index.html" },
+    { "source": "/users/admin",     "destination": "/users/Admin/Index.html" },
+    { "source": "/users/Admin",     "destination": "/users/Admin/Index.html" },
+    { "source": "/users/ADMIN",     "destination": "/users/Admin/Index.html" },
 
-    { "source": "/users/staff",    "destination": "/users/staff/Index.html" },
-    { "source": "/users/Staff",    "destination": "/users/staff/Index.html" },
-    { "source": "/users/STAFF",    "destination": "/users/staff/Index.html" },
+    { "source": "/users/staff",     "destination": "/users/staff/Index.html" },
+    { "source": "/users/Staff",     "destination": "/users/staff/Index.html" },
+    { "source": "/users/STAFF",     "destination": "/users/staff/Index.html" },
 
-    { "source": "/users/support",  "destination": "/users/support/Index.html" },
-    { "source": "/users/Support",  "destination": "/users/support/Index.html" },
-    { "source": "/users/SUPPORT",  "destination": "/users/support/Index.html" },
+    { "source": "/users/support",   "destination": "/users/support/Index.html" },
+    { "source": "/users/Support",   "destination": "/users/support/Index.html" },
+    { "source": "/users/SUPPORT",   "destination": "/users/support/Index.html" },
 
-    { "source": "/users/tyler.fun","destination": "/users/tyler.fun/Index.html" }
-    { "source": "/users/Tyler.fun","destination": "/users/tyler.fun/Index.html" }
-    { "source": "/users/TYLER.FUN","destination": "/users/tyler.fun/Index.html" }
+    { "source": "/users/tyler.fun", "destination": "/users/tyler.fun/Index.html" }
   ]
 }
