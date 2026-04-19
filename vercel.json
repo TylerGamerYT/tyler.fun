@@ -50,5 +50,7 @@
     { "source": "/users/SUPPORT",  "destination": "/users/support/Index.html" },
 
     { "source": "/users/tyler.fun","destination": "/users/tyler.fun/Index.html" }
+    { "source": "/users/Tyler.fun","destination": "/users/tyler.fun/Index.html" }
+    { "source": "/users/TYLER.FUN","destination": "/users/tyler.fun/Index.html" }
   ]
 }
