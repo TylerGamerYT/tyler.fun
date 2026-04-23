@@ -152,6 +152,6 @@
   ],
   "env": {
     "GITHUB_CLIENT_ID": "0v23lirt9Z7mn9m69pwI",
-    "GITHUB_CLIENT_SECRET": "@github_client_secret"
+    "GITHUB_CLIENT_SECRET": "@GITHUB_CLIENT_SERCET"
   }
 }
