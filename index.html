@@ -380,6 +380,11 @@
         background: rgba(16, 185, 129, 0.1);
         border-color: rgba(16, 185, 129, 0.3);
       }
+      .game-badge.new-game {
+        color: #60a5fa;
+        background: rgba(96, 165, 250, 0.1);
+        border-color: rgba(96, 165, 250, 0.3);
+      }
 
       /* ---- BOTTOM ---- */
       .bottom-section {
@@ -568,13 +573,9 @@
     <div class="bg-glow"></div>
 
     <a href="changelog.html" class="changelog-link">Changelog</a>
-    <a
-      href="users/Guest/Index.html"
-      class="profile-icon"
-      title="You are browsing as Guest"
-    >
+    <a href="Guest.html" class="profile-icon" title="You are browsing as Guest">
       <div class="profile-avatar">?</div>
-      <span class="profile-name">Guest</span>
+      <span class="profile-name">@Guest</span>
     </a>
 
     <div class="container">
@@ -730,13 +731,7 @@
             </div>
             <span class="game-badge public">Public</span>
           </a>
-        </div>
-      </div>
 
-      <!-- PREVIEW ONLY — visit ?preview to see this -->
-      <div class="games-section" id="gamesSection">
-        <div class="games-label">🔒 Preview Only</div>
-        <div class="games-grid">
           <a href="memory-grid.html" class="game-card">
             <div class="game-emoji">🧩</div>
             <div class="game-title">Memory Grid</div>
@@ -744,7 +739,7 @@
               Memorise which tiles lit up. Recreate the pattern. Get it wrong
               and it's over.
             </div>
-            <span class="game-badge">In Development</span>
+            <span class="game-badge new-game">New</span>
           </a>
           <a href="number-memory.html" class="game-card">
             <div class="game-emoji">🔢</div>
@@ -753,7 +748,7 @@
               Remember an increasingly long sequence of numbers before it
               disappears.
             </div>
-            <span class="game-badge">In Development</span>
+            <span class="game-badge new-game">New</span>
           </a>
           <a href="rps-ai.html" class="game-card">
             <div class="game-emoji">🤖</div>
@@ -762,7 +757,7 @@
               Rock paper scissors against an AI that studies your patterns and
               adapts.
             </div>
-            <span class="game-badge">In Development</span>
+            <span class="game-badge new-game">New</span>
           </a>
           <a href="whack-a-mole.html" class="game-card">
             <div class="game-emoji">🐭</div>
@@ -770,7 +765,7 @@
             <div class="game-desc">
               Whack the moles before they disappear. Miss and they roast you.
             </div>
-            <span class="game-badge">In Development</span>
+            <span class="game-badge new-game">New</span>
           </a>
           <a href="runaway-snake.html" class="game-card">
             <div class="game-emoji">🐍</div>
@@ -778,7 +773,7 @@
             <div class="game-desc">
               Classic snake — except the food runs away from you. Good luck.
             </div>
-            <span class="game-badge">In Development</span>
+            <span class="game-badge new-game">New</span>
           </a>
           <a href="gravity-flip.html" class="game-card">
             <div class="game-emoji">🔄</div>
@@ -787,7 +782,7 @@
               Flip gravity to dodge obstacles. It gets faster. You will die a
               lot.
             </div>
-            <span class="game-badge">In Development</span>
+            <span class="game-badge new-game">New</span>
           </a>
           <a href="cursed-clicker.html" class="game-card">
             <div class="game-emoji">🍪</div>
@@ -796,7 +791,7 @@
               Cookie clicker — but every upgrade makes something progressively
               worse.
             </div>
-            <span class="game-badge">In Development</span>
+            <span class="game-badge new-game">New</span>
           </a>
           <a href="dodge-dots.html" class="game-card">
             <div class="game-emoji">🔵</div>
@@ -805,7 +800,7 @@
               Move your cursor to survive. Red circles close in. They get
               faster.
             </div>
-            <span class="game-badge">In Development</span>
+            <span class="game-badge new-game">New</span>
           </a>
           <a href="evil-simon.html" class="game-card">
             <div class="game-emoji">😈</div>
@@ -814,7 +809,7 @@
               Repeat the colour pattern. Simon cheats. Buttons swap. Colours
               switch.
             </div>
-            <span class="game-badge">In Development</span>
+            <span class="game-badge new-game">New</span>
           </a>
           <a href="spin-wheel.html" class="game-card">
             <div class="game-emoji">🎰</div>
@@ -823,8 +818,15 @@
               Every spin has a consequence. Confetti, screen flips, grandmas.
               Spin responsibly.
             </div>
-            <span class="game-badge">In Development</span>
+            <span class="game-badge new-game">New</span>
           </a>
+        </div>
+      </div>
+
+      <!-- PREVIEW ONLY — visit ?preview to see this -->
+      <div class="games-section" id="gamesSection">
+        <div class="games-label">🔒 Preview Only</div>
+        <div class="games-grid">
           <a href="guess-colour.html" class="game-card">
             <div class="game-emoji">🎨</div>
             <div class="game-title">Guess the Colour</div>
