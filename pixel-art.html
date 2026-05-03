@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Art | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; user-select: none; }
+        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%); z-index: 0; pointer-events: none; }
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; z-index: 10; }
+        .back-home:hover { color: #fff; }
+        .container { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 16px 24px; width: 100%; }
+        h1 { font-family: 'Syne', sans-serif; font-size: clamp(1.6rem,6vw,2.4rem); font-weight: 900; margin: 0 0 3px; letter-spacing: -1px; }
+        .subtitle { font-size: 0.85rem; color: #64748b; margin-bottom: 12px; }
+
+        /* toolbar */
+        .toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 12px; }
+        .tool-btn { padding: 7px 14px; background: rgba(15,23,42,0.7); border: 1px solid rgba(51,65,85,0.6); border-radius: 8px; color: #94a3b8; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+        .tool-btn:hover { background: rgba(30,58,138,0.4); color: #fff; border-color: rgba(96,165,250,0.3); }
+        .tool-btn.active { background: rgba(37,99,235,0.3); border-color: #60a5fa; color: #fff; }
+        .color-picker { width: 36px; height: 36px; border-radius: 8px; border: 2px solid rgba(96,165,250,0.4); cursor: pointer; background: none; padding: 0; overflow: hidden; }
+        .size-select { background: rgba(15,23,42,0.7); border: 1px solid rgba(51,65,85,0.6); border-radius: 8px; color: #94a3b8; font-size: 0.8rem; padding: 7px 10px; cursor: pointer; outline: none; }
+
+        /* palette */
+        .palette { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; margin-bottom: 12px; max-width: 400px; }
+        .swatch { width: 28px; height: 28px; border-radius: 6px; cursor: pointer; border: 2px solid transparent; transition: transform 0.1s, border-color 0.1s; }
+        .swatch:hover { transform: scale(1.15); }
+        .swatch.selected { border-color: #fff; transform: scale(1.1); }
+
+        /* grid */
+        canvas#pixelCanvas { display: block; border-radius: 8px; border: 1px solid rgba(51,65,85,0.5); cursor: crosshair; touch-action: none; }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
+<a href="/" class="back-home">← Back to tyler.fun</a>
+
+<div class="container">
+    <h1>Pixel Art</h1>
+    <p class="subtitle">Draw something. Anything.</p>
+
+    <div class="toolbar">
+        <button class="tool-btn active" id="toolDraw" onclick="setTool('draw')">✏️ Draw</button>
+        <button class="tool-btn" id="toolErase" onclick="setTool('erase')">🧹 Erase</button>
+        <button class="tool-btn" id="toolFill" onclick="setTool('fill')">🪣 Fill</button>
+        <input type="color" class="color-picker" id="colorPicker" value="#60a5fa" oninput="setColor(this.value)">
+        <select class="size-select" id="gridSize" onchange="resizeGrid()">
+            <option value="16">16×16</option>
+            <option value="24" selected>24×24</option>
+            <option value="32">32×32</option>
+            <option value="48">48×48</option>
+        </select>
+        <button class="tool-btn" onclick="clearGrid()">🗑️ Clear</button>
+        <button class="tool-btn" onclick="saveArt()">💾 Save</button>
+    </div>
+
+    <div class="palette" id="palette"></div>
+    <canvas id="pixelCanvas"></canvas>
+</div>
+
+<script>
+const PALETTE = ['#f8fafc','#94a3b8','#334155','#020617','#ef4444','#f97316','#fbbf24','#22c55e','#10b981','#14b8a6','#3b82f6','#60a5fa','#8b5cf6','#a855f7','#ec4899','#f43f5e','#84cc16','#06b6d4','#6366f1','#78716c'];
+
+let tool = 'draw', color = '#60a5fa', cols = 24, rows = 24;
+let grid = [], drawing = false;
+const canvas = document.getElementById('pixelCanvas');
+const ctx = canvas.getContext('2d');
+let cellSize;
+
+// palette
+const palEl = document.getElementById('palette');
+PALETTE.forEach(c => {
+    const sw = document.createElement('div');
+    sw.className = 'swatch' + (c===color?' selected':'');
+    sw.style.background = c;
+    sw.onclick = () => { color = c; document.getElementById('colorPicker').value = c; updatePalette(); setTool('draw'); };
+    palEl.appendChild(sw);
+});
+
+function updatePalette() {
+    document.querySelectorAll('.swatch').forEach((sw,i) => sw.classList.toggle('selected', PALETTE[i]===color));
+}
+
+function setColor(c) { color = c; updatePalette(); }
+function setTool(t) {
+    tool = t;
+    ['Draw','Erase','Fill'].forEach(x => document.getElementById('tool'+x).classList.toggle('active', x.toLowerCase()===t));
+}
+
+function resizeGrid() {
+    const s = parseInt(document.getElementById('gridSize').value);
+    cols = rows = s;
+    initGrid();
+}
+
+function initGrid() {
+    grid = Array.from({length:rows}, () => Array(cols).fill('#020617'));
+    const maxW = Math.min(window.innerWidth - 48, 480);
+    const maxH = Math.min(window.innerHeight - 220, 480);
+    cellSize = Math.floor(Math.min(maxW/cols, maxH/rows));
+    canvas.width  = cellSize * cols;
+    canvas.height = cellSize * rows;
+    drawGrid();
+}
+
+function drawGrid() {
+    for (let r=0;r<rows;r++) for (let c=0;c<cols;c++) {
+        ctx.fillStyle = grid[r][c];
+        ctx.fillRect(c*cellSize, r*cellSize, cellSize, cellSize);
+    }
+    // grid lines
+    ctx.strokeStyle = 'rgba(51,65,85,0.3)';
+    ctx.lineWidth = 0.5;
+    for (let r=0;r<=rows;r++) { ctx.beginPath(); ctx.moveTo(0,r*cellSize); ctx.lineTo(cols*cellSize,r*cellSize); ctx.stroke(); }
+    for (let c=0;c<=cols;c++) { ctx.beginPath(); ctx.moveTo(c*cellSize,0); ctx.lineTo(c*cellSize,rows*cellSize); ctx.stroke(); }
+}
+
+function getCell(e) {
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.clientX||e.touches?.[0].clientX) - rect.left;
+    const y = (e.clientY||e.touches?.[0].clientY) - rect.top;
+    return { r: Math.floor(y/cellSize), c: Math.floor(x/cellSize) };
+}
+
+function paint(e) {
+    const {r,c} = getCell(e);
+    if (r<0||r>=rows||c<0||c>=cols) return;
+    if (tool==='fill') { floodFill(r,c,grid[r][c]); drawGrid(); return; }
+    const col = tool==='erase' ? '#020617' : color;
+    if (grid[r][c]===col) return;
+    grid[r][c] = col;
+    ctx.fillStyle = col;
+    ctx.fillRect(c*cellSize, r*cellSize, cellSize, cellSize);
+    ctx.strokeStyle = 'rgba(51,65,85,0.3)'; ctx.lineWidth = 0.5;
+    ctx.strokeRect(c*cellSize, r*cellSize, cellSize, cellSize);
+}
+
+function floodFill(r,c,target) {
+    if (target===color||r<0||r>=rows||c<0||c>=cols||grid[r][c]!==target) return;
+    grid[r][c]=color;
+    floodFill(r+1,c,target);floodFill(r-1,c,target);floodFill(r,c+1,target);floodFill(r,c-1,target);
+}
+
+canvas.addEventListener('mousedown', e => { drawing=true; paint(e); });
+canvas.addEventListener('mousemove', e => { if(drawing) paint(e); });
+canvas.addEventListener('mouseup', () => drawing=false);
+canvas.addEventListener('mouseleave', () => drawing=false);
+canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing=true; paint(e); }, {passive:false});
+canvas.addEventListener('touchmove', e => { e.preventDefault(); if(drawing) paint(e); }, {passive:false});
+canvas.addEventListener('touchend', () => drawing=false);
+
+function clearGrid() { grid = Array.from({length:rows},()=>Array(cols).fill('#020617')); drawGrid(); }
+
+function saveArt() {
+    const a = document.createElement('a');
+    a.download = 'pixel-art.png';
+    a.href = canvas.toDataURL();
+    a.click();
+}
+
+initGrid();
+
+const pCanvas = document.getElementById('particles'), pCtx = pCanvas.getContext('2d');
+let W, H, stars = [];
+function resize() { W = pCanvas.width = window.innerWidth; H = pCanvas.height = window.innerHeight; }
+function initStars() { stars = []; for(let i=0;i<Math.floor((W*H)/8000);i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.3,speed:Math.random()*0.14+0.03,opacity:Math.random()*0.45+0.1,ts:Math.random()*0.01+0.003,to:Math.random()*Math.PI*2}); }
+let t=0;
+function draw() { pCtx.clearRect(0,0,W,H); t+=0.016; for(const s of stars){pCtx.beginPath();pCtx.arc(s.x,s.y,s.r,0,Math.PI*2);pCtx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`;pCtx.fill();s.y-=s.speed;if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}} requestAnimationFrame(draw); }
+resize(); initStars(); draw();
+window.addEventListener('resize',()=>{resize();initStars();initGrid();});
+</script>
+</body>
+</html>

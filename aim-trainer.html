@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aim Trainer | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; user-select: none; cursor: crosshair; }
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; cursor: auto; }
+        .back-home:hover { color: #fff; }
+
+        .hud { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 5; display: flex; gap: 20px; }
+        .hud-stat { background: rgba(15,23,42,0.8); border: 1px solid rgba(51,65,85,0.6); border-radius: 12px; padding: 8px 18px; text-align: center; backdrop-filter: blur(10px); }
+        .hud-val { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 900; color: #f8fafc; }
+        .hud-label { font-size: 0.65rem; color: #475569; text-transform: uppercase; letter-spacing: 1.5px; }
+
+        /* timer bar */
+        .timer-bar-wrap { position: fixed; top: 0; left: 0; right: 0; height: 4px; z-index: 10; }
+        .timer-bar { height: 100%; background: #3b82f6; transition: width 0.1s linear, background 0.3s; }
+
+        /* target */
+        .target {
+            position: fixed; border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #f87171, #dc2626);
+            border: 3px solid #991b1b;
+            cursor: crosshair;
+            transition: transform 0.08s ease;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .target::after { content: ''; width: 30%; height: 30%; background: rgba(255,255,255,0.3); border-radius: 50%; }
+        .target:hover { transform: scale(1.05); }
+
+        /* hit flash */
+        .hit-flash { position: fixed; inset: 0; background: rgba(255,255,255,0.05); pointer-events: none; opacity: 0; transition: opacity 0.1s; z-index: 20; }
+        .hit-flash.show { opacity: 1; }
+
+        /* miss indicator */
+        .miss-dot { position: fixed; width: 8px; height: 8px; border-radius: 50%; background: rgba(239,68,68,0.4); pointer-events: none; transform: translate(-50%,-50%); animation: missFade 0.5s ease forwards; z-index: 15; }
+        @keyframes missFade { to { opacity: 0; transform: translate(-50%,-50%) scale(2); } }
+
+        /* overlay */
+        .overlay { position: fixed; inset: 0; background: rgba(2,6,23,0.92); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 50; backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity 0.3s; cursor: auto; }
+        .overlay.show { opacity: 1; pointer-events: all; }
+        .ov-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+        .ov-title { font-family: 'Syne', sans-serif; font-size: clamp(2rem,8vw,3rem); font-weight: 900; margin: 0 0 8px; }
+        .ov-stats { display: flex; gap: 24px; margin-bottom: 24px; }
+        .ov-stat { text-align: center; }
+        .ov-stat-val { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 900; color: #60a5fa; }
+        .ov-stat-label { font-size: 0.72rem; color: #475569; text-transform: uppercase; letter-spacing: 1.5px; }
+        .ov-btn { padding: 13px 36px; background: rgba(37,99,235,0.3); border: 1.5px solid rgba(96,165,250,0.45); border-radius: 999px; color: #fff; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; }
+        .ov-btn:hover { background: rgba(37,99,235,0.5); }
+    </style>
+</head>
+<body>
+<a href="/" class="back-home">← Back to tyler.fun</a>
+<div class="timer-bar-wrap"><div class="timer-bar" id="timerBar"></div></div>
+<div class="hud">
+    <div class="hud-stat"><div class="hud-val" id="scoreHud">0</div><div class="hud-label">hits</div></div>
+    <div class="hud-stat"><div class="hud-val" id="missHud">0</div><div class="hud-label">misses</div></div>
+    <div class="hud-stat"><div class="hud-val" id="timeHud">30</div><div class="hud-label">seconds</div></div>
+    <div class="hud-stat"><div class="hud-val" id="accHud">—</div><div class="hud-label">accuracy</div></div>
+</div>
+<div class="hit-flash" id="hitFlash"></div>
+
+<div class="overlay show" id="startOverlay">
+    <div class="ov-emoji">🎯</div>
+    <div class="ov-title">Aim Trainer</div>
+    <div style="color:#64748b;font-size:0.95rem;margin-bottom:24px;">Click the targets as fast as you can. 30 seconds.</div>
+    <button class="ov-btn" onclick="startGame()">Start</button>
+</div>
+
+<div class="overlay" id="endOverlay">
+    <div class="ov-emoji">🎯</div>
+    <div class="ov-title" id="endTitle">Time's up!</div>
+    <div class="ov-stats">
+        <div class="ov-stat"><div class="ov-stat-val" id="endHits">0</div><div class="ov-stat-label">Hits</div></div>
+        <div class="ov-stat"><div class="ov-stat-val" id="endMisses">0</div><div class="ov-stat-label">Misses</div></div>
+        <div class="ov-stat"><div class="ov-stat-val" id="endAcc">0%</div><div class="ov-stat-label">Accuracy</div></div>
+        <div class="ov-stat"><div class="ov-stat-val" id="endAvg">0ms</div><div class="ov-stat-label">Avg time</div></div>
+    </div>
+    <button class="ov-btn" onclick="startGame()">Play again</button>
+</div>
+
+<script>
+const GAME_TIME = 30;
+let hits = 0, misses = 0, running = false, timeLeft = GAME_TIME;
+let targetEl = null, targetTimer = null, gameInterval = null;
+let hitTimes = [], lastSpawn = 0;
+const MIN_R = 20, MAX_R = 45;
+
+function startGame() {
+    hits = 0; misses = 0; timeLeft = GAME_TIME; hitTimes = [];
+    document.getElementById('startOverlay').classList.remove('show');
+    document.getElementById('endOverlay').classList.remove('show');
+    updateHud();
+    running = true;
+    spawnTarget();
+    gameInterval = setInterval(() => {
+        timeLeft = Math.max(0, timeLeft - 0.1);
+        document.getElementById('timeHud').textContent = Math.ceil(timeLeft);
+        const pct = (timeLeft / GAME_TIME) * 100;
+        const bar = document.getElementById('timerBar');
+        bar.style.width = pct + '%';
+        bar.style.background = pct < 25 ? '#ef4444' : pct < 50 ? '#fbbf24' : '#3b82f6';
+        if (timeLeft <= 0) endGame();
+    }, 100);
+}
+
+function spawnTarget() {
+    if (targetEl) targetEl.remove();
+    const r = MIN_R + Math.random() * (MAX_R - MIN_R);
+    const x = r + Math.random() * (window.innerWidth - r * 2);
+    const y = r + 60 + Math.random() * (window.innerHeight - r * 2 - 80);
+    targetEl = document.createElement('div');
+    targetEl.className = 'target';
+    targetEl.style.cssText = `width:${r*2}px;height:${r*2}px;left:${x-r}px;top:${y-r}px;`;
+    targetEl.onclick = (e) => { e.stopPropagation(); hitTarget(); };
+    document.body.appendChild(targetEl);
+    lastSpawn = Date.now();
+    // auto miss after 2.5s
+    targetTimer = setTimeout(() => { if (running) { misses++; updateHud(); spawnTarget(); } }, 2500);
+}
+
+function hitTarget() {
+    if (!running) return;
+    hits++;
+    const t = Date.now() - lastSpawn;
+    hitTimes.push(t);
+    clearTimeout(targetTimer);
+    flashHit();
+    updateHud();
+    spawnTarget();
+}
+
+function flashHit() {
+    const f = document.getElementById('hitFlash');
+    f.classList.add('show');
+    setTimeout(() => f.classList.remove('show'), 100);
+}
+
+document.addEventListener('click', (e) => {
+    if (!running || e.target.classList.contains('target')) return;
+    misses++;
+    updateHud();
+    const dot = document.createElement('div');
+    dot.className = 'miss-dot';
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
+    document.body.appendChild(dot);
+    setTimeout(() => dot.remove(), 500);
+});
+
+function updateHud() {
+    document.getElementById('scoreHud').textContent = hits;
+    document.getElementById('missHud').textContent = misses;
+    const total = hits + misses;
+    document.getElementById('accHud').textContent = total ? Math.round((hits/total)*100)+'%' : '—';
+}
+
+function endGame() {
+    running = false;
+    clearInterval(gameInterval);
+    clearTimeout(targetTimer);
+    if (targetEl) { targetEl.remove(); targetEl = null; }
+    const total = hits + misses;
+    const acc = total ? Math.round((hits/total)*100) : 0;
+    const avg = hitTimes.length ? Math.round(hitTimes.reduce((a,b)=>a+b,0)/hitTimes.length) : 0;
+    const title = hits < 10 ? 'Keep practicing.' : hits < 25 ? 'Not bad!' : hits < 40 ? 'Nice aim!' : 'Cracked.';
+    document.getElementById('endTitle').textContent = title;
+    document.getElementById('endHits').textContent = hits;
+    document.getElementById('endMisses').textContent = misses;
+    document.getElementById('endAcc').textContent = acc + '%';
+    document.getElementById('endAvg').textContent = avg + 'ms';
+    document.getElementById('endOverlay').classList.add('show');
+}
+</script>
+</body>
+</html>

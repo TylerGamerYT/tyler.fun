@@ -3,36 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fish | tyler.fun</title>
+    <title>Aaban | tyler.fun</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; }
         body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; overflow-x: hidden; }
         #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-        .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #0f4c3a44 0%, transparent 70%); z-index: 0; pointer-events: none; }
+        .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #0c1a4a33 0%, transparent 70%); z-index: 0; pointer-events: none; }
         .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
         .back-home:hover { color: #fff; }
-
         .container { position: relative; z-index: 1; padding: 80px 24px 60px; max-width: 680px; width: 100%; margin: 0 auto; }
 
         .banner {
             width: 100%; height: 140px; border-radius: 20px;
-            background: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #0f172a 100%);
+            background: linear-gradient(135deg, #0c1a4a 0%, #1e3a8a 50%, #0f172a 100%);
             margin-bottom: -44px; position: relative;
             border: 1px solid rgba(51,65,85,0.6); overflow: hidden;
         }
         .banner-pattern {
-            position: absolute; inset: 0; opacity: 0.2;
-            background-image: radial-gradient(circle at 20% 50%, #10b981 0%, transparent 50%),
-                              radial-gradient(circle at 80% 20%, #34d399 0%, transparent 50%);
+            position: absolute; inset: 0; opacity: 0.25;
+            background-image: radial-gradient(circle at 20% 50%, #38bdf8 0%, transparent 50%),
+                              radial-gradient(circle at 78% 30%, #7dd3fc 0%, transparent 45%),
+                              radial-gradient(circle at 50% 85%, #0ea5e9 0%, transparent 40%);
         }
 
         .avatar-wrap { padding: 0 24px; position: relative; z-index: 2; }
         .avatar {
             width: 88px; height: 88px; border-radius: 50%;
             border: 4px solid #020617;
-            background: #064e3b;
+            background: linear-gradient(135deg, #0c1a4a, #1e3a8a);
             display: flex; align-items: center; justify-content: center;
             font-size: 3rem;
         }
@@ -40,36 +40,25 @@
         .profile-info { padding: 12px 24px 24px; }
         .name-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
         .display-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 900; color: #f8fafc; }
-
-        .badge {
-            font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 1.5px; padding: 3px 9px; border-radius: 99px;
-        }
-        .badge-fish    { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
-        .badge-tester  { background: rgba(96,165,250,0.15); color: #60a5fa; border: 1px solid rgba(96,165,250,0.3); }
+        .badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; padding: 3px 9px; border-radius: 99px; }
+        .badge-member { background: rgba(148,163,184,0.1); color: #94a3b8; border: 1px solid rgba(148,163,184,0.2); }
 
         .handle { font-size: 0.9rem; color: #475569; margin-bottom: 12px; }
-        .bio { font-size: 0.9rem; color: #94a3b8; line-height: 1.6; margin-bottom: 20px; max-width: 480px; }
 
         .stats-row { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(51,65,85,0.4); }
         .stat-item { display: flex; flex-direction: column; gap: 2px; }
         .stat-num { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: #f8fafc; }
         .stat-lbl { font-size: 0.72rem; color: #475569; text-transform: uppercase; letter-spacing: 1.5px; }
 
-        .section-title { font-family: 'Syne', sans-serif; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #475569; margin-bottom: 14px; }
-
-        .coming-soon {
-            background: rgba(15,23,42,0.65); border: 1px solid rgba(51,65,85,0.5);
-            border-radius: 14px; padding: 20px 24px; text-align: center;
-            color: #334155; font-size: 0.85rem; font-style: italic; margin-bottom: 16px;
+        .claimed-box {
+            background: rgba(56,189,248,0.06); border: 1px solid rgba(56,189,248,0.2);
+            border-radius: 16px; padding: 28px 24px; text-align: center; margin-bottom: 16px;
         }
+        .claimed-emoji { font-size: 2.5rem; margin-bottom: 10px; }
+        .claimed-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: #38bdf8; margin-bottom: 6px; }
+        .claimed-text { font-size: 0.85rem; color: #64748b; line-height: 1.6; }
 
-        .tester-box {
-            background: rgba(96,165,250,0.05); border: 1px solid rgba(96,165,250,0.2);
-            border-radius: 14px; padding: 16px 20px;
-            font-size: 0.85rem; color: #64748b; line-height: 1.5;
-        }
-        .tester-box strong { color: #60a5fa; font-family: 'Syne', sans-serif; display: block; margin-bottom: 4px; }
+        .coming-soon { background: rgba(15,23,42,0.65); border: 1px solid rgba(51,65,85,0.5); border-radius: 14px; padding: 20px 24px; text-align: center; color: #334155; font-size: 0.85rem; font-style: italic; }
 
         .fade { opacity: 0; animation: fadeUp 0.5s ease forwards; }
         .fade:nth-child(1) { animation-delay: 0.05s; }
@@ -82,40 +71,37 @@
 <body>
 <canvas id="particles"></canvas>
 <div class="bg-glow"></div>
-<a href="index.html" class="back-home">← Back to tyler.fun</a>
+<a href="/" class="back-home">← Back to tyler.fun</a>
 
 <div class="container">
-
     <div class="banner fade"><div class="banner-pattern"></div></div>
 
     <div class="avatar-wrap fade">
-        <div class="avatar">🐟</div>
+        <div class="avatar">⚡</div>
     </div>
 
     <div class="profile-info fade">
         <div class="name-row">
-            <span class="display-name">Fish</span>
-            <span class="badge badge-fish">Fish</span>
-            <span class="badge badge-tester">Tester</span>
+            <span class="display-name">Aaban</span>
+            <span class="badge badge-member">Member</span>
         </div>
-        <div class="handle">@Fish</div>
-        <p class="bio">Official tester of tyler.fun. Finds the bugs so you don't have to. Probably the reason half the games got fixed.</p>
+        <div class="handle">@Aaban</div>
 
         <div class="stats-row">
-            <div class="stat-item"><div class="stat-num">25</div><div class="stat-lbl">Games tested</div></div>
-            <div class="stat-item"><div class="stat-num">?</div><div class="stat-lbl">Bugs found</div></div>
-            <div class="stat-item"><div class="stat-num">OG</div><div class="stat-lbl">Status</div></div>
+            <div class="stat-item"><div class="stat-num">—</div><div class="stat-lbl">Joined</div></div>
+            <div class="stat-item"><div class="stat-num">—</div><div class="stat-lbl">Games played</div></div>
         </div>
 
-        <div class="section-title">Role on tyler.fun</div>
-        <div class="tester-box">
-            <strong>🧪 Official Tester</strong>
-            Fish is one of the first people to play every game on tyler.fun before it goes public. If something's broken, Fish probably already knows about it.
+        <div class="claimed-box">
+            <div class="claimed-emoji">🔒</div>
+            <div class="claimed-title">This account has been claimed</div>
+            <div class="claimed-text">
+                This profile is reserved for Aaban. Full profile details, bio, and stats will be available once the tyler.fun account system launches.
+            </div>
         </div>
 
-        <br>
         <div class="coming-soon">
-            More profile features coming soon achievements, stats, and account system.
+            Account system coming eventually. Check back later.
         </div>
     </div>
 </div>

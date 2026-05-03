@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Math Sprint | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body {
+        background: #020617;
+        color: #fff;
+        font-family: "Inter", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        text-align: center;
+        overflow: hidden;
+      }
+      #particles {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .bg-glow {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 80% 60% at 50% 40%,
+          #1e3a8a44 0%,
+          transparent 70%
+        );
+        z-index: 0;
+        pointer-events: none;
+      }
+      .back-home {
+        position: fixed;
+        top: 20px;
+        left: 24px;
+        font-size: 0.85rem;
+        color: #475569;
+        text-decoration: none;
+        z-index: 10;
+      }
+      .back-home:hover {
+        color: #fff;
+      }
+      .container {
+        position: relative;
+        z-index: 1;
+        padding: 40px 24px;
+        max-width: 560px;
+        width: 100%;
+      }
+      h1 {
+        font-family: "Syne", sans-serif;
+        font-size: clamp(2rem, 8vw, 3rem);
+        font-weight: 900;
+        margin: 0 0 6px;
+        letter-spacing: -2px;
+      }
+      .subtitle {
+        font-size: 0.95rem;
+        color: #64748b;
+        margin-bottom: 28px;
+      }
+
+      .stats-row {
+        display: flex;
+        gap: 24px;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      .stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+      }
+      .stat-val {
+        font-family: "Syne", sans-serif;
+        font-size: 1.8rem;
+        font-weight: 900;
+        color: #f8fafc;
+      }
+      .stat-label {
+        font-size: 0.7rem;
+        color: #475569;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+      }
+
+      .timer-wrap {
+        width: 100%;
+        height: 8px;
+        background: rgba(30, 58, 138, 0.25);
+        border-radius: 999px;
+        overflow: hidden;
+        margin-bottom: 28px;
+      }
+      .timer-bar {
+        height: 100%;
+        border-radius: 999px;
+        background: #3b82f6;
+        transition:
+          width 0.1s linear,
+          background 0.3s;
+      }
+      .timer-bar.warn {
+        background: #fbbf24;
+      }
+      .timer-bar.danger {
+        background: #ef4444;
+      }
+
+      .question-display {
+        font-family: "Syne", sans-serif;
+        font-size: clamp(2.5rem, 12vw, 5rem);
+        font-weight: 900;
+        line-height: 1;
+        margin-bottom: 28px;
+        color: #f8fafc;
+        letter-spacing: -2px;
+      }
+
+      .answer-input {
+        width: 100%;
+        padding: 16px 20px;
+        background: rgba(15, 23, 42, 0.7);
+        border: 1.5px solid rgba(51, 65, 85, 0.7);
+        border-radius: 14px;
+        color: #fff;
+        font-family: "Syne", sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        text-align: center;
+        outline: none;
+        letter-spacing: 2px;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+        margin-bottom: 16px;
+      }
+      .answer-input:focus {
+        border-color: rgba(96, 165, 250, 0.5);
+        background: rgba(15, 23, 42, 0.9);
+      }
+      .answer-input.correct {
+        border-color: #10b981;
+        background: rgba(16, 185, 129, 0.1);
+        animation: inputPop 0.2s ease;
+      }
+      .answer-input.wrong {
+        border-color: #ef4444;
+        background: rgba(239, 68, 68, 0.1);
+        animation: inputShake 0.3s ease;
+      }
+      @keyframes inputPop {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.03);
+        }
+      }
+      @keyframes inputShake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-6px);
+        }
+        75% {
+          transform: translateX(6px);
+        }
+      }
+
+      .feedback {
+        font-size: 0.9rem;
+        min-height: 22px;
+        color: #475569;
+        transition: color 0.2s;
+      }
+      .feedback.good {
+        color: #10b981;
+      }
+      .feedback.bad {
+        color: #f87171;
+      }
+
+      .difficulty-row {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 24px;
+      }
+      .diff-btn {
+        padding: 7px 18px;
+        border-radius: 99px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        border: 1px solid rgba(51, 65, 85, 0.6);
+        background: transparent;
+        color: #475569;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .diff-btn.active {
+        background: rgba(96, 165, 250, 0.15);
+        border-color: rgba(96, 165, 250, 0.4);
+        color: #60a5fa;
+      }
+
+      .gameover {
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 6, 23, 0.92);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 50;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s;
+        backdrop-filter: blur(8px);
+      }
+      .gameover.show {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .go-emoji {
+        font-size: 4rem;
+        margin-bottom: 12px;
+      }
+      .go-title {
+        font-family: "Syne", sans-serif;
+        font-size: clamp(1.8rem, 7vw, 2.8rem);
+        font-weight: 900;
+        margin: 0 0 8px;
+      }
+      .go-sub {
+        color: #64748b;
+        font-size: 1rem;
+        margin-bottom: 28px;
+      }
+      .go-sub span {
+        color: #60a5fa;
+        font-weight: 700;
+      }
+      .go-btn {
+        padding: 13px 36px;
+        background: rgba(37, 99, 235, 0.3);
+        border: 1.5px solid rgba(96, 165, 250, 0.45);
+        border-radius: 999px;
+        color: #fff;
+        font-family: "Syne", sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .go-btn:hover {
+        background: rgba(37, 99, 235, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="particles"></canvas>
+    <div class="bg-glow"></div>
+    <a href="/" class="back-home">← Back to tyler.fun</a>
+
+    <div class="gameover" id="gameover">
+      <div class="go-emoji">🧮</div>
+      <div class="go-title" id="goTitle">Time's up!</div>
+      <div class="go-sub">
+        Score: <span id="goScore">0</span> · Best streak:
+        <span id="goStreak">0</span>
+      </div>
+      <button class="go-btn" onclick="startGame()">Play again</button>
+    </div>
+
+    <div class="container">
+      <h1>Math Sprint</h1>
+      <p class="subtitle">Answer as fast as you can. 60 seconds.</p>
+
+      <div class="difficulty-row">
+        <button class="diff-btn active" id="dEasy" onclick="setDiff('easy')">
+          Easy
+        </button>
+        <button class="diff-btn" id="dMedium" onclick="setDiff('medium')">
+          Medium
+        </button>
+        <button class="diff-btn" id="dHard" onclick="setDiff('hard')">
+          Hard
+        </button>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-val" id="scoreVal">0</div>
+          <div class="stat-label">score</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val" id="streakVal">0</div>
+          <div class="stat-label">streak 🔥</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val" id="timeVal">60</div>
+          <div class="stat-label">seconds</div>
+        </div>
+      </div>
+
+      <div class="timer-wrap"><div class="timer-bar" id="timerBar"></div></div>
+
+      <div class="question-display" id="question">?</div>
+      <input
+        type="number"
+        class="answer-input"
+        id="answerInput"
+        placeholder="?"
+        autocomplete="off"
+      />
+      <div class="feedback" id="feedback">Type your answer and press Enter</div>
+    </div>
+
+    <script>
+      const TIME = 60;
+      let score = 0,
+        streak = 0,
+        bestStreak = 0,
+        timeLeft = TIME,
+        diff = "easy";
+      let currentAnswer = 0,
+        timerInterval = null,
+        started = false;
+
+      function setDiff(d) {
+        diff = d;
+        ["easy", "medium", "hard"].forEach((x) =>
+          document
+            .getElementById("d" + x.charAt(0).toUpperCase() + x.slice(1))
+            .classList.toggle("active", x === d),
+        );
+        if (!started) nextQuestion();
+      }
+
+      function genQuestion() {
+        const ops =
+          diff === "easy"
+            ? ["+", "-"]
+            : diff === "medium"
+              ? ["+", "-", "×"]
+              : ["+", "-", "×", "÷"];
+        const op = ops[Math.floor(Math.random() * ops.length)];
+        let a, b, ans;
+        if (op === "+") {
+          a =
+            diff === "easy"
+              ? rand(1, 20)
+              : diff === "medium"
+                ? rand(1, 50)
+                : rand(1, 200);
+          b =
+            diff === "easy"
+              ? rand(1, 20)
+              : diff === "medium"
+                ? rand(1, 50)
+                : rand(1, 200);
+          ans = a + b;
+        } else if (op === "-") {
+          a =
+            diff === "easy"
+              ? rand(5, 30)
+              : diff === "medium"
+                ? rand(10, 100)
+                : rand(50, 500);
+          b = rand(1, a);
+          ans = a - b;
+        } else if (op === "×") {
+          a = diff === "medium" ? rand(2, 12) : rand(2, 20);
+          b = diff === "medium" ? rand(2, 12) : rand(2, 20);
+          ans = a * b;
+        } else {
+          b = rand(2, 12);
+          ans = rand(1, 12);
+          a = b * ans;
+        }
+        return { question: `${a} ${op} ${b} =`, answer: ans };
+      }
+      function rand(a, b) {
+        return Math.floor(Math.random() * (b - a + 1)) + a;
+      }
+
+      function nextQuestion() {
+        const q = genQuestion();
+        currentAnswer = q.answer;
+        document.getElementById("question").textContent = q.question;
+        document.getElementById("answerInput").value = "";
+        document.getElementById("answerInput").className = "answer-input";
+        document.getElementById("answerInput").focus();
+      }
+
+      document
+        .getElementById("answerInput")
+        .addEventListener("keydown", (e) => {
+          if (e.key !== "Enter") return;
+          if (!started) {
+            started = true;
+            startTimer();
+          }
+          const val = parseInt(document.getElementById("answerInput").value);
+          if (isNaN(val)) return;
+          if (val === currentAnswer) {
+            score += diff === "easy" ? 1 : diff === "medium" ? 2 : 3;
+            streak++;
+            if (streak > bestStreak) bestStreak = streak;
+            document.getElementById("answerInput").className =
+              "answer-input correct";
+            setFeedback("✓ Correct!", "good");
+          } else {
+            streak = 0;
+            document.getElementById("answerInput").className =
+              "answer-input wrong";
+            setFeedback(`✗ It was ${currentAnswer}`, "bad");
+          }
+          updateStats();
+          setTimeout(nextQuestion, 300);
+        });
+
+      function setFeedback(msg, cls) {
+        const el = document.getElementById("feedback");
+        el.textContent = msg;
+        el.className = "feedback " + cls;
+      }
+
+      function startTimer() {
+        timerInterval = setInterval(() => {
+          timeLeft = Math.max(0, timeLeft - 0.1);
+          updateStats();
+          const pct = (timeLeft / TIME) * 100;
+          const bar = document.getElementById("timerBar");
+          bar.style.width = pct + "%";
+          bar.className =
+            "timer-bar" + (pct < 25 ? " danger" : pct < 50 ? " warn" : "");
+          if (timeLeft <= 0) endGame();
+        }, 100);
+      }
+
+      function updateStats() {
+        document.getElementById("scoreVal").textContent = score;
+        document.getElementById("streakVal").textContent = streak;
+        document.getElementById("timeVal").textContent = Math.ceil(timeLeft);
+      }
+
+      function endGame() {
+        clearInterval(timerInterval);
+        const title =
+          score < 5
+            ? "Keep practicing."
+            : score < 15
+              ? "Not bad!"
+              : score < 30
+                ? "Fast!"
+                : "Calculator vibes.";
+        document.getElementById("goTitle").textContent = title;
+        document.getElementById("goScore").textContent = score;
+        document.getElementById("goStreak").textContent = bestStreak;
+        document.getElementById("gameover").classList.add("show");
+      }
+
+      function startGame() {
+        score = 0;
+        streak = 0;
+        bestStreak = 0;
+        timeLeft = TIME;
+        started = false;
+        clearInterval(timerInterval);
+        document.getElementById("gameover").classList.remove("show");
+        document.getElementById("timerBar").style.width = "100%";
+        updateStats();
+        nextQuestion();
+        setFeedback("Type your answer and press Enter", "");
+      }
+
+      startGame();
+
+      const canvas = document.getElementById("particles"),
+        ctx = canvas.getContext("2d");
+      let W,
+        H,
+        stars = [];
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      function initStars() {
+        stars = [];
+        for (let i = 0; i < Math.floor((W * H) / 8000); i++)
+          stars.push({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            r: Math.random() * 1.1 + 0.3,
+            speed: Math.random() * 0.14 + 0.03,
+            opacity: Math.random() * 0.45 + 0.1,
+            ts: Math.random() * 0.01 + 0.003,
+            to: Math.random() * Math.PI * 2,
+          });
+      }
+      let t = 0;
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        t += 0.016;
+        for (const s of stars) {
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(148,197,255,${Math.max(0, s.opacity + Math.sin(t * s.ts * 60 + s.to) * 0.14)})`;
+          ctx.fill();
+          s.y -= s.speed;
+          if (s.y < -2) {
+            s.y = H + 2;
+            s.x = Math.random() * W;
+          }
+        }
+        requestAnimationFrame(draw);
+      }
+      resize();
+      initStars();
+      draw();
+      window.addEventListener("resize", () => {
+        resize();
+        initStars();
+      });
+    </script>
+  </body>
+</html>
