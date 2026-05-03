@@ -5,11 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>fish.fun | Hacked by Fish</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
-
-    <!-- KEEPING YOUR ORIGINAL CSS -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
-      /* (your FULL original CSS here unchanged) */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      :root {
+        --blue-deep: #020617;
+        --blue-mid: #1e3a8a;
+        --blue-accent: #60a5fa;
+        --green: #10b981;
+        --text-muted: #94a3b8;
+        --text-dim: #64748b;
+      }
+      body {
+        background: var(--blue-deep);
+        color: #ffffff;
+        font-family: "Inter", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+        margin: 0;
+        text-align: center;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+      #particles {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .bg-glow {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 80% 60% at 50% 40%,
+          #1e3a8a55 0%,
+          transparent 70%
+        );
+        z-index: 0;
+        pointer-events: none;
+      }
+      .container {
+        position: relative;
+        z-index: 1;
+        padding: 60px 24px 80px;
+        max-width: 900px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(16, 185, 129, 0.12);
+        color: var(--green);
+        padding: 7px 16px;
+        border-radius: 99px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        border: 1px solid rgba(16, 185, 129, 0.35);
+        margin-bottom: 28px;
+      }
+      .dot {
+        height: 8px;
+        width: 8px;
+        background: var(--green);
+        border-radius: 50%;
+        margin-right: 9px;
+      }
+      .logo-wrapper {
+        margin-bottom: 20px;
+      }
+      h1.animated-logo {
+        font-family: "Syne", sans-serif;
+        font-size: clamp(3.8rem, 13vw, 5.5rem);
+        font-weight: 900;
+        margin: 0;
+        letter-spacing: -3px;
+        line-height: 1;
+      }
+      .name{color:#fff}
+      .logo-dot{color:var(--blue-accent)}
+      .fun{color:var(--blue-accent)}
+      .tagline{font-size:1.05rem;color:#cbd5e1;margin:16px 0 28px;line-height:1.75;max-width:560px}
+      .info-box{background:rgba(15,23,42,.65);border:1px solid rgba(51,65,85,.7);padding:24px 28px;border-radius:18px;margin-bottom:28px;width:100%}
+      .label{font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:2.5px;margin-bottom:8px}
+      .value{font-family:"Syne";font-size:1.35rem;font-weight:700}
+      .games-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%}
+      .game-card{background:rgba(15,23,42,.65);border:1px solid rgba(51,65,85,.7);border-radius:16px;padding:22px;text-decoration:none;color:#fff;text-align:left}
+      .game-title{font-family:"Syne";font-weight:700}
+      .game-desc{font-size:.8rem;color:var(--text-dim)}
     </style>
   </head>
 
@@ -17,9 +113,8 @@
     <canvas id="particles"></canvas>
     <div class="bg-glow"></div>
 
-    <!-- 🔥 HACKED BANNER -->
-    <div style="position:fixed;top:10px;left:50%;transform:translateX(-50%);
-      z-index:999;color:#38bdf8;font-weight:800;letter-spacing:3px;font-size:0.9rem;">
+    <!-- HACKED BANNER -->
+    <div style="position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:999;color:#38bdf8;font-weight:800;letter-spacing:3px">
       ⚠️ HACKED BY FISH ⚠️
     </div>
 
@@ -34,273 +129,60 @@
       </div>
 
       <p class="tagline">
-        A collection of fish experiments and aquatic chaos.<br>
-        Everything is fish. There is no escape.
+        A full collection of fishified web experiments. Everything is now fish.
       </p>
 
       <div class="info-box">
-        <div class="label">Fish Status</div>
-        <div class="value">
-          <span>Underwater Development</span> 🐟
-        </div>
-        <div class="disclaimer">
-          The fish have taken over development. Progress depends on fish mood.
-        </div>
+        <div class="label">Current Status</div>
+        <div class="value">Underwater Fish Development 🐟</div>
       </div>
 
       <!-- SEARCH -->
-      <div class="search-wrap" id="searchWrap">
-        <input type="text" class="search-input" id="searchInput"
-          placeholder="Search fish..." oninput="filterGames(this.value)" />
+      <div class="search-wrap">
+        <input class="search-input" placeholder="Search fish..." />
         <span class="search-icon">🐟</span>
       </div>
-      <div class="no-results" id="noResults">
-        No fish found.
-      </div>
 
-      <!-- 🐟 PUBLIC FISH GAMES -->
-      <div class="games-section visible" id="publicGames">
-        <div class="games-label">🐟 Fish Games</div>
-        <div class="games-grid">
+      <!-- FULL ORIGINAL GRID FISHIFIED -->
+      <div class="games-grid">
 
-          <a href="roast-clicker.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Fish Clicker</div>
-            <div class="game-desc">Click fish. Get more fish.</div>
-          </a>
+        <a class="game-card"><div class="game-title">Fish Clicker</div><div class="game-desc">Click fish forever.</div></a>
+        <a class="game-card"><div class="game-title">Impossible Fish Button</div><div class="game-desc">Fish runs away.</div></a>
+        <a class="game-card"><div class="game-title">Hold the Fish</div><div class="game-desc">Never release fish.</div></a>
+        <a class="game-card"><div class="game-title">Useless Fish Machine</div><div class="game-desc">Fish turns itself off.</div></a>
+        <a class="game-card"><div class="game-title">Scroll for Fish</div><div class="game-desc">Scrolling spawns fish.</div></a>
+        <a class="game-card"><div class="game-title">Fish Scramble</div><div class="game-desc">Unscramble fish words.</div></a>
+        <a class="game-card"><div class="game-title">Reaction Fish</div><div class="game-desc">Click fast or fish wins.</div></a>
+        <a class="game-card"><div class="game-title">Higher or Fish</div><div class="game-desc">Numbers but fish.</div></a>
+        <a class="game-card"><div class="game-title">Floor is Fish</div><div class="game-desc">Avoid rising fish.</div></a>
+        <a class="game-card"><div class="game-title">Type Fish</div><div class="game-desc">Type for fish approval.</div></a>
+        <a class="game-card"><div class="game-title">Cursed Fish Breakout</div><div class="game-desc">Everything is fish bricks.</div></a>
+        <a class="game-card"><div class="game-title">Don't Press Fish</div><div class="game-desc">You will press fish.</div></a>
+        <a class="game-card"><div class="game-title">Fish Memory Grid</div><div class="game-desc">Remember fish patterns.</div></a>
+        <a class="game-card"><div class="game-title">Fish Number Memory</div><div class="game-desc">Fish numbers grow.</div></a>
+        <a class="game-card"><div class="game-title">Fish vs AI</div><div class="game-desc">AI learns fish moves.</div></a>
+        <a class="game-card"><div class="game-title">Whack-a-Fish</div><div class="game-desc">Whack fish fast.</div></a>
+        <a class="game-card"><div class="game-title">Runaway Fish</div><div class="game-desc">Fish escapes you.</div></a>
+        <a class="game-card"><div class="game-title">Gravity Fish</div><div class="game-desc">Flip fish gravity.</div></a>
+        <a class="game-card"><div class="game-title">Cursed Fish Clicker</div><div class="game-desc">Everything breaks into fish.</div></a>
+        <a class="game-card"><div class="game-title">Dodge Fish</div><div class="game-desc">Avoid incoming fish.</div></a>
+        <a class="game-card"><div class="game-title">Evil Fish Simon</div><div class="game-desc">Fish cheats always.</div></a>
+        <a class="game-card"><div class="game-title">Spin the Fish</div><div class="game-desc">Spin = chaos fish.</div></a>
 
-          <a href="impossible-button.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Impossible Fish</div>
-            <div class="game-desc">The fish refuses to be clicked.</div>
-          </a>
-
-          <a href="hold-the-key.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Hold the Fish</div>
-            <div class="game-desc">Hold fish as long as possible.</div>
-          </a>
-
-          <a href="useless-machine.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Useless Fish Machine</div>
-            <div class="game-desc">Turn it on. Fish turns it off.</div>
-          </a>
-
-          <a href="scroll-to-win.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Scroll for Fish</div>
-            <div class="game-desc">Scroll to summon fish.</div>
-          </a>
-
-          <a href="word-scramble.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Fish Scramble</div>
-            <div class="game-desc">Unscramble fish words.</div>
-          </a>
-
-          <a href="reaction-time.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Reaction Fish</div>
-            <div class="game-desc">Click when fish turns green.</div>
-          </a>
-
-          <a href="higher-or-lower.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Higher or Fish</div>
-            <div class="game-desc">Higher or fish?</div>
-          </a>
-
-          <a href="floor-is-lava.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">The Floor is Fish</div>
-            <div class="game-desc">Avoid the rising fish.</div>
-          </a>
-
-          <a href="type-fast.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Type Fish</div>
-            <div class="game-desc">Type fast for fish approval.</div>
-          </a>
-
-          <a href="cursed-breakout.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Cursed Fish Breakout</div>
-            <div class="game-desc">Bricks become fish.</div>
-          </a>
-
-          <a href="dont-press.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Don't Press Fish</div>
-            <div class="game-desc">You will press the fish.</div>
-          </a>
-
-          <a href="memory-grid.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Fish Memory Grid</div>
-            <div class="game-desc">Remember fish patterns.</div>
-          </a>
-
-          <a href="number-memory.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Fish Number Memory</div>
-            <div class="game-desc">Remember fish numbers.</div>
-          </a>
-
-          <a href="rps-ai.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Fish vs AI</div>
-            <div class="game-desc">Rock paper fish.</div>
-          </a>
-
-          <a href="whack-a-mole.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Whack-a-Fish</div>
-            <div class="game-desc">Whack the fish.</div>
-          </a>
-
-          <a href="runaway-snake.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Runaway Fish</div>
-            <div class="game-desc">Fish runs away.</div>
-          </a>
-
-          <a href="gravity-flip.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Fish Gravity</div>
-            <div class="game-desc">Flip gravity for fish.</div>
-          </a>
-
-          <a href="cursed-clicker.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Cursed Fish Clicker</div>
-            <div class="game-desc">Everything becomes fish.</div>
-          </a>
-
-          <a href="dodge-dots.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Dodge Fish</div>
-            <div class="game-desc">Avoid incoming fish.</div>
-          </a>
-
-          <a href="evil-simon.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Evil Fish Simon</div>
-            <div class="game-desc">Fish cheats.</div>
-          </a>
-
-          <a href="spin-wheel.html" class="game-card">
-            <div class="game-emoji">🐟</div>
-            <div class="game-title">Spin the Fish</div>
-            <div class="game-desc">Every spin = fish.</div>
-          </a>
-
-        </div>
-      </div>
-
-      <!-- 🔒 PREVIEW -->
-      <div class="games-section" id="gamesSection">
-        <div class="games-label">🔒 Secret Fish Experiments</div>
-        <div class="games-grid">
-
-          <a href="#" class="game-card"><div class="game-emoji">🐟</div><div class="game-title">Guess the Fish</div><div class="game-desc">Which fish matches?</div></a>
-          <a href="#" class="game-card"><div class="game-emoji">🐟</div><div class="game-title">Survive the Fish</div><div class="game-desc">Fish chaos increases.</div></a>
-          <a href="#" class="game-card"><div class="game-emoji">🐟</div><div class="game-title">Fish Simulator</div><div class="game-desc">You are fish.</div></a>
-          <a href="#" class="game-card"><div class="game-emoji">🐟</div><div class="game-title">Fish Aim Trainer</div><div class="game-desc">Click fish targets.</div></a>
-          <a href="#" class="game-card"><div class="game-emoji">🐟</div><div class="game-title">Two Fish One Lie</div><div class="game-desc">Find fake fish.</div></a>
-          <a href="#" class="game-card"><div class="game-emoji">🐟</div><div class="game-title">Fish Sprint</div><div class="game-desc">Solve fish math.</div></a>
-          <a href="#" class="game-card"><div class="game-emoji">🐟</div><div class="game-title">Pixel Fish</div><div class="game-desc">Draw fish art.</div></a>
-          <a href="#" class="game-card"><div class="game-emoji">🐟</div><div class="game-title">Fish Flood</div><div class="game-desc">Flood with fish.</div></a>
-          <a href="#" class="game-card"><div class="game-emoji">🐟</div><div class="game-title">Moving Fish Mines</div><div class="game-desc">Fish move.</div></a>
-          <a href="#" class="game-card"><div class="game-emoji">🐟</div><div class="game-title">Scared Fish</div><div class="game-desc">Fish panic.</div></a>
-
-        </div>
-      </div>
-
-      <div class="bottom-section">
-        <div class="made-by-text">
-          Controlled by fish 🐟 (formerly Tyler)
-        </div>
       </div>
 
     </div>
+
     <script>
-      if (window.location.search.includes("preview")) {
-        document.getElementById("gamesSection").classList.add("visible");
-      }
-      function filterGames(query) {
-        const q = query.toLowerCase().trim();
-        const cards = document.querySelectorAll(".game-card");
-        let visible = 0;
-        cards.forEach((card) => {
-          const title =
-            card.querySelector(".game-title")?.textContent.toLowerCase() || "";
-          const desc =
-            card.querySelector(".game-desc")?.textContent.toLowerCase() || "";
-          const match = !q || title.includes(q) || desc.includes(q);
-          card.style.display = match ? "" : "none";
-          if (match) visible++;
-        });
-        document.getElementById("noResults").style.display =
-          q && visible === 0 ? "block" : "none";
-        document.querySelectorAll(".games-section").forEach((sec) => {
-          const anyVisible = [...sec.querySelectorAll(".game-card")].some(
-            (c) => c.style.display !== "none",
-          );
-          sec.style.opacity = anyVisible ? "1" : "0.3";
-        });
-      }
-      const canvas = document.getElementById("particles");
-      const ctx = canvas.getContext("2d");
-      let W,
-        H,
-        stars = [];
-      function resize() {
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-      }
-      function initStars() {
-        stars = [];
-        const count = Math.floor((W * H) / 8000);
-        for (let i = 0; i < count; i++) {
-          stars.push({
-            x: Math.random() * W,
-            y: Math.random() * H,
-            r: Math.random() * 1.2 + 0.3,
-            speed: Math.random() * 0.15 + 0.03,
-            opacity: Math.random() * 0.5 + 0.1,
-            twinkleSpeed: Math.random() * 0.01 + 0.003,
-            twinkleOffset: Math.random() * Math.PI * 2,
-          });
-        }
-      }
-      let t = 0;
-      function draw() {
-        ctx.clearRect(0, 0, W, H);
-        t += 0.016;
-        for (const s of stars) {
-          const alpha =
-            s.opacity +
-            Math.sin(t * s.twinkleSpeed * 60 + s.twinkleOffset) * 0.15;
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(148, 197, 255, ${Math.max(0, alpha)})`;
-          ctx.fill();
-          s.y -= s.speed;
-          if (s.y < -2) {
-            s.y = H + 2;
-            s.x = Math.random() * W;
-          }
-        }
-        requestAnimationFrame(draw);
-      }
-      resize();
-      initStars();
-      draw();
-      window.addEventListener("resize", () => {
-        resize();
-        initStars();
-      });
+      const canvas=document.getElementById("particles");
+      const ctx=canvas.getContext("2d");
+      let W,H,stars=[];
+
+      function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight}
+      function init(){stars=[];for(let i=0;i<120;i++){stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2})}}
+      function draw(){ctx.clearRect(0,0,W,H);for(let s of stars){ctx.fillStyle="rgba(96,165,250,.5)";ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.28);ctx.fill();s.y-=.2;if(s.y<0)s.y=H}requestAnimationFrame(draw)}
+
+      resize();init();draw();window.addEventListener("resize",()=>{resize();init()});
     </script>
   </body>
 </html>
