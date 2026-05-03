@@ -1,21 +1,25 @@
-# 🚀 tyler.fun (COMING SOON)
+# 🐟 fish.fun (HACKED BY FISH)
 
-> **"Wait, my own neal.fun? But called tyler.fun? No way!"**
+> **"Wait, my own neal.fun? But called fish.fun? MUCH BETTER!"**
 
-**tyler.fun** is a collection of weird, fun, and interactive web projects inspired by the GOAT, **Neal Agarwal (neal.fun)**. This repository houses the code for everything you see on the site from data visualizations to useless (but entertaining) buttons.
+**fish.fun** is a collection of interactive fish experiments and creative fish projects, inspired by the GOAT, **Neal Agarwal (neal.fun)**—now with a fish-themed twist. This repository has been seized by the **Lead Tester** to ensure maximum fishiness.
 
 ### 🛠️ What’s inside?
-* **Interactive Mini-Games:** Small, addictive experiences built to waste your time in the best way possible.
-* **Experimental UI/UX Toys:** Digital playgrounds where I mess around with physics, animations, and weird web tech.
-* **The "Why Not?" Category:** Random things that probably shouldn't exist, but I built them anyway because they were fun to make.
+* **Fish-Based Mini-Games:** Small, addictive experiences like **Fish Roast Clicker** (now optimized to 500 lines of pure heat) built to waste your time in the best way possible.
+* **Experimental UI/UX Toys:** Digital playgrounds where the **Lead Tester** messes around with physics, animations, and making sure the **Fish Impossible Button** truly cannot be clicked.
+* **The "Fish Only" Category:** Random things like **Fish Evil Simon** and **Fish Useless Machine** that exist solely because **Fish** approved them.
 
 ---
 
-### 🚧 Work in Progress
-This project is currently a **huge work in progress**. I’m constantly tweaking the code, breaking things, and adding new experiments. 
+### 🌊 Fish Development Active
+This project is currently under **total fish control**. We are constantly tweaking the code, breaking things, and making sure the **@admin** just sighs whenever they see our commits.
 
-* **Live Site:** [tyler-fun.vercel.app](https://tyler-fun.vercel.app/)
-* **Status:** Early Development. More "fun" is being coded as we speak.
+* **Live Site:** [tyler-fun-fish.vercel.app](https://tyler-fun-fish.vercel.app/)
+* **Status:** Coming Fish Soon (**Summer 2026 / Early 2027**). To be honest, we're not sure if we'll ever actually finish it.
 
 ### 🧪 About the Project
-The goal of **tyler.fun** isn't to be a professional portfolio it’s to be a digital sandbox. Just like the original **neal.fun**, it’s all about creating things that are simple, clean, and genuinely interesting to click on.
+The goal of **fish.fun** isn't to be a professional portfolio it’s to be a digital sandbox for the crew. Just like the original **neal.fun**, it’s all about creating things that are simple, clean, and **Fish Approved**.
+
+---
+
+> *If you have a problem with the new fish management, please contact **Support**. (Note: Support has 0 bugs ignored but infinite patience for your complaints).*
