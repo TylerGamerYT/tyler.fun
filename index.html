@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>tyler.fun | Coming Soon</title>
+    <title>fish.fun | Coming Soon</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap"
@@ -361,581 +361,250 @@
       .made-by-text a:hover {
         color: var(--blue-accent);
       }
-      .social-button {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        background: rgba(37, 99, 235, 0.2);
-        border: 1.5px solid rgba(96, 165, 250, 0.45);
-        padding: 13px 32px;
-        border-radius: 999px;
-        text-decoration: none;
-        color: #fff;
-        font-weight: 600;
-        font-size: 1rem;
-        transition:
-          transform 0.2s ease,
-          border-color 0.2s ease,
-          background 0.2s ease,
-          box-shadow 0.2s ease;
-      }
-      .social-button:hover {
-        transform: translateY(-3px);
-        border-color: var(--blue-accent);
-        background: rgba(37, 99, 235, 0.38);
-        box-shadow: 0 0 22px rgba(96, 165, 250, 0.2);
-      }
-      .social-button:active {
-        transform: translateY(-1px);
-      }
-      .arrow {
-        display: inline-block;
-        transition: transform 0.2s ease;
-        font-style: normal;
-        font-size: 1.1rem;
-      }
-      .social-button:hover .arrow {
-        transform: translateX(4px);
-      }
       @keyframes fadeUp {
-        0% {
-          opacity: 0;
-          transform: translateY(14px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .changelog-link {
-        position: fixed;
-        top: 20px;
-        right: 24px;
-        font-size: 0.85rem;
-        color: #475569;
-        text-decoration: none;
-        transition: color 0.2s;
-        z-index: 10;
-      }
-      .changelog-link:hover {
-        color: #fff;
-      }
-      .profile-icon {
-        position: fixed;
-        top: 14px;
-        right: 110px;
-        z-index: 10;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        background: rgba(15, 23, 42, 0.7);
-        border: 1px solid rgba(51, 65, 85, 0.6);
-        border-radius: 999px;
-        padding: 5px 12px 5px 6px;
-        transition:
-          border-color 0.2s,
-          background 0.2s;
-        backdrop-filter: blur(10px);
-      }
-      .profile-icon:hover {
-        border-color: rgba(96, 165, 250, 0.35);
-        background: rgba(30, 58, 138, 0.3);
-      }
-      .profile-avatar {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: rgba(51, 65, 85, 0.8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: #64748b;
-        border: 1px solid rgba(51, 65, 85, 0.6);
-      }
-      .profile-name {
-        font-size: 0.75rem;
-        color: #64748b;
-        font-weight: 600;
-      }
-      .search-wrap {
-        width: 100%;
-        margin-bottom: 20px;
-        opacity: 0;
-        animation: fadeUp 0.7s ease forwards 2.45s;
-        position: relative;
-      }
-      .search-input {
-        width: 100%;
-        padding: 12px 44px 12px 18px;
-        background: rgba(15, 23, 42, 0.65);
-        border: 1px solid rgba(51, 65, 85, 0.7);
-        border-radius: 14px;
-        color: #fff;
-        font-family: "Inter", sans-serif;
-        font-size: 0.95rem;
-        outline: none;
-        backdrop-filter: blur(14px);
-        transition:
-          border-color 0.2s,
-          background 0.2s;
-      }
-      .search-input::placeholder {
-        color: #334155;
-      }
-      .search-input:focus {
-        border-color: rgba(96, 165, 250, 0.4);
-        background: rgba(15, 23, 42, 0.85);
-      }
-      .search-icon {
-        position: absolute;
-        right: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #334155;
-        pointer-events: none;
-        font-size: 1rem;
-      }
-      .no-results {
-        font-size: 0.9rem;
-        color: #334155;
-        padding: 16px 0;
-        display: none;
+        0% { opacity: 0; transform: translateY(14px); }
+        100% { opacity: 1; transform: translateY(0); }
       }
     </style>
   </head>
+
   <body>
     <canvas id="particles"></canvas>
     <div class="bg-glow"></div>
-    <a href="changelog.html" class="changelog-link">Changelog</a>
-    <a
-      href="users/Guest/Index.html"
-      class="profile-icon"
-      title="You are browsing as Guest"
-    >
-      <div class="profile-avatar">?</div>
-      <span class="profile-name">@Guest</span>
-    </a>
 
     <div class="container">
       <div class="badge"><span class="dot"></span> Development Active</div>
+
       <div class="logo-wrapper">
         <h1 class="animated-logo">
-          <span class="name">tyler</span><span class="logo-dot">.</span
+          <span class="name">fish</span><span class="logo-dot">.</span
           ><span class="fun">fun</span>
         </h1>
       </div>
+
       <p class="tagline">
         A collection of interactive web experiments and creative projects,
-        inspired by
-        <a href="https://neal.fun/" target="_blank">neal.fun</a> and the work of
-        <a href="https://en.wikipedia.org/wiki/Neal_Agarwal" target="_blank"
-          >Neal Agarwal</a
-        >.
+        inspired by neal.fun.
       </p>
+
       <div class="info-box">
         <div class="label">Current Status</div>
-        <div class="value">
-          <span>Coming Soon</span> (Summer 2026 / Early 2027)
-        </div>
-        <div class="disclaimer">
-          To be honest, I'm not sure if this will ever be finished or if I'll
-          actually commit to the project.
-        </div>
+        <div class="value"><span>Coming Soon</span> (Fish Rebrand)</div>
+        <div class="disclaimer">Rebranded site identity: Fish.fun</div>
       </div>
 
-      <!-- SEARCH -->
-      <div class="search-wrap" id="searchWrap">
-        <input
-          type="text"
-          class="search-input"
-          id="searchInput"
-          placeholder="Search games..."
-          oninput="filterGames(this.value)"
-        />
-        <span class="search-icon">⌕</span>
-      </div>
-      <div class="no-results" id="noResults">
-        No games found for that search.
-      </div>
+    <!-- PUBLIC GAMES -->
+<div class="games-section visible" id="publicGames">
+  <div class="games-label">🎮 Fish Games</div>
 
-      <!-- PUBLIC GAMES -->
-      <div class="games-section visible" id="publicGames">
-        <div class="games-label">🎮 Games</div>
-        <div class="games-grid">
-          <a href="roast-clicker.html" class="game-card"
-            ><div class="game-emoji">🔥</div>
-            <div class="game-title">Roast Clicker</div>
-            <div class="game-desc">
-              Click a button. Get roasted. Keep clicking. Get destroyed.
-            </div>
-            <span class="game-badge public">Public</span></a
-          >
-          <a href="impossible-button.html" class="game-card"
-            ><div class="game-emoji">🏃</div>
-            <div class="game-title">Impossible Button</div>
-            <div class="game-desc">
-              A button that refuses to be clicked. It runs. Forever.
-            </div>
-            <span class="game-badge public">Public</span></a
-          >
-          <a href="hold-the-key.html" class="game-card"
-            ><div class="game-emoji">⌨️</div>
-            <div class="game-title">Hold the Key</div>
-            <div class="game-desc">
-              Hold spacebar as long as you can. Global leaderboard. No excuses.
-            </div>
-            <span class="game-badge public">Public</span></a
-          >
-          <a href="useless-machine.html" class="game-card"
-            ><div class="game-emoji">🔘</div>
-            <div class="game-title">Useless Machine</div>
-            <div class="game-desc">
-              Turn it on. It turns itself off. There is no point. That's the
-              point.
-            </div>
-            <span class="game-badge public">Public</span></a
-          >
-          <a href="scroll-to-win.html" class="game-card"
-            ><div class="game-emoji">📜</div>
-            <div class="game-title">Scroll to Win</div>
-            <div class="game-desc">
-              Scroll up to fill the bar. It drains the moment you stop. Pure
-              evil.
-            </div>
-            <span class="game-badge public">Public</span></a
-          >
-          <a href="word-scramble.html" class="game-card"
-            ><div class="game-emoji">🔤</div>
-            <div class="game-title">Word Scramble</div>
-            <div class="game-desc">
-              Unscramble the word before the timer hits zero. 40+ words across 6
-              categories.
-            </div>
-            <span class="game-badge public">Public</span></a
-          >
-          <a href="reaction-time.html" class="game-card"
-            ><div class="game-emoji">⚡</div>
-            <div class="game-title">Reaction Time</div>
-            <div class="game-desc">
-              Click when the circle turns green. How fast are your reflexes?
-            </div>
-            <span class="game-badge public">Public</span></a
-          >
-          <a href="higher-or-lower.html" class="game-card"
-            ><div class="game-emoji">🔢</div>
-            <div class="game-title">Higher or Lower</div>
-            <div class="game-desc">
-              Will the next number be higher or lower? Easy to learn, hard to
-              master.
-            </div>
-            <span class="game-badge public">Public</span></a
-          >
-          <a href="floor-is-lava.html" class="game-card"
-            ><div class="game-emoji">🌋</div>
-            <div class="game-title">The Floor is Lava</div>
-            <div class="game-desc">
-              Keep your cursor off the floor. The lava rises over time. Good
-              luck.
-            </div>
-            <span class="game-badge public">Public</span></a
-          >
-          <a href="type-fast.html" class="game-card"
-            ><div class="game-emoji">⌨️</div>
-            <div class="game-title">Type Fast</div>
-            <div class="game-desc">
-              Type as fast as you can. There's a twist at the end based on your
-              WPM.
-            </div>
-            <span class="game-badge public">Public</span></a
-          >
-          <a href="cursed-breakout.html" class="game-card"
-            ><div class="game-emoji">🧱</div>
-            <div class="game-title">Cursed Breakout</div>
-            <div class="game-desc">
-              Classic brick breaker — but bricks dodge, split, and make the ball
-              faster.
-            </div>
-            <span class="game-badge public">Public</span></a
-          >
-          <a href="dont-press.html" class="game-card"
-            ><div class="game-emoji">🔴</div>
-            <div class="game-title">Don't Press It</div>
-            <div class="game-desc">
-              There is a red button. You should not press it. You will press it.
-            </div>
-            <span class="game-badge public">Public</span></a
-          >
-          <a href="memory-grid.html" class="game-card"
-            ><div class="game-emoji">🧩</div>
-            <div class="game-title">Memory Grid</div>
-            <div class="game-desc">
-              Memorise which tiles lit up. Recreate the pattern. Get it wrong
-              and it's over.
-            </div>
-            <span class="game-badge new-game">New</span></a
-          >
-          <a href="number-memory.html" class="game-card"
-            ><div class="game-emoji">🔢</div>
-            <div class="game-title">Number Memory</div>
-            <div class="game-desc">
-              Remember an increasingly long sequence of numbers before it
-              disappears.
-            </div>
-            <span class="game-badge new-game">New</span></a
-          >
-          <a href="rps-ai.html" class="game-card"
-            ><div class="game-emoji">🤖</div>
-            <div class="game-title">RPS vs AI</div>
-            <div class="game-desc">
-              Rock paper scissors against an AI that studies your patterns and
-              adapts.
-            </div>
-            <span class="game-badge new-game">New</span></a
-          >
-          <a href="whack-a-mole.html" class="game-card"
-            ><div class="game-emoji">🐭</div>
-            <div class="game-title">Whack-a-Mole</div>
-            <div class="game-desc">
-              Whack the moles before they disappear. Miss and they roast you.
-            </div>
-            <span class="game-badge new-game">New</span></a
-          >
-          <a href="runaway-snake.html" class="game-card"
-            ><div class="game-emoji">🐍</div>
-            <div class="game-title">Runaway Snake</div>
-            <div class="game-desc">
-              Classic snake — except the food runs away from you. Good luck.
-            </div>
-            <span class="game-badge new-game">New</span></a
-          >
-          <a href="gravity-flip.html" class="game-card"
-            ><div class="game-emoji">🔄</div>
-            <div class="game-title">Gravity Flip</div>
-            <div class="game-desc">
-              Flip gravity to dodge obstacles. It gets faster. You will die a
-              lot.
-            </div>
-            <span class="game-badge new-game">New</span></a
-          >
-          <a href="cursed-clicker.html" class="game-card"
-            ><div class="game-emoji">🍪</div>
-            <div class="game-title">Cursed Clicker</div>
-            <div class="game-desc">
-              Cookie clicker — but every upgrade makes something progressively
-              worse.
-            </div>
-            <span class="game-badge new-game">New</span></a
-          >
-          <a href="dodge-dots.html" class="game-card"
-            ><div class="game-emoji">🔵</div>
-            <div class="game-title">Dodge the Dots</div>
-            <div class="game-desc">
-              Move your cursor to survive. Red circles close in. They get
-              faster.
-            </div>
-            <span class="game-badge new-game">New</span></a
-          >
-          <a href="evil-simon.html" class="game-card"
-            ><div class="game-emoji">😈</div>
-            <div class="game-title">Evil Simon</div>
-            <div class="game-desc">
-              Repeat the colour pattern. Simon cheats. Buttons swap. Colours
-              switch.
-            </div>
-            <span class="game-badge new-game">New</span></a
-          >
-          <a href="spin-wheel.html" class="game-card"
-            ><div class="game-emoji">🎰</div>
-            <div class="game-title">Spin the Wheel</div>
-            <div class="game-desc">
-              Every spin has a consequence. Confetti, screen flips, grandmas.
-              Spin responsibly.
-            </div>
-            <span class="game-badge new-game">New</span></a
-          >
-        </div>
-      </div>
+  <div class="games-grid">
 
-      <!-- PREVIEW ONLY -->
-      <div class="games-section" id="gamesSection">
-        <div class="games-label">🔒 Preview Only</div>
-        <div class="games-grid">
-          <a href="guess-colour.html" class="game-card"
-            ><div class="game-emoji">🎨</div>
-            <div class="game-title">Guess the Colour</div>
-            <div class="game-desc">
-              Which hex code matches the swatch? Easy mode or brutal hard mode.
-            </div>
-            <span class="game-badge">In Development</span></a
-          >
-          <a href="survive-clicks.html" class="game-card"
-            ><div class="game-emoji">🖱️</div>
-            <div class="game-title">Survive the Clicks</div>
-            <div class="game-desc">
-              Click the button. Each click introduces a new challenge. How far
-              can you go?
-            </div>
-            <span class="game-badge">In Development</span></a
-          >
-          <a href="chair-simulator.html" class="game-card"
-            ><div class="game-emoji">🪑</div>
-            <div class="game-title">Chair Simulator</div>
-            <div class="game-desc">
-              You are a chair. That is all. Invite people to sit. Contemplate
-              existence.
-            </div>
-            <span class="game-badge">In Development</span></a
-          >
-          <a href="aim-trainer.html" class="game-card"
-            ><div class="game-emoji">🎯</div>
-            <div class="game-title">Aim Trainer</div>
-            <div class="game-desc">
-              Click the targets as fast as you can. 30 seconds. No excuses.
-            </div>
-            <span class="game-badge">In Development</span></a
-          >
-          <a href="two-truths.html" class="game-card"
-            ><div class="game-emoji">🤥</div>
-            <div class="game-title">Two Truths One Lie</div>
-            <div class="game-desc">
-              Three statements. Two are true. One is a lie. Pick the fake.
-            </div>
-            <span class="game-badge">In Development</span></a
-          >
-          <a href="math-sprint.html" class="game-card"
-            ><div class="game-emoji">🧮</div>
-            <div class="game-title">Math Sprint</div>
-            <div class="game-desc">
-              Answer maths questions as fast as possible. Easy, medium, hard.
-            </div>
-            <span class="game-badge">In Development</span></a
-          >
-          <a href="pixel-art.html" class="game-card"
-            ><div class="game-emoji">🎨</div>
-            <div class="game-title">Pixel Art</div>
-            <div class="game-desc">
-              Draw on a grid. Save your masterpiece. No talent required.
-            </div>
-            <span class="game-badge">In Development</span></a
-          >
-          <a href="colour-flood.html" class="game-card"
-            ><div class="game-emoji">🌊</div>
-            <div class="game-title">Colour Flood</div>
-            <div class="game-desc">
-              Flood fill the board with one colour in as few moves as possible.
-            </div>
-            <span class="game-badge">In Development</span></a
-          >
-          <a href="moving-minesweeper.html" class="game-card"
-            ><div class="game-emoji">💣</div>
-            <div class="game-title">Moving Minesweeper</div>
-            <div class="game-desc">
-              Classic minesweeper — but the mines drift every few clicks.
-            </div>
-            <span class="game-badge">In Development</span></a
-          >
-          <a href="scared-asteroids.html" class="game-card"
-            ><div class="game-emoji">😰</div>
-            <div class="game-title">Scared Asteroids</div>
-            <div class="game-desc">
-              Asteroids — but your ship panics randomly and shoots everywhere.
-            </div>
-            <span class="game-badge">In Development</span></a
-          >
-        </div>
+    <a href="roast-clicker.html" class="game-card">
+      <div class="game-emoji">🔥</div>
+      <div class="game-title">Roast Clicker</div>
+      <div class="game-desc">
+        Click a button. Get roasted. Keep clicking. Get destroyed — Fish edition.
       </div>
+      <span class="game-badge public">Public</span>
+    </a>
+
+    <a href="impossible-button.html" class="game-card">
+      <div class="game-emoji">🏃</div>
+      <div class="game-title">Impossible Button</div>
+      <div class="game-desc">
+        A button that refuses to be clicked. Fish made it worse.
+      </div>
+      <span class="game-badge public">Public</span>
+    </a>
+
+    <a href="hold-the-key.html" class="game-card">
+      <div class="game-emoji">⌨️</div>
+      <div class="game-title">Hold the Key</div>
+      <div class="game-desc">
+        Hold spacebar as long as you can. Fish is timing you.
+      </div>
+      <span class="game-badge public">Public</span>
+    </a>
+
+    <a href="useless-machine.html" class="game-card">
+      <div class="game-emoji">🔘</div>
+      <div class="game-title">Useless Machine</div>
+      <div class="game-desc">
+        Turn it on. It turns itself off. Fish approves.
+      </div>
+      <span class="game-badge public">Public</span>
+    </a>
+
+    <a href="scroll-to-win.html" class="game-card">
+      <div class="game-emoji">📜</div>
+      <div class="game-title">Scroll to Win</div>
+      <div class="game-desc">
+        Scroll up to fill the bar. Fish drains your progress instantly.
+      </div>
+      <span class="game-badge public">Public</span>
+    </a>
+
+    <a href="word-scramble.html" class="game-card">
+      <div class="game-emoji">🔤</div>
+      <div class="game-title">Word Scramble</div>
+      <div class="game-desc">
+        Unscramble words before time runs out. Fish scrambled them harder.
+      </div>
+      <span class="game-badge public">Public</span>
+    </a>
+
+    <a href="reaction-time.html" class="game-card">
+      <div class="game-emoji">⚡</div>
+      <div class="game-title">Reaction Time</div>
+      <div class="game-desc">
+        Click when it turns green. Fish is faster than you.
+      </div>
+      <span class="game-badge public">Public</span>
+    </a>
+
+    <a href="higher-or-lower.html" class="game-card">
+      <div class="game-emoji">🔢</div>
+      <div class="game-title">Higher or Lower</div>
+      <div class="game-desc">
+        Guess higher or lower. Fish already knows the answer.
+      </div>
+      <span class="game-badge public">Public</span>
+    </a>
+
+    <a href="floor-is-lava.html" class="game-card">
+      <div class="game-emoji">🌋</div>
+      <div class="game-title">The Floor is Lava</div>
+      <div class="game-desc">
+        Don’t touch the floor. Fish made it lava.
+      </div>
+      <span class="game-badge public">Public</span>
+    </a>
+
+    <a href="type-fast.html" class="game-card">
+      <div class="game-emoji">⌨️</div>
+      <div class="game-title">Type Fast</div>
+      <div class="game-desc">
+        Type fast. Fish judges your speed.
+      </div>
+      <span class="game-badge public">Public</span>
+    </a>
+
+    <a href="cursed-breakout.html" class="game-card">
+      <div class="game-emoji">🧱</div>
+      <div class="game-title">Cursed Breakout</div>
+      <div class="game-desc">
+        Break bricks. Fish makes them fight back.
+      </div>
+      <span class="game-badge public">Public</span>
+    </a>
+
+    <a href="dont-press.html" class="game-card">
+      <div class="game-emoji">🔴</div>
+      <div class="game-title">Don't Press It</div>
+      <div class="game-desc">
+        You will press it. Fish guarantees it.
+      </div>
+      <span class="game-badge public">Public</span>
+    </a>
+
+    <a href="memory-grid.html" class="game-card">
+      <div class="game-emoji">🧩</div>
+      <div class="game-title">Memory Grid</div>
+      <div class="game-desc">
+        Remember the pattern. Fish makes it harder every round.
+      </div>
+      <span class="game-badge new-game">New</span>
+    </a>
+
+    <a href="number-memory.html" class="game-card">
+      <div class="game-emoji">🔢</div>
+      <div class="game-title">Number Memory</div>
+      <div class="game-desc">
+        Remember numbers. Fish removes your confidence.
+      </div>
+      <span class="game-badge new-game">New</span>
+    </a>
+
+    <a href="rps-ai.html" class="game-card">
+      <div class="game-emoji">🤖</div>
+      <div class="game-title">RPS vs AI</div>
+      <div class="game-desc">
+        Rock Paper Scissors vs Fish AI that reads you.
+      </div>
+      <span class="game-badge new-game">New</span>
+    </a>
+
+    <a href="whack-a-mole.html" class="game-card">
+      <div class="game-emoji">🐭</div>
+      <div class="game-title">Whack-a-Mole</div>
+      <div class="game-desc">
+        Whack them fast. Fish makes them faster.
+      </div>
+      <span class="game-badge new-game">New</span>
+    </a>
+
+    <a href="runaway-snake.html" class="game-card">
+      <div class="game-emoji">🐍</div>
+      <div class="game-title">Runaway Snake</div>
+      <div class="game-desc">
+        Snake runs away from you. Fish is responsible.
+      </div>
+      <span class="game-badge new-game">New</span>
+    </a>
+
+    <a href="gravity-flip.html" class="game-card">
+      <div class="game-emoji">🔄</div>
+      <div class="game-title">Gravity Flip</div>
+      <div class="game-desc">
+        Flip gravity. Fish flips your control too.
+      </div>
+      <span class="game-badge new-game">New</span>
+    </a>
+
+    <a href="cursed-clicker.html" class="game-card">
+      <div class="game-emoji">🍪</div>
+      <div class="game-title">Cursed Clicker</div>
+      <div class="game-desc">
+        Every upgrade gets worse. Fish enjoys this.
+      </div>
+      <span class="game-badge new-game">New</span>
+    </a>
+
+    <a href="dodge-dots.html" class="game-card">
+      <div class="game-emoji">🔵</div>
+      <div class="game-title">Dodge the Dots</div>
+      <div class="game-desc">
+        Survive the dots. Fish controls their speed.
+      </div>
+      <span class="game-badge new-game">New</span>
+    </a>
+
+    <a href="evil-simon.html" class="game-card">
+      <div class="game-emoji">😈</div>
+      <div class="game-title">Evil Simon</div>
+      <div class="game-desc">
+        Simon cheats. Fish made it worse.
+      </div>
+      <span class="game-badge new-game">New</span>
+    </a>
+
+    <a href="spin-wheel.html" class="game-card">
+      <div class="game-emoji">🎰</div>
+      <div class="game-title">Spin the Wheel</div>
+      <div class="game-desc">
+        Every spin is chaos. Fish decides outcomes.
+      </div>
+      <span class="game-badge new-game">New</span>
+    </a>
+
+  </div>
+</div>
 
       <div class="bottom-section">
         <div class="made-by-text">
-          Made by
-          <a href="https://github.com/TylerGamerYT" target="_blank">Tyler</a>
+          Made by <a href="https://github.com/TylerGamerYT">Fish</a>
         </div>
-        <a href="socials.html" class="social-button"
-          >View My Socials <span class="arrow">→</span></a
-        >
       </div>
     </div>
-
-    <script>
-      if (window.location.search.includes("preview")) {
-        document.getElementById("gamesSection").classList.add("visible");
-      }
-      function filterGames(query) {
-        const q = query.toLowerCase().trim();
-        const cards = document.querySelectorAll(".game-card");
-        let visible = 0;
-        cards.forEach((card) => {
-          const title =
-            card.querySelector(".game-title")?.textContent.toLowerCase() || "";
-          const desc =
-            card.querySelector(".game-desc")?.textContent.toLowerCase() || "";
-          const match = !q || title.includes(q) || desc.includes(q);
-          card.style.display = match ? "" : "none";
-          if (match) visible++;
-        });
-        document.getElementById("noResults").style.display =
-          q && visible === 0 ? "block" : "none";
-        document.querySelectorAll(".games-section").forEach((sec) => {
-          const anyVisible = [...sec.querySelectorAll(".game-card")].some(
-            (c) => c.style.display !== "none",
-          );
-          sec.style.opacity = anyVisible ? "1" : "0.3";
-        });
-      }
-      const canvas = document.getElementById("particles");
-      const ctx = canvas.getContext("2d");
-      let W,
-        H,
-        stars = [];
-      function resize() {
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-      }
-      function initStars() {
-        stars = [];
-        const count = Math.floor((W * H) / 8000);
-        for (let i = 0; i < count; i++) {
-          stars.push({
-            x: Math.random() * W,
-            y: Math.random() * H,
-            r: Math.random() * 1.2 + 0.3,
-            speed: Math.random() * 0.15 + 0.03,
-            opacity: Math.random() * 0.5 + 0.1,
-            twinkleSpeed: Math.random() * 0.01 + 0.003,
-            twinkleOffset: Math.random() * Math.PI * 2,
-          });
-        }
-      }
-      let t = 0;
-      function draw() {
-        ctx.clearRect(0, 0, W, H);
-        t += 0.016;
-        for (const s of stars) {
-          const alpha =
-            s.opacity +
-            Math.sin(t * s.twinkleSpeed * 60 + s.twinkleOffset) * 0.15;
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(148, 197, 255, ${Math.max(0, alpha)})`;
-          ctx.fill();
-          s.y -= s.speed;
-          if (s.y < -2) {
-            s.y = H + 2;
-            s.x = Math.random() * W;
-          }
-        }
-        requestAnimationFrame(draw);
-      }
-      resize();
-      initStars();
-      draw();
-      window.addEventListener("resize", () => {
-        resize();
-        initStars();
-      });
-    </script>
   </body>
 </html>
