@@ -76,8 +76,30 @@ export default async function handler(req, res) {
       `tyfun_session=${sessionData}; Path=/; Max-Age=604800; HttpOnly; Secure; SameSite=Lax`
     ]);
 
-    // 6. Redirect to user page (better UX)
-    return res.redirect(`/users/${user.login}`);
+    // 6. Redirect to known user profile page when available; otherwise guest page
+    const knownUsers = new Map([
+      ['tyler', 'Tyler'],
+      ['fish', 'Fish'],
+      ['tawsif', 'tawsif'],
+      ['yoiashley', 'yoiashley'],
+      ['angle', 'angle'],
+      ['aaban', 'Aaban'],
+      ['ban', 'Ban'],
+      ['banned', 'Ban'],
+      ['guest', 'Guest'],
+      ['admin', 'Admin'],
+      ['staff', 'staff'],
+      ['support', 'Support'],
+      ['tyler.fun', 'tyler.fun'],
+    ]);
+
+    const profileSegment = knownUsers.get(String(user.login).toLowerCase());
+
+    if (profileSegment) {
+      return res.redirect(`/users/${profileSegment}`);
+    }
+
+    return res.redirect(`/users/Guest?login=success&user=${encodeURIComponent(user.login)}`);
 
   } catch (err) {
     console.error('Auth error:', err);
