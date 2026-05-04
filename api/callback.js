@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     // 2. Fetch user data
     const userRes = await fetch('https://api.github.com/user', {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `token ${accessToken}`, // Changed 'Bearer' to 'token' for GitHub legacy compatibility
         'User-Agent': 'tyler-fun-app',
       },
     });
@@ -44,23 +44,25 @@ export default async function handler(req, res) {
       return res.redirect('/?error=no_user');
     }
 
-    // 3. Fetch email (optional but useful)
-    const emailRes = await fetch('https://api.github.com/user/emails', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'User-Agent': 'tyler-fun-app',
-      },
-    });
-
-    const emails = await emailRes.json();
-
+    // 3. Fetch email (optional)
     let primaryEmail = '';
-    if (Array.isArray(emails)) {
-      const primary = emails.find(e => e.primary);
-      primaryEmail = primary?.email || emails[0]?.email || '';
+    try {
+        const emailRes = await fetch('https://api.github.com/user/emails', {
+            headers: {
+                Authorization: `token ${accessToken}`,
+                'User-Agent': 'tyler-fun-app',
+            },
+        });
+        const emails = await emailRes.json();
+        if (Array.isArray(emails)) {
+            const primary = emails.find(e => e.primary);
+            primaryEmail = primary?.email || emails[0]?.email || '';
+        }
+    } catch (e) {
+        console.warn('Could not fetch emails:', e);
     }
 
-    // 4. Create session (simple base64 for now)
+    // 4. Create session
     const session = {
       id: user.id,
       username: user.login,
@@ -71,29 +73,39 @@ export default async function handler(req, res) {
 
     const sessionData = Buffer.from(JSON.stringify(session)).toString('base64');
 
-    // 5. Set cookie (THIS PART MATTERS ON VERCEL)
-    res.setHeader('Set-Cookie', [
-      `tyfun_session=${sessionData}; Path=/; Max-Age=604800; HttpOnly; Secure; SameSite=Lax`
-    ]);
+    // 5. Set cookie
+    // Added 'SameSite=Lax' and ensuring it handles production/dev environments
+    const isProd = process.env.NODE_ENV === 'production';
+    const cookieOptions = [
+        `tyfun_session=${sessionData}`,
+        'Path=/',
+        'Max-Age=604800',
+        'HttpOnly',
+        isProd ? 'Secure' : '',
+        'SameSite=Lax'
+    ].filter(Boolean).join('; ');
 
-    // 6. Redirect to known user profile page when available; otherwise guest page
-    const knownUsers = new Map([
-      ['tyler', 'Tyler'],
-      ['fish', 'Fish'],
-      ['tawsif', 'tawsif'],
-      ['yoiashley', 'yoiashley'],
-      ['angle', 'angle'],
-      ['aaban', 'Aaban'],
-      ['ban', 'Ban'],
-      ['banned', 'Ban'],
-      ['guest', 'Guest'],
-      ['admin', 'Admin'],
-      ['staff', 'staff'],
-      ['support', 'Support'],
-      ['tyler.fun', 'tyler.fun'],
-    ]);
+    res.setHeader('Set-Cookie', cookieOptions);
 
-    const profileSegment = knownUsers.get(String(user.login).toLowerCase());
+    // 6. Redirect logic
+    const knownUsers = {
+      'tyler': 'Tyler',
+      'fish': 'Fish',
+      'tawsif': 'tawsif',
+      'yoiashley': 'yoiashley',
+      'angle': 'angle',
+      'aaban': 'Aaban',
+      'ban': 'Ban',
+      'banned': 'Ban',
+      'guest': 'Guest',
+      'admin': 'Admin',
+      'staff': 'staff',
+      'support': 'Support',
+      'tyler.fun': 'tyler.fun',
+    };
+
+    const usernameLower = String(user.login).toLowerCase();
+    const profileSegment = knownUsers[usernameLower];
 
     if (profileSegment) {
       return res.redirect(`/users/${profileSegment}`);
@@ -103,6 +115,9 @@ export default async function handler(req, res) {
 
   } catch (err) {
     console.error('Auth error:', err);
-    return res.redirect('/?error=server_error');
+    // Avoid double redirect if headers already sent
+    if (!res.writableEnded) {
+        return res.redirect('/?error=server_error');
+    }
   }
 }
