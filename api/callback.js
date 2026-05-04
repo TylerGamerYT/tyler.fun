@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     // 2. Fetch user data
     const userRes = await fetch('https://api.github.com/user', {
       headers: {
-        Authorization: `token ${accessToken}`, // Changed 'Bearer' to 'token' for GitHub legacy compatibility
+        Authorization: `token ${accessToken}`,
         'User-Agent': 'tyler-fun-app',
       },
     });
@@ -74,7 +74,6 @@ export default async function handler(req, res) {
     const sessionData = Buffer.from(JSON.stringify(session)).toString('base64');
 
     // 5. Set cookie
-    // Added 'SameSite=Lax' and ensuring it handles production/dev environments
     const isProd = process.env.NODE_ENV === 'production';
     const cookieOptions = [
         `tyfun_session=${sessionData}`,
@@ -87,8 +86,9 @@ export default async function handler(req, res) {
 
     res.setHeader('Set-Cookie', cookieOptions);
 
-    // 6. Redirect logic
+    // 6. Redirect logic (Updated with your specific user list and Index.html paths)
     const knownUsers = {
+      'tylergameryt': 'Tyler', // Your actual GitHub username
       'tyler': 'Tyler',
       'fish': 'Fish',
       'tawsif': 'tawsif',
@@ -97,25 +97,21 @@ export default async function handler(req, res) {
       'aaban': 'Aaban',
       'ban': 'Ban',
       'banned': 'Ban',
-      'guest': 'Guest',
-      'admin': 'Admin',
-      'staff': 'staff',
-      'support': 'Support',
-      'tyler.fun': 'tyler.fun',
     };
 
     const usernameLower = String(user.login).toLowerCase();
     const profileSegment = knownUsers[usernameLower];
 
     if (profileSegment) {
-      return res.redirect(`/users/${profileSegment}`);
+      // Redirects to /users/Name/Index.html
+      return res.redirect(`/users/${profileSegment}/Index.html`);
     }
 
-    return res.redirect(`/users/Guest?login=success&user=${encodeURIComponent(user.login)}`);
+    // Default for unknown users
+    return res.redirect(`/users/Guest/Index.html?login=success&user=${encodeURIComponent(user.login)}`);
 
   } catch (err) {
     console.error('Auth error:', err);
-    // Avoid double redirect if headers already sent
     if (!res.writableEnded) {
         return res.redirect('/?error=server_error');
     }
