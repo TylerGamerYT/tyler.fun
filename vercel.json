@@ -45,9 +45,9 @@
     { "source": "/users/Staff", "destination": "/users/staff/Index.html" },
     { "source": "/users/STAFF", "destination": "/users/staff/Index.html" },
 
-    { "source": "/users/support", "destination": "/users/support/Index.html" },
-    { "source": "/users/Support", "destination": "/users/support/Index.html" },
-    { "source": "/users/SUPPORT", "destination": "/users/support/Index.html" },
+    { "source": "/users/support", "destination": "/users/Support/Index.html" },
+    { "source": "/users/Support", "destination": "/users/Support/Index.html" },
+    { "source": "/users/SUPPORT", "destination": "/users/Support/Index.html" },
 
     { "source": "/users/tyler.fun", "destination": "/users/tyler.fun/Index.html" }
   ]
