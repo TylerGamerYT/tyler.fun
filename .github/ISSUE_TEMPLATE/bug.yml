@@ -1,1 +1,14 @@
-
+name: "Bug Report"
+description: "Encountered a bug or an issue?"
+title: "[Bug] "
+labels: ["bug"]
+assignees:
+  - TylerGamerYT
+body:
+- type: "input"
+  attributes:
+    label: "Summary"
+    description: "A short summary of what is going wrong"
+    placeholder: "The \"...\" game isn't appearing..."
+  validations:
+    required: true
