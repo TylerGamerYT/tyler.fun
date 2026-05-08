@@ -14,6 +14,7 @@ This is a guide on how to contribute to tyler.fun.
 Contributors to the project are eligible for a special **Contributor Badge**. This badge is displayed on your tyler.fun profile for any user with a registered account as recognition for your contribution.
 
 To claim your badge, you need to add your tyler.fun user to your contribution. 
+
 The badge is completely optional.
 
 ## Code Guidelines
