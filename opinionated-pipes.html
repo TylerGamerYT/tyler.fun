@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opinionated Pipes | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; user-select: none; }
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; z-index: 10; }
+        .back-home:hover { color: #fff; }
+        .hud { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 5; display: flex; gap: 16px; }
+        .hud-stat { background: rgba(15,23,42,0.8); border: 1px solid rgba(51,65,85,0.6); border-radius: 12px; padding: 7px 16px; text-align: center; backdrop-filter: blur(10px); }
+        .hud-val { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 900; color: #f8fafc; }
+        .hud-label { font-size: 0.62rem; color: #475569; text-transform: uppercase; letter-spacing: 1.5px; }
+        canvas#game { display: block; }
+        .overlay { position: fixed; inset: 0; background: rgba(2,6,23,0.92); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 50; backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .overlay.show { opacity: 1; pointer-events: all; }
+        .ov-emoji { font-size: 3.5rem; margin-bottom: 10px; }
+        .ov-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem,7vw,2.8rem); font-weight: 900; margin: 0 0 8px; }
+        .ov-sub { color: #64748b; font-size: 0.95rem; margin-bottom: 24px; text-align: center; max-width: 340px; line-height: 1.5; }
+        .ov-btn { padding: 12px 32px; background: rgba(37,99,235,0.3); border: 1.5px solid rgba(96,165,250,0.45); border-radius: 999px; color: #fff; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; }
+        .ov-btn:hover { background: rgba(37,99,235,0.5); }
+        .controls { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: #334155; }
+    </style>
+</head>
+<body>
+<a href="/" class="back-home">← Back to tyler.fun</a>
+<div class="hud">
+    <div class="hud-stat"><div class="hud-val" id="scoreHud">0</div><div class="hud-label">score</div></div>
+    <div class="hud-stat"><div class="hud-val" id="bestHud">0</div><div class="hud-label">best</div></div>
+</div>
+<div class="overlay show" id="startOverlay">
+    <div class="ov-emoji">🐦</div>
+    <div class="ov-title">Opinionated Pipes</div>
+    <div class="ov-sub">Flappy bird but the pipes have strong opinions about your flying. They will tell you.</div>
+    <button class="ov-btn" onclick="startGame()">Play</button>
+</div>
+<div class="overlay" id="deadOverlay">
+    <div class="ov-emoji">💀</div>
+    <div class="ov-title" id="deadTitle">Ouch.</div>
+    <div class="ov-sub" id="deadSub">Score: 0 · Best: 0</div>
+    <button class="ov-btn" onclick="startGame()">Try again</button>
+</div>
+<canvas id="game"></canvas>
+<p class="controls">Space / Click / Tap to flap</p>
+
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+
+const W = () => canvas.width, H = () => canvas.height;
+const PIPE_W = 60, GAP = 180, PIPE_SPEED = 2.8;
+const BIRD_X = 120, BIRD_R = 16;
+const OPINIONS_GOOD = ['Nice!','Clean!','Smooth!','Elegant.','Acceptable.','10/10','Not bad.','Wow ok.','You tried.'];
+const OPINIONS_BAD  = ['Too low.','Too high.','Barely.','Really??','Ugh.','That was ugly.','Lucky.','My gap is NOT for crashing.','I have feelings.','Rude.','Watch it!'];
+
+let bird, pipes, score, best=0, running, animId, frameCount;
+
+function startGame() {
+    document.getElementById('startOverlay').classList.remove('show');
+    document.getElementById('deadOverlay').classList.remove('show');
+    bird = { y: H()/2, vy: 0 };
+    pipes = []; score = 0; frameCount = 0; running = true;
+    updateHud();
+    if (animId) cancelAnimationFrame(animId);
+    loop();
+}
+
+function flap() { if (running) bird.vy = -8; }
+
+document.addEventListener('keydown', e => { if (e.code==='Space') { e.preventDefault(); flap(); } });
+canvas.addEventListener('click', flap);
+canvas.addEventListener('touchstart', e => { e.preventDefault(); flap(); }, {passive:false});
+
+function spawnPipe() {
+    const minY = 80, maxY = H()-80-GAP;
+    const gapY = minY + Math.random()*(maxY-minY);
+    const opinion = Math.random()<0.5 ? OPINIONS_GOOD[Math.floor(Math.random()*OPINIONS_GOOD.length)] : OPINIONS_BAD[Math.floor(Math.random()*OPINIONS_BAD.length)];
+    pipes.push({ x: W()+PIPE_W, gapY, opinion, showOpinion: false, opinionTimer: 0, passed: false, color: `hsl(${Math.random()*60+160},60%,40%)` });
+}
+
+function loop() {
+    if (!running) return;
+    update();
+    draw();
+    animId = requestAnimationFrame(loop);
+}
+
+function update() {
+    frameCount++;
+    bird.vy += 0.4;
+    bird.y += bird.vy;
+
+    // spawn pipes
+    if (frameCount % 90 === 0) spawnPipe();
+
+    pipes.forEach(p => {
+        p.x -= PIPE_SPEED;
+        if (p.opinionTimer > 0) p.opinionTimer--;
+
+        // score + opinion
+        if (!p.passed && p.x + PIPE_W < BIRD_X) {
+            p.passed = true; p.showOpinion = true; p.opinionTimer = 80;
+            score++; updateHud();
+        }
+    });
+    pipes = pipes.filter(p => p.x > -PIPE_W-10);
+
+    // collisions
+    if (bird.y - BIRD_R < 0 || bird.y + BIRD_R > H()) { die(); return; }
+    for (const p of pipes) {
+        if (BIRD_X + BIRD_R > p.x && BIRD_X - BIRD_R < p.x + PIPE_W) {
+            if (bird.y - BIRD_R < p.gapY || bird.y + BIRD_R > p.gapY + GAP) { die(); return; }
+        }
+    }
+}
+
+function draw() {
+    // sky
+    const grad = ctx.createLinearGradient(0,0,0,H());
+    grad.addColorStop(0,'#020617'); grad.addColorStop(1,'#0f2040');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,W(),H());
+
+    // pipes
+    pipes.forEach(p => {
+        ctx.fillStyle = p.color;
+        // top pipe
+        ctx.beginPath(); ctx.roundRect(p.x, 0, PIPE_W, p.gapY, [0,0,10,10]); ctx.fill();
+        // bottom pipe
+        ctx.beginPath(); ctx.roundRect(p.x, p.gapY+GAP, PIPE_W, H()-p.gapY-GAP, [10,10,0,0]); ctx.fill();
+        // pipe rims
+        ctx.fillStyle = 'rgba(255,255,255,0.1)';
+        ctx.beginPath(); ctx.roundRect(p.x-4, p.gapY-16, PIPE_W+8, 16, 6); ctx.fill();
+        ctx.beginPath(); ctx.roundRect(p.x-4, p.gapY+GAP, PIPE_W+8, 16, 6); ctx.fill();
+
+        // opinion speech bubble
+        if (p.showOpinion && p.opinionTimer > 0) {
+            const alpha = Math.min(1, p.opinionTimer/20);
+            ctx.globalAlpha = alpha;
+            ctx.font = 'bold 13px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            const tx = p.x + PIPE_W/2, ty = p.gapY + GAP/2;
+            const tw = ctx.measureText(p.opinion).width + 16;
+            ctx.fillStyle = 'rgba(15,23,42,0.95)';
+            ctx.beginPath(); ctx.roundRect(tx-tw/2, ty-14, tw, 26, 8); ctx.fill();
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillText(p.opinion, tx, ty+5);
+            ctx.globalAlpha = 1;
+        }
+    });
+
+    // bird
+    ctx.save();
+    ctx.translate(BIRD_X, bird.y);
+    ctx.rotate(Math.min(Math.max(bird.vy * 0.05, -0.5), 0.8));
+    ctx.font = `${BIRD_R*2}px serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🐦', 0, 0);
+    ctx.restore();
+}
+
+function die() {
+    running = false;
+    if (score > best) best = score;
+    const title = score===0?'Immediately.':score<5?'Not great.':score<15?'Decent!':score<30?'Nice run!':'Are you a bird?';
+    document.getElementById('deadTitle').textContent = title;
+    document.getElementById('deadSub').textContent = `Score: ${score} · Best: ${best}`;
+    updateHud();
+    setTimeout(() => document.getElementById('deadOverlay').classList.add('show'), 500);
+}
+
+function updateHud() {
+    document.getElementById('scoreHud').textContent = score;
+    document.getElementById('bestHud').textContent = best;
+}
+</script>
+</body>
+</html>
