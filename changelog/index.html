@@ -121,6 +121,15 @@
       .entry:nth-child(7) {
         animation-delay: 0.7s;
       }
+         .entry:nth-child(8) {
+        animation-delay: 0.8s;
+      }
+      .entry:nth-child(9) {
+        animation-delay: 0.9s;
+      }
+      .entry:nth-child(10) {
+        animation-delay: 1s;
+      }
 
       @keyframes fadeUp {
         to {
@@ -256,7 +265,7 @@
   <body>
     <canvas id="particles"></canvas>
     <div class="bg-glow"></div>
-    <a href="index.html" class="back-home">← Back to tyler.fun</a>
+    <a href="/" class="back-home">← Back to tyler.fun</a>
 
     <div class="container">
       <div class="page-header">
@@ -266,6 +275,45 @@
 
       <div class="timeline">
         <div class="entry latest">
+            <div class="entry-left">
+            <div class="entry-dot"></div>
+            <div class="entry-line"></div>
+          </div>
+          <div class="entry-content">
+            <div class="entry-date">July 2026</div>
+            <div class="entry-version">
+              v1.1 <span class="new-badge">Latest</span>
+            </div>
+            <div class="entry-title">
+              Cleaner URLs for games, changelog, and site pages
+            </div>
+            <div class="changes">
+              <div class="change">
+                <span class="change-tag tag-change">Change</span>Moved game
+                pages into their own folders at games/&lt;game-name&gt;/index.html
+                so every game can use a clean games/&lt;game-name&gt;/ link.
+              </div>
+              <div class="change">
+                <span class="change-tag tag-change">Change</span>Updated the
+                homepage game cards to point at the new folder URLs instead of
+                old root-level .html files.
+              </div>
+              <div class="change">
+                <span class="change-tag tag-change">Change</span>Moved the
+                changelog to changelog/index.html so it can be opened from the
+                cleaner changelog/ URL.
+              </div>
+              <div class="change">
+                <span class="change-tag tag-new">New</span>Clean URL notes for
+                the main site pages too - links can use routes like changelog/,
+                games/roast-clicker/, and users/tyler instead of raw .html
+                files.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
@@ -273,7 +321,7 @@
           <div class="entry-content">
             <div class="entry-date">April 2026</div>
             <div class="entry-version">
-              v1.0 <span class="new-badge">Latest</span>
+              v1.0
             </div>
             <div class="entry-title">
               22 public games + 10 new preview games + login/signup
