@@ -254,6 +254,65 @@
         border: 1px solid rgba(239, 68, 68, 0.25);
       }
 
+      /* interactive inline badges inside entries */
+      .badge-inline {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: rgba(59, 130, 246, 0.15);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        color: #60a5fa;
+        padding: 1px 6px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.2s ease;
+      }
+      .badge-inline:hover {
+        background: rgba(59, 130, 246, 0.3);
+        color: #fff;
+        transform: translateY(-1px);
+      }
+      .badge-inline.verified {
+        background: rgba(16, 185, 129, 0.15);
+        border-color: rgba(16, 185, 129, 0.35);
+        color: #34d399;
+      }
+      .badge-inline.verified:hover {
+        background: rgba(16, 185, 129, 0.3);
+        color: #fff;
+      }
+
+      /* badge click modal / popup toast */
+      .badge-toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid rgba(59, 130, 246, 0.5);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        padding: 12px 20px;
+        border-radius: 99px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.85rem;
+        color: #f8fafc;
+        z-index: 100;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .badge-toast.active {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0);
+      }
+
       /* read more button */
       .load-more-container {
         display: flex;
@@ -303,12 +362,31 @@
               v1.2 <span class="new-badge">Latest</span>
             </div>
             <div class="entry-title">
-              Added YKW content and features
+              Badges, Clickable Tooltips & Timeline Expansion
             </div>
             <div class="changes">
               <div class="change">
-                <span class="change-tag tag-new">New</span>Added YKW stuff
-                and related features across the site.
+                <span class="change-tag tag-new">New</span>Added official
+                <span class="badge-inline verified" data-title="Verified Checkmark" data-info="Official verified account checkmark badge for team members & creators.">
+                  ✓ Verified
+                </span>
+                icons across user profiles and comments.
+              </div>
+              <div class="change">
+                <span class="change-tag tag-new">New</span>Added custom profile
+                <span class="badge-inline" data-title="Interactive Badges" data-info="Clicking any badge reveals its description, status, and role info.">
+                  🏅 Badges
+                </span>
+                with click interactions — tap any badge to trigger its detail popup.
+              </div>
+              <div class="change">
+                <span class="change-tag tag-new">New</span>Added "Load Older Updates" collapsible history section with smooth staggered entry animations.
+              </div>
+              <div class="change">
+                <span class="change-tag tag-change">Change</span>Overhauled glassmorphism card layouts, starfield particle speed, and mobile responsiveness.
+              </div>
+              <div class="change">
+                <span class="change-tag tag-fix">Fix</span>Fixed relative routing links across `/users/` and `/games/` subdirectories.
               </div>
             </div>
           </div>
@@ -358,9 +436,7 @@
           </div>
           <div class="entry-content">
             <div class="entry-date">April 2026</div>
-            <div class="entry-version">
-              v1.0
-            </div>
+            <div class="entry-version">v1.0</div>
             <div class="entry-title">
               22 public games + 10 new preview games + login/signup
             </div>
@@ -713,6 +789,11 @@
       </div>
     </div>
 
+    <!-- Badge click toast container -->
+    <div class="badge-toast" id="badgeToast">
+      <strong id="toastTitle">Badge</strong> — <span id="toastInfo">Details...</span>
+    </div>
+
     <script>
       // Background Particle Canvas
       const canvas = document.getElementById("particles"),
@@ -774,6 +855,35 @@
           entry.style.animationDelay = `${index * 0.08}s`;
         });
         loadWrap.style.display = "none";
+      });
+
+      // Interactive Badge Tooltip / Modal Logic
+      const badgeElements = document.querySelectorAll(".badge-inline");
+      const toast = document.getElementById("badgeToast");
+      const toastTitle = document.getElementById("toastTitle");
+      const toastInfo = document.getElementById("toastInfo");
+      let toastTimer = null;
+
+      badgeElements.forEach((badge) => {
+        badge.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const title = badge.getAttribute("data-title") || "Badge";
+          const info = badge.getAttribute("data-info") || "No details available.";
+
+          toastTitle.textContent = title;
+          toastInfo.textContent = info;
+
+          toast.classList.add("active");
+
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => {
+            toast.classList.remove("active");
+          }, 3200);
+        });
+      });
+
+      document.addEventListener("click", () => {
+        toast.classList.remove("active");
       });
     </script>
   </body>
