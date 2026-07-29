@@ -44,11 +44,13 @@
         }
 
         .profile-info { padding: 12px 24px 24px; }
-        .name-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
-        .display-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 900; color: #f8fafc; }
+        
+        /* Name Row Flex Layout */
+        .name-row { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+        .display-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 900; color: #f8fafc; line-height: 1; }
 
         /* Verified Checkmark Container & Tooltip */
-        .vcheck { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
+        .vcheck { position: relative; display: inline-flex; align-items: center; cursor: pointer; transform: translateY(-1px); }
         .vcheck svg { width: 22px; height: 22px; display: block; fill: #1d9bf0; }
         
         .vcheck .tip {
@@ -159,7 +161,7 @@
                         <svg fill="#71767b" viewBox="0 0 24 24">
                             <path d="M7 4V3h2v1h6V3h2v1h2c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h2zm0 4H5v12h14V8H7zm2 3h2v2H9v-2zm4 0h2v2h-2v-2zm-4 4h2v2H9v-2zm4 0h2v2h-2v-2z"/>
                         </svg>
-                        <span>Verified since March 2026.</span>
+                        <span>Verified since April 2026.</span>
                     </div>
                 </div>
             </div>
