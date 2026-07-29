@@ -49,6 +49,18 @@
         .name-row { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 4px; }
         .display-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 900; color: #f8fafc; line-height: 1; }
 
+        /* Icon Badge Styles */
+        .badge-icon {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            vertical-align: middle;
+            transition: transform 0.2s ease;
+        }
+        .badge-icon:hover {
+            transform: scale(1.15);
+        }
+
         /* Verified Checkmark Container & Tooltip */
         .vcheck { position: relative; display: inline-flex; align-items: center; cursor: pointer; transform: translateY(-1px); }
         .vcheck svg { width: 22px; height: 22px; display: block; fill: #1d9bf0; }
@@ -66,10 +78,8 @@
         .vcheck .tip-row:last-child { margin-bottom: 0; }
         .vcheck .tip-row svg { width: 18px; height: 18px; flex-shrink: 0; }
 
-        /* Inline checkmark for team list */
+        /* Inline checkmark & badges for team list */
         .mini-vcheck { width: 16px; height: 16px; fill: #1d9bf0; vertical-align: middle; flex-shrink: 0; }
-
-        /* Icon Badge Styles for team list */
         .mini-badge {
             width: 18px;
             height: 18px;
@@ -119,6 +129,8 @@
             letter-spacing: 1.5px; padding: 2px 7px; border-radius: 99px;
             margin-left: 2px;
         }
+        .mb-creator { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+        .mb-member  { background: rgba(148,163,184,0.1); color: #94a3b8; border: 1px solid rgba(148,163,184,0.2); }
 
         .coming-soon {
             background: rgba(15,23,42,0.65); border: 1px solid rgba(51,65,85,0.5);
@@ -153,6 +165,9 @@
         <div class="name-row">
             <span class="display-name">tyler.fun</span>
             
+            <!-- Staff Badge -->
+            <img src="/assets/icons/staff-badge.png" class="badge-icon" alt="Staff Badge" title="Staff">
+
             <!-- Verified Badge Component -->
             <div class="vcheck">
                 <svg viewBox="0 0 22 22" aria-label="Verified account">
