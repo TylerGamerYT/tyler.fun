@@ -112,23 +112,16 @@
       .entry:nth-child(4) {
         animation-delay: 0.4s;
       }
-      .entry:nth-child(5) {
-        animation-delay: 0.5s;
+
+      /* hidden entries style */
+      .entry.hidden-entry {
+        display: none;
+        animation: none;
       }
-      .entry:nth-child(6) {
-        animation-delay: 0.6s;
-      }
-      .entry:nth-child(7) {
-        animation-delay: 0.7s;
-      }
-         .entry:nth-child(8) {
-        animation-delay: 0.8s;
-      }
-      .entry:nth-child(9) {
-        animation-delay: 0.9s;
-      }
-      .entry:nth-child(10) {
-        animation-delay: 1s;
+
+      .entry.show-entry {
+        display: flex;
+        animation: fadeUp 0.4s ease forwards;
       }
 
       @keyframes fadeUp {
@@ -260,6 +253,31 @@
         color: #f87171;
         border: 1px solid rgba(239, 68, 68, 0.25);
       }
+
+      /* read more button */
+      .load-more-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+      }
+      .load-more-btn {
+        background: rgba(30, 58, 138, 0.2);
+        border: 1px solid rgba(59, 130, 246, 0.4);
+        color: #60a5fa;
+        font-family: "Inter", sans-serif;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 10px 24px;
+        border-radius: 99px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .load-more-btn:hover {
+        background: rgba(59, 130, 246, 0.25);
+        color: #fff;
+        border-color: #3b82f6;
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+      }
     </style>
   </head>
   <body>
@@ -275,15 +293,35 @@
 
       <div class="timeline">
         <div class="entry latest">
-            <div class="entry-left">
+          <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
           </div>
           <div class="entry-content">
             <div class="entry-date">July 2026</div>
             <div class="entry-version">
-              v1.1 <span class="new-badge">Latest</span>
+              v1.2 <span class="new-badge">Latest</span>
             </div>
+            <div class="entry-title">
+              Added YKW content and features
+            </div>
+            <div class="changes">
+              <div class="change">
+                <span class="change-tag tag-new">New</span>Added YKW stuff
+                and related features across the site.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-left">
+            <div class="entry-dot"></div>
+            <div class="entry-line"></div>
+          </div>
+          <div class="entry-content">
+            <div class="entry-date">July 2026</div>
+            <div class="entry-version">v1.1</div>
             <div class="entry-title">
               Cleaner URLs for games, changelog, and site pages
             </div>
@@ -384,7 +422,8 @@
           </div>
         </div>
 
-        <div class="entry">
+        <!-- Hidden older updates -->
+        <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
@@ -428,7 +467,7 @@
           </div>
         </div>
 
-        <div class="entry">
+        <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
@@ -470,7 +509,7 @@
           </div>
         </div>
 
-        <div class="entry">
+        <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
@@ -493,7 +532,7 @@
           </div>
         </div>
 
-        <div class="entry">
+        <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
@@ -517,7 +556,7 @@
           </div>
         </div>
 
-        <div class="entry">
+        <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
@@ -559,7 +598,7 @@
           </div>
         </div>
 
-        <div class="entry">
+        <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
@@ -603,7 +642,7 @@
           </div>
         </div>
 
-        <div class="entry">
+        <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
@@ -640,7 +679,7 @@
           </div>
         </div>
 
-        <div class="entry">
+        <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
@@ -666,9 +705,16 @@
           </div>
         </div>
       </div>
+
+      <div class="load-more-container" id="loadMoreWrap">
+        <button class="load-more-btn" id="loadMoreBtn">
+          Load Older Updates
+        </button>
+      </div>
     </div>
 
     <script>
+      // Background Particle Canvas
       const canvas = document.getElementById("particles"),
         ctx = canvas.getContext("2d");
       let W,
@@ -714,6 +760,20 @@
       window.addEventListener("resize", () => {
         resize();
         initStars();
+      });
+
+      // Load More Logic
+      const loadBtn = document.getElementById("loadMoreBtn");
+      const loadWrap = document.getElementById("loadMoreWrap");
+      const hiddenEntries = document.querySelectorAll(".hidden-entry");
+
+      loadBtn.addEventListener("click", () => {
+        hiddenEntries.forEach((entry, index) => {
+          entry.classList.remove("hidden-entry");
+          entry.classList.add("show-entry");
+          entry.style.animationDelay = `${index * 0.08}s`;
+        });
+        loadWrap.style.display = "none";
       });
     </script>
   </body>
