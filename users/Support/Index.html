@@ -30,37 +30,29 @@
         .banner-label { position: absolute; bottom: 14px; right: 20px; font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: rgba(52,211,153,0.4); }
 
         .avatar-wrap { padding: 0 24px; position: relative; z-index: 2; }
-        .avatar { width: 88px; height: 88px; border-radius: 50%; border: 4px solid #020617; background: linear-gradient(135deg, #064e3b, #047857); display: flex; align-items: center; justify-content: center; font-size: 2.8rem; }
+        .avatar { 
+            width: 88px; 
+            height: 88px; 
+            border-radius: 50%; 
+            border: 4px solid #020617; 
+            background: linear-gradient(135deg, #064e3b, #047857); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden;
+        }
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
         .profile-info { padding: 12px 24px 24px; }
-        .name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; position: relative; flex-wrap: wrap; }
+        .name-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; position: relative; }
         .display-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 900; color: #f8fafc; line-height: 1; }
 
-        .badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; padding: 4px 10px; border-radius: 99px; display: inline-flex; align-items: center; gap: 4px; }
+        .badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; padding: 3px 9px; border-radius: 99px; margin-left: 4px; }
         .badge-support { background: rgba(16,185,129,0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.3); }
-        
-        /* Staff Badge & Tooltip Styling */
-        .staff-wrap { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
-        .badge-staff {
-            background: rgba(245, 158, 11, 0.15);
-            color: #fbbf24;
-            border: 1px solid rgba(245, 158, 11, 0.35);
-            transition: all 0.2s ease;
-        }
-        .badge-staff:hover {
-            background: rgba(245, 158, 11, 0.25);
-            box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
-        }
-        .staff-wrap .tip {
-            display: none; position: absolute; top: calc(100% + 10px); left: 0;
-            background: #000000; border: 1px solid rgba(245, 158, 11, 0.3);
-            border-radius: 16px; padding: 16px 20px; width: 260px;
-            z-index: 999; text-align: left;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.8);
-        }
-        .staff-wrap.active .tip, .staff-wrap:hover .tip { display: block; }
-        .staff-wrap .tip-title { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700; color: #fbbf24; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-        .staff-wrap .tip-desc { font-size: 0.8rem; color: #cbd5e1; line-height: 1.4; }
 
         /* Verified Checkmark Container & Popup */
         .vcheck { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
@@ -109,7 +101,13 @@
 <a href="/" class="back-home">← Back to tyler.fun</a>
 <div class="container">
     <div class="banner fade"><div class="banner-pattern"></div><div class="banner-label">Support</div></div>
-    <div class="avatar-wrap fade"><div class="avatar">🎧</div></div>
+    
+    <div class="avatar-wrap fade">
+        <div class="avatar">
+            <img src="/assets/icons/staff-badge.png" alt="Staff Badge" title="Staff">
+        </div>
+    </div>
+
     <div class="profile-info fade">
         <div class="name-row">
             <span class="display-name">Support</span>
@@ -133,15 +131,6 @@
                         </svg>
                         <span>Verified since April 2026.</span>
                     </div>
-                </div>
-            </div>
-
-            <!-- Staff Badge Component -->
-            <div class="staff-wrap" id="staffwrap">
-                <span class="badge badge-staff">🛡️ Staff</span>
-                <div class="tip">
-                    <div class="tip-title">🛡️ Official Staff</div>
-                    <div class="tip-desc">This account belongs to an official tyler.fun team member.</div>
                 </div>
             </div>
 
@@ -173,26 +162,14 @@ resize(); initStars(); draw();
 window.addEventListener('resize',()=>{resize();initStars();});
 
 const vcheck = document.getElementById('vcheck');
-const staffwrap = document.getElementById('staffwrap');
-
 vcheck.addEventListener('click', (e) => {
     e.stopPropagation();
-    staffwrap.classList.remove('active');
     vcheck.classList.toggle('active');
-});
-
-staffwrap.addEventListener('click', (e) => {
-    e.stopPropagation();
-    vcheck.classList.remove('active');
-    staffwrap.classList.toggle('active');
 });
 
 document.addEventListener('click', (e) => {
     if (!vcheck.contains(e.target)) {
         vcheck.classList.remove('active');
-    }
-    if (!staffwrap.contains(e.target)) {
-        staffwrap.classList.remove('active');
     }
 });
 </script>
