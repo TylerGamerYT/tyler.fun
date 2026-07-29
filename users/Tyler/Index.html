@@ -64,7 +64,7 @@
             align-items: center;
         }
 
-        /* Tiny Exploding PFP Icons */
+        /* Tiny Exploding PFP Icons (Massive Shower) */
         .tiny-pfp-particle {
             position: absolute;
             width: 14px;
@@ -77,19 +77,22 @@
             left: 4px;
         }
 
-        @keyframes pfpExplode {
+        @keyframes pfpExplodeMassive {
             0% {
                 transform: translate(0, 0) scale(1) rotate(0deg);
                 opacity: 1;
             }
+            80% {
+                opacity: 1;
+            }
             100% {
-                transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(var(--trot));
+                transform: translate(var(--tx), var(--ty)) scale(0.25) rotate(var(--trot));
                 opacity: 0;
             }
         }
 
-        .exploding-pfp {
-            animation: pfpExplode 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        .exploding-pfp-massive {
+            animation: pfpExplodeMassive 0.8s cubic-bezier(0.1, 1, 0.3, 1) forwards;
         }
 
         /* Verified Checkmark Container & Tooltip */
@@ -184,7 +187,7 @@
         <div class="name-row">
             <span class="display-name">Tyler</span>
 
-            <!-- 1. Tyler Badge with Container for mini PFP icon burst -->
+            <!-- 1. Tyler Badge with Container for massive 45-icon particle shower -->
             <div class="badge-container" id="tylerBadgeContainer">
                 <img src="/assets/icons/tylerpfp.png" class="badge-icon" id="tylerBadge" alt="Tyler Badge" title="Tyler">
             </div>
@@ -295,38 +298,38 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Mini pfp icon explosion effect on tyler badge click
+// Massive 45-icon PFP shower explosion effect on tyler badge click
 const tylerBadge = document.getElementById('tylerBadge');
 const tylerContainer = document.getElementById('tylerBadgeContainer');
 
 tylerBadge.addEventListener('click', (e) => {
     e.stopPropagation();
     
-    // Spawn 6 tiny copies of the tylerpfp icon exploding out lightly
-    const count = 6;
+    // Spawn 45 mini pfp icons shooting outward in all directions
+    const count = 45;
     for (let i = 0; i < count; i++) {
         const pfpParticle = document.createElement('img');
         pfpParticle.src = tylerBadge.src;
         pfpParticle.className = 'tiny-pfp-particle';
         
-        // Random angle and light distance so they burst compactly out of the badge
-        const angle = (i / count) * 2 * Math.PI + (Math.random() * 0.4);
-        const distance = 25 + Math.random() * 20; 
+        // Full radial spread with randomized distance and rotation for a huge burst
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = 35 + Math.random() * 75; 
         const tx = Math.cos(angle) * distance;
         const ty = Math.sin(angle) * distance;
-        const trot = (Math.random() - 0.5) * 180;
+        const trot = (Math.random() - 0.5) * 720;
         
         pfpParticle.style.setProperty('--tx', `${tx}px`);
         pfpParticle.style.setProperty('--ty', `${ty}px`);
         pfpParticle.style.setProperty('--trot', `${trot}deg`);
         
         tylerContainer.appendChild(pfpParticle);
-        pfpParticle.classList.add('exploding-pfp');
+        pfpParticle.classList.add('exploding-pfp-massive');
         
-        // Clean up the DOM element automatically after the animation finishes
+        // Clean up each particle element after animation completes
         setTimeout(() => {
             pfpParticle.remove();
-        }, 600);
+        }, 800);
     }
 });
 </script>
