@@ -38,7 +38,7 @@
         }
 
         .profile-info { padding: 12px 24px 24px; }
-        .name-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+        .name-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; position: relative; }
         .display-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 900; color: #f8fafc; }
 
         /* Icon Badge Styles */
@@ -52,6 +52,26 @@
         .badge-icon:hover {
             transform: scale(1.15);
         }
+
+        /* Verified Checkmark Container & Tooltip */
+        .vcheck { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
+        .vcheck svg.check-icon { width: 20px; height: 20px; display: block; fill: #1d9bf0; }
+        
+        .vcheck .tip {
+            display: none; position: absolute; top: calc(100% + 10px); left: 0;
+            background: #000000; border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 16px; padding: 16px; width: 280px;
+            z-index: 999; text-align: left;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.8);
+        }
+        .vcheck.active .tip { display: block; }
+        .vcheck .tip-title { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 700; color: #f7f9f9; margin-bottom: 12px; }
+        .vcheck .tip-row { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: #71767b; margin-bottom: 10px; }
+        .vcheck .tip-row:last-child { margin-bottom: 0; }
+        .vcheck .tip-row svg { width: 18px; height: 18px; flex-shrink: 0; }
+        .vcheck .tip-link { color: #1d9bf0; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+        .vcheck .tip-link:hover { text-decoration: underline; }
+        .vcheck .tip-icon-brand { width: 18px; height: 18px; border-radius: 4px; object-fit: contain; }
 
         .handle { font-size: 0.9rem; color: #475569; margin-bottom: 12px; }
         .bio { font-size: 0.9rem; color: #94a3b8; line-height: 1.6; margin-bottom: 20px; max-width: 480px; }
@@ -100,9 +120,43 @@
     <div class="profile-info fade">
         <div class="name-row">
             <span class="display-name">Fish</span>
+
+            <!-- 1. Tyler Badge (Fish Badge) -->
             <img src="/assets/icons/fish-badge.png" class="badge-icon" alt="Fish Badge" title="Fish">
+
+            <!-- 2. Admin Badge (Using Staff/Admin layout context) -->
+            <img src="/assets/icons/admin-badge.png" class="badge-icon" alt="Admin Badge" title="Admin">
+
+            <!-- 3. Staff Badge -->
             <img src="/assets/icons/staff-badge.png" class="badge-icon" alt="Staff Badge" title="Staff">
+
+            <!-- 4. Verified Badge Component -->
+            <div class="vcheck" id="vcheck">
+                <svg class="check-icon" viewBox="0 0 22 22" aria-label="Verified account">
+                    <path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44C12.28 1.82 11.646 1.82 11 1.82c-.646.018-1.275.215-1.816.57-.54.354-.972.852-1.246 1.438-.607-.223-1.264-.27-1.897-.14-.634.131-1.218.437-1.687.882-.445.47-.75 1.053-.882 1.687-.13.633-.083 1.29.14 1.897-.587.273-1.086.704-1.44 1.245C1.82 9.72 1.82 10.354 1.82 11c.018.646.215 1.275.57 1.816.354.54.852.972 1.438 1.246-.223.607-.27 1.264-.14 1.897.131.634.437 1.218.882 1.687.47.445 1.053.75 1.687.882.633.13 1.29.083 1.897-.14.273.587.704 1.086 1.245 1.44.541.355 1.17.552 1.816.57.646-.018 1.275-.215 1.816-.57.54-.354.972-.852 1.246-1.438.607.223 1.264.27 1.897.14.634-.131 1.218-.437 1.687-.882-.445-.47-.75-1.053.882-1.687.13-.633.083-1.29-.14-1.897.587-.273 1.086-.704 1.44-1.245.355-.541.552-1.17.57-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.136 2.134 6.289-6.289 1.293 1.302-7.582 7.583z"/>
+                </svg>
+                <div class="tip">
+                    <div class="tip-title">Verified account</div>
+                    <div class="tip-row">
+                        <svg fill="#1d9bf0" viewBox="0 0 22 22">
+                            <path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44C12.28 1.82 11.646 1.82 11 1.82c-.646.018-1.275.215-1.816.57-.54.354-.972.852-1.246 1.438-.607-.223-1.264-.27-1.897-.14-.634.131-1.218.437-1.687.882-.445.47-.75 1.053-.882 1.687-.13.633-.083 1.29.14 1.897-.587.273-1.086.704-1.44 1.245C1.82 9.72 1.82 10.354 1.82 11c.018.646.215 1.275.57 1.816.354.54.852.972 1.438 1.246-.223.607-.27 1.264.14 1.897.131.634.437 1.218.882 1.687.47.445 1.053.75 1.687.882.633.13 1.29.083 1.897-.14.273.587.704 1.086 1.245 1.44.541.355 1.17.552 1.816.57.646-.018 1.275-.215 1.816-.57.54-.354.972-.852 1.246-1.438.607.223 1.264.27 1.897.14.634-.131 1.218-.437 1.687-.882-.445-.47-.75-1.053.882-1.687.13-.633.083-1.29-.14-1.897.587-.273 1.086-.704 1.44-1.245.355-.541.552-1.17.57-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.136 2.134 6.289-6.289 1.293 1.302-7.582 7.583z"/>
+                        </svg>
+                        <span>This account is verified because it's an affiliate of <a href="https://tyler-fun-dev.vercel.app/users/tyler.fun" class="tip-link">@tyler.fun</a></span>
+                    </div>
+                    <div class="tip-row">
+                        <img src="/assets/icons/tylerpfp.png" alt="tyler.fun" class="tip-icon-brand" onerror="this.src='https://tyler-fun-dev.vercel.app/logo.png'">
+                        <a href="https://tyler-fun-dev.vercel.app/users/tyler.fun" class="tip-link">tyler.fun</a>
+                    </div>
+                    <div class="tip-row">
+                        <svg fill="#71767b" viewBox="0 0 24 24">
+                            <path d="M7 4V3h2v1h6V3h2v1h2c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h2zm0 4H5v12h14V8H7zm2 3h2v2H9v-2zm4 0h2v2h-2v-2zm-4 4h2v2H9v-2zm4 0h2v2h-2v-2z"/>
+                        </svg>
+                        <span>Verified since April 2026.</span>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div class="handle">@Fish</div>
         <p class="bio">Official tester of tyler.fun. Finds the bugs so you don't have to. Probably the reason half the games got fixed.</p>
 
@@ -134,6 +188,20 @@ let t=0;
 function draw() { ctx.clearRect(0,0,W,H); t+=0.016; for(const s of stars){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`;ctx.fill();s.y-=s.speed;if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}} requestAnimationFrame(draw); }
 resize(); initStars(); draw();
 window.addEventListener('resize',()=>{resize();initStars();});
+
+// Toggle badge popup on click for Fish's profile
+const vcheck = document.getElementById('vcheck');
+vcheck.addEventListener('click', (e) => {
+    e.stopPropagation();
+    vcheck.classList.toggle('active');
+});
+
+// Close popup when clicking anywhere outside
+document.addEventListener('click', (e) => {
+    if (!vcheck.contains(e.target)) {
+        vcheck.classList.remove('active');
+    }
+});
 </script>
 </body>
 </html>
