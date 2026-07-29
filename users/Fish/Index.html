@@ -48,9 +48,48 @@
             object-fit: contain;
             vertical-align: middle;
             transition: transform 0.2s ease;
+            cursor: pointer;
         }
         .badge-icon:hover {
             transform: scale(1.15);
+        }
+
+        /* Container for relative positioning of particles */
+        .badge-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* Tiny Exploding Fish Badge Particles */
+        .tiny-fish-particle {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            object-fit: cover;
+            pointer-events: none;
+            opacity: 0;
+            top: 4px;
+            left: 4px;
+        }
+
+        @keyframes fishExplodeMassive {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0.25) rotate(var(--trot));
+                opacity: 0;
+            }
+        }
+
+        .exploding-fish-massive {
+            animation: fishExplodeMassive 0.8s cubic-bezier(0.1, 1, 0.3, 1) forwards;
         }
 
         /* Verified Checkmark Container & Tooltip */
@@ -121,8 +160,10 @@
         <div class="name-row">
             <span class="display-name">Fish</span>
 
-            <!-- 1. Fish Badge -->
-            <img src="/assets/icons/fish-badge.png" class="badge-icon" alt="Fish Badge" title="Fish">
+            <!-- 1. Fish Badge Container with explosion trigger -->
+            <div class="badge-container" id="fishBadgeContainer">
+                <img src="/assets/icons/fish-badge.png" class="badge-icon" id="fishBadge" alt="Fish Badge" title="Fish">
+            </div>
 
             <!-- 2. Staff Badge -->
             <img src="/assets/icons/staff-badge.png" class="badge-icon" alt="Staff Badge" title="Staff">
@@ -197,6 +238,39 @@ vcheck.addEventListener('click', (e) => {
 document.addEventListener('click', (e) => {
     if (!vcheck.contains(e.target)) {
         vcheck.classList.remove('active');
+    }
+});
+
+// Explosive mini fish-badge particle shower on badge click
+const fishBadge = document.getElementById('fishBadge');
+const fishContainer = document.getElementById('fishBadgeContainer');
+
+fishBadge.addEventListener('click', (e) => {
+    e.stopPropagation();
+    
+    // Spawns 45 mini fish-badge icons exploding outward
+    const count = 45;
+    for (let i = 0; i < count; i++) {
+        const fishParticle = document.createElement('img');
+        fishParticle.src = fishBadge.src;
+        fishParticle.className = 'tiny-fish-particle';
+        
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = 35 + Math.random() * 75; 
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+        const trot = (Math.random() - 0.5) * 720;
+        
+        fishParticle.style.setProperty('--tx', `${tx}px`);
+        fishParticle.style.setProperty('--ty', `${ty}px`);
+        fishParticle.style.setProperty('--trot', `${trot}deg`);
+        
+        fishContainer.appendChild(fishParticle);
+        fishParticle.classList.add('exploding-fish-massive');
+        
+        setTimeout(() => {
+            fishParticle.remove();
+        }, 800);
     }
 });
 </script>
