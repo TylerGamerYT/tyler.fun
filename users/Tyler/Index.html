@@ -51,9 +51,45 @@
             object-fit: contain;
             vertical-align: middle;
             transition: transform 0.2s ease;
+            cursor: pointer;
         }
         .badge-icon:hover {
             transform: scale(1.15);
+        }
+
+        /* Container for precise relative positioning */
+        .badge-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* Tiny Exploding PFP Icons */
+        .tiny-pfp-particle {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            object-fit: cover;
+            pointer-events: none;
+            opacity: 0;
+            top: 4px;
+            left: 4px;
+        }
+
+        @keyframes pfpExplode {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(var(--trot));
+                opacity: 0;
+            }
+        }
+
+        .exploding-pfp {
+            animation: pfpExplode 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
         /* Verified Checkmark Container & Tooltip */
@@ -148,8 +184,10 @@
         <div class="name-row">
             <span class="display-name">Tyler</span>
 
-            <!-- 1. Tyler Badge -->
-            <img src="/assets/icons/tylerpfp.png" class="badge-icon" alt="Tyler Badge" title="Tyler">
+            <!-- 1. Tyler Badge with Container for mini PFP icon burst -->
+            <div class="badge-container" id="tylerBadgeContainer">
+                <img src="/assets/icons/tylerpfp.png" class="badge-icon" id="tylerBadge" alt="Tyler Badge" title="Tyler">
+            </div>
 
             <!-- 2. Admin Badge -->
             <img src="/assets/icons/admin-badge.png" class="badge-icon" alt="Admin Badge" title="Admin">
@@ -254,6 +292,41 @@ vcheck.addEventListener('click', (e) => {
 document.addEventListener('click', (e) => {
     if (!vcheck.contains(e.target)) {
         vcheck.classList.remove('active');
+    }
+});
+
+// Mini pfp icon explosion effect on tyler badge click
+const tylerBadge = document.getElementById('tylerBadge');
+const tylerContainer = document.getElementById('tylerBadgeContainer');
+
+tylerBadge.addEventListener('click', (e) => {
+    e.stopPropagation();
+    
+    // Spawn 6 tiny copies of the tylerpfp icon exploding out lightly
+    const count = 6;
+    for (let i = 0; i < count; i++) {
+        const pfpParticle = document.createElement('img');
+        pfpParticle.src = tylerBadge.src;
+        pfpParticle.className = 'tiny-pfp-particle';
+        
+        // Random angle and light distance so they burst compactly out of the badge
+        const angle = (i / count) * 2 * Math.PI + (Math.random() * 0.4);
+        const distance = 25 + Math.random() * 20; 
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+        const trot = (Math.random() - 0.5) * 180;
+        
+        pfpParticle.style.setProperty('--tx', `${tx}px`);
+        pfpParticle.style.setProperty('--ty', `${ty}px`);
+        pfpParticle.style.setProperty('--trot', `${trot}deg`);
+        
+        tylerContainer.appendChild(pfpParticle);
+        pfpParticle.classList.add('exploding-pfp');
+        
+        // Clean up the DOM element automatically after the animation finishes
+        setTimeout(() => {
+            pfpParticle.remove();
+        }, 600);
     }
 });
 </script>
