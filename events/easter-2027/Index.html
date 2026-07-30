@@ -47,7 +47,6 @@ body {
     pointer-events: none;
 }
 
-
 .back-home {
     position: fixed;
     top: 20px;
@@ -63,20 +62,18 @@ body {
     color: #fff;
 }
 
-
 .container {
     position: relative;
     z-index: 1;
-    padding: 80px 24px 60px;
+    padding: 60px 24px 80px;
     max-width: 680px;
     width: 100%;
     margin: auto;
 }
 
-
 .banner {
     width: 100%;
-    height: 160px;
+    height: 180px;
     border-radius: 20px;
     background:
         linear-gradient(
@@ -85,197 +82,134 @@ body {
             #15803d 50%,
             #052e16
         );
-    margin-bottom: -44px;
     position: relative;
     border: 1px solid rgba(51,65,85,.6);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px;
+    margin-bottom: 30px;
 }
 
-
 .banner-pattern {
-    position:absolute;
-    inset:0;
-    opacity:.25;
+    position: absolute;
+    inset: 0;
+    opacity: .25;
     background-image:
         radial-gradient(circle at 15% 50%, #86efac 0%, transparent 45%),
         radial-gradient(circle at 85% 30%, #4ade80 0%, transparent 45%),
         radial-gradient(circle at 50% 80%, #bbf7d0 0%, transparent 40%);
 }
 
-
-.banner-title {
-    position:absolute;
-    bottom:14px;
-    right:20px;
-    font-family:'Syne',sans-serif;
-    font-size:.7rem;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:3px;
-    color:rgba(255,255,255,.25);
+.banner-content {
+    position: relative;
+    z-index: 2;
 }
 
-
-.avatar-wrap {
-    padding:0 24px;
-    position:relative;
-    z-index:2;
+.event-tag {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #86efac;
+    background: rgba(22, 101, 52, 0.6);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
 }
 
-
-.avatar {
-    width:88px;
-    height:88px;
-    border-radius:50%;
-    border:4px solid #020617;
-    background:
-        linear-gradient(
-            135deg,
-            #22c55e,
-            #15803d
-        );
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-family:'Syne',sans-serif;
-    font-size:1.1rem;
-    font-weight:900;
-    color:#dcfce7;
+.banner h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    margin: 0;
+    color: #fff;
 }
-
-
-.profile-info {
-    padding:12px 24px 24px;
-}
-
-
-.name-row {
-    display:flex;
-    align-items:center;
-    gap:8px;
-    margin-bottom:5px;
-}
-
-
-.display-name {
-    font-family:'Syne',sans-serif;
-    font-size:1.5rem;
-    font-weight:900;
-}
-
-
-.event-icon {
-    width:24px;
-    height:24px;
-    object-fit:contain;
-}
-
-
-.handle {
-    color:#475569;
-    font-size:.9rem;
-    margin-bottom:12px;
-}
-
-
-.bio {
-    color:#94a3b8;
-    font-size:.9rem;
-    line-height:1.6;
-    margin-bottom:20px;
-}
-
 
 .section-title {
-    font-family:'Syne',sans-serif;
-    font-size:.8rem;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:2px;
-    color:#475569;
-    margin:25px 0 14px;
+    font-family: 'Syne', sans-serif;
+    font-size: .8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #475569;
+    margin: 30px 0 14px;
 }
-
 
 .info-box {
-    background:rgba(15,23,42,.65);
-    border:1px solid rgba(51,65,85,.5);
-    border-radius:14px;
-    padding:18px 20px;
-    color:#94a3b8;
-    line-height:1.6;
-    margin-bottom:16px;
+    background: rgba(15,23,42,.65);
+    border: 1px solid rgba(51,65,85,.5);
+    border-radius: 14px;
+    padding: 18px 20px;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 16px;
 }
-
 
 .info-box strong {
-    display:block;
-    color:#4ade80;
-    font-family:'Syne',sans-serif;
-    margin-bottom:6px;
+    display: block;
+    color: #4ade80;
+    font-family: 'Syne', sans-serif;
+    margin-bottom: 6px;
 }
-
 
 .card-grid {
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:15px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    gap: 15px;
 }
-
 
 .card {
-    background:rgba(15,23,42,.65);
-    border:1px solid rgba(51,65,85,.5);
-    border-radius:14px;
-    padding:20px;
+    background: rgba(15,23,42,.65);
+    border: 1px solid rgba(51,65,85,.5);
+    border-radius: 14px;
+    padding: 20px;
 }
-
 
 .card img {
-    width:55px;
-    height:55px;
-    object-fit:contain;
-    margin-bottom:10px;
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    margin-bottom: 10px;
 }
-
 
 .card h3 {
-    font-family:'Syne',sans-serif;
-    font-size:1rem;
-    margin-bottom:8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    margin-bottom: 8px;
 }
-
 
 .card p {
-    color:#94a3b8;
-    font-size:.85rem;
+    color: #94a3b8;
+    font-size: .85rem;
 }
-
 
 .coming-soon {
-    background:rgba(15,23,42,.65);
-    border:1px solid rgba(51,65,85,.5);
-    border-radius:14px;
-    padding:20px;
-    text-align:center;
-    color:#64748b;
+    background: rgba(15,23,42,.65);
+    border: 1px solid rgba(51,65,85,.5);
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    color: #64748b;
 }
-
 
 .fade {
-    opacity:0;
-    animation:fadeUp .5s forwards;
+    opacity: 0;
+    animation: fadeUp .5s forwards;
 }
-
 
 @keyframes fadeUp {
     from {
-        opacity:0;
-        transform:translateY(12px);
+        opacity: 0;
+        transform: translateY(12px);
     }
     to {
-        opacity:1;
-        transform:translateY(0);
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -294,25 +228,16 @@ body {
 
     <div class="banner fade">
         <div class="banner-pattern"></div>
-        <div class="banner-title">tyler.fun</div>
-    </div>
-
-    <div class="avatar-wrap fade">
-        <div class="avatar">🥚</div>
-    </div>
-
-    <div class="profile-info fade">
-
-        <div class="name-row">
-            <span class="display-name">Easter Event 2027</span>
-            <img src="/assets/icons/egg-hunter-2027.png" class="event-icon" alt="Easter 2027">
+        <div class="banner-content">
+            <span class="event-tag">🥚 Official Event</span>
+            <h1>Easter Event 2027</h1>
         </div>
+    </div>
 
-        <div class="handle">@tyler.fun/events/easter-2027</div>
-
-        <p class="bio">
+    <div class="fade" style="animation-delay: 0.1s;">
+        <div class="info-box" style="font-size: 1rem; color: #cbd5e1;">
             The official Easter Event 2027. Search across tyler.fun and discover hidden Easter Eggs placed throughout the website.
-        </p>
+        </div>
 
         <div class="coming-soon">
             🥚 Coming Spring 2027
@@ -451,11 +376,11 @@ body {
             
             <div class="info-box">
                 <strong>When does the event start?</strong>
-                The Easter Event 2027 will launch in Spring 2027.
+                The Easter Event 2027 will launch on March 28, 2027.
             </div>
         </section>
-
     </div>
+
 </div>
 
 <script>
@@ -541,11 +466,10 @@ window.addEventListener(
 
 /*
     Easter Event 2027 Countdown
-    Replace the date below when the
-    official event launch date is decided.
+    Set to March 28, 2027 00:00:00
 */
 
-const eventDate = new Date("April 1, 2027 00:00:00").getTime();
+const eventDate = new Date("March 28, 2027 00:00:00").getTime();
 const countdown = document.getElementById("countdown");
 
 function updateCountdown(){
