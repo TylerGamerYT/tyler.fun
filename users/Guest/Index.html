@@ -42,14 +42,7 @@
         .name-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
         .display-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 900; color: #f8fafc; }
         
-        /* Badge icon styling */
-        .badge-icon {
-            height: 22px;
-            width: auto;
-            display: inline-block;
-            vertical-align: middle;
-            object-fit: contain;
-        }
+        .badge-icon { height: 22px; width: auto; object-fit: contain; }
 
         .handle { font-size: 0.9rem; color: #475569; margin-bottom: 12px; }
         .bio { font-size: 0.9rem; color: #94a3b8; line-height: 1.6; margin-bottom: 20px; max-width: 480px; }
@@ -102,7 +95,7 @@
     <div class="profile-info fade">
         <div class="name-row">
             <span class="display-name">Guest</span>
-            <img src="assets/icons/member-badge.png" alt="Member Badge" class="badge-icon" />
+            <img src="assets/icons/member-badge.png" alt="Member Badge" class="badge-icon">
         </div>
         <div class="handle">@Guest</div>
         <p class="bio">Just browsing. Not logged in. Don't mind me.</p>
