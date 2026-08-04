@@ -149,9 +149,7 @@ export default async function handler(req, res) {
       `/users/Guest/Index.html?login=success&user=${encodeURIComponent(user.login)}`,
     );
   } catch (err) {
-    console.error("Auth error:", err);
-    if (!res.writableEnded) {
-      return res.redirect("/?error=server_error");
-    }
+    console.error("AUTH ERROR FULL:", err);
+    throw err;
   }
 }
