@@ -1,4 +1,4 @@
-import prisma from "./prisma.js";
+// import prisma from "./prisma.js";
 
 export default async function handler(req, res) {
   const { code } = req.query;
@@ -68,28 +68,9 @@ export default async function handler(req, res) {
     }
 
     // 4. Save user to database
-    let dbUser;
+  console.log("Reached database section, skipping DB");
 
-    try {
-      dbUser = await prisma.user.upsert({
-        where: {
-          githubId: String(user.id),
-        },
-        update: {
-          githubUsername: user.login,
-          name: user.name || user.login,
-          email: primaryEmail,
-          avatar: user.avatar_url,
-        },
-        create: {
-          githubId: String(user.id),
-          githubUsername: user.login,
-          username: user.login,
-          name: user.name || user.login,
-          email: primaryEmail,
-          avatar: user.avatar_url,
-        },
-      });
+const dbUser = null;
 
       console.log("Database user created:", dbUser);
     } catch (error) {
