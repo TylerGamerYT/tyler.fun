@@ -4,7 +4,8 @@
   "description": "> **\"Wait, my own neal.fun? But called tyler.fun? No way!\"**",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "vercel-build": "prisma generate"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,7 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
-    "pg": "^8.22.0",
+    "pg": "^8.16.3",
     "prisma": "^7.9.1"
   }
 }
