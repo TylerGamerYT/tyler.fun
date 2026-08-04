@@ -1,0 +1,27 @@
+{
+  "name": "tyler.fun",
+  "version": "1.0.0",
+  "description": "> **\"Wait, my own neal.fun? But called tyler.fun? No way!\"**",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TylerGamerYT/tyler.fun.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/TylerGamerYT/tyler.fun/issues"
+  },
+  "homepage": "https://github.com/TylerGamerYT/tyler.fun#readme",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
+    "pg": "^8.22.0",
+    "prisma": "^7.9.1"
+  }
+}

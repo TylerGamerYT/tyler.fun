@@ -1,0 +1,17 @@
+node_modules/
+
+# Environment variables
+.env
+.env.*
+
+# Vercel
+.vercel/
+
+# Prisma generated files
+generated/
+
+# AI tool generated files
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
