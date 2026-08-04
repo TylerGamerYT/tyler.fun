@@ -9,6 +9,7 @@ export default async function handler(req, res) {
 
   try {
     // 1. Exchange code for access token
+    console.log("STEP 1: Starting GitHub token exchange");
     const tokenRes = await fetch(
       "https://github.com/login/oauth/access_token",
       {
@@ -68,15 +69,9 @@ export default async function handler(req, res) {
     }
 
     // 4. Save user to database
-  console.log("Reached database section, skipping DB");
+    console.log("Reached database section, skipping DB");
 
-const dbUser = null;
-
-      console.log("Database user created:", dbUser);
-    } catch (error) {
-      console.error("Database save failed:", error);
-      return res.redirect("/?error=db_error");
-    }
+    const dbUser = null;
 
     // 5. Create session
     const session = {
