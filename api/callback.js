@@ -68,25 +68,34 @@ export default async function handler(req, res) {
     }
 
     // 4. Save user to database
-    const dbUser = await prisma.user.upsert({
-      where: {
-        githubId: String(user.id),
-      },
-      update: {
-        githubUsername: user.login,
-        name: user.name || user.login,
-        email: primaryEmail,
-        avatar: user.avatar_url,
-      },
-      create: {
-        githubId: String(user.id),
-        githubUsername: user.login,
-        username: user.login,
-        name: user.name || user.login,
-        email: primaryEmail,
-        avatar: user.avatar_url,
-      },
-    });
+    let dbUser;
+
+    try {
+      dbUser = await prisma.user.upsert({
+        where: {
+          githubId: String(user.id),
+        },
+        update: {
+          githubUsername: user.login,
+          name: user.name || user.login,
+          email: primaryEmail,
+          avatar: user.avatar_url,
+        },
+        create: {
+          githubId: String(user.id),
+          githubUsername: user.login,
+          username: user.login,
+          name: user.name || user.login,
+          email: primaryEmail,
+          avatar: user.avatar_url,
+        },
+      });
+
+      console.log("Database user created:", dbUser);
+    } catch (error) {
+      console.error("Database save failed:", error);
+      return res.redirect("/?error=db_error");
+    }
 
     // 5. Create session
     const session = {
