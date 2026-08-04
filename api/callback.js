@@ -8,8 +8,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    // 1. Exchange code for access token
     console.log("STEP 1: Starting GitHub token exchange");
+
     const tokenRes = await fetch(
       "https://github.com/login/oauth/access_token",
       {
@@ -35,7 +35,8 @@ export default async function handler(req, res) {
 
     const accessToken = tokenData.access_token;
 
-    // 2. Fetch user data
+    console.log("STEP 2: Got token, fetching user");
+
     const userRes = await fetch("https://api.github.com/user", {
       headers: {
         Authorization: `token ${accessToken}`,
@@ -45,13 +46,17 @@ export default async function handler(req, res) {
 
     const user = await userRes.json();
 
+    console.log("STEP 2 USER:", user.login);
+
     if (!user || !user.login) {
       console.error("User error:", user);
       return res.redirect("/?error=no_user");
     }
 
-    // 3. Fetch email (optional)
+    console.log("STEP 3: Fetching email");
+
     let primaryEmail = "";
+
     try {
       const emailRes = await fetch("https://api.github.com/user/emails", {
         headers: {
@@ -59,7 +64,9 @@ export default async function handler(req, res) {
           "User-Agent": "tyler-fun-app",
         },
       });
+
       const emails = await emailRes.json();
+
       if (Array.isArray(emails)) {
         const primary = emails.find((e) => e.primary);
         primaryEmail = primary?.email || emails[0]?.email || "";
@@ -68,12 +75,10 @@ export default async function handler(req, res) {
       console.warn("Could not fetch emails:", e);
     }
 
-    // 4. Save user to database
-    console.log("Reached database section, skipping DB");
+    console.log("STEP 4: Skipping database");
 
-    const dbUser = null;
+    console.log("STEP 5: Creating session");
 
-    // 5. Create session
     const session = {
       id: user.id,
       username: user.login,
@@ -84,24 +89,26 @@ export default async function handler(req, res) {
 
     const sessionData = Buffer.from(JSON.stringify(session)).toString("base64");
 
-    // 6. Set cookie
-    const isProd = process.env.NODE_ENV === "production";
-    const cookieOptions = [
-      `tyfun_session=${sessionData}`,
-      "Path=/",
-      "Max-Age=604800",
-      "HttpOnly",
-      isProd ? "Secure" : "",
-      "SameSite=Lax",
-    ]
-      .filter(Boolean)
-      .join("; ");
+    console.log("STEP 6: Setting cookie");
 
-    res.setHeader("Set-Cookie", cookieOptions);
+    res.setHeader(
+      "Set-Cookie",
+      [
+        `tyfun_session=${sessionData}`,
+        "Path=/",
+        "Max-Age=604800",
+        "HttpOnly",
+        process.env.NODE_ENV === "production" ? "Secure" : "",
+        "SameSite=Lax",
+      ]
+        .filter(Boolean)
+        .join("; "),
+    );
 
-    // 7. Redirect logic (Updated with your specific user list and Index.html paths)
+    console.log("STEP 7: Redirecting");
+
     const knownUsers = {
-      tylergameryt: "Tyler", // Your actual GitHub username
+      tylergameryt: "Tyler",
       tyler: "Tyler",
       fish: "Fish",
       tawsif: "tawsif",
@@ -116,11 +123,9 @@ export default async function handler(req, res) {
     const profileSegment = knownUsers[usernameLower];
 
     if (profileSegment) {
-      // Redirects to /users/Name/Index.html
       return res.redirect(`/users/${profileSegment}/Index.html`);
     }
 
-    // Default for unknown users
     return res.redirect(
       `/users/Guest/Index.html?login=success&user=${encodeURIComponent(user.login)}`,
     );
