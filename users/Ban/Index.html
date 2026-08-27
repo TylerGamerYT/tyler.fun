@@ -38,11 +38,21 @@
         }
 
         .profile-info { padding: 12px 24px 24px; }
-        .name-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+        .name-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
         .display-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 900; color: #f8fafc; }
-        .badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; padding: 3px 9px; border-radius: 99px; }
-        .badge-member { background: rgba(148,163,184,0.1); color: #94a3b8; border: 1px solid rgba(148,163,184,0.2); }
-        .badge-banned { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+        
+        /* Icon Badge Styles */
+        .badge-icon {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            vertical-align: middle;
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+        .badge-icon:hover {
+            transform: scale(1.15);
+        }
 
         /* ban reason dropdown */
         .ban-reason-wrap { position: relative; display: inline-block; margin-top: 6px; margin-bottom: 16px; }
@@ -109,8 +119,12 @@
     <div class="profile-info fade">
         <div class="name-row">
             <span class="display-name">Ban</span>
-            <span class="badge badge-member">Member</span>
-            <span class="badge badge-banned">🔨 Banned</span>
+            
+            <!-- Banned Badge -->
+            <img src="/assets/icons/banned-badge.png" class="badge-icon" alt="Banned Badge" title="Banned">
+            
+            <!-- Member Badge -->
+            <img src="/assets/icons/member-badge.png" class="badge-icon" alt="Member Badge" title="Member">
         </div>
         <div class="handle">@ban</div>
         <div class="ban-reason-wrap">
@@ -136,7 +150,7 @@
             <div class="claimed-emoji">🔒</div>
             <div class="claimed-title">This account has been claimed</div>
             <div class="claimed-text">
-                This profile is reserved for Tyler. Full profile details, bio, and stats will be available once the tyler.fun account system launches.
+                This profile is reserved for . Full profile details, bio, and stats will be available once the tyler.fun account system launches.
             </div>
         </div>
 

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>tyler.fun | Easter 2027 Leaderboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    background: #020617;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+#particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bg-glow {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(
+            ellipse 80% 60% at 50% 40%,
+            #14532d55 0%,
+            transparent 70%
+        );
+    z-index: 0;
+    pointer-events: none;
+}
+
+.back-home {
+    position: fixed;
+    top: 20px;
+    left: 24px;
+    font-size: 0.85rem;
+    color: #475569;
+    text-decoration: none;
+    transition: color .2s;
+    z-index: 10;
+}
+
+.back-home:hover {
+    color: #fff;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    padding: 60px 24px 80px;
+    max-width: 760px;
+    width: 100%;
+    margin: auto;
+}
+
+.banner {
+    width: 100%;
+    height: 180px;
+    border-radius: 20px;
+    background:
+        linear-gradient(
+            135deg,
+            #166534,
+            #15803d 50%,
+            #052e16
+        );
+    position: relative;
+    border: 1px solid rgba(51,65,85,.6);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px;
+    margin-bottom: 30px;
+}
+
+.banner-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: .25;
+    background-image:
+        radial-gradient(circle at 15% 50%, #86efac 0%, transparent 45%),
+        radial-gradient(circle at 85% 30%, #4ade80 0%, transparent 45%),
+        radial-gradient(circle at 50% 80%, #bbf7d0 0%, transparent 40%);
+}
+
+.banner-content {
+    position: relative;
+    z-index: 2;
+}
+
+.event-tag {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #86efac;
+    background: rgba(22, 101, 52, 0.6);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.banner h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    margin: 0;
+    color: #fff;
+}
+
+.section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: .8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #475569;
+    margin: 30px 0 14px;
+}
+
+.info-box {
+    background: rgba(15,23,42,.65);
+    border: 1px solid rgba(51,65,85,.5);
+    border-radius: 14px;
+    padding: 18px 20px;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.info-box strong {
+    display: block;
+    color: #4ade80;
+    font-family: 'Syne', sans-serif;
+    margin-bottom: 6px;
+}
+
+.leaderboard-table-wrap {
+    background: rgba(15,23,42,.65);
+    border: 1px solid rgba(51,65,85,.5);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+th {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #4ade80;
+    background: rgba(15, 23, 42, 0.9);
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(51,65,85,.5);
+}
+
+td {
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(51,65,85,.3);
+    color: #94a3b8;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover td {
+    background: rgba(30, 41, 59, 0.4);
+    color: #fff;
+}
+
+.rank-col {
+    width: 80px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+}
+
+.user-col {
+    font-weight: 600;
+    color: #cbd5e1;
+}
+
+.eggs-col {
+    color: #4ade80;
+    font-weight: 600;
+}
+
+.time-col {
+    color: #64748b;
+    font-family: monospace;
+}
+
+.coming-soon {
+    background: rgba(15,23,42,.65);
+    border: 1px solid rgba(51,65,85,.5);
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    color: #64748b;
+}
+
+.fade {
+    opacity: 0;
+    animation: fadeUp .5s forwards;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="bg-glow"></div>
+
+<a href="/events/easter-2027" class="back-home">← Back to Event</a>
+
+<div class="container">
+
+    <div class="banner fade">
+        <div class="banner-pattern"></div>
+        <div class="banner-content">
+            <span class="event-tag">🏆 Top 10 Ranking</span>
+            <h1>Easter Event Leaderboard</h1>
+        </div>
+    </div>
+
+    <div class="fade" style="animation-delay: 0.1s;">
+        <div class="info-box">
+            <strong>🥚 Official Top 10 Egg Hunters</strong>
+            The top 10 fastest players to discover all 40 hidden Easter Eggs during the 2027 event will be recorded here. Rankings are determined by completion time.
+        </div>
+
+        <div class="section-title">🏆 Top 10 Standings</div>
+
+        <div class="leaderboard-table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="rank-col">Rank</th>
+                        <th class="user-col">Hunter</th>
+                        <th class="eggs-col">Eggs Found</th>
+                        <th class="time-col">Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="rank-col" style="color: #fbbf24;">🥇 #1</td>
+                        <td class="user-col">Coming Soon</td>
+                        <td class="eggs-col">40 / 40</td>
+                        <td class="time-col">--:--:--</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-col" style="color: #94a3b8;">🥈 #2</td>
+                        <td class="user-col">Coming Soon</td>
+                        <td class="eggs-col">40 / 40</td>
+                        <td class="time-col">--:--:--</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-col" style="color: #b45309;">🥉 #3</td>
+                        <td class="user-col">Coming Soon</td>
+                        <td class="eggs-col">40 / 40</td>
+                        <td class="time-col">--:--:--</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-col">#4</td>
+                        <td class="user-col">Coming Soon</td>
+                        <td class="eggs-col">-- / 40</td>
+                        <td class="time-col">--:--:--</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-col">#5</td>
+                        <td class="user-col">Coming Soon</td>
+                        <td class="eggs-col">-- / 40</td>
+                        <td class="time-col">--:--:--</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-col">#6</td>
+                        <td class="user-col">Coming Soon</td>
+                        <td class="eggs-col">-- / 40</td>
+                        <td class="time-col">--:--:--</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-col">#7</td>
+                        <td class="user-col">Coming Soon</td>
+                        <td class="eggs-col">-- / 40</td>
+                        <td class="time-col">--:--:--</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-col">#8</td>
+                        <td class="user-col">Coming Soon</td>
+                        <td class="eggs-col">-- / 40</td>
+                        <td class="time-col">--:--:--</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-col">#9</td>
+                        <td class="user-col">Coming Soon</td>
+                        <td class="eggs-col">-- / 40</td>
+                        <td class="time-col">--:--:--</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-col">#10</td>
+                        <td class="user-col">Coming Soon</td>
+                        <td class="eggs-col">-- / 40</td>
+                        <td class="time-col">--:--:--</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="coming-soon">
+            🏆 Leaderboard goes live when Easter Event 2027 begins on Friday, March 19, 2027.
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+let W;
+let H;
+let stars = [];
+
+function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+}
+
+function initStars(){
+    stars = [];
+    const amount = Math.floor((W * H) / 8000);
+
+    for(let i = 0; i < amount; i++){
+        stars.push({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            r: Math.random() * 1.1 + 0.3,
+            speed: Math.random() * 0.14 + 0.03,
+            opacity: Math.random() * 0.45 + 0.1,
+            ts: Math.random() * 0.01 + 0.003,
+            offset: Math.random() * Math.PI * 2
+        });
+    }
+}
+
+let time = 0;
+
+function drawStars(){
+    ctx.clearRect(0,0,W,H);
+    time += 0.016;
+
+    for(const star of stars){
+        ctx.beginPath();
+        ctx.arc(
+            star.x,
+            star.y,
+            star.r,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle =
+        `rgba(187,247,208,${
+            Math.max(
+                0,
+                star.opacity +
+                Math.sin(time * star.ts * 60 + star.offset) * 0.14
+            )
+        })`;
+
+        ctx.fill();
+
+        star.y -= star.speed;
+
+        if(star.y < -2){
+            star.y = H + 2;
+            star.x = Math.random() * W;
+        }
+    }
+
+    requestAnimationFrame(drawStars);
+}
+
+resize();
+initStars();
+drawStars();
+
+window.addEventListener(
+    "resize",
+    () => {
+        resize();
+        initStars();
+    }
+);
+
+</script>
+
+</body>
+</html>

@@ -8,6 +8,9 @@
     { "source": "/socials", "destination": "/socials/index.html" },
     { "source": "/changelog", "destination": "/changelog/index.html" },
 
+    { "source": "/events/easter-2027", "destination": "/events/easter-2027/Index.html" },
+    { "source": "/events/easter-2027/leaderboard", "destination": "/events/easter-2027/leaderboard/Index.html" },
+
     { "source": "/games/aim-trainer", "destination": "/games/aim-trainer/index.html" },
     { "source": "/games/chair-simulator", "destination": "/games/chair-simulator/index.html" },
     { "source": "/games/click-color", "destination": "/games/click-color/index.html" },

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>tyler.fun | Easter Event 2027</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    background: #020617;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+#particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bg-glow {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(
+            ellipse 80% 60% at 50% 40%,
+            #14532d55 0%,
+            transparent 70%
+        );
+    z-index: 0;
+    pointer-events: none;
+}
+
+.back-home {
+    position: fixed;
+    top: 20px;
+    left: 24px;
+    font-size: 0.85rem;
+    color: #475569;
+    text-decoration: none;
+    transition: color .2s;
+    z-index: 10;
+}
+
+.back-home:hover {
+    color: #fff;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    padding: 60px 24px 80px;
+    max-width: 680px;
+    width: 100%;
+    margin: auto;
+}
+
+.banner {
+    width: 100%;
+    height: 180px;
+    border-radius: 20px;
+    background:
+        linear-gradient(
+            135deg,
+            #166534,
+            #15803d 50%,
+            #052e16
+        );
+    position: relative;
+    border: 1px solid rgba(51,65,85,.6);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px;
+    margin-bottom: 30px;
+}
+
+.banner-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: .25;
+    background-image:
+        radial-gradient(circle at 15% 50%, #86efac 0%, transparent 45%),
+        radial-gradient(circle at 85% 30%, #4ade80 0%, transparent 45%),
+        radial-gradient(circle at 50% 80%, #bbf7d0 0%, transparent 40%);
+}
+
+.banner-content {
+    position: relative;
+    z-index: 2;
+}
+
+.event-tag {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #86efac;
+    background: rgba(22, 101, 52, 0.6);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.banner h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    margin: 0;
+    color: #fff;
+}
+
+.section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: .8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #475569;
+    margin: 30px 0 14px;
+}
+
+.info-box {
+    background: rgba(15,23,42,.65);
+    border: 1px solid rgba(51,65,85,.5);
+    border-radius: 14px;
+    padding: 18px 20px;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.info-box strong {
+    display: block;
+    color: #4ade80;
+    font-family: 'Syne', sans-serif;
+    margin-bottom: 6px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    gap: 15px;
+}
+
+.card {
+    background: rgba(15,23,42,.65);
+    border: 1px solid rgba(51,65,85,.5);
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.card img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.card p {
+    color: #94a3b8;
+    font-size: .85rem;
+}
+
+.coming-soon {
+    background: rgba(15,23,42,.65);
+    border: 1px solid rgba(51,65,85,.5);
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    color: #64748b;
+}
+
+.fade {
+    opacity: 0;
+    animation: fadeUp .5s forwards;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="bg-glow"></div>
+
+<a href="/" class="back-home">← Back to tyler.fun</a>
+
+<div class="container">
+
+    <div class="banner fade">
+        <div class="banner-pattern"></div>
+        <div class="banner-content">
+            <span class="event-tag">🥚 Official Event</span>
+            <h1>Easter Event 2027</h1>
+        </div>
+    </div>
+
+    <div class="fade" style="animation-delay: 0.1s;">
+        <div class="info-box" style="font-size: 1rem; color: #cbd5e1;">
+            The official Easter Event 2027. Search across tyler.fun and discover hidden Easter Eggs placed throughout the website.
+        </div>
+
+        <div class="coming-soon">
+            🥚 Coming Spring 2027
+        </div>
+
+        <section>
+            <div class="section-title">🥚 About The Event</div>
+            <div class="info-box">
+                <strong>🥚 Easter Egg Hunt 2027</strong>
+                40 Easter Eggs will be hidden across multiple places on tyler.fun.<br><br>
+                Search through pages, games, experiments, and other areas of the website to find every hidden egg.<br><br>
+                Collect enough eggs to unlock exclusive Easter Event 2027 badges.
+            </div>
+            
+            <div class="info-box">
+                <strong>🏆 How It Works</strong>
+                Find eggs hidden around the website.<br><br>
+                Your progress will be tracked during the event.<br><br>
+                The more eggs you collect, the more badges you unlock.
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">🏅 Easter 2027 Badges</div>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <img src="/assets/icons/egg-hunter-2027.png" alt="Egg Hunter Badge 2027">
+                    <p>Find 10 Easter Eggs to unlock this badge.</p>
+                    <p>Progress Requirement:<br>
+                        <strong style="color:#4ade80;">10 / 40 Eggs</strong>
+                    </p>
+                </div>
+
+                <div class="card">
+                    <img src="/assets/icons/egg-explorer-2027.png" alt="Egg Explorer Badge 2027">
+                    <p>Find 25 Easter Eggs to unlock this badge.</p>
+                    <p>Progress Requirement:<br>
+                        <strong style="color:#4ade80;">25 / 40 Eggs</strong>
+                    </p>
+                </div>
+
+                <div class="card">
+                    <img src="/assets/icons/egg-master-2027.png" alt="Egg Master Badge 2027">
+                    <p>Find all 40 Easter Eggs to unlock the final badge.</p>
+                    <p>Progress Requirement:<br>
+                        <strong style="color:#4ade80;">40 / 40 Eggs</strong>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">🏆 Leaderboard</div>
+
+            <div class="info-box">
+                <strong>🥚 Easter Egg Leaderboard 2027</strong>
+                The leaderboard will track players during the Easter Event 2027.<br><br>
+                Find eggs faster than everyone else and become the top egg hunter.
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🥇 #1 Coming Soon</h3>
+                    <p>Username:<br>
+                        <strong style="color:#4ade80;">Unknown</strong>
+                    </p>
+                    <p>Eggs Found:<br>40 / 40</p>
+                </div>
+
+                <div class="card">
+                    <h3>🥈 #2 Coming Soon</h3>
+                    <p>Username:<br>
+                        <strong style="color:#4ade80;">Unknown</strong>
+                    </p>
+                    <p>Eggs Found:<br>35 / 40</p>
+                </div>
+
+                <div class="card">
+                    <h3>🥉 #3 Coming Soon</h3>
+                    <p>Username:<br>
+                        <strong style="color:#4ade80;">Unknown</strong>
+                    </p>
+                    <p>Eggs Found:<br>30 / 40</p>
+                </div>
+            </div>
+
+            <div class="coming-soon" style="margin-top:20px;">
+                🏆 Full leaderboard available when Easter Event 2027 begins.
+                <br><br>
+                <a href="/events/easter-2027/leaderboard" style="color:#4ade80;text-decoration:none;font-weight:bold;">
+                    View Leaderboard →
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">⏳ Countdown</div>
+            
+            <div class="info-box">
+                <strong>🥚 The Hunt Begins Soon</strong>
+                <p id="countdown">Coming Spring 2027</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">❓ FAQ</div>
+            
+            <div class="info-box">
+                <strong>How many eggs are hidden?</strong>
+                40 Easter Eggs will be hidden across multiple locations.
+            </div>
+            
+            <div class="info-box">
+                <strong>Where can I find eggs?</strong>
+                Eggs can appear across tyler.fun pages, games, and experiments.
+            </div>
+            
+            <div class="info-box">
+                <strong>Can I unlock every badge?</strong>
+                Yes. Find all 40 eggs to unlock the final Easter Master 2027 badge.
+            </div>
+            
+            <div class="info-box">
+                <strong>When does the event start?</strong>
+                The Easter Event 2027 will launch on Friday, March 19, 2027.
+            </div>
+        </section>
+    </div>
+
+</div>
+
+<script>
+
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+let W;
+let H;
+let stars = [];
+
+function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+}
+
+function initStars(){
+    stars = [];
+    const amount = Math.floor((W * H) / 8000);
+
+    for(let i = 0; i < amount; i++){
+        stars.push({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            r: Math.random() * 1.1 + 0.3,
+            speed: Math.random() * 0.14 + 0.03,
+            opacity: Math.random() * 0.45 + 0.1,
+            ts: Math.random() * 0.01 + 0.003,
+            offset: Math.random() * Math.PI * 2
+        });
+    }
+}
+
+let time = 0;
+
+function drawStars(){
+    ctx.clearRect(0,0,W,H);
+    time += 0.016;
+
+    for(const star of stars){
+        ctx.beginPath();
+        ctx.arc(
+            star.x,
+            star.y,
+            star.r,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle =
+        `rgba(187,247,208,${
+            Math.max(
+                0,
+                star.opacity +
+                Math.sin(time * star.ts * 60 + star.offset) * 0.14
+            )
+        })`;
+
+        ctx.fill();
+
+        star.y -= star.speed;
+
+        if(star.y < -2){
+            star.y = H + 2;
+            star.x = Math.random() * W;
+        }
+    }
+
+    requestAnimationFrame(drawStars);
+}
+
+resize();
+initStars();
+drawStars();
+
+window.addEventListener(
+    "resize",
+    () => {
+        resize();
+        initStars();
+    }
+);
+
+/*
+    Easter Event 2027 Countdown
+    Set to Friday, March 19, 2027 00:00:00
+*/
+
+const eventDate = new Date("March 19, 2027 00:00:00").getTime();
+const countdown = document.getElementById("countdown");
+
+function updateCountdown(){
+    if(!countdown) return;
+
+    const now = new Date().getTime();
+    const distance = eventDate - now;
+
+    if(distance <= 0){
+        countdown.innerHTML = "🥚 The Easter Hunt Has Started!";
+        return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+</script>
+
+</body>
+</html>
