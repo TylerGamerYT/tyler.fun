@@ -4,11 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Changelog | tyler.fun</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap"
       rel="stylesheet"
     />
+
     <style>
       *,
       *::before,
@@ -34,6 +36,7 @@
         z-index: 0;
         pointer-events: none;
       }
+
       .bg-glow {
         position: fixed;
         inset: 0;
@@ -56,6 +59,7 @@
         transition: color 0.2s;
         z-index: 10;
       }
+
       .back-home:hover {
         color: #fff;
       }
@@ -68,11 +72,13 @@
         width: 100%;
       }
 
-      /* header */
+      /* Header */
+
       .page-header {
         text-align: center;
         margin-bottom: 56px;
       }
+
       .page-header h1 {
         font-family: "Syne", sans-serif;
         font-size: clamp(2.5rem, 10vw, 4rem);
@@ -80,13 +86,15 @@
         margin: 0 0 10px;
         letter-spacing: -3px;
       }
+
       .page-header p {
         font-size: 0.95rem;
         color: #64748b;
         margin: 0;
       }
 
-      /* timeline */
+      /* Timeline */
+
       .timeline {
         display: flex;
         flex-direction: column;
@@ -100,20 +108,23 @@
         transform: translateY(16px);
         animation: fadeUp 0.5s ease forwards;
       }
+
       .entry:nth-child(1) {
         animation-delay: 0.1s;
       }
+
       .entry:nth-child(2) {
         animation-delay: 0.2s;
       }
+
       .entry:nth-child(3) {
         animation-delay: 0.3s;
       }
+
       .entry:nth-child(4) {
         animation-delay: 0.4s;
       }
 
-      /* hidden entries style */
       .entry.hidden-entry {
         display: none;
         animation: none;
@@ -131,7 +142,8 @@
         }
       }
 
-      /* left column: date + line */
+      /* Left column */
+
       .entry-left {
         display: flex;
         flex-direction: column;
@@ -140,6 +152,7 @@
         flex-shrink: 0;
         width: 20px;
       }
+
       .entry-dot {
         width: 14px;
         height: 14px;
@@ -150,10 +163,12 @@
         margin-top: 4px;
         transition: background 0.3s;
       }
+
       .entry.latest .entry-dot {
         background: #3b82f6;
         box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
       }
+
       .entry-line {
         flex: 1;
         width: 2px;
@@ -161,15 +176,18 @@
         margin: 4px 0;
         min-height: 40px;
       }
+
       .entry:last-child .entry-line {
         display: none;
       }
 
-      /* right column: content */
+      /* Entry content */
+
       .entry-content {
         padding-bottom: 36px;
         flex: 1;
       }
+
       .entry-date {
         font-size: 0.72rem;
         color: #475569;
@@ -178,6 +196,7 @@
         font-weight: 600;
         margin-bottom: 6px;
       }
+
       .entry-version {
         font-family: "Syne", sans-serif;
         font-size: 1.2rem;
@@ -188,6 +207,7 @@
         align-items: center;
         gap: 10px;
       }
+
       .new-badge {
         font-size: 0.6rem;
         font-weight: 700;
@@ -199,18 +219,21 @@
         padding: 2px 8px;
         border-radius: 99px;
       }
+
       .entry-title {
         font-size: 0.9rem;
         color: #64748b;
         margin-bottom: 14px;
       }
 
-      /* change items */
+      /* Changes */
+
       .changes {
         display: flex;
         flex-direction: column;
         gap: 8px;
       }
+
       .change {
         display: flex;
         align-items: flex-start;
@@ -223,6 +246,7 @@
         color: #cbd5e1;
         line-height: 1.45;
       }
+
       .change-tag {
         font-size: 0.6rem;
         font-weight: 700;
@@ -233,28 +257,33 @@
         flex-shrink: 0;
         margin-top: 1px;
       }
+
       .tag-new {
         background: rgba(59, 130, 246, 0.15);
         color: #60a5fa;
         border: 1px solid rgba(59, 130, 246, 0.25);
       }
+
       .tag-fix {
         background: rgba(16, 185, 129, 0.12);
         color: #10b981;
         border: 1px solid rgba(16, 185, 129, 0.25);
       }
+
       .tag-change {
         background: rgba(251, 191, 36, 0.12);
         color: #fbbf24;
         border: 1px solid rgba(251, 191, 36, 0.25);
       }
+
       .tag-remove {
         background: rgba(239, 68, 68, 0.12);
         color: #f87171;
         border: 1px solid rgba(239, 68, 68, 0.25);
       }
 
-      /* interactive inline badges inside entries */
+      /* Inline badges */
+
       .badge-inline {
         display: inline-flex;
         align-items: center;
@@ -270,22 +299,37 @@
         user-select: none;
         transition: all 0.2s ease;
       }
+
       .badge-inline:hover {
         background: rgba(59, 130, 246, 0.3);
         color: #fff;
         transform: translateY(-1px);
       }
+
       .badge-inline.verified {
         background: rgba(16, 185, 129, 0.15);
         border-color: rgba(16, 185, 129, 0.35);
         color: #34d399;
       }
+
       .badge-inline.verified:hover {
         background: rgba(16, 185, 129, 0.3);
         color: #fff;
       }
 
-      /* badge click modal / popup toast */
+      .badge-inline.email {
+        background: rgba(139, 92, 246, 0.15);
+        border-color: rgba(139, 92, 246, 0.35);
+        color: #a78bfa;
+      }
+
+      .badge-inline.email:hover {
+        background: rgba(139, 92, 246, 0.3);
+        color: #fff;
+      }
+
+      /* Badge toast */
+
       .badge-toast {
         position: fixed;
         bottom: 30px;
@@ -306,19 +350,24 @@
         opacity: 0;
         pointer-events: none;
         transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        max-width: calc(100vw - 32px);
+        text-align: center;
       }
+
       .badge-toast.active {
         opacity: 1;
         pointer-events: auto;
         transform: translateX(-50%) translateY(0);
       }
 
-      /* read more button */
+      /* Load more */
+
       .load-more-container {
         display: flex;
         justify-content: center;
         margin-top: 10px;
       }
+
       .load-more-btn {
         background: rgba(30, 58, 138, 0.2);
         border: 1px solid rgba(59, 130, 246, 0.4);
@@ -331,483 +380,841 @@
         cursor: pointer;
         transition: all 0.2s ease;
       }
+
       .load-more-btn:hover {
         background: rgba(59, 130, 246, 0.25);
         color: #fff;
         border-color: #3b82f6;
         box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
       }
+
+      /* Mobile */
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 75px 16px 60px;
+        }
+
+        .back-home {
+          top: 16px;
+          left: 16px;
+        }
+
+        .entry {
+          gap: 16px;
+        }
+
+        .entry-content {
+          min-width: 0;
+        }
+
+        .change {
+          font-size: 0.8rem;
+          padding: 9px 11px;
+        }
+
+        .badge-toast {
+          font-size: 0.75rem;
+          padding: 10px 14px;
+        }
+      }
     </style>
   </head>
+
   <body>
     <canvas id="particles"></canvas>
     <div class="bg-glow"></div>
+
     <a href="/" class="back-home">← Back to tyler.fun</a>
 
     <div class="container">
+
       <div class="page-header">
         <h1>Changelog</h1>
         <p>What's been added, fixed, or broken lately.</p>
       </div>
 
       <div class="timeline">
+
+        <!-- =========================================
+             v1.3 — August 2026
+        ========================================== -->
+
         <div class="entry latest">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
           </div>
+
           <div class="entry-content">
-            <div class="entry-date">July 2026</div>
+
+            <div class="entry-date">August 2026</div>
+
             <div class="entry-version">
-              v1.2 <span class="new-badge">Latest</span>
+              v1.3
+              <span class="new-badge">Latest</span>
             </div>
+
+            <div class="entry-title">
+              Profile badges, email verification & account identity
+            </div>
+
+            <div class="changes">
+
+              <div class="change">
+                <span class="change-tag tag-new">New</span>
+                Added the official
+                <span
+                  class="badge-inline verified"
+                  data-title="Verified Badge"
+                  data-info="Shows that an account has been officially verified by tyler.fun."
+                >
+                  ✓ Verified
+                </span>
+                badge to user profiles.
+              </div>
+
+              <div class="change">
+                <span class="change-tag tag-new">New</span>
+                Added the
+                <span
+                  class="badge-inline"
+                  data-title="Member Badge"
+                  data-info="Shows that the account is a registered member of tyler.fun."
+                >
+                  👤 Member
+                </span>
+                badge for registered tyler.fun members.
+              </div>
+
+              <div class="change">
+                <span class="change-tag tag-new">New</span>
+                Added the
+                <span
+                  class="badge-inline email"
+                  data-title="Email Verified Badge"
+                  data-info="Shows that the account's email address has been successfully verified."
+                >
+                  ✉️ Email Verified
+                </span>
+                badge for accounts with a verified email address.
+              </div>
+
+              <div class="change">
+                <span class="change-tag tag-new">New</span>
+                Added interactive badge information - clicking supported badges
+                now displays a popup explaining what the badge means.
+              </div>
+
+              <div class="change">
+                <span class="change-tag tag-new">New</span>
+                Expanded the profile identity system with clearer account roles,
+                verification status, membership status, and email verification.
+              </div>
+
+              <div class="change">
+                <span class="change-tag tag-new">New</span>
+                Added profile badge assets for Tyler, Admin, Staff, Member,
+                Verified, and Email Verified accounts.
+              </div>
+
+              <div class="change">
+                <span class="change-tag tag-change">Change</span>
+                Updated profile badge spacing and presentation so multiple
+                badges can appear cleanly beside a user's display name.
+              </div>
+
+              <div class="change">
+                <span class="change-tag tag-fix">Fix</span>
+                Improved badge interactions so clicking a badge does not
+                interfere with other profile controls or popups.
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================================
+             v1.2 — July 2026
+        ========================================== -->
+
+        <div class="entry">
+          <div class="entry-left">
+            <div class="entry-dot"></div>
+            <div class="entry-line"></div>
+          </div>
+
+          <div class="entry-content">
+
+            <div class="entry-date">July 2026</div>
+
+            <div class="entry-version">v1.2</div>
+
             <div class="entry-title">
               Badges, Clickable Tooltips & Timeline Expansion
             </div>
+
             <div class="changes">
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Added official
-                <span class="badge-inline verified" data-title="Verified Checkmark" data-info="Official verified account checkmark badge for team members & creators.">
+                <span class="change-tag tag-new">New</span>
+                Added official
+                <span
+                  class="badge-inline verified"
+                  data-title="Verified Checkmark"
+                  data-info="Official verified account checkmark badge for team members & creators."
+                >
                   ✓ Verified
                 </span>
                 icons across user profiles and comments.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Added custom profile
-                <span class="badge-inline" data-title="Interactive Badges" data-info="Clicking any badge reveals its description, status, and role info.">
+                <span class="change-tag tag-new">New</span>
+                Added custom profile
+                <span
+                  class="badge-inline"
+                  data-title="Interactive Badges"
+                  data-info="Clicking any badge reveals its description, status, and role info."
+                >
                   🏅 Badges
                 </span>
-                with click interactions - tap any badge to trigger its detail popup.
+                with click interactions - tap any badge to trigger its detail
+                popup.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Added "Load Older Updates" collapsible history section with smooth staggered entry animations.
+                <span class="change-tag tag-new">New</span>
+                Added "Load Older Updates" collapsible history section with
+                smooth staggered entry animations.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-change">Change</span>Overhauled glassmorphism card layouts, starfield particle speed, and mobile responsiveness.
+                <span class="change-tag tag-change">Change</span>
+                Overhauled glassmorphism card layouts, starfield particle speed,
+                and mobile responsiveness.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-fix">Fix</span>Fixed relative routing links across `/users/` and `/games/` subdirectories.
+                <span class="change-tag tag-fix">Fix</span>
+                Fixed relative routing links across
+                <code>/users/</code> and <code>/games/</code> subdirectories.
               </div>
+
             </div>
           </div>
         </div>
+
+        <!-- =========================================
+             v1.1 — July 2026
+        ========================================== -->
 
         <div class="entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
           </div>
+
           <div class="entry-content">
+
             <div class="entry-date">July 2026</div>
+
             <div class="entry-version">v1.1</div>
+
             <div class="entry-title">
               Cleaner URLs for games, changelog, and site pages
             </div>
+
             <div class="changes">
+
               <div class="change">
-                <span class="change-tag tag-change">Change</span>Moved game
-                pages into their own folders at games/&lt;game-name&gt;/index.html
-                so every game can use a clean games/&lt;game-name&gt;/ link.
+                <span class="change-tag tag-change">Change</span>
+                Moved game pages into their own folders at
+                games/&lt;game-name&gt;/index.html so every game can use a clean
+                games/&lt;game-name&gt;/ link.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-change">Change</span>Updated the
-                homepage game cards to point at the new folder URLs instead of
-                old root-level .html files.
+                <span class="change-tag tag-change">Change</span>
+                Updated the homepage game cards to point at the new folder URLs
+                instead of old root-level .html files.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-change">Change</span>Moved the
-                changelog to changelog/index.html so it can be opened from the
-                cleaner changelog/ URL.
+                <span class="change-tag tag-change">Change</span>
+                Moved the changelog to changelog/index.html so it can be opened
+                from the cleaner changelog/ URL.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Clean URL notes for
-                the main site pages too - links can use routes like changelog/,
-                games/roast-clicker/, and users/tyler instead of raw .html
-                files.
+                <span class="change-tag tag-new">New</span>
+                Clean URL notes for the main site pages too - links can use
+                routes like changelog/, games/roast-clicker/, and users/tyler
+                instead of raw .html files.
               </div>
+
             </div>
           </div>
         </div>
+
+        <!-- =========================================
+             v1.0 — April 2026
+        ========================================== -->
 
         <div class="entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
           </div>
+
           <div class="entry-content">
+
             <div class="entry-date">April 2026</div>
+
             <div class="entry-version">v1.0</div>
+
             <div class="entry-title">
               22 public games + 10 new preview games + login/signup
             </div>
+
             <div class="changes">
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>10 more games moved
-                to public - Memory Grid, Number Memory, RPS vs AI, Whack-a-Mole,
-                Runaway Snake, Gravity Flip, Cursed Clicker, Dodge the Dots,
-                Evil Simon, Spin the Wheel. All tagged NEW in blue.
+                <span class="change-tag tag-new">New</span>
+                10 more games moved to public - Memory Grid, Number Memory,
+                RPS vs AI, Whack-a-Mole, Runaway Snake, Gravity Flip, Cursed
+                Clicker, Dodge the Dots, Evil Simon, Spin the Wheel. All tagged
+                NEW in blue.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>7 new preview games -
-                Aim Trainer, Two Truths One Lie, Math Sprint, Pixel Art, Colour
-                Flood, Moving Minesweeper, Scared Asteroids.
+                <span class="change-tag tag-new">New</span>
+                7 new preview games - Aim Trainer, Two Truths One Lie, Math
+                Sprint, Pixel Art, Colour Flood, Moving Minesweeper, Scared
+                Asteroids.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Login and signup
-                pages - GitHub OAuth is live. Email/password coming later.
+                <span class="change-tag tag-new">New</span>
+                Login and signup pages - GitHub OAuth is live. Email/password
+                coming later.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>NEW badge in blue
-                added to recently made public games.
+                <span class="change-tag tag-new">New</span>
+                NEW badge in blue added to recently made public games.
               </div>
+
             </div>
           </div>
         </div>
+
+        <!-- =========================================
+             v0.9
+        ========================================== -->
 
         <div class="entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
           </div>
+
           <div class="entry-content">
+
             <div class="entry-date">April 2026</div>
+
             <div class="entry-version">v0.9</div>
+
             <div class="entry-title">
               Moved to Vercel + profiles restructured into /users/
             </div>
+
             <div class="changes">
+
               <div class="change">
-                <span class="change-tag tag-change">Change</span>Moved from
-                GitHub Pages to Vercel - site now lives at tyler-fun.vercel.app.
+                <span class="change-tag tag-change">Change</span>
+                Moved from GitHub Pages to Vercel - site now lives at
+                tyler-fun.vercel.app.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-change">Change</span>All user
-                profiles restructured into a /users/ folder - each profile is
-                now users/Username/Index.html.
+                <span class="change-tag tag-change">Change</span>
+                All user profiles restructured into a /users/ folder - each
+                profile is now users/Username/Index.html.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-change">Change</span>Back home links
-                updated to "/" across all profile pages.
+                <span class="change-tag tag-change">Change</span>
+                Back home links updated to "/" across all profile pages.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>@ban profile -
-                claimed by Tyler, red theme, ban reason dropdown, banned badge,
-                and tyler.fun/banned redirects to it.
+                <span class="change-tag tag-new">New</span>
+                @ban profile - claimed by Tyler, red theme, ban reason dropdown,
+                banned badge, and tyler.fun/banned redirects to it.
               </div>
+
             </div>
           </div>
         </div>
 
-        <!-- Hidden older updates -->
+        <!-- =========================================
+             v0.8
+        ========================================== -->
+
         <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
           </div>
+
           <div class="entry-content">
+
             <div class="entry-date">April 2026</div>
+
             <div class="entry-version">v0.8</div>
+
             <div class="entry-title">
               Profiles, system accounts, search bar and guest mode
             </div>
+
             <div class="changes">
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Profile pages for
-                every member - Tyler, Fish, Tawsif, Ashley, Angle, Aaban each
-                have their own page at tyler.fun/username.
+                <span class="change-tag tag-new">New</span>
+                Profile pages for every member - Tyler, Fish, Tawsif, Ashley,
+                Angle, Aaban each have their own page at tyler.fun/username.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Official system
-                accounts - @admin, @staff, @support and @tyler.fun profiles are
-                live.
+                <span class="change-tag tag-new">New</span>
+                Official system accounts - @admin, @staff, @support and
+                @tyler.fun profiles are live.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Guest profile -
-                @Guest page at tyler.fun/Guest with a "coming soon" login
-                button.
+                <span class="change-tag tag-new">New</span>
+                Guest profile - @Guest page at tyler.fun/Guest with a
+                "coming soon" login button.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Guest icon added to
-                the top right of index - clicking it takes you to the Guest
-                profile.
+                <span class="change-tag tag-new">New</span>
+                Guest icon added to the top right of index - clicking it takes
+                you to the Guest profile.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Search bar added to
-                the games section - search by name or description in real time.
+                <span class="change-tag tag-new">New</span>
+                Search bar added to the games section - search by name or
+                description in real time.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>tyler.fun main
-                profile page listing the full team at tyler.fun/tyler.fun.
+                <span class="change-tag tag-new">New</span>
+                tyler.fun main profile page listing the full team at
+                tyler.fun/tyler.fun.
               </div>
+
             </div>
           </div>
         </div>
+
+        <!-- =========================================
+             v0.7
+        ========================================== -->
 
         <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
           </div>
+
           <div class="entry-content">
+
             <div class="entry-date">April 2026</div>
+
             <div class="entry-version">v0.7</div>
+
             <div class="entry-title">7 more preview games added</div>
+
             <div class="changes">
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Cursed Clicker -
-                cookie clicker but every upgrade breaks something.
+                <span class="change-tag tag-new">New</span>
+                Cursed Clicker - cookie clicker but every upgrade breaks
+                something.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Dodge the Dots - move
-                your cursor to survive incoming red circles.
+                <span class="change-tag tag-new">New</span>
+                Dodge the Dots - move your cursor to survive incoming red
+                circles.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Evil Simon - repeat
-                the colour pattern, but Simon cheats.
+                <span class="change-tag tag-new">New</span>
+                Evil Simon - repeat the colour pattern, but Simon cheats.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Spin the Wheel - 12
-                segments of random consequences.
+                <span class="change-tag tag-new">New</span>
+                Spin the Wheel - 12 segments of random consequences.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Guess the Colour -
-                match the hex code to the swatch. Easy and hard mode.
+                <span class="change-tag tag-new">New</span>
+                Guess the Colour - match the hex code to the swatch. Easy and
+                hard mode.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Survive the Clicks -
-                each click introduces a new challenge.
+                <span class="change-tag tag-new">New</span>
+                Survive the Clicks - each click introduces a new challenge.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Chair Simulator - you
-                are a chair. That is all.
+                <span class="change-tag tag-new">New</span>
+                Chair Simulator - you are a chair. That is all.
               </div>
+
             </div>
           </div>
         </div>
+
+        <!-- =========================================
+             v0.6
+        ========================================== -->
 
         <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
           </div>
+
           <div class="entry-content">
+
             <div class="entry-date">April 2026</div>
+
             <div class="entry-version">v0.6</div>
+
             <div class="entry-title">6 more games go public + 404 page</div>
+
             <div class="changes">
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Custom 404 page - if
-                you get lost, at least it looks good.
+                <span class="change-tag tag-new">New</span>
+                Custom 404 page - if you get lost, at least it looks good.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-change">Change</span>6 more games
-                moved to public - Reaction Time, Higher or Lower, Floor is Lava,
-                Type Fast, Cursed Breakout, Don't Press It.
+                <span class="change-tag tag-change">Change</span>
+                6 more games moved to public - Reaction Time, Higher or Lower,
+                Floor is Lava, Type Fast, Cursed Breakout, Don't Press It.
               </div>
+
             </div>
           </div>
         </div>
+
+        <!-- =========================================
+             v0.5
+        ========================================== -->
 
         <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
           </div>
+
           <div class="entry-content">
+
             <div class="entry-date">April 2026</div>
+
             <div class="entry-version">v0.5</div>
+
             <div class="entry-title">
               Changelog added - the site now tells you what changed
             </div>
+
             <div class="changes">
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Changelog page - a
-                full version history of the site, publicly visible to everyone.
+                <span class="change-tag tag-new">New</span>
+                Changelog page - a full version history of the site, publicly
+                visible to everyone.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>"Changelog" link
-                added to the top right of the index page.
+                <span class="change-tag tag-new">New</span>
+                "Changelog" link added to the top right of the index page.
               </div>
+
             </div>
           </div>
         </div>
+
+        <!-- =========================================
+             v0.4
+        ========================================== -->
 
         <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
           </div>
+
           <div class="entry-content">
+
             <div class="entry-date">April 2026</div>
+
             <div class="entry-version">v0.4</div>
+
             <div class="entry-title">
               The big games drop - 25 games and counting
             </div>
+
             <div class="changes">
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Added 19 new games in
-                preview: Reaction Time, Higher or Lower, Floor is Lava, Type
-                Fast, Cursed Breakout, Don't Press It, Memory Grid, Number
-                Memory, RPS vs AI, Whack-a-Mole, Runaway Snake, Gravity Flip,
-                Cursed Clicker, Dodge the Dots, Evil Simon, Spin the Wheel,
-                Guess the Colour, Survive the Clicks, Chair Simulator.
+                <span class="change-tag tag-new">New</span>
+                Added 19 new games in preview: Reaction Time, Higher or Lower,
+                Floor is Lava, Type Fast, Cursed Breakout, Don't Press It,
+                Memory Grid, Number Memory, RPS vs AI, Whack-a-Mole, Runaway
+                Snake, Gravity Flip, Cursed Clicker, Dodge the Dots, Evil
+                Simon, Spin the Wheel, Guess the Colour, Survive the Clicks,
+                Chair Simulator.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-change">Change</span>First 6 games
-                made public - Roast Clicker, Impossible Button, Hold the Key,
-                Useless Machine, Scroll to Win, Word Scramble are now live for
-                everyone.
+                <span class="change-tag tag-change">Change</span>
+                First 6 games made public - Roast Clicker, Impossible Button,
+                Hold the Key, Useless Machine, Scroll to Win, Word Scramble are
+                now live for everyone.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Public / In
-                Development badges added to game cards.
+                <span class="change-tag tag-new">New</span>
+                Public / In Development badges added to game cards.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Changelog page
-                (you're looking at it).
+                <span class="change-tag tag-new">New</span>
+                Changelog page (you're looking at it).
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Shared leaderboard
-                added to Hold the Key using persistent storage.
+                <span class="change-tag tag-new">New</span>
+                Shared leaderboard added to Hold the Key using persistent
+                storage.
               </div>
+
             </div>
           </div>
         </div>
+
+        <!-- =========================================
+             v0.3
+        ========================================== -->
 
         <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
           </div>
+
           <div class="entry-content">
+
             <div class="entry-date">April 2026</div>
+
             <div class="entry-version">v0.3</div>
+
             <div class="entry-title">
               First batch of games - the site actually does something now
             </div>
+
             <div class="changes">
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Roast Clicker - click
-                a button, get increasingly roasted. 100+ unique roast lines.
+                <span class="change-tag tag-new">New</span>
+                Roast Clicker - click a button, get increasingly roasted.
+                100+ unique roast lines.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Impossible Button - a
-                button that runs away from your cursor. Forever.
+                <span class="change-tag tag-new">New</span>
+                Impossible Button - a button that runs away from your cursor.
+                Forever.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Hold the Key - hold
-                spacebar as long as possible. Global leaderboard.
+                <span class="change-tag tag-new">New</span>
+                Hold the Key - hold spacebar as long as possible. Global
+                leaderboard.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Useless Machine -
-                toggle switch that turns itself off.
+                <span class="change-tag tag-new">New</span>
+                Useless Machine - toggle switch that turns itself off.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Scroll to Win -
-                scroll up to fill the bar. It drains when you stop.
+                <span class="change-tag tag-new">New</span>
+                Scroll to Win - scroll up to fill the bar. It drains when you
+                stop.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Word Scramble -
-                unscramble 40+ words across 6 categories before time runs out.
+                <span class="change-tag tag-new">New</span>
+                Word Scramble - unscramble 40+ words across 6 categories before
+                time runs out.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Preview-only system -
-                games hidden behind ?preview URL param.
+                <span class="change-tag tag-new">New</span>
+                Preview-only system - games hidden behind ?preview URL param.
               </div>
+
             </div>
           </div>
         </div>
+
+        <!-- =========================================
+             v0.2
+        ========================================== -->
 
         <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
           </div>
+
           <div class="entry-content">
+
             <div class="entry-date">April 2026</div>
+
             <div class="entry-version">v0.2</div>
+
             <div class="entry-title">
               Site redesign - actually looks good now
             </div>
+
             <div class="changes">
+
               <div class="change">
-                <span class="change-tag tag-change">Change</span>Complete visual
-                overhaul - dark blue aesthetic, Syne font, animated star
-                particles.
+                <span class="change-tag tag-change">Change</span>
+                Complete visual overhaul - dark blue aesthetic, Syne font,
+                animated star particles.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Logo collision
-                animation - "tyler" slides in and hits ".fun".
+                <span class="change-tag tag-new">New</span>
+                Logo collision animation - "tyler" slides in and hits ".fun".
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Socials page -
-                TikTok, Twitter, Instagram, GitHub links with profile pic.
+                <span class="change-tag tag-new">New</span>
+                Socials page - TikTok, Twitter, Instagram, GitHub links with
+                profile pic.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-fix">Fix</span>GitHub profile
-                picture now loads correctly using avatars.githubusercontent.com.
+                <span class="change-tag tag-fix">Fix</span>
+                GitHub profile picture now loads correctly using
+                avatars.githubusercontent.com.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-change">Change</span>Staggered
-                fade-in animations for all content after logo lands.
+                <span class="change-tag tag-change">Change</span>
+                Staggered fade-in animations for all content after logo lands.
               </div>
+
             </div>
           </div>
         </div>
+
+        <!-- =========================================
+             v0.1
+        ========================================== -->
 
         <div class="entry hidden-entry">
           <div class="entry-left">
             <div class="entry-dot"></div>
             <div class="entry-line"></div>
           </div>
+
           <div class="entry-content">
+
             <div class="entry-date">April 2026</div>
+
             <div class="entry-version">v0.1</div>
+
             <div class="entry-title">The beginning - it exists</div>
+
             <div class="changes">
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Initial site launched
-                on GitHub Pages as tylergameryt.github.io/tyler.fun.
+                <span class="change-tag tag-new">New</span>
+                Initial site launched on GitHub Pages as
+                tylerrgameryt.github.io/tyler.fun.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Coming soon landing
-                page with status box and "View My Socials" button.
+                <span class="change-tag tag-new">New</span>
+                Coming soon landing page with status box and "View My Socials"
+                button.
               </div>
+
               <div class="change">
-                <span class="change-tag tag-new">New</span>Repository created.
-                16 commits. The dream begins.
+                <span class="change-tag tag-new">New</span>
+                Repository created. 16 commits. The dream begins.
               </div>
+
             </div>
           </div>
         </div>
+
       </div>
+
+      <!-- Load Older Updates -->
 
       <div class="load-more-container" id="loadMoreWrap">
         <button class="load-more-btn" id="loadMoreBtn">
           Load Older Updates
         </button>
       </div>
+
     </div>
 
-    <!-- Badge click toast container -->
+    <!-- Badge Toast -->
+
     <div class="badge-toast" id="badgeToast">
-      <strong id="toastTitle">Badge</strong> — <span id="toastInfo">Details...</span>
+      <strong id="toastTitle">Badge</strong>
+      <span>—</span>
+      <span id="toastInfo">Details...</span>
     </div>
 
     <script>
-      // Background Particle Canvas
-      const canvas = document.getElementById("particles"),
-        ctx = canvas.getContext("2d");
-      let W,
-        H,
-        stars = [];
+      /* =========================================
+         Background Particle Canvas
+      ========================================== */
+
+      const canvas = document.getElementById("particles");
+      const ctx = canvas.getContext("2d");
+
+      let W;
+      let H;
+      let stars = [];
+
       function resize() {
         W = canvas.width = window.innerWidth;
         H = canvas.height = window.innerHeight;
       }
+
       function initStars() {
         stars = [];
-        for (let i = 0; i < Math.floor((W * H) / 8000); i++)
+
+        for (let i = 0; i < Math.floor((W * H) / 8000); i++) {
           stars.push({
             x: Math.random() * W,
             y: Math.random() * H,
@@ -817,33 +1224,59 @@
             ts: Math.random() * 0.01 + 0.003,
             to: Math.random() * Math.PI * 2,
           });
+        }
       }
+
       let t = 0;
+
       function draw() {
         ctx.clearRect(0, 0, W, H);
+
         t += 0.016;
+
         for (const s of stars) {
           ctx.beginPath();
-          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(148,197,255,${Math.max(0, s.opacity + Math.sin(t * s.ts * 60 + s.to) * 0.14)})`;
+
+          ctx.arc(
+            s.x,
+            s.y,
+            s.r,
+            0,
+            Math.PI * 2
+          );
+
+          ctx.fillStyle = `rgba(148,197,255,${Math.max(
+            0,
+            s.opacity +
+              Math.sin(t * s.ts * 60 + s.to) * 0.14
+          )})`;
+
           ctx.fill();
+
           s.y -= s.speed;
+
           if (s.y < -2) {
             s.y = H + 2;
             s.x = Math.random() * W;
           }
         }
+
         requestAnimationFrame(draw);
       }
+
       resize();
       initStars();
       draw();
+
       window.addEventListener("resize", () => {
         resize();
         initStars();
       });
 
-      // Load More Logic
+      /* =========================================
+         Load More Logic
+      ========================================== */
+
       const loadBtn = document.getElementById("loadMoreBtn");
       const loadWrap = document.getElementById("loadMoreWrap");
       const hiddenEntries = document.querySelectorAll(".hidden-entry");
@@ -854,21 +1287,39 @@
           entry.classList.add("show-entry");
           entry.style.animationDelay = `${index * 0.08}s`;
         });
+
         loadWrap.style.display = "none";
       });
 
-      // Interactive Badge Tooltip / Modal Logic
-      const badgeElements = document.querySelectorAll(".badge-inline");
-      const toast = document.getElementById("badgeToast");
-      const toastTitle = document.getElementById("toastTitle");
-      const toastInfo = document.getElementById("toastInfo");
+      /* =========================================
+         Interactive Badge Tooltip / Toast
+      ========================================== */
+
+      const badgeElements =
+        document.querySelectorAll(".badge-inline");
+
+      const toast =
+        document.getElementById("badgeToast");
+
+      const toastTitle =
+        document.getElementById("toastTitle");
+
+      const toastInfo =
+        document.getElementById("toastInfo");
+
       let toastTimer = null;
 
       badgeElements.forEach((badge) => {
         badge.addEventListener("click", (e) => {
           e.stopPropagation();
-          const title = badge.getAttribute("data-title") || "Badge";
-          const info = badge.getAttribute("data-info") || "No details available.";
+
+          const title =
+            badge.getAttribute("data-title") ||
+            "Badge";
+
+          const info =
+            badge.getAttribute("data-info") ||
+            "No details available.";
 
           toastTitle.textContent = title;
           toastInfo.textContent = info;
@@ -876,6 +1327,7 @@
           toast.classList.add("active");
 
           clearTimeout(toastTimer);
+
           toastTimer = setTimeout(() => {
             toast.classList.remove("active");
           }, 3200);
