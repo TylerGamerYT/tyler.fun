@@ -7,6 +7,7 @@
     { "source": "/signup", "destination": "/signup/index.html" },
     { "source": "/socials", "destination": "/socials/index.html" },
     { "source": "/changelog", "destination": "/changelog/index.html" },
+    
     { "source": "/changelog/news", "destination": "/changelog/news/index.html" },
 
     { "source": "/changelog/news/v1.3.1", "destination": "/changelog/news/v1.3.1/index.html" },
