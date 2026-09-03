@@ -1,1342 +1,448 @@
+```html
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Changelog | tyler.fun</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
+  <title>Changelog | tyler.fun</title>
 
-    <style>
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-      }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap"
+    rel="stylesheet"
+  >
 
-      body {
-        background: #020617;
-        color: #fff;
-        font-family: "Inter", sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        min-height: 100vh;
-        margin: 0;
-        overflow-x: hidden;
-      }
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
 
-      #particles {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-      }
+    body {
+      background: #020617;
+      color: #fff;
+      font-family: "Inter", sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+    }
 
-      .bg-glow {
-        position: fixed;
-        inset: 0;
-        background: radial-gradient(
-          ellipse 80% 60% at 50% 40%,
+    #particles {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(
+          ellipse 80% 60% at 50% 35%,
           #1e3a8a44 0%,
           transparent 70%
         );
-        z-index: 0;
-        pointer-events: none;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .back-home {
+      position: fixed;
+      top: 20px;
+      left: 24px;
+      font-size: 0.85rem;
+      color: #475569;
+      text-decoration: none;
+      transition: color 0.2s;
+      z-index: 10;
+    }
+
+    .back-home:hover {
+      color: #fff;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      width: 100%;
+      margin: auto;
+      padding: 90px 24px 80px;
+    }
+
+    /* Header */
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 42px;
+    }
+
+    .eyebrow {
+      color: #3b82f6;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .page-header h1 {
+      font-family: "Syne", sans-serif;
+      font-size: clamp(2.7rem, 10vw, 4.4rem);
+      font-weight: 900;
+      letter-spacing: -4px;
+      margin: 0 0 12px;
+    }
+
+    .page-header p {
+      color: #64748b;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    /* Latest release */
+
+    .latest-card {
+      position: relative;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(30, 58, 138, 0.28),
+          rgba(15, 23, 42, 0.72)
+        );
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      border-radius: 20px;
+      padding: 28px;
+      overflow: hidden;
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.25),
+        0 0 40px rgba(30, 64, 175, 0.08);
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .latest-card::before {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      right: -120px;
+      top: -140px;
+      background: #2563eb;
+      opacity: 0.08;
+      border-radius: 50%;
+      filter: blur(30px);
+      pointer-events: none;
+    }
+
+    .latest-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #60a5fa;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      padding: 5px 10px;
+      border-radius: 99px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 18px;
+    }
+
+    .latest-label::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: #3b82f6;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #3b82f6;
+    }
+
+    .release-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 12px;
+    }
+
+    .version {
+      font-family: "Syne", sans-serif;
+      font-size: 1.7rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .date {
+      color: #475569;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding-top: 7px;
+      text-align: right;
+    }
+
+    .release-title {
+      color: #e2e8f0;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .summary {
+      color: #94a3b8;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      margin: 0 0 24px;
+    }
+
+    /* Stats */
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .stat {
+      color: #94a3b8;
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .stat strong {
+      color: #e2e8f0;
+    }
+
+    /* Button */
+
+    .archive {
+      display: flex;
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    .archive-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+      background: rgba(30, 58, 138, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #60a5fa;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 11px 20px;
+      border-radius: 99px;
+      transition: all 0.2s ease;
+    }
+
+    .archive-btn:hover {
+      background: rgba(59, 130, 246, 0.25);
+      color: #fff;
+      border-color: #3b82f6;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .archive-btn span {
+      transition: transform 0.2s ease;
+    }
+
+    .archive-btn:hover span {
+      transform: translateX(3px);
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #334155;
+      font-size: 0.7rem;
+      margin-top: 30px;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 78px 16px 60px;
       }
 
       .back-home {
-        position: fixed;
-        top: 20px;
-        left: 24px;
-        font-size: 0.85rem;
-        color: #475569;
-        text-decoration: none;
-        transition: color 0.2s;
-        z-index: 10;
+        top: 16px;
+        left: 16px;
       }
 
-      .back-home:hover {
-        color: #fff;
+      .latest-card {
+        padding: 22px;
+        border-radius: 16px;
       }
 
-      .container {
-        position: relative;
-        z-index: 1;
-        padding: 80px 24px 80px;
-        max-width: 680px;
-        width: 100%;
-      }
-
-      /* Header */
-
-      .page-header {
-        text-align: center;
-        margin-bottom: 56px;
-      }
-
-      .page-header h1 {
-        font-family: "Syne", sans-serif;
-        font-size: clamp(2.5rem, 10vw, 4rem);
-        font-weight: 900;
-        margin: 0 0 10px;
-        letter-spacing: -3px;
-      }
-
-      .page-header p {
-        font-size: 0.95rem;
-        color: #64748b;
-        margin: 0;
-      }
-
-      /* Timeline */
-
-      .timeline {
-        display: flex;
+      .release-top {
         flex-direction: column;
-        gap: 0;
+        gap: 5px;
       }
 
-      .entry {
-        display: flex;
-        gap: 24px;
-        opacity: 0;
-        transform: translateY(16px);
-        animation: fadeUp 0.5s ease forwards;
+      .date {
+        text-align: left;
+        padding: 0;
       }
 
-      .entry:nth-child(1) {
-        animation-delay: 0.1s;
+      .version {
+        font-size: 1.5rem;
       }
+    }
+  </style>
+</head>
 
-      .entry:nth-child(2) {
-        animation-delay: 0.2s;
-      }
+<body>
 
-      .entry:nth-child(3) {
-        animation-delay: 0.3s;
-      }
+  <canvas id="particles"></canvas>
+  <div class="bg-glow"></div>
 
-      .entry:nth-child(4) {
-        animation-delay: 0.4s;
-      }
+  <a href="/" class="back-home">← Back to tyler.fun</a>
 
-      .entry.hidden-entry {
-        display: none;
-        animation: none;
-      }
+  <main class="container">
 
-      .entry.show-entry {
-        display: flex;
-        animation: fadeUp 0.4s ease forwards;
-      }
+    <header class="page-header">
+      <div class="eyebrow">tyler.fun updates</div>
+      <h1>Changelog</h1>
+      <p>What's been added, fixed, or broken lately.</p>
+    </header>
 
-      @keyframes fadeUp {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
+    <!-- Latest -->
 
-      /* Left column */
+    <section class="latest-card">
 
-      .entry-left {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0;
-        flex-shrink: 0;
-        width: 20px;
-      }
+      <div class="latest-label">Latest Release</div>
 
-      .entry-dot {
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        background: #1e3a8a;
-        border: 2px solid #3b82f6;
-        flex-shrink: 0;
-        margin-top: 4px;
-        transition: background 0.3s;
-      }
-
-      .entry.latest .entry-dot {
-        background: #3b82f6;
-        box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-      }
-
-      .entry-line {
-        flex: 1;
-        width: 2px;
-        background: rgba(51, 65, 85, 0.5);
-        margin: 4px 0;
-        min-height: 40px;
-      }
-
-      .entry:last-child .entry-line {
-        display: none;
-      }
-
-      /* Entry content */
-
-      .entry-content {
-        padding-bottom: 36px;
-        flex: 1;
-      }
-
-      .entry-date {
-        font-size: 0.72rem;
-        color: #475569;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        font-weight: 600;
-        margin-bottom: 6px;
-      }
-
-      .entry-version {
-        font-family: "Syne", sans-serif;
-        font-size: 1.2rem;
-        font-weight: 900;
-        color: #f8fafc;
-        margin-bottom: 4px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .new-badge {
-        font-size: 0.6rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: #10b981;
-        background: rgba(16, 185, 129, 0.12);
-        border: 1px solid rgba(16, 185, 129, 0.3);
-        padding: 2px 8px;
-        border-radius: 99px;
-      }
-
-      .entry-title {
-        font-size: 0.9rem;
-        color: #64748b;
-        margin-bottom: 14px;
-      }
-
-      /* Changes */
-
-      .changes {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .change {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(51, 65, 85, 0.5);
-        border-radius: 10px;
-        padding: 10px 14px;
-        font-size: 0.85rem;
-        color: #cbd5e1;
-        line-height: 1.45;
-      }
-
-      .change-tag {
-        font-size: 0.6rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        padding: 2px 7px;
-        border-radius: 99px;
-        flex-shrink: 0;
-        margin-top: 1px;
-      }
-
-      .tag-new {
-        background: rgba(59, 130, 246, 0.15);
-        color: #60a5fa;
-        border: 1px solid rgba(59, 130, 246, 0.25);
-      }
-
-      .tag-fix {
-        background: rgba(16, 185, 129, 0.12);
-        color: #10b981;
-        border: 1px solid rgba(16, 185, 129, 0.25);
-      }
-
-      .tag-change {
-        background: rgba(251, 191, 36, 0.12);
-        color: #fbbf24;
-        border: 1px solid rgba(251, 191, 36, 0.25);
-      }
-
-      .tag-remove {
-        background: rgba(239, 68, 68, 0.12);
-        color: #f87171;
-        border: 1px solid rgba(239, 68, 68, 0.25);
-      }
-
-      /* Inline badges */
-
-      .badge-inline {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        background: rgba(59, 130, 246, 0.15);
-        border: 1px solid rgba(59, 130, 246, 0.3);
-        color: #60a5fa;
-        padding: 1px 6px;
-        border-radius: 6px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        cursor: pointer;
-        user-select: none;
-        transition: all 0.2s ease;
-      }
-
-      .badge-inline:hover {
-        background: rgba(59, 130, 246, 0.3);
-        color: #fff;
-        transform: translateY(-1px);
-      }
-
-      .badge-inline.verified {
-        background: rgba(16, 185, 129, 0.15);
-        border-color: rgba(16, 185, 129, 0.35);
-        color: #34d399;
-      }
-
-      .badge-inline.verified:hover {
-        background: rgba(16, 185, 129, 0.3);
-        color: #fff;
-      }
-
-      .badge-inline.email {
-        background: rgba(139, 92, 246, 0.15);
-        border-color: rgba(139, 92, 246, 0.35);
-        color: #a78bfa;
-      }
-
-      .badge-inline.email:hover {
-        background: rgba(139, 92, 246, 0.3);
-        color: #fff;
-      }
-
-      /* Badge toast */
-
-      .badge-toast {
-        position: fixed;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%) translateY(100px);
-        background: rgba(15, 23, 42, 0.95);
-        border: 1px solid rgba(59, 130, 246, 0.5);
-        backdrop-filter: blur(12px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        padding: 12px 20px;
-        border-radius: 99px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 0.85rem;
-        color: #f8fafc;
-        z-index: 100;
-        opacity: 0;
-        pointer-events: none;
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        max-width: calc(100vw - 32px);
-        text-align: center;
-      }
-
-      .badge-toast.active {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateX(-50%) translateY(0);
-      }
-
-      /* Load more */
-
-      .load-more-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-      }
-
-      .load-more-btn {
-        background: rgba(30, 58, 138, 0.2);
-        border: 1px solid rgba(59, 130, 246, 0.4);
-        color: #60a5fa;
-        font-family: "Inter", sans-serif;
-        font-size: 0.85rem;
-        font-weight: 600;
-        padding: 10px 24px;
-        border-radius: 99px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-
-      .load-more-btn:hover {
-        background: rgba(59, 130, 246, 0.25);
-        color: #fff;
-        border-color: #3b82f6;
-        box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
-      }
-
-      /* Mobile */
-
-      @media (max-width: 600px) {
-        .container {
-          padding: 75px 16px 60px;
-        }
-
-        .back-home {
-          top: 16px;
-          left: 16px;
-        }
-
-        .entry {
-          gap: 16px;
-        }
-
-        .entry-content {
-          min-width: 0;
-        }
-
-        .change {
-          font-size: 0.8rem;
-          padding: 9px 11px;
-        }
-
-        .badge-toast {
-          font-size: 0.75rem;
-          padding: 10px 14px;
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <canvas id="particles"></canvas>
-    <div class="bg-glow"></div>
-
-    <a href="/" class="back-home">← Back to tyler.fun</a>
-
-    <div class="container">
-
-      <div class="page-header">
-        <h1>Changelog</h1>
-        <p>What's been added, fixed, or broken lately.</p>
+      <div class="release-top">
+        <div class="version">v1.3</div>
+        <div class="date">August 2026</div>
       </div>
 
-      <div class="timeline">
-
-        <!-- =========================================
-             v1.3 — August 2026
-        ========================================== -->
-
-        <div class="entry latest">
-          <div class="entry-left">
-            <div class="entry-dot"></div>
-            <div class="entry-line"></div>
-          </div>
-
-          <div class="entry-content">
-
-            <div class="entry-date">August 2026</div>
-
-            <div class="entry-version">
-              v1.3
-              <span class="new-badge">Latest</span>
-            </div>
-
-            <div class="entry-title">
-              Profile badges, email verification & account identity
-            </div>
-
-            <div class="changes">
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Added the official
-                <span
-                  class="badge-inline verified"
-                  data-title="Verified Badge"
-                  data-info="Shows that an account has been officially verified by tyler.fun."
-                >
-                  ✓ Verified
-                </span>
-                badge to user profiles.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Added the
-                <span
-                  class="badge-inline"
-                  data-title="Member Badge"
-                  data-info="Shows that the account is a registered member of tyler.fun."
-                >
-                  👤 Member
-                </span>
-                badge for registered tyler.fun members.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Added the
-                <span
-                  class="badge-inline email"
-                  data-title="Email Verified Badge"
-                  data-info="Shows that the account's email address has been successfully verified."
-                >
-                  ✉️ Email Verified
-                </span>
-                badge for accounts with a verified email address.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Added interactive badge information - clicking supported badges
-                now displays a popup explaining what the badge means.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Expanded the profile identity system with clearer account roles,
-                verification status, membership status, and email verification.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Added profile badge assets for Tyler, Admin, Staff, Member,
-                Verified, and Email Verified accounts.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-change">Change</span>
-                Updated profile badge spacing and presentation so multiple
-                badges can appear cleanly beside a user's display name.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-fix">Fix</span>
-                Improved badge interactions so clicking a badge does not
-                interfere with other profile controls or popups.
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================
-             v1.2 — July 2026
-        ========================================== -->
-
-        <div class="entry">
-          <div class="entry-left">
-            <div class="entry-dot"></div>
-            <div class="entry-line"></div>
-          </div>
-
-          <div class="entry-content">
-
-            <div class="entry-date">July 2026</div>
-
-            <div class="entry-version">v1.2</div>
-
-            <div class="entry-title">
-              Badges, Clickable Tooltips & Timeline Expansion
-            </div>
-
-            <div class="changes">
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Added official
-                <span
-                  class="badge-inline verified"
-                  data-title="Verified Checkmark"
-                  data-info="Official verified account checkmark badge for team members & creators."
-                >
-                  ✓ Verified
-                </span>
-                icons across user profiles and comments.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Added custom profile
-                <span
-                  class="badge-inline"
-                  data-title="Interactive Badges"
-                  data-info="Clicking any badge reveals its description, status, and role info."
-                >
-                  🏅 Badges
-                </span>
-                with click interactions - tap any badge to trigger its detail
-                popup.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Added "Load Older Updates" collapsible history section with
-                smooth staggered entry animations.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-change">Change</span>
-                Overhauled glassmorphism card layouts, starfield particle speed,
-                and mobile responsiveness.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-fix">Fix</span>
-                Fixed relative routing links across
-                <code>/users/</code> and <code>/games/</code> subdirectories.
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================
-             v1.1 — July 2026
-        ========================================== -->
-
-        <div class="entry">
-          <div class="entry-left">
-            <div class="entry-dot"></div>
-            <div class="entry-line"></div>
-          </div>
-
-          <div class="entry-content">
-
-            <div class="entry-date">July 2026</div>
-
-            <div class="entry-version">v1.1</div>
-
-            <div class="entry-title">
-              Cleaner URLs for games, changelog, and site pages
-            </div>
-
-            <div class="changes">
-
-              <div class="change">
-                <span class="change-tag tag-change">Change</span>
-                Moved game pages into their own folders at
-                games/&lt;game-name&gt;/index.html so every game can use a clean
-                games/&lt;game-name&gt;/ link.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-change">Change</span>
-                Updated the homepage game cards to point at the new folder URLs
-                instead of old root-level .html files.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-change">Change</span>
-                Moved the changelog to changelog/index.html so it can be opened
-                from the cleaner changelog/ URL.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Clean URL notes for the main site pages too - links can use
-                routes like changelog/, games/roast-clicker/, and users/tyler
-                instead of raw .html files.
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================
-             v1.0 — April 2026
-        ========================================== -->
-
-        <div class="entry">
-          <div class="entry-left">
-            <div class="entry-dot"></div>
-            <div class="entry-line"></div>
-          </div>
-
-          <div class="entry-content">
-
-            <div class="entry-date">April 2026</div>
-
-            <div class="entry-version">v1.0</div>
-
-            <div class="entry-title">
-              22 public games + 10 new preview games + login/signup
-            </div>
-
-            <div class="changes">
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                10 more games moved to public - Memory Grid, Number Memory,
-                RPS vs AI, Whack-a-Mole, Runaway Snake, Gravity Flip, Cursed
-                Clicker, Dodge the Dots, Evil Simon, Spin the Wheel. All tagged
-                NEW in blue.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                7 new preview games - Aim Trainer, Two Truths One Lie, Math
-                Sprint, Pixel Art, Colour Flood, Moving Minesweeper, Scared
-                Asteroids.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Login and signup pages - GitHub OAuth is live. Email/password
-                coming later.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                NEW badge in blue added to recently made public games.
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================
-             v0.9
-        ========================================== -->
-
-        <div class="entry">
-          <div class="entry-left">
-            <div class="entry-dot"></div>
-            <div class="entry-line"></div>
-          </div>
-
-          <div class="entry-content">
-
-            <div class="entry-date">April 2026</div>
-
-            <div class="entry-version">v0.9</div>
-
-            <div class="entry-title">
-              Moved to Vercel + profiles restructured into /users/
-            </div>
-
-            <div class="changes">
-
-              <div class="change">
-                <span class="change-tag tag-change">Change</span>
-                Moved from GitHub Pages to Vercel - site now lives at
-                tyler-fun.vercel.app.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-change">Change</span>
-                All user profiles restructured into a /users/ folder - each
-                profile is now users/Username/Index.html.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-change">Change</span>
-                Back home links updated to "/" across all profile pages.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                @ban profile - claimed by Tyler, red theme, ban reason dropdown,
-                banned badge, and tyler.fun/banned redirects to it.
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================
-             v0.8
-        ========================================== -->
-
-        <div class="entry hidden-entry">
-          <div class="entry-left">
-            <div class="entry-dot"></div>
-            <div class="entry-line"></div>
-          </div>
-
-          <div class="entry-content">
-
-            <div class="entry-date">April 2026</div>
-
-            <div class="entry-version">v0.8</div>
-
-            <div class="entry-title">
-              Profiles, system accounts, search bar and guest mode
-            </div>
-
-            <div class="changes">
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Profile pages for every member - Tyler, Fish, Tawsif, Ashley,
-                Angle, Aaban each have their own page at tyler.fun/username.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Official system accounts - @admin, @staff, @support and
-                @tyler.fun profiles are live.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Guest profile - @Guest page at tyler.fun/Guest with a
-                "coming soon" login button.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Guest icon added to the top right of index - clicking it takes
-                you to the Guest profile.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Search bar added to the games section - search by name or
-                description in real time.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                tyler.fun main profile page listing the full team at
-                tyler.fun/tyler.fun.
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================
-             v0.7
-        ========================================== -->
-
-        <div class="entry hidden-entry">
-          <div class="entry-left">
-            <div class="entry-dot"></div>
-            <div class="entry-line"></div>
-          </div>
-
-          <div class="entry-content">
-
-            <div class="entry-date">April 2026</div>
-
-            <div class="entry-version">v0.7</div>
-
-            <div class="entry-title">7 more preview games added</div>
-
-            <div class="changes">
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Cursed Clicker - cookie clicker but every upgrade breaks
-                something.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Dodge the Dots - move your cursor to survive incoming red
-                circles.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Evil Simon - repeat the colour pattern, but Simon cheats.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Spin the Wheel - 12 segments of random consequences.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Guess the Colour - match the hex code to the swatch. Easy and
-                hard mode.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Survive the Clicks - each click introduces a new challenge.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Chair Simulator - you are a chair. That is all.
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================
-             v0.6
-        ========================================== -->
-
-        <div class="entry hidden-entry">
-          <div class="entry-left">
-            <div class="entry-dot"></div>
-            <div class="entry-line"></div>
-          </div>
-
-          <div class="entry-content">
-
-            <div class="entry-date">April 2026</div>
-
-            <div class="entry-version">v0.6</div>
-
-            <div class="entry-title">6 more games go public + 404 page</div>
-
-            <div class="changes">
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Custom 404 page - if you get lost, at least it looks good.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-change">Change</span>
-                6 more games moved to public - Reaction Time, Higher or Lower,
-                Floor is Lava, Type Fast, Cursed Breakout, Don't Press It.
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================
-             v0.5
-        ========================================== -->
-
-        <div class="entry hidden-entry">
-          <div class="entry-left">
-            <div class="entry-dot"></div>
-            <div class="entry-line"></div>
-          </div>
-
-          <div class="entry-content">
-
-            <div class="entry-date">April 2026</div>
-
-            <div class="entry-version">v0.5</div>
-
-            <div class="entry-title">
-              Changelog added - the site now tells you what changed
-            </div>
-
-            <div class="changes">
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Changelog page - a full version history of the site, publicly
-                visible to everyone.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                "Changelog" link added to the top right of the index page.
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================
-             v0.4
-        ========================================== -->
-
-        <div class="entry hidden-entry">
-          <div class="entry-left">
-            <div class="entry-dot"></div>
-            <div class="entry-line"></div>
-          </div>
-
-          <div class="entry-content">
-
-            <div class="entry-date">April 2026</div>
-
-            <div class="entry-version">v0.4</div>
-
-            <div class="entry-title">
-              The big games drop - 25 games and counting
-            </div>
-
-            <div class="changes">
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Added 19 new games in preview: Reaction Time, Higher or Lower,
-                Floor is Lava, Type Fast, Cursed Breakout, Don't Press It,
-                Memory Grid, Number Memory, RPS vs AI, Whack-a-Mole, Runaway
-                Snake, Gravity Flip, Cursed Clicker, Dodge the Dots, Evil
-                Simon, Spin the Wheel, Guess the Colour, Survive the Clicks,
-                Chair Simulator.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-change">Change</span>
-                First 6 games made public - Roast Clicker, Impossible Button,
-                Hold the Key, Useless Machine, Scroll to Win, Word Scramble are
-                now live for everyone.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Public / In Development badges added to game cards.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Changelog page (you're looking at it).
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Shared leaderboard added to Hold the Key using persistent
-                storage.
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================
-             v0.3
-        ========================================== -->
-
-        <div class="entry hidden-entry">
-          <div class="entry-left">
-            <div class="entry-dot"></div>
-            <div class="entry-line"></div>
-          </div>
-
-          <div class="entry-content">
-
-            <div class="entry-date">April 2026</div>
-
-            <div class="entry-version">v0.3</div>
-
-            <div class="entry-title">
-              First batch of games - the site actually does something now
-            </div>
-
-            <div class="changes">
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Roast Clicker - click a button, get increasingly roasted.
-                100+ unique roast lines.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Impossible Button - a button that runs away from your cursor.
-                Forever.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Hold the Key - hold spacebar as long as possible. Global
-                leaderboard.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Useless Machine - toggle switch that turns itself off.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Scroll to Win - scroll up to fill the bar. It drains when you
-                stop.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Word Scramble - unscramble 40+ words across 6 categories before
-                time runs out.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Preview-only system - games hidden behind ?preview URL param.
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================
-             v0.2
-        ========================================== -->
-
-        <div class="entry hidden-entry">
-          <div class="entry-left">
-            <div class="entry-dot"></div>
-            <div class="entry-line"></div>
-          </div>
-
-          <div class="entry-content">
-
-            <div class="entry-date">April 2026</div>
-
-            <div class="entry-version">v0.2</div>
-
-            <div class="entry-title">
-              Site redesign - actually looks good now
-            </div>
-
-            <div class="changes">
-
-              <div class="change">
-                <span class="change-tag tag-change">Change</span>
-                Complete visual overhaul - dark blue aesthetic, Syne font,
-                animated star particles.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Logo collision animation - "tyler" slides in and hits ".fun".
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Socials page - TikTok, Twitter, Instagram, GitHub links with
-                profile pic.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-fix">Fix</span>
-                GitHub profile picture now loads correctly using
-                avatars.githubusercontent.com.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-change">Change</span>
-                Staggered fade-in animations for all content after logo lands.
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================
-             v0.1
-        ========================================== -->
-
-        <div class="entry hidden-entry">
-          <div class="entry-left">
-            <div class="entry-dot"></div>
-            <div class="entry-line"></div>
-          </div>
-
-          <div class="entry-content">
-
-            <div class="entry-date">April 2026</div>
-
-            <div class="entry-version">v0.1</div>
-
-            <div class="entry-title">The beginning - it exists</div>
-
-            <div class="changes">
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Initial site launched on GitHub Pages as
-                tylerrgameryt.github.io/tyler.fun.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Coming soon landing page with status box and "View My Socials"
-                button.
-              </div>
-
-              <div class="change">
-                <span class="change-tag tag-new">New</span>
-                Repository created. 16 commits. The dream begins.
-              </div>
-
-            </div>
-          </div>
-        </div>
-
+      <div class="release-title">
+        Profile badges, email verification & account identity
       </div>
 
-      <!-- Load Older Updates -->
+      <p class="summary">
+        A major update to profiles and account identity. Verified, Member,
+        and Email Verified badges were added alongside clearer account roles,
+        interactive badge information, and improved profile presentation.
+      </p>
 
-      <div class="load-more-container" id="loadMoreWrap">
-        <button class="load-more-btn" id="loadMoreBtn">
-          Load Older Updates
-        </button>
+      <div class="stats">
+        <div class="stat"><strong>6</strong> New</div>
+        <div class="stat"><strong>1</strong> Change</div>
+        <div class="stat"><strong>1</strong> Fix</div>
+        <div class="stat"><strong>8</strong> Total changes</div>
       </div>
 
+    </section>
+
+    <div class="archive">
+      <a href="/changelog/news/" class="archive-btn">
+        View All Releases
+        <span>→</span>
+      </a>
     </div>
 
-    <!-- Badge Toast -->
-
-    <div class="badge-toast" id="badgeToast">
-      <strong id="toastTitle">Badge</strong>
-      <span>—</span>
-      <span id="toastInfo">Details...</span>
+    <div class="footer-note">
+      v1.3 is currently the latest version of tyler.fun.
     </div>
 
-    <script>
-      /* =========================================
-         Background Particle Canvas
-      ========================================== */
+  </main>
 
-      const canvas = document.getElementById("particles");
-      const ctx = canvas.getContext("2d");
+  <script>
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
 
-      let W;
-      let H;
-      let stars = [];
+    let W;
+    let H;
+    let stars = [];
+    let t = 0;
 
-      function resize() {
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function initStars() {
+      stars = [];
+
+      for (let i = 0; i < Math.floor((W * H) / 8000); i++) {
+        stars.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 1.1 + 0.3,
+          speed: Math.random() * 0.14 + 0.03,
+          opacity: Math.random() * 0.45 + 0.1,
+          ts: Math.random() * 0.01 + 0.003,
+          to: Math.random() * Math.PI * 2
+        });
       }
+    }
 
-      function initStars() {
-        stars = [];
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
 
-        for (let i = 0; i < Math.floor((W * H) / 8000); i++) {
-          stars.push({
-            x: Math.random() * W,
-            y: Math.random() * H,
-            r: Math.random() * 1.1 + 0.3,
-            speed: Math.random() * 0.14 + 0.03,
-            opacity: Math.random() * 0.45 + 0.1,
-            ts: Math.random() * 0.01 + 0.003,
-            to: Math.random() * Math.PI * 2,
-          });
+      t += 0.016;
+
+      for (const s of stars) {
+        ctx.beginPath();
+
+        ctx.arc(
+          s.x,
+          s.y,
+          s.r,
+          0,
+          Math.PI * 2
+        );
+
+        ctx.fillStyle = `rgba(148,197,255,${Math.max(
+          0,
+          s.opacity +
+          Math.sin(t * s.ts * 60 + s.to) * 0.14
+        )})`;
+
+        ctx.fill();
+
+        s.y -= s.speed;
+
+        if (s.y < -2) {
+          s.y = H + 2;
+          s.x = Math.random() * W;
         }
       }
 
-      let t = 0;
+      requestAnimationFrame(draw);
+    }
 
-      function draw() {
-        ctx.clearRect(0, 0, W, H);
+    resize();
+    initStars();
+    draw();
 
-        t += 0.016;
-
-        for (const s of stars) {
-          ctx.beginPath();
-
-          ctx.arc(
-            s.x,
-            s.y,
-            s.r,
-            0,
-            Math.PI * 2
-          );
-
-          ctx.fillStyle = `rgba(148,197,255,${Math.max(
-            0,
-            s.opacity +
-              Math.sin(t * s.ts * 60 + s.to) * 0.14
-          )})`;
-
-          ctx.fill();
-
-          s.y -= s.speed;
-
-          if (s.y < -2) {
-            s.y = H + 2;
-            s.x = Math.random() * W;
-          }
-        }
-
-        requestAnimationFrame(draw);
-      }
-
+    window.addEventListener("resize", () => {
       resize();
       initStars();
-      draw();
+    });
+  </script>
 
-      window.addEventListener("resize", () => {
-        resize();
-        initStars();
-      });
-
-      /* =========================================
-         Load More Logic
-      ========================================== */
-
-      const loadBtn = document.getElementById("loadMoreBtn");
-      const loadWrap = document.getElementById("loadMoreWrap");
-      const hiddenEntries = document.querySelectorAll(".hidden-entry");
-
-      loadBtn.addEventListener("click", () => {
-        hiddenEntries.forEach((entry, index) => {
-          entry.classList.remove("hidden-entry");
-          entry.classList.add("show-entry");
-          entry.style.animationDelay = `${index * 0.08}s`;
-        });
-
-        loadWrap.style.display = "none";
-      });
-
-      /* =========================================
-         Interactive Badge Tooltip / Toast
-      ========================================== */
-
-      const badgeElements =
-        document.querySelectorAll(".badge-inline");
-
-      const toast =
-        document.getElementById("badgeToast");
-
-      const toastTitle =
-        document.getElementById("toastTitle");
-
-      const toastInfo =
-        document.getElementById("toastInfo");
-
-      let toastTimer = null;
-
-      badgeElements.forEach((badge) => {
-        badge.addEventListener("click", (e) => {
-          e.stopPropagation();
-
-          const title =
-            badge.getAttribute("data-title") ||
-            "Badge";
-
-          const info =
-            badge.getAttribute("data-info") ||
-            "No details available.";
-
-          toastTitle.textContent = title;
-          toastInfo.textContent = info;
-
-          toast.classList.add("active");
-
-          clearTimeout(toastTimer);
-
-          toastTimer = setTimeout(() => {
-            toast.classList.remove("active");
-          }, 3200);
-        });
-      });
-
-      document.addEventListener("click", () => {
-        toast.classList.remove("active");
-      });
-    </script>
-  </body>
+</body>
 </html>
+```
