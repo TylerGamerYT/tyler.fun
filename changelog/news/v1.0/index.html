@@ -1,1 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>v1.0 22 Public Games, Preview Games & Accounts | tyler.fun</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(80, 110, 255, 0.12), transparent 35%),
+        #050711;
+      color: #f4f6ff;
+      font-family: "Inter", sans-serif;
+      overflow-x: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.55;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(900px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 35px 0 80px;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #9da7c7;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 55px;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .back:hover {
+      color: #ffffff;
+      transform: translateX(-3px);
+    }
+
+    header {
+      margin-bottom: 45px;
+    }
+
+    .version {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border: 1px solid rgba(130, 150, 255, 0.25);
+      border-radius: 999px;
+      background: rgba(90, 110, 255, 0.08);
+      color: #aebaff;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .version::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #8191ff;
+      box-shadow: 0 0 12px #8191ff;
+    }
+
+    h1 {
+      font-family: "Syne", sans-serif;
+      font-size: clamp(42px, 8vw, 76px);
+      line-height: 0.95;
+      letter-spacing: -3px;
+      margin-bottom: 18px;
+    }
+
+    .subtitle {
+      color: #aab2ce;
+      font-size: clamp(17px, 2vw, 20px);
+      line-height: 1.6;
+      max-width: 720px;
+    }
+
+    .date {
+      margin-top: 18px;
+      color: #69728f;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .content {
+      display: grid;
+      gap: 18px;
+    }
+
+    .release-section {
+      padding: 30px;
+      border: 1px solid rgba(130, 145, 190, 0.14);
+      border-radius: 20px;
+      background: rgba(13, 17, 31, 0.72);
+      backdrop-filter: blur(14px);
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.22),
+        inset 0 1px rgba(255, 255, 255, 0.025);
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      font-family: "Syne", sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .section-label .icon {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: rgba(90, 110, 255, 0.12);
+      color: #9eabff;
+      font-size: 17px;
+    }
+
+    ul {
+      list-style: none;
+      display: grid;
+      gap: 14px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 25px;
+      color: #aeb6d0;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #7788ff;
+      font-weight: 700;
+    }
+
+    .highlight {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: 14px;
+      background: rgba(95, 115, 255, 0.06);
+      border: 1px solid rgba(95, 115, 255, 0.13);
+      color: #c5cbdf;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .highlight strong {
+      color: #f2f4ff;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(130, 145, 190, 0.1);
+    }
+
+    .stat-number {
+      font-family: "Syne", sans-serif;
+      font-size: 30px;
+      font-weight: 800;
+      color: #f2f4ff;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      color: #7f89a5;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin-top: 35px;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 17px;
+      border: 1px solid rgba(130, 145, 190, 0.16);
+      border-radius: 12px;
+      background: rgba(13, 17, 31, 0.7);
+      color: #b6bdd5;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.2s ease;
+    }
+
+    .nav-link:hover {
+      border-color: rgba(130, 145, 255, 0.35);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        width: min(100% - 26px, 900px);
+        padding-top: 25px;
+      }
+
+      .back {
+        margin-bottom: 40px;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+
+      .release-section {
+        padding: 22px;
+        border-radius: 16px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-nav {
+        flex-direction: column;
+      }
+
+      .nav-link {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="stars"></canvas>
+
+  <main class="page">
+
+    <a href="/changelog/news" class="back">
+      ← Back to News & Releases
+    </a>
+
+    <header>
+      <div class="version">v1.0</div>
+
+      <h1>The big<br>1.0 release</h1>
+
+      <p class="subtitle">
+        tyler.fun reached its first major version with a full public games
+        library, new preview games, and the introduction of accounts.
+      </p>
+
+      <p class="date">April 2026</p>
+    </header>
+
+    <section class="content">
+
+      <article class="release-section">
+        <h2 class="section-label">
+          <span class="icon">✦</span>
+          New
+        </h2>
+
+        <ul>
+          <li>
+            Expanded the site to <strong>22 public games</strong>.
+          </li>
+
+          <li>
+            Added <strong>10 new preview games</strong> for games still being
+            developed.
+          </li>
+
+          <li>
+            Added <strong>login and signup</strong> functionality.
+          </li>
+
+          <li>
+            Introduced the foundation for user accounts and personalized
+            experiences across the site.
+          </li>
+        </ul>
+      </article>
+
+      <article class="release-section">
+        <h2 class="section-label">
+          <span class="icon">🎮</span>
+          The Games Library
+        </h2>
+
+        <p class="subtitle" style="font-size: 15px; max-width: none;">
+          v1.0 marked the point where the games side of tyler.fun became a
+          substantial part of the site, with public games available to play
+          and additional projects available as previews.
+        </p>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-number">22</div>
+            <div class="stat-label">Public games</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-number">10</div>
+            <div class="stat-label">New preview games</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-number">32</div>
+            <div class="stat-label">Games across public & preview</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="release-section">
+        <h2 class="section-label">
+          <span class="icon">◎</span>
+          Accounts
+        </h2>
+
+        <ul>
+          <li>
+            Added the first version of the <strong>login</strong> system.
+          </li>
+
+          <li>
+            Added <strong>signup</strong> so visitors could create accounts.
+          </li>
+
+          <li>
+            Established the account system that later updates would build on
+            with profiles, badges and account identity.
+          </li>
+        </ul>
+      </article>
+
+      <article class="release-section">
+        <h2 class="section-label">
+          <span class="icon">★</span>
+          Why this update?
+        </h2>
+
+        <div class="highlight">
+          <strong>v1.0 was the point where tyler.fun became a real platform.</strong>
+          <br><br>
+
+          The site had grown beyond a simple collection of pages. With a large
+          public games library, more games in development, and the first
+          account features, v1.0 established the foundation for everything
+          that followed.
+        </div>
+      </article>
+
+    </section>
+
+    <nav class="footer-nav">
+      <a href="/changelog/news/v1.1" class="nav-link">
+        ← v1.1
+      </a>
+
+      <a href="/changelog/news/v0.9" class="nav-link">
+        v0.9 →
+      </a>
+    </nav>
+
+  </main>
+
+  <script>
+    const canvas = document.getElementById("stars");
+    const ctx = canvas.getContext("2d");
+
+    let width;
+    let height;
+    let stars = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+
+      stars = Array.from(
+        { length: Math.min(140, Math.floor(width / 9)) },
+        () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: Math.random() * 1.5 + 0.3,
+          speed: Math.random() * 0.18 + 0.03,
+          opacity: Math.random() * 0.7 + 0.2
+        })
+      );
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+
+      for (const star of stars) {
+        star.y -= star.speed;
+
+        if (star.y < -5) {
+          star.y = height + 5;
+          star.x = Math.random() * width;
+        }
+
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(180, 195, 255, ${star.opacity})`;
+        ctx.fill();
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener("resize", resize);
+
+    resize();
+    animate();
+  </script>
+
+</body>
+</html>
