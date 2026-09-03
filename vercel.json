@@ -7,7 +7,24 @@
     { "source": "/signup", "destination": "/signup/index.html" },
     { "source": "/socials", "destination": "/socials/index.html" },
     { "source": "/changelog", "destination": "/changelog/index.html" },
+    { "source": "/changelog/news", "destination": "/changelog/news/index.html" },
 
+    { "source": "/changelog/news/v1.3.1", "destination": "/changelog/news/v1.3.1/index.html" },
+    { "source": "/changelog/news/v1.3", "destination": "/changelog/news/v1.3/index.html" },
+    { "source": "/changelog/news/v1.2", "destination": "/changelog/news/v1.2/index.html" },
+    { "source": "/changelog/news/v1.1", "destination": "/changelog/news/v1.1/index.html" },
+    { "source": "/changelog/news/v1.0", "destination": "/changelog/news/v1.0/index.html" },
+    { "source": "/changelog/news/v0.9", "destination": "/changelog/news/v0.9/index.html" },
+    { "source": "/changelog/news/v0.8", "destination": "/changelog/news/v0.8/index.html" },
+    { "source": "/changelog/news/v0.7", "destination": "/changelog/news/v0.7/index.html" },
+    { "source": "/changelog/news/v0.6", "destination": "/changelog/news/v0.6/index.html" },
+    { "source": "/changelog/news/v0.5", "destination": "/changelog/news/v0.5/index.html" },
+    { "source": "/changelog/news/v0.4", "destination": "/changelog/news/v0.4/index.html" },
+    { "source": "/changelog/news/v0.3", "destination": "/changelog/news/v0.3/index.html" },
+    { "source": "/changelog/news/v0.2", "destination": "/changelog/news/v0.2/index.html" },
+    { "source": "/changelog/news/v0.1", "destination": "/changelog/news/v0.1/index.html" }
+
+    
     { "source": "/events/easter-2027", "destination": "/events/easter-2027/Index.html" },
     { "source": "/events/easter-2027/leaderboard", "destination": "/events/easter-2027/leaderboard/Index.html" },
 
