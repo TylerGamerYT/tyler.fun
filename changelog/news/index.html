@@ -1,1 +1,880 @@
+<!doctype html>
 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>News & Releases | tyler.fun</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #020617;
+      color: #fff;
+      font-family: "Inter", sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    #particles {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(
+          ellipse 80% 60% at 50% 35%,
+          #1e3a8a44 0%,
+          transparent 70%
+        );
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .back-home {
+      position: fixed;
+      top: 20px;
+      left: 24px;
+      font-size: 0.85rem;
+      color: #475569;
+      text-decoration: none;
+      transition: color 0.2s;
+      z-index: 20;
+    }
+
+    .back-home:hover {
+      color: #fff;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+      width: 100%;
+      margin: auto;
+      padding: 90px 24px 80px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 42px;
+    }
+
+    .eyebrow {
+      color: #3b82f6;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .page-header h1 {
+      font-family: "Syne", sans-serif;
+      font-size: clamp(2.5rem, 9vw, 4rem);
+      font-weight: 900;
+      letter-spacing: -3px;
+      margin: 0 0 10px;
+    }
+
+    .page-header p {
+      color: #64748b;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    .archive {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .release-card {
+      position: relative;
+      display: block;
+      width: 100%;
+      text-align: left;
+      color: inherit;
+      font-family: inherit;
+      text-decoration: none;
+
+      background: rgba(15, 23, 42, 0.58);
+      border: 1px solid rgba(51, 65, 85, 0.55);
+      border-radius: 17px;
+      padding: 22px;
+
+      cursor: pointer;
+      overflow: hidden;
+
+      transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+
+      opacity: 0;
+      transform: translateY(15px);
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    .release-card:nth-child(1) { animation-delay: 0.05s; }
+    .release-card:nth-child(2) { animation-delay: 0.1s; }
+    .release-card:nth-child(3) { animation-delay: 0.15s; }
+    .release-card:nth-child(4) { animation-delay: 0.2s; }
+    .release-card:nth-child(5) { animation-delay: 0.25s; }
+    .release-card:nth-child(6) { animation-delay: 0.3s; }
+    .release-card:nth-child(7) { animation-delay: 0.35s; }
+    .release-card:nth-child(8) { animation-delay: 0.4s; }
+    .release-card:nth-child(9) { animation-delay: 0.45s; }
+    .release-card:nth-child(10) { animation-delay: 0.5s; }
+    .release-card:nth-child(11) { animation-delay: 0.55s; }
+    .release-card:nth-child(12) { animation-delay: 0.6s; }
+    .release-card:nth-child(13) { animation-delay: 0.65s; }
+    .release-card:nth-child(14) { animation-delay: 0.7s; }
+
+    .release-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(59, 130, 246, 0.45);
+      background: rgba(15, 23, 42, 0.8);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .release-card.latest {
+      border-color: rgba(59, 130, 246, 0.38);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(30, 58, 138, 0.2),
+          rgba(15, 23, 42, 0.7)
+        );
+    }
+
+    .release-card.news {
+      border-color: rgba(168, 85, 247, 0.3);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(88, 28, 135, 0.16),
+          rgba(15, 23, 42, 0.7)
+        );
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 11px;
+    }
+
+    .version-wrap {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .version {
+      font-family: "Syne", sans-serif;
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+
+    .latest-badge {
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      padding: 3px 8px;
+      border-radius: 99px;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .news-badge {
+      color: #c084fc;
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      padding: 3px 8px;
+      border-radius: 99px;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .date {
+      color: #475569;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 1.7px;
+      text-transform: uppercase;
+    }
+
+    .title {
+      color: #cbd5e1;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: #64748b;
+      font-size: 0.8rem;
+      line-height: 1.55;
+      margin-bottom: 17px;
+      max-width: 650px;
+    }
+
+    .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .stat {
+      color: #64748b;
+      background: rgba(2, 6, 23, 0.35);
+      border: 1px solid rgba(51, 65, 85, 0.45);
+      border-radius: 6px;
+      padding: 4px 7px;
+      font-size: 0.58rem;
+      font-weight: 600;
+    }
+
+    .stat strong {
+      color: #94a3b8;
+    }
+
+    .view {
+      color: #3b82f6;
+      font-size: 0.7rem;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: transform 0.2s ease;
+    }
+
+    .release-card:hover .view {
+      transform: translateX(3px);
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 78px 16px 60px;
+      }
+
+      .back-home {
+        top: 16px;
+        left: 16px;
+      }
+
+      .release-card {
+        padding: 18px;
+      }
+
+      .card-top {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
+      }
+
+      .card-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .view {
+        display: none;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+  <div class="bg-glow"></div>
+
+<a href="/changelog/" class="back-home">← Back to Changelog</a>
+
+  <main class="container">
+
+<header class="page-header">
+  <div class="eyebrow">tyler.fun history</div>
+  <h1>News & Releases</h1>
+  <p>Every version. Every update. All in one place.</p>
+</header>
+
+<section class="archive">
+
+  <!-- v1.3.1 -->
+  <a
+    href="/changelog/news/v1.3.1/"
+    class="release-card latest news"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v1.3.1</div>
+        <div class="latest-badge">Latest</div>
+        <div class="news-badge">News</div>
+      </div>
+
+      <div class="date">September 2026</div>
+    </div>
+
+    <div class="title">
+      News archive & individual release pages
+    </div>
+
+    <div class="description">
+      The changelog is getting a new structure with a dedicated news
+      archive and individual pages for each release, making updates easier
+      to browse and giving every version its own permanent page.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>3</strong> New</div>
+        <div class="stat"><strong>1</strong> Change</div>
+        <div class="stat"><strong>4</strong> Changes</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v1.3 -->
+  <a
+    href="/changelog/news/v1.3/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v1.3</div>
+      </div>
+
+      <div class="date">August 2026</div>
+    </div>
+
+    <div class="title">
+      Profile badges, email verification & account identity
+    </div>
+
+    <div class="description">
+      A major profile identity update with verified, member and email
+      verification badges, clearer account roles and improved badge
+      interactions.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>6</strong> New</div>
+        <div class="stat"><strong>1</strong> Change</div>
+        <div class="stat"><strong>1</strong> Fix</div>
+        <div class="stat"><strong>8</strong> Changes</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v1.2 -->
+  <a
+    href="/changelog/news/v1.2/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v1.2</div>
+      </div>
+
+      <div class="date">July 2026</div>
+    </div>
+
+    <div class="title">
+      Badges, Clickable Tooltips & Timeline Expansion
+    </div>
+
+    <div class="description">
+      Interactive profile badges, badge information popups, older update
+      history and improvements to the site's glassmorphism design.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>3</strong> New</div>
+        <div class="stat"><strong>1</strong> Change</div>
+        <div class="stat"><strong>1</strong> Fix</div>
+        <div class="stat"><strong>5</strong> Changes</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v1.1 -->
+  <a
+    href="/changelog/news/v1.1/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v1.1</div>
+      </div>
+
+      <div class="date">July 2026</div>
+    </div>
+
+    <div class="title">
+      Cleaner URLs for games, changelog, and site pages
+    </div>
+
+    <div class="description">
+      Game pages, user profiles and the changelog were reorganised into
+      cleaner folder-based URLs.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>1</strong> New</div>
+        <div class="stat"><strong>3</strong> Changes</div>
+        <div class="stat"><strong>4</strong> Changes</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v1.0 -->
+  <a
+    href="/changelog/news/v1.0/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v1.0</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      22 public games + 10 new preview games + login/signup
+    </div>
+
+    <div class="description">
+      The first major public release. More games went live and the
+      foundation for accounts and authentication was added.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>4</strong> New</div>
+        <div class="stat"><strong>4</strong> Changes</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.9 -->
+  <a
+    href="/changelog/news/v0.9/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.9</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      Moved to Vercel + profiles restructured into /users/
+    </div>
+
+    <div class="description">
+      tyler.fun moved from GitHub Pages to Vercel and the profile system
+      was reorganised into the new users structure.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>1</strong> New</div>
+        <div class="stat"><strong>3</strong> Changes</div>
+        <div class="stat"><strong>4</strong> Changes</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.8 -->
+  <a
+    href="/changelog/news/v0.8/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.8</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      Profiles, system accounts, search bar and guest mode
+    </div>
+
+    <div class="description">
+      User profiles, system accounts, Guest mode and real-time game
+      searching were introduced.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>6</strong> New</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.7 -->
+  <a
+    href="/changelog/news/v0.7/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.7</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      7 more preview games added
+    </div>
+
+    <div class="description">
+      Seven new experimental games joined the growing preview library.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>7</strong> New</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.6 -->
+  <a
+    href="/changelog/news/v0.6/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.6</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      6 more games go public + 404 page
+    </div>
+
+    <div class="description">
+      Another six games became public and the site got its custom 404
+      experience.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>1</strong> New</div>
+        <div class="stat"><strong>1</strong> Change</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.5 -->
+  <a
+    href="/changelog/news/v0.5/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.5</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      Changelog added - the site now tells you what changed
+    </div>
+
+    <div class="description">
+      The changelog system itself was introduced and linked from the
+      homepage.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>2</strong> New</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.4 -->
+  <a
+    href="/changelog/news/v0.4/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.4</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      The big games drop - 25 games and counting
+    </div>
+
+    <div class="description">
+      The game library exploded with new preview titles, the first public
+      games and shared leaderboard functionality.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>4</strong> New</div>
+        <div class="stat"><strong>1</strong> Change</div>
+        <div class="stat"><strong>5</strong> Changes</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.3 -->
+  <a
+    href="/changelog/news/v0.3/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.3</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      First batch of games - the site actually does something now
+    </div>
+
+    <div class="description">
+      The first playable games arrived, including Roast Clicker,
+      Impossible Button, Hold the Key and Word Scramble.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>7</strong> New</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.2 -->
+  <a
+    href="/changelog/news/v0.2/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.2</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      Site redesign - actually looks good now
+    </div>
+
+    <div class="description">
+      The dark blue visual identity, animated particles, new typography,
+      socials page and logo animation arrived.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>3</strong> New</div>
+        <div class="stat"><strong>2</strong> Changes</div>
+        <div class="stat"><strong>1</strong> Fix</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.1 -->
+  <a
+    href="/changelog/news/v0.1/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.1</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      The beginning - it exists
+    </div>
+
+    <div class="description">
+      The original tyler.fun launch on GitHub Pages. A coming-soon page,
+      socials button and the first repository.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>3</strong> New</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+</section>
+
+  </main>
+
+  <script>
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+
+    let W;
+    let H;
+    let stars = [];
+    let t = 0;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function initStars() {
+      stars = [];
+
+      for (let i = 0; i < Math.floor((W * H) / 8000); i++) {
+        stars.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 1.1 + 0.3,
+          speed: Math.random() * 0.14 + 0.03,
+          opacity: Math.random() * 0.45 + 0.1,
+          ts: Math.random() * 0.01 + 0.003,
+          to: Math.random() * Math.PI * 2
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      t += 0.016;
+
+      for (const s of stars) {
+        ctx.beginPath();
+
+        ctx.arc(
+          s.x,
+          s.y,
+          s.r,
+          0,
+          Math.PI * 2
+        );
+
+        ctx.fillStyle = `rgba(148,197,255,${Math.max(
+          0,
+          s.opacity +
+          Math.sin(t * s.ts * 60 + s.to) * 0.14
+        )})`;
+
+        ctx.fill();
+
+        s.y -= s.speed;
+
+        if (s.y < -2) {
+          s.y = H + 2;
+          s.x = Math.random() * W;
+        }
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    resize();
+    initStars();
+    draw();
+
+    window.addEventListener("resize", () => {
+      resize();
+      initStars();
+    });
+  </script>
+
+</body>
+</html>
