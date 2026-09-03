@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>News & Releases | tyler.fun</title>
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap"
@@ -72,8 +72,6 @@
       padding: 90px 24px 80px;
     }
 
-    /* Header */
-
     .page-header {
       text-align: center;
       margin-bottom: 42px;
@@ -102,15 +100,11 @@
       margin: 0;
     }
 
-    /* Archive */
-
     .archive {
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
-
-    /* Release card */
 
     .release-card {
       position: relative;
@@ -148,6 +142,7 @@
     .release-card:nth-child(11) { animation-delay: 0.55s; }
     .release-card:nth-child(12) { animation-delay: 0.6s; }
     .release-card:nth-child(13) { animation-delay: 0.65s; }
+    .release-card:nth-child(14) { animation-delay: 0.7s; }
 
     .release-card:hover {
       transform: translateY(-3px);
@@ -162,6 +157,16 @@
         linear-gradient(
           135deg,
           rgba(30, 58, 138, 0.2),
+          rgba(15, 23, 42, 0.7)
+        );
+    }
+
+    .release-card.news {
+      border-color: rgba(168, 85, 247, 0.3);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(88, 28, 135, 0.16),
           rgba(15, 23, 42, 0.7)
         );
     }
@@ -199,6 +204,18 @@
       text-transform: uppercase;
     }
 
+    .news-badge {
+      color: #c084fc;
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      padding: 3px 8px;
+      border-radius: 99px;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
     .date {
       color: #475569;
       font-size: 0.65rem;
@@ -221,8 +238,6 @@
       margin-bottom: 17px;
       max-width: 650px;
     }
-
-    /* Stats */
 
     .card-bottom {
       display: flex;
@@ -263,8 +278,6 @@
       transform: translateX(3px);
     }
 
-    /* Modal */
-
     .modal {
       position: fixed;
       inset: 0;
@@ -286,6 +299,7 @@
     }
 
     .modal-box {
+      position: relative;
       width: min(700px, 100%);
       max-height: 85vh;
       overflow-y: auto;
@@ -478,19 +492,56 @@
 
     <section class="archive">
 
+      <!-- v1.3.1 -->
+
+      <button
+        class="release-card latest news"
+        data-version="v1.3.1"
+        data-date="September 2026"
+        data-title="News archive & individual release pages"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v1.3.1</div>
+            <div class="latest-badge">Latest</div>
+            <div class="news-badge">News</div>
+          </div>
+
+          <div class="date">September 2026</div>
+        </div>
+
+        <div class="title">
+          News archive & individual release pages
+        </div>
+
+        <div class="description">
+          The changelog is getting a new structure with a dedicated news
+          archive and individual pages for each release, making updates easier
+          to browse and giving every version its own permanent page.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>3</strong> New</div>
+            <div class="stat"><strong>1</strong> Change</div>
+            <div class="stat"><strong>4</strong> Changes</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </button>
+
       <!-- v1.3 -->
 
       <button
-        class="release-card latest"
+        class="release-card"
         data-version="v1.3"
         data-date="August 2026"
         data-title="Profile badges, email verification & account identity"
-        data-changes="8"
       >
         <div class="card-top">
           <div class="version-wrap">
             <div class="version">v1.3</div>
-            <div class="latest-badge">Latest</div>
           </div>
 
           <div class="date">August 2026</div>
@@ -951,8 +1002,8 @@
       <button class="close" id="closeModal">×</button>
 
       <div class="modal-header">
-        <div class="modal-version" id="modalVersion">v1.3</div>
-        <div class="modal-date" id="modalDate">August 2026</div>
+        <div class="modal-version" id="modalVersion">v1.3.1</div>
+        <div class="modal-date" id="modalDate">September 2026</div>
       </div>
 
       <div class="modal-title" id="modalTitle">
@@ -975,6 +1026,13 @@
     ========================================== */
 
     const releases = {
+
+      "v1.3.1": [
+        ["New", "Added the new /changelog/news/ archive for individual news and release posts."],
+        ["New", "Added individual version page support using /changelog/news/v1.3.1/ style URLs."],
+        ["New", "Added the foundation for future news posts, announcements and release articles."],
+        ["Change", "Reworked the release archive structure so each major update can have its own permanent page."]
+      ],
 
       "v1.3": [
         ["New", "Added the official ✓ Verified badge to user profiles."],
