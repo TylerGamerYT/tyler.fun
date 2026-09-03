@@ -1,4 +1,5 @@
 <!doctype html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -113,17 +114,22 @@
       text-align: left;
       color: inherit;
       font-family: inherit;
+      text-decoration: none;
+
       background: rgba(15, 23, 42, 0.58);
       border: 1px solid rgba(51, 65, 85, 0.55);
       border-radius: 17px;
       padding: 22px;
+
       cursor: pointer;
       overflow: hidden;
+
       transition:
         transform 0.25s ease,
         border-color 0.25s ease,
         background 0.25s ease,
         box-shadow 0.25s ease;
+
       opacity: 0;
       transform: translateY(15px);
       animation: fadeUp 0.5s ease forwards;
@@ -278,155 +284,6 @@
       transform: translateX(3px);
     }
 
-    .modal {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(2, 6, 23, 0.75);
-      backdrop-filter: blur(10px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
-
-    .modal.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-box {
-      position: relative;
-      width: min(700px, 100%);
-      max-height: 85vh;
-      overflow-y: auto;
-      background: rgba(15, 23, 42, 0.96);
-      border: 1px solid rgba(59, 130, 246, 0.35);
-      border-radius: 20px;
-      padding: 28px;
-      box-shadow:
-        0 30px 100px rgba(0, 0, 0, 0.6),
-        0 0 50px rgba(30, 64, 175, 0.12);
-      transform: translateY(15px) scale(0.98);
-      transition: transform 0.25s ease;
-    }
-
-    .modal.active .modal-box {
-      transform: translateY(0) scale(1);
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
-      margin-bottom: 7px;
-    }
-
-    .modal-version {
-      font-family: "Syne", sans-serif;
-      font-size: 1.8rem;
-      font-weight: 900;
-    }
-
-    .modal-date {
-      color: #475569;
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      padding-top: 8px;
-    }
-
-    .modal-title {
-      color: #94a3b8;
-      font-size: 0.9rem;
-      margin-bottom: 24px;
-    }
-
-    .close {
-      position: absolute;
-      top: 16px;
-      right: 18px;
-      border: 0;
-      background: rgba(51, 65, 85, 0.3);
-      color: #64748b;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: 0.2s;
-    }
-
-    .close:hover {
-      color: #fff;
-      background: rgba(59, 130, 246, 0.25);
-    }
-
-    .changes {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .change {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      background: rgba(2, 6, 23, 0.4);
-      border: 1px solid rgba(51, 65, 85, 0.45);
-      border-radius: 10px;
-      padding: 11px 13px;
-      color: #cbd5e1;
-      font-size: 0.8rem;
-      line-height: 1.5;
-    }
-
-    .change-tag {
-      flex-shrink: 0;
-      font-size: 0.55rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 3px 7px;
-      border-radius: 99px;
-    }
-
-    .tag-new {
-      color: #60a5fa;
-      background: rgba(59, 130, 246, 0.12);
-      border: 1px solid rgba(59, 130, 246, 0.25);
-    }
-
-    .tag-fix {
-      color: #34d399;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.22);
-    }
-
-    .tag-change {
-      color: #fbbf24;
-      background: rgba(251, 191, 36, 0.1);
-      border: 1px solid rgba(251, 191, 36, 0.22);
-    }
-
-    .tag-remove {
-      color: #f87171;
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.22);
-    }
-
-    .modal-footer {
-      margin-top: 22px;
-      padding-top: 17px;
-      border-top: 1px solid rgba(51, 65, 85, 0.45);
-      color: #334155;
-      font-size: 0.68rem;
-    }
-
     @keyframes fadeUp {
       to {
         opacity: 1;
@@ -462,765 +319,491 @@
       .view {
         display: none;
       }
-
-      .modal-box {
-        padding: 22px;
-        border-radius: 16px;
-      }
-
-      .modal-header {
-        padding-right: 25px;
-      }
     }
   </style>
+
 </head>
 
 <body>
 
-  <canvas id="particles"></canvas>
+<canvas id="particles"></canvas>
+
   <div class="bg-glow"></div>
 
-  <a href="/changelog/" class="back-home">← Back to Changelog</a>
+<a href="/changelog/" class="back-home">← Back to Changelog</a>
 
   <main class="container">
 
-    <header class="page-header">
-      <div class="eyebrow">tyler.fun history</div>
-      <h1>News & Releases</h1>
-      <p>Every version. Every update. All in one place.</p>
-    </header>
-
-    <section class="archive">
-
-      <!-- v1.3.1 -->
-
-      <button
-        class="release-card latest news"
-        data-version="v1.3.1"
-        data-date="September 2026"
-        data-title="News archive & individual release pages"
-      >
-        <div class="card-top">
-          <div class="version-wrap">
-            <div class="version">v1.3.1</div>
-            <div class="latest-badge">Latest</div>
-            <div class="news-badge">News</div>
-          </div>
-
-          <div class="date">September 2026</div>
-        </div>
-
-        <div class="title">
-          News archive & individual release pages
-        </div>
-
-        <div class="description">
-          The changelog is getting a new structure with a dedicated news
-          archive and individual pages for each release, making updates easier
-          to browse and giving every version its own permanent page.
-        </div>
-
-        <div class="card-bottom">
-          <div class="stats">
-            <div class="stat"><strong>3</strong> New</div>
-            <div class="stat"><strong>1</strong> Change</div>
-            <div class="stat"><strong>4</strong> Changes</div>
-          </div>
-
-          <div class="view">View release →</div>
-        </div>
-      </button>
-
-      <!-- v1.3 -->
-
-      <button
-        class="release-card"
-        data-version="v1.3"
-        data-date="August 2026"
-        data-title="Profile badges, email verification & account identity"
-      >
-        <div class="card-top">
-          <div class="version-wrap">
-            <div class="version">v1.3</div>
-          </div>
-
-          <div class="date">August 2026</div>
-        </div>
-
-        <div class="title">
-          Profile badges, email verification & account identity
-        </div>
-
-        <div class="description">
-          A major profile identity update with verified, member and email
-          verification badges, clearer account roles and improved badge
-          interactions.
-        </div>
-
-        <div class="card-bottom">
-          <div class="stats">
-            <div class="stat"><strong>6</strong> New</div>
-            <div class="stat"><strong>1</strong> Change</div>
-            <div class="stat"><strong>1</strong> Fix</div>
-            <div class="stat"><strong>8</strong> Changes</div>
-          </div>
-
-          <div class="view">View release →</div>
-        </div>
-      </button>
-
-      <!-- v1.2 -->
-
-      <button
-        class="release-card"
-        data-version="v1.2"
-        data-date="July 2026"
-        data-title="Badges, Clickable Tooltips & Timeline Expansion"
-      >
-        <div class="card-top">
-          <div class="version-wrap">
-            <div class="version">v1.2</div>
-          </div>
-
-          <div class="date">July 2026</div>
-        </div>
-
-        <div class="title">
-          Badges, Clickable Tooltips & Timeline Expansion
-        </div>
-
-        <div class="description">
-          Interactive profile badges, badge information popups, older update
-          history and improvements to the site's glassmorphism design.
-        </div>
-
-        <div class="card-bottom">
-          <div class="stats">
-            <div class="stat"><strong>3</strong> New</div>
-            <div class="stat"><strong>1</strong> Change</div>
-            <div class="stat"><strong>1</strong> Fix</div>
-            <div class="stat"><strong>5</strong> Changes</div>
-          </div>
-
-          <div class="view">View release →</div>
-        </div>
-      </button>
-
-      <!-- v1.1 -->
-
-      <button
-        class="release-card"
-        data-version="v1.1"
-        data-date="July 2026"
-        data-title="Cleaner URLs for games, changelog, and site pages"
-      >
-        <div class="card-top">
-          <div class="version-wrap">
-            <div class="version">v1.1</div>
-          </div>
-
-          <div class="date">July 2026</div>
-        </div>
-
-        <div class="title">
-          Cleaner URLs for games, changelog, and site pages
-        </div>
-
-        <div class="description">
-          Game pages, user profiles and the changelog were reorganised into
-          cleaner folder-based URLs.
-        </div>
-
-        <div class="card-bottom">
-          <div class="stats">
-            <div class="stat"><strong>1</strong> New</div>
-            <div class="stat"><strong>3</strong> Changes</div>
-            <div class="stat"><strong>4</strong> Changes</div>
-          </div>
-
-          <div class="view">View release →</div>
-        </div>
-      </button>
-
-      <!-- v1.0 -->
-
-      <button
-        class="release-card"
-        data-version="v1.0"
-        data-date="April 2026"
-        data-title="22 public games + 10 new preview games + login/signup"
-      >
-        <div class="card-top">
-          <div class="version-wrap">
-            <div class="version">v1.0</div>
-          </div>
-
-          <div class="date">April 2026</div>
-        </div>
-
-        <div class="title">
-          22 public games + 10 new preview games + login/signup
-        </div>
-
-        <div class="description">
-          The first major public release. More games went live and the
-          foundation for accounts and authentication was added.
-        </div>
-
-        <div class="card-bottom">
-          <div class="stats">
-            <div class="stat"><strong>4</strong> New</div>
-            <div class="stat"><strong>4</strong> Changes</div>
-          </div>
-
-          <div class="view">View release →</div>
-        </div>
-      </button>
-
-      <!-- v0.9 -->
-
-      <button
-        class="release-card"
-        data-version="v0.9"
-        data-date="April 2026"
-        data-title="Moved to Vercel + profiles restructured into /users/"
-      >
-        <div class="card-top">
-          <div class="version-wrap">
-            <div class="version">v0.9</div>
-          </div>
-
-          <div class="date">April 2026</div>
-        </div>
-
-        <div class="title">
-          Moved to Vercel + profiles restructured into /users/
-        </div>
-
-        <div class="description">
-          tyler.fun moved from GitHub Pages to Vercel and the profile system
-          was reorganised into the new users structure.
-        </div>
-
-        <div class="card-bottom">
-          <div class="stats">
-            <div class="stat"><strong>1</strong> New</div>
-            <div class="stat"><strong>3</strong> Changes</div>
-            <div class="stat"><strong>4</strong> Changes</div>
-          </div>
-
-          <div class="view">View release →</div>
-        </div>
-      </button>
-
-      <!-- v0.8 -->
-
-      <button
-        class="release-card"
-        data-version="v0.8"
-        data-date="April 2026"
-        data-title="Profiles, system accounts, search bar and guest mode"
-      >
-        <div class="card-top">
-          <div class="version-wrap">
-            <div class="version">v0.8</div>
-          </div>
-
-          <div class="date">April 2026</div>
-        </div>
-
-        <div class="title">
-          Profiles, system accounts, search bar and guest mode
-        </div>
-
-        <div class="description">
-          User profiles, system accounts, Guest mode and real-time game
-          searching were introduced.
-        </div>
-
-        <div class="card-bottom">
-          <div class="stats">
-            <div class="stat"><strong>6</strong> New</div>
-          </div>
-
-          <div class="view">View release →</div>
-        </div>
-      </button>
-
-      <!-- v0.7 -->
-
-      <button
-        class="release-card"
-        data-version="v0.7"
-        data-date="April 2026"
-        data-title="7 more preview games added"
-      >
-        <div class="card-top">
-          <div class="version-wrap">
-            <div class="version">v0.7</div>
-          </div>
-
-          <div class="date">April 2026</div>
-        </div>
-
-        <div class="title">
-          7 more preview games added
-        </div>
-
-        <div class="description">
-          Seven new experimental games joined the growing preview library.
-        </div>
-
-        <div class="card-bottom">
-          <div class="stats">
-            <div class="stat"><strong>7</strong> New</div>
-          </div>
-
-          <div class="view">View release →</div>
-        </div>
-      </button>
-
-      <!-- v0.6 -->
-
-      <button
-        class="release-card"
-        data-version="v0.6"
-        data-date="April 2026"
-        data-title="6 more games go public + 404 page"
-      >
-        <div class="card-top">
-          <div class="version-wrap">
-            <div class="version">v0.6</div>
-          </div>
-
-          <div class="date">April 2026</div>
-        </div>
-
-        <div class="title">
-          6 more games go public + 404 page
-        </div>
-
-        <div class="description">
-          Another six games became public and the site got its custom 404
-          experience.
-        </div>
-
-        <div class="card-bottom">
-          <div class="stats">
-            <div class="stat"><strong>1</strong> New</div>
-            <div class="stat"><strong>1</strong> Change</div>
-          </div>
-
-          <div class="view">View release →</div>
-        </div>
-      </button>
-
-      <!-- v0.5 -->
-
-      <button
-        class="release-card"
-        data-version="v0.5"
-        data-date="April 2026"
-        data-title="Changelog added"
-      >
-        <div class="card-top">
-          <div class="version-wrap">
-            <div class="version">v0.5</div>
-          </div>
-
-          <div class="date">April 2026</div>
-        </div>
-
-        <div class="title">
-          Changelog added — the site now tells you what changed
-        </div>
-
-        <div class="description">
-          The changelog system itself was introduced and linked from the
-          homepage.
-        </div>
-
-        <div class="card-bottom">
-          <div class="stats">
-            <div class="stat"><strong>2</strong> New</div>
-          </div>
-
-          <div class="view">View release →</div>
-        </div>
-      </button>
-
-      <!-- v0.4 -->
-
-      <button
-        class="release-card"
-        data-version="v0.4"
-        data-date="April 2026"
-        data-title="The big games drop — 25 games and counting"
-      >
-        <div class="card-top">
-          <div class="version-wrap">
-            <div class="version">v0.4</div>
-          </div>
-
-          <div class="date">April 2026</div>
-        </div>
-
-        <div class="title">
-          The big games drop — 25 games and counting
-        </div>
-
-        <div class="description">
-          The game library exploded with new preview titles, the first public
-          games and shared leaderboard functionality.
-        </div>
-
-        <div class="card-bottom">
-          <div class="stats">
-            <div class="stat"><strong>4</strong> New</div>
-            <div class="stat"><strong>1</strong> Change</div>
-            <div class="stat"><strong>5</strong> Changes</div>
-          </div>
-
-          <div class="view">View release →</div>
-        </div>
-      </button>
-
-      <!-- v0.3 -->
-
-      <button
-        class="release-card"
-        data-version="v0.3"
-        data-date="April 2026"
-        data-title="First batch of games"
-      >
-        <div class="card-top">
-          <div class="version-wrap">
-            <div class="version">v0.3</div>
-          </div>
-
-          <div class="date">April 2026</div>
-        </div>
-
-        <div class="title">
-          First batch of games — the site actually does something now
-        </div>
-
-        <div class="description">
-          The first playable games arrived, including Roast Clicker,
-          Impossible Button, Hold the Key and Word Scramble.
-        </div>
-
-        <div class="card-bottom">
-          <div class="stats">
-            <div class="stat"><strong>7</strong> New</div>
-          </div>
-
-          <div class="view">View release →</div>
-        </div>
-      </button>
-
-      <!-- v0.2 -->
-
-      <button
-        class="release-card"
-        data-version="v0.2"
-        data-date="April 2026"
-        data-title="Site redesign — actually looks good now"
-      >
-        <div class="card-top">
-          <div class="version-wrap">
-            <div class="version">v0.2</div>
-          </div>
-
-          <div class="date">April 2026</div>
-        </div>
-
-        <div class="title">
-          Site redesign — actually looks good now
-        </div>
-
-        <div class="description">
-          The dark blue visual identity, animated particles, new typography,
-          socials page and logo animation arrived.
-        </div>
-
-        <div class="card-bottom">
-          <div class="stats">
-            <div class="stat"><strong>3</strong> New</div>
-            <div class="stat"><strong>2</strong> Changes</div>
-            <div class="stat"><strong>1</strong> Fix</div>
-          </div>
-
-          <div class="view">View release →</div>
-        </div>
-      </button>
-
-      <!-- v0.1 -->
-
-      <button
-        class="release-card"
-        data-version="v0.1"
-        data-date="April 2026"
-        data-title="The beginning — it exists"
-      >
-        <div class="card-top">
-          <div class="version-wrap">
-            <div class="version">v0.1</div>
-          </div>
-
-          <div class="date">April 2026</div>
-        </div>
-
-        <div class="title">
-          The beginning — it exists
-        </div>
-
-        <div class="description">
-          The original tyler.fun launch on GitHub Pages. A coming-soon page,
-          socials button and the first repository.
-        </div>
-
-        <div class="card-bottom">
-          <div class="stats">
-            <div class="stat"><strong>3</strong> New</div>
-          </div>
-
-          <div class="view">View release →</div>
-        </div>
-      </button>
-
-    </section>
+```
+<header class="page-header">
+  <div class="eyebrow">tyler.fun history</div>
+  <h1>News & Releases</h1>
+  <p>Every version. Every update. All in one place.</p>
+</header>
+
+<section class="archive">
+
+  <!-- v1.3.1 -->
+  <a
+    href="/changelog/news/v1.3.1/"
+    class="release-card latest news"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v1.3.1</div>
+        <div class="latest-badge">Latest</div>
+        <div class="news-badge">News</div>
+      </div>
+
+      <div class="date">September 2026</div>
+    </div>
+
+    <div class="title">
+      News archive & individual release pages
+    </div>
+
+    <div class="description">
+      The changelog is getting a new structure with a dedicated news
+      archive and individual pages for each release, making updates easier
+      to browse and giving every version its own permanent page.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>3</strong> New</div>
+        <div class="stat"><strong>1</strong> Change</div>
+        <div class="stat"><strong>4</strong> Changes</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v1.3 -->
+  <a
+    href="/changelog/news/v1.3/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v1.3</div>
+      </div>
+
+      <div class="date">August 2026</div>
+    </div>
+
+    <div class="title">
+      Profile badges, email verification & account identity
+    </div>
+
+    <div class="description">
+      A major profile identity update with verified, member and email
+      verification badges, clearer account roles and improved badge
+      interactions.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>6</strong> New</div>
+        <div class="stat"><strong>1</strong> Change</div>
+        <div class="stat"><strong>1</strong> Fix</div>
+        <div class="stat"><strong>8</strong> Changes</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v1.2 -->
+  <a
+    href="/changelog/news/v1.2/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v1.2</div>
+      </div>
+
+      <div class="date">July 2026</div>
+    </div>
+
+    <div class="title">
+      Badges, Clickable Tooltips & Timeline Expansion
+    </div>
+
+    <div class="description">
+      Interactive profile badges, badge information popups, older update
+      history and improvements to the site's glassmorphism design.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>3</strong> New</div>
+        <div class="stat"><strong>1</strong> Change</div>
+        <div class="stat"><strong>1</strong> Fix</div>
+        <div class="stat"><strong>5</strong> Changes</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v1.1 -->
+  <a
+    href="/changelog/news/v1.1/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v1.1</div>
+      </div>
+
+      <div class="date">July 2026</div>
+    </div>
+
+    <div class="title">
+      Cleaner URLs for games, changelog, and site pages
+    </div>
+
+    <div class="description">
+      Game pages, user profiles and the changelog were reorganised into
+      cleaner folder-based URLs.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>1</strong> New</div>
+        <div class="stat"><strong>3</strong> Changes</div>
+        <div class="stat"><strong>4</strong> Changes</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v1.0 -->
+  <a
+    href="/changelog/news/v1.0/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v1.0</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      22 public games + 10 new preview games + login/signup
+    </div>
+
+    <div class="description">
+      The first major public release. More games went live and the
+      foundation for accounts and authentication was added.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>4</strong> New</div>
+        <div class="stat"><strong>4</strong> Changes</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.9 -->
+  <a
+    href="/changelog/news/v0.9/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.9</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      Moved to Vercel + profiles restructured into /users/
+    </div>
+
+    <div class="description">
+      tyler.fun moved from GitHub Pages to Vercel and the profile system
+      was reorganised into the new users structure.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>1</strong> New</div>
+        <div class="stat"><strong>3</strong> Changes</div>
+        <div class="stat"><strong>4</strong> Changes</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.8 -->
+  <a
+    href="/changelog/news/v0.8/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.8</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      Profiles, system accounts, search bar and guest mode
+    </div>
+
+    <div class="description">
+      User profiles, system accounts, Guest mode and real-time game
+      searching were introduced.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>6</strong> New</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.7 -->
+  <a
+    href="/changelog/news/v0.7/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.7</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      7 more preview games added
+    </div>
+
+    <div class="description">
+      Seven new experimental games joined the growing preview library.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>7</strong> New</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.6 -->
+  <a
+    href="/changelog/news/v0.6/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.6</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      6 more games go public + 404 page
+    </div>
+
+    <div class="description">
+      Another six games became public and the site got its custom 404
+      experience.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>1</strong> New</div>
+        <div class="stat"><strong>1</strong> Change</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.5 -->
+  <a
+    href="/changelog/news/v0.5/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.5</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      Changelog added — the site now tells you what changed
+    </div>
+
+    <div class="description">
+      The changelog system itself was introduced and linked from the
+      homepage.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>2</strong> New</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.4 -->
+  <a
+    href="/changelog/news/v0.4/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.4</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      The big games drop — 25 games and counting
+    </div>
+
+    <div class="description">
+      The game library exploded with new preview titles, the first public
+      games and shared leaderboard functionality.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>4</strong> New</div>
+        <div class="stat"><strong>1</strong> Change</div>
+        <div class="stat"><strong>5</strong> Changes</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.3 -->
+  <a
+    href="/changelog/news/v0.3/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.3</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      First batch of games — the site actually does something now
+    </div>
+
+    <div class="description">
+      The first playable games arrived, including Roast Clicker,
+      Impossible Button, Hold the Key and Word Scramble.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>7</strong> New</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.2 -->
+  <a
+    href="/changelog/news/v0.2/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.2</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      Site redesign — actually looks good now
+    </div>
+
+    <div class="description">
+      The dark blue visual identity, animated particles, new typography,
+      socials page and logo animation arrived.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>3</strong> New</div>
+        <div class="stat"><strong>2</strong> Changes</div>
+        <div class="stat"><strong>1</strong> Fix</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+  <!-- v0.1 -->
+  <a
+    href="/changelog/news/v0.1/"
+    class="release-card"
+  >
+    <div class="card-top">
+      <div class="version-wrap">
+        <div class="version">v0.1</div>
+      </div>
+
+      <div class="date">April 2026</div>
+    </div>
+
+    <div class="title">
+      The beginning — it exists
+    </div>
+
+    <div class="description">
+      The original tyler.fun launch on GitHub Pages. A coming-soon page,
+      socials button and the first repository.
+    </div>
+
+    <div class="card-bottom">
+      <div class="stats">
+        <div class="stat"><strong>3</strong> New</div>
+      </div>
+
+      <div class="view">View release →</div>
+    </div>
+  </a>
+
+</section>
+```
 
   </main>
 
-  <!-- Release Modal -->
-
-  <div class="modal" id="modal">
-
-    <div class="modal-box">
-
-      <button class="close" id="closeModal">×</button>
-
-      <div class="modal-header">
-        <div class="modal-version" id="modalVersion">v1.3.1</div>
-        <div class="modal-date" id="modalDate">September 2026</div>
-      </div>
-
-      <div class="modal-title" id="modalTitle">
-        Release title
-      </div>
-
-      <div class="changes" id="modalChanges"></div>
-
-      <div class="modal-footer">
-        tyler.fun changelog · release archive
-      </div>
-
-    </div>
-
-  </div>
-
   <script>
-    /* =========================================
-       Release data
-    ========================================== */
-
-    const releases = {
-
-      "v1.3.1": [
-        ["New", "Added the new /changelog/news/ archive for individual news and release posts."],
-        ["New", "Added individual version page support using /changelog/news/v1.3.1/ style URLs."],
-        ["New", "Added the foundation for future news posts, announcements and release articles."],
-        ["Change", "Reworked the release archive structure so each major update can have its own permanent page."]
-      ],
-
-      "v1.3": [
-        ["New", "Added the official ✓ Verified badge to user profiles."],
-        ["New", "Added the 👤 Member badge for registered tyler.fun members."],
-        ["New", "Added the ✉️ Email Verified badge for verified email addresses."],
-        ["New", "Added interactive badge information popups."],
-        ["New", "Expanded the profile identity system with clearer account roles and verification status."],
-        ["New", "Added profile badge assets for Tyler, Admin, Staff, Member, Verified and Email Verified accounts."],
-        ["Change", "Updated badge spacing and presentation for multiple badges beside display names."],
-        ["Fix", "Improved badge interactions so badges do not interfere with other profile controls."]
-      ],
-
-      "v1.2": [
-        ["New", "Added official ✓ Verified icons across user profiles and comments."],
-        ["New", "Added interactive 🏅 profile badges with click interactions."],
-        ["New", "Added the Load Older Updates history section with staggered animations."],
-        ["Change", "Overhauled glassmorphism card layouts, starfield particle speed and mobile responsiveness."],
-        ["Fix", "Fixed relative routing links across /users/ and /games/ subdirectories."]
-      ],
-
-      "v1.1": [
-        ["Change", "Moved game pages into games/<game-name>/index.html for cleaner URLs."],
-        ["Change", "Updated homepage game cards to use the new folder URLs."],
-        ["Change", "Moved the changelog into changelog/index.html."],
-        ["New", "Added cleaner URL routes for changelog, games and user profiles."]
-      ],
-
-      "v1.0": [
-        ["New", "10 more games moved to public: Memory Grid, Number Memory, RPS vs AI, Whack-a-Mole, Runaway Snake, Gravity Flip, Cursed Clicker, Dodge the Dots, Evil Simon and Spin the Wheel."],
-        ["New", "7 new preview games: Aim Trainer, Two Truths One Lie, Math Sprint, Pixel Art, Colour Flood, Moving Minesweeper and Scared Asteroids."],
-        ["New", "Login and signup pages with GitHub OAuth."],
-        ["New", "NEW badge added to recently public games."]
-      ],
-
-      "v0.9": [
-        ["Change", "Moved from GitHub Pages to Vercel."],
-        ["Change", "Restructured all user profiles into the /users/ folder."],
-        ["Change", "Updated Back home links across profile pages."],
-        ["New", "Added the @ban profile with banned account styling and redirect support."]
-      ],
-
-      "v0.8": [
-        ["New", "Profile pages created for Tyler, Fish, Tawsif, Ashley, Angle and Aaban."],
-        ["New", "Official system accounts added: @admin, @staff, @support and @tyler.fun."],
-        ["New", "Guest profile added at /Guest."],
-        ["New", "Guest icon added to the homepage."],
-        ["New", "Real-time game search added."],
-        ["New", "tyler.fun team profile created."]
-      ],
-
-      "v0.7": [
-        ["New", "Cursed Clicker added."],
-        ["New", "Dodge the Dots added."],
-        ["New", "Evil Simon added."],
-        ["New", "Spin the Wheel added."],
-        ["New", "Guess the Colour added."],
-        ["New", "Survive the Clicks added."],
-        ["New", "Chair Simulator added."]
-      ],
-
-      "v0.6": [
-        ["New", "Custom 404 page added."],
-        ["Change", "Reaction Time, Higher or Lower, Floor is Lava, Type Fast, Cursed Breakout and Don't Press It moved to public."]
-      ],
-
-      "v0.5": [
-        ["New", "Changelog page added."],
-        ["New", "Changelog link added to the homepage."]
-      ],
-
-      "v0.4": [
-        ["New", "19 new preview games added."],
-        ["Change", "First six games made public."],
-        ["New", "Public / In Development badges added to game cards."],
-        ["New", "Changelog system introduced."],
-        ["New", "Shared Hold the Key leaderboard added."]
-      ],
-
-      "v0.3": [
-        ["New", "Roast Clicker added."],
-        ["New", "Impossible Button added."],
-        ["New", "Hold the Key added with leaderboard support."],
-        ["New", "Useless Machine added."],
-        ["New", "Scroll to Win added."],
-        ["New", "Word Scramble added."],
-        ["New", "Preview-only game system added."]
-      ],
-
-      "v0.2": [
-        ["Change", "Complete visual overhaul with dark blue styling, Syne typography and animated star particles."],
-        ["New", "Logo collision animation added."],
-        ["New", "Socials page added."],
-        ["Fix", "GitHub profile picture loading fixed."],
-        ["Change", "Staggered fade-in animations added."]
-      ],
-
-      "v0.1": [
-        ["New", "Initial site launched on GitHub Pages."],
-        ["New", "Coming soon landing page created."],
-        ["New", "Repository created. 16 commits. The dream begins."]
-      ]
-
-    };
-
-    /* =========================================
-       Modal
-    ========================================== */
-
-    const modal = document.getElementById("modal");
-    const closeModal = document.getElementById("closeModal");
-
-    const modalVersion = document.getElementById("modalVersion");
-    const modalDate = document.getElementById("modalDate");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalChanges = document.getElementById("modalChanges");
-
-    function tagClass(type) {
-      if (type === "New") return "tag-new";
-      if (type === "Fix") return "tag-fix";
-      if (type === "Change") return "tag-change";
-      if (type === "Remove") return "tag-remove";
-
-      return "tag-change";
-    }
-
-    function openRelease(card) {
-
-      const version = card.dataset.version;
-
-      modalVersion.textContent = version;
-      modalDate.textContent = card.dataset.date;
-      modalTitle.textContent = card.dataset.title;
-
-      modalChanges.innerHTML = "";
-
-      const changes = releases[version] || [];
-
-      changes.forEach(([type, text]) => {
-
-        const change = document.createElement("div");
-        change.className = "change";
-
-        const tag = document.createElement("span");
-        tag.className = `change-tag ${tagClass(type)}`;
-        tag.textContent = type;
-
-        const description = document.createElement("span");
-        description.textContent = text;
-
-        change.appendChild(tag);
-        change.appendChild(description);
-
-        modalChanges.appendChild(change);
-      });
-
-      modal.classList.add("active");
-      document.body.style.overflow = "hidden";
-    }
-
-    function closeRelease() {
-      modal.classList.remove("active");
-      document.body.style.overflow = "";
-    }
-
-    document.querySelectorAll(".release-card").forEach(card => {
-      card.addEventListener("click", () => {
-        openRelease(card);
-      });
-    });
-
-    closeModal.addEventListener("click", closeRelease);
-
-    modal.addEventListener("click", event => {
-      if (event.target === modal) {
-        closeRelease();
-      }
-    });
-
-    document.addEventListener("keydown", event => {
-      if (event.key === "Escape") {
-        closeRelease();
-      }
-    });
-
-    /* =========================================
-       Background particles
-    ========================================== */
-
     const canvas = document.getElementById("particles");
     const ctx = canvas.getContext("2d");
 
@@ -1251,13 +834,11 @@
     }
 
     function draw() {
-
       ctx.clearRect(0, 0, W, H);
 
       t += 0.016;
 
       for (const s of stars) {
-
         ctx.beginPath();
 
         ctx.arc(
