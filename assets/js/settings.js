@@ -4,7 +4,9 @@ const DEFAULT_SETTINGS = {
     theme: "dark",
     accent: "blue",
     animations: true,
-    memberBadge: true
+    memberBadge: true,
+    avatarUrl: "",
+    bannerUrl: ""
 };
 
 function getSettings() {
