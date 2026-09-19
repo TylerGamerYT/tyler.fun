@@ -5,8 +5,10 @@ const DEFAULT_SETTINGS = {
     accent: "blue",
     animations: true,
     memberBadge: true,
-    avatarUrl: "",
-    bannerUrl: ""
+    displayName: "Guest",
+    username: "Guest",
+    avatarData: "",
+    bannerData: ""
 };
 
 function getSettings() {
