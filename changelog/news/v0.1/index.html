@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>v0.1 The Beginning | tyler.fun</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(80, 110, 255, 0.12), transparent 35%),
+        #050711;
+      color: #f4f6ff;
+      font-family: "Inter", sans-serif;
+      overflow-x: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.55;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(900px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 35px 0 80px;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #9da7c7;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 55px;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .back:hover {
+      color: #fff;
+      transform: translateX(-3px);
+    }
+
+    header {
+      margin-bottom: 45px;
+    }
+
+    .version {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border: 1px solid rgba(130, 150, 255, 0.25);
+      border-radius: 999px;
+      background: rgba(90, 110, 255, 0.08);
+      color: #aebaff;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .version::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #8191ff;
+      box-shadow: 0 0 12px #8191ff;
+    }
+
+    h1 {
+      font-family: "Syne", sans-serif;
+      font-size: clamp(42px, 8vw, 76px);
+      line-height: 0.95;
+      letter-spacing: -3px;
+      margin-bottom: 18px;
+    }
+
+    .subtitle {
+      color: #aab2ce;
+      font-size: clamp(17px, 2vw, 20px);
+      line-height: 1.6;
+      max-width: 720px;
+    }
+
+    .date {
+      margin-top: 18px;
+      color: #69728f;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .content {
+      display: grid;
+      gap: 18px;
+    }
+
+    .release-section {
+      padding: 30px;
+      border: 1px solid rgba(130, 145, 190, 0.14);
+      border-radius: 20px;
+      background: rgba(13, 17, 31, 0.72);
+      backdrop-filter: blur(14px);
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.22),
+        inset 0 1px rgba(255, 255, 255, 0.025);
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      font-family: "Syne", sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .section-label .icon {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: rgba(90, 110, 255, 0.12);
+      color: #9eabff;
+      font-size: 17px;
+    }
+
+    ul {
+      list-style: none;
+      display: grid;
+      gap: 14px;
+    }
+
+    li {
+      position: relative;
+      padding-left: 25px;
+      color: #aeb6d0;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #7788ff;
+      font-weight: 700;
+    }
+
+    .highlight {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: 14px;
+      background: rgba(95, 115, 255, 0.06);
+      border: 1px solid rgba(95, 115, 255, 0.13);
+      color: #c5cbdf;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .highlight strong {
+      color: #f2f4ff;
+    }
+
+    .origin {
+      text-align: center;
+      padding: 35px 25px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(130, 145, 190, 0.1);
+    }
+
+    .origin-symbol {
+      font-family: "Syne", sans-serif;
+      font-size: 52px;
+      line-height: 1;
+      margin-bottom: 15px;
+    }
+
+    .origin p {
+      color: #858eaa;
+      font-size: 14px;
+      line-height: 1.7;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .footer-nav {
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+      margin-top: 35px;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 17px;
+      border: 1px solid rgba(130, 145, 190, 0.16);
+      border-radius: 12px;
+      background: rgba(13, 17, 31, 0.7);
+      color: #b6bdd5;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.2s ease;
+    }
+
+    .nav-link:hover {
+      border-color: rgba(130, 145, 255, 0.35);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        width: min(100% - 26px, 900px);
+        padding-top: 25px;
+      }
+
+      .back {
+        margin-bottom: 40px;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+
+      .release-section {
+        padding: 22px;
+        border-radius: 16px;
+      }
+
+      .footer-nav {
+        justify-content: center;
+      }
+
+      .nav-link {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="stars"></canvas>
+
+  <main class="page">
+
+    <a href="/changelog/news" class="back">
+      ← Back to News & Releases
+    </a>
+
+    <header>
+      <div class="version">v0.1</div>
+
+      <h1>It<br>exists.</h1>
+
+      <p class="subtitle">
+        The first version of tyler.fun. No massive library, no complicated
+        systems just the beginning of something that would keep growing.
+      </p>
+
+      <p class="date">April 2026</p>
+    </header>
+
+    <section class="content">
+
+      <article class="release-section">
+        <h2 class="section-label">
+          <span class="icon">✦</span>
+          The Beginning
+        </h2>
+
+        <ul>
+          <li>
+            tyler.fun officially existed as a live website.
+          </li>
+
+          <li>
+            The project had its first public version: <strong>v0.1</strong>.
+          </li>
+
+          <li>
+            The foundation was in place for everything that would be built
+            in the releases that followed.
+          </li>
+        </ul>
+      </article>
+
+      <article class="release-section">
+        <h2 class="section-label">
+          <span class="icon">↗</span>
+          Why this update?
+        </h2>
+
+        <div class="highlight">
+          <strong>Every project has to start somewhere.</strong>
+          <br><br>
+
+          v0.1 was that starting point for tyler.fun. It wasn't about having
+          every feature or a huge collection of games yet - it was about
+          getting the site out there and making the project real.
+        </div>
+      </article>
+
+      <article class="release-section">
+        <h2 class="section-label">
+          <span class="icon">⌁</span>
+          What came next
+        </h2>
+
+        <div class="highlight">
+          The first release was only the beginning. The site would soon get
+          a redesign, its first batch of games, a growing changelog and
+          eventually a much larger platform.
+        </div>
+      </article>
+
+      <article class="release-section">
+        <div class="origin">
+          <div class="origin-symbol">★</div>
+
+          <p>
+            <strong>v0.1 - April 2026</strong><br><br>
+
+            The first line in the history of tyler.fun.
+          </p>
+        </div>
+      </article>
+
+    </section>
+
+    <nav class="footer-nav">
+      <a href="/changelog/news/v0.2" class="nav-link">
+        v0.2 →
+      </a>
+    </nav>
+
+  </main>
+
+  <script>
+    const canvas = document.getElementById("stars");
+    const ctx = canvas.getContext("2d");
+
+    let width;
+    let height;
+    let stars = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+
+      stars = Array.from(
+        { length: Math.min(140, Math.floor(width / 9)) },
+        () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: Math.random() * 1.5 + 0.3,
+          speed: Math.random() * 0.18 + 0.03,
+          opacity: Math.random() * 0.7 + 0.2
+        })
+      );
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+
+      for (const star of stars) {
+        star.y -= star.speed;
+
+        if (star.y < -5) {
+          star.y = height + 5;
+          star.x = Math.random() * width;
+        }
+
+        ctx.beginPath();
+        ctx.arc(
+          star.x,
+          star.y,
+          star.size,
+          0,
+          Math.PI * 2
+        );
+
+        ctx.fillStyle = `rgba(180, 195, 255, ${star.opacity})`;
+        ctx.fill();
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener("resize", resize);
+
+    resize();
+    animate();
+  </script>
+
+</body>
+</html>
