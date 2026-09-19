@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guest | tyler.fun</title>
+    <title>Profile | tyler.fun</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <script src="/assets/js/settings.js"></script>
@@ -89,7 +89,7 @@
 <div class="container">
     <div class="banner fade" id="profileBanner">
         <div class="banner-pattern" id="bannerPattern"></div>
-        <div class="banner-label">Guest</div>
+        <div class="banner-label" id="bannerLabel">Guest</div>
     </div>
 
     <div class="avatar-wrap fade">
@@ -98,15 +98,10 @@
 
     <div class="profile-info fade">
         <div class="name-row">
-            <span class="display-name">Guest</span>
-            <img 
-                id="memberBadge" 
-                src="/assets/icons/member-badge.png" 
-                alt="Member Badge" 
-                class="badge-icon"
-            />
+            <span class="display-name" id="profileDisplayName">Guest</span>
+            <img id="memberBadge" src="/assets/icons/member-badge.png" alt="Member Badge" class="badge-icon" />
         </div>
-        <div class="handle">@Guest</div>
+        <div class="handle" id="profileUsername">@Guest</div>
         <p class="bio">Just browsing. Not logged in. Don't mind me.</p>
 
         <div class="stats-row">
@@ -128,31 +123,40 @@
     </div>
 </div>
 <script>
-// Check saved preferences
+const settings = getSettings();
+
+// Elements
+const profileDisplayName = document.getElementById("profileDisplayName");
+const profileUsername = document.getElementById("profileUsername");
 const profileBadge = document.getElementById("memberBadge");
 const profileAvatar = document.getElementById("profileAvatar");
 const profileBanner = document.getElementById("profileBanner");
 const bannerPattern = document.getElementById("bannerPattern");
-const settings = getSettings();
+const bannerLabel = document.getElementById("bannerLabel");
 
-// Toggle Badge
+// Render Display Name & Username
+profileDisplayName.textContent = settings.displayName || "Guest";
+profileUsername.textContent = "@" + (settings.username || "Guest");
+bannerLabel.textContent = settings.displayName || "Guest";
+
+// Toggle Badge Visibility
 if (!settings.memberBadge && profileBadge) {
     profileBadge.style.display = "none";
 }
 
-// Render Custom Avatar
-if (settings.avatarUrl) {
-    profileAvatar.style.backgroundImage = `url('${settings.avatarUrl}')`;
+// Render Custom Avatar Photo
+if (settings.avatarData) {
+    profileAvatar.style.backgroundImage = `url('${settings.avatarData}')`;
     profileAvatar.textContent = "";
 }
 
-// Render Custom Banner
-if (settings.bannerUrl) {
-    profileBanner.style.backgroundImage = `url('${settings.bannerUrl}')`;
+// Render Custom Banner Photo
+if (settings.bannerData) {
+    profileBanner.style.backgroundImage = `url('${settings.bannerData}')`;
     bannerPattern.style.display = "none";
 }
 
-// Particle Canvas
+// Particles script
 const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
 let W, H, stars = [];
 function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
