@@ -317,7 +317,7 @@
       margin-bottom: 4px;
     }
 
-    /* Circular Avatar styling for User Cards */
+    /* Circular Avatar Styling */
     .user-card .user-avatar-circle {
       width: 44px;
       height: 44px;
@@ -329,6 +329,20 @@
       justify-content: center;
       font-size: 1.3rem;
       margin-bottom: 8px;
+      overflow: hidden;
+    }
+
+    .user-card .user-avatar-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .user-title-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
     }
 
     .game-title {
@@ -342,6 +356,19 @@
       font-size: 0.8rem;
       color: var(--text-dim);
       line-height: 1.45;
+    }
+
+    /* User Icon Badges */
+    .user-badge-icons {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .badge-icon {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
     }
 
     .game-badge {
@@ -369,18 +396,6 @@
       color: var(--accent);
       background: color-mix(in srgb, var(--accent) 10%, transparent);
       border-color: color-mix(in srgb, var(--accent) 30%, transparent);
-    }
-
-    .game-badge.admin-badge {
-      color: #a855f7;
-      background: rgba(168, 85, 247, 0.1);
-      border-color: rgba(168, 85, 247, 0.3);
-    }
-
-    .game-badge.ban-badge {
-      color: #ef4444;
-      background: rgba(239, 68, 68, 0.1);
-      border-color: rgba(239, 68, 68, 0.3);
     }
 
     .bottom-section {
@@ -645,66 +660,136 @@
       <div class="games-grid" id="usersGrid">
         <a href="/users/Aaban/" class="game-card user-card">
           <div class="user-avatar-circle">⚡</div>
-          <div class="game-title">Aaban</div>
+          <div class="user-title-row">
+            <div class="game-title">Aaban</div>
+            <div class="user-badge-icons">
+              <img src="/assets/badges/member-badge.png" class="badge-icon" alt="Member" />
+            </div>
+          </div>
           <div class="game-desc">User Profile</div>
         </a>
+
         <a href="/users/Admin/" class="game-card user-card">
           <div class="user-avatar-circle">🛡️</div>
-          <div class="game-title">Admin</div>
+          <div class="user-title-row">
+            <div class="game-title">Admin</div>
+            <div class="user-badge-icons">
+              <img src="/assets/badges/admin-badge.png" class="badge-icon" alt="Admin" />
+              <img src="/assets/badges/verified-badge.png" class="badge-icon" alt="Verified" />
+            </div>
+          </div>
           <div class="game-desc">Official tyler.fun admin account. Big updates and important announcements only.</div>
-          <span class="game-badge admin-badge">Administrator</span>
         </a>
+
         <a href="/users/Ban/" class="game-card user-card">
           <div class="user-avatar-circle">🔨</div>
-          <div class="game-title">Ban</div>
+          <div class="user-title-row">
+            <div class="game-title">Ban</div>
+            <div class="user-badge-icons">
+              <img src="/assets/badges/banned-badge.png" class="badge-icon" alt="Banned" />
+            </div>
+          </div>
           <div class="game-desc">User Profile</div>
-          <span class="game-badge ban-badge">Banned</span>
         </a>
+
         <a href="/users/Fish/" class="game-card user-card">
           <div class="user-avatar-circle">🐟</div>
-          <div class="game-title">Fish</div>
+          <div class="user-title-row">
+            <div class="game-title">Fish</div>
+            <div class="user-badge-icons">
+              <img src="/assets/badges/fish-badge.png" class="badge-icon" alt="Fish" />
+              <img src="/assets/badges/staff-badge.png" class="badge-icon" alt="Staff" />
+            </div>
+          </div>
           <div class="game-desc">Staff Member</div>
-          <span class="game-badge public">Staff User</span>
         </a>
+
         <a href="/users/Guest/" class="game-card user-card">
           <div class="user-avatar-circle">👤</div>
-          <div class="game-title">Guest</div>
+          <div class="user-title-row">
+            <div class="game-title">Guest</div>
+          </div>
           <div class="game-desc">Guest Profile</div>
         </a>
+
         <a href="/users/Support/" class="game-card user-card">
           <div class="user-avatar-circle">🛠️</div>
-          <div class="game-title">Support</div>
+          <div class="user-title-row">
+            <div class="game-title">Support</div>
+            <div class="user-badge-icons">
+              <img src="/assets/badges/staff-badge.png" class="badge-icon" alt="Staff" />
+            </div>
+          </div>
           <div class="game-desc">Support Account</div>
         </a>
+
         <a href="/users/Tyler/" class="game-card user-card">
-          <div class="user-avatar-circle">⭐</div>
-          <div class="game-title">Tyler</div>
-          <div class="game-desc">Creator Profile</div>
+          <div class="user-avatar-circle">
+            <img src="/assets/images/tylerpfp.png" alt="Tyler" />
+          </div>
+          <div class="user-title-row">
+            <div class="game-title">Tyler</div>
+            <div class="user-badge-icons">
+              <img src="/assets/images/tylerpfp.png" class="badge-icon" style="border-radius: 50%;" alt="Tyler" />
+              <img src="/assets/badges/admin-badge.png" class="badge-icon" alt="Admin" />
+              <img src="/assets/badges/staff-badge.png" class="badge-icon" alt="Staff" />
+              <img src="/assets/badges/verified-badge.png" class="badge-icon" alt="Verified" />
+              <img src="/assets/badges/email-verified-badge.png" class="badge-icon" alt="Email Verified" />
+            </div>
+          </div>
+          <div class="game-desc">Made tyler.fun. Building weird, fun, and interactive web experiments inspired by neal.fun. Probably procrastinating on the next game right now.</div>
         </a>
+
         <a href="/users/angle/" class="game-card user-card">
           <div class="user-avatar-circle">📐</div>
-          <div class="game-title">Angle</div>
+          <div class="user-title-row">
+            <div class="game-title">Angle</div>
+            <div class="user-badge-icons">
+              <img src="/assets/badges/member-badge.png" class="badge-icon" alt="Member" />
+            </div>
+          </div>
           <div class="game-desc">User Profile</div>
         </a>
+
         <a href="/users/staff/" class="game-card user-card">
           <div class="user-avatar-circle">👥</div>
-          <div class="game-title">Staff</div>
+          <div class="user-title-row">
+            <div class="game-title">Staff</div>
+            <div class="user-badge-icons">
+              <img src="/assets/badges/staff-badge.png" class="badge-icon" alt="Staff" />
+            </div>
+          </div>
           <div class="game-desc">tyler.fun staff • Helping with general questions and keeping things smooth.</div>
-          <span class="game-badge public">Staff User</span>
         </a>
+
         <a href="/users/tawsif/" class="game-card user-card">
           <div class="user-avatar-circle">🌙</div>
-          <div class="game-title">Tawsif</div>
+          <div class="user-title-row">
+            <div class="game-title">Tawsif</div>
+            <div class="user-badge-icons">
+              <img src="/assets/badges/tawsif-badge.png" class="badge-icon" alt="Tawsif" />
+            </div>
+          </div>
           <div class="game-desc">User Profile</div>
         </a>
+
         <a href="/users/tyler.fun/" class="game-card user-card">
-          <div class="user-avatar-circle">🌐</div>
-          <div class="game-title">tyler.fun</div>
-          <div class="game-desc">Official Account</div>
+          <div class="user-avatar-circle">t.fun</div>
+          <div class="user-title-row">
+            <div class="game-title">tyler.fun</div>
+            <div class="user-badge-icons">
+              <img src="/assets/badges/staff-badge.png" class="badge-icon" alt="Staff" />
+              <img src="/assets/badges/verified-badge.png" class="badge-icon" alt="Verified" />
+            </div>
+          </div>
+          <div class="game-desc">The official tyler.fun account. A collection of weird, fun, and interactive web experiments. Built by Tyler, tested by the crew. More games always coming.</div>
         </a>
+
         <a href="/users/yoiashley/" class="game-card user-card">
-          <div class="user-avatar-circle">👤</div>
-          <div class="game-title">yoiashley</div>
+          <div class="user-avatar-circle">✨</div>
+          <div class="user-title-row">
+            <div class="game-title">Ashley</div>
+          </div>
           <div class="game-desc">User Profile</div>
         </a>
       </div>
