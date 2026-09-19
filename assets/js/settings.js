@@ -1,51 +1,68 @@
-// Default settings object
+no no take  this: const TYLER_SETTINGS_KEY = "tyler.fun.settings";
+
 const DEFAULT_SETTINGS = {
-    displayName: "Guest",
-    username: "Guest",
-    bio: "Just browsing. Not logged in. Don't mind me.",
-    theme: "dark",
-    accent: "blue",
-    animations: true,
-    tylerBadge: false,
-    fishBadge: false,
-    tawsifBadge: false,
-    adminBadge: false,
-    staffBadge: false,
-    verifiedBadge: false,
-    emailBadge: false,
-    memberBadge: false,
-    bannedBadge: false,
-    avatarData: null,
-    bannerData: null
+    theme: "dark",
+    accent: "blue",
+    animations: true,
+    displayName: "Guest",
+    username: "Guest",
+    bio: "Just browsing. Not logged in. Don't mind me.",
+    avatarData: "",
+    bannerData: "",
+    // Badges in updated order
+    tylerBadge: false,
+    fishBadge: false,
+    tawsifBadge: false,
+    adminBadge: false,
+    staffBadge: false,
+    verifiedBadge: false,
+    emailBadge: false,
+    memberBadge: true,
+    bannedBadge: false
 };
 
-// Get settings from LocalStorage
-window.getSettings = function () {
-    try {
-        const saved = localStorage.getItem("tyler_settings");
-        return saved ? { ...DEFAULT_SETTINGS, ...JSON.parse(saved) } : { ...DEFAULT_SETTINGS };
-    } catch (e) {
-        console.error("Error reading settings:", e);
-        return { ...DEFAULT_SETTINGS };
-    }
-};
+function getSettings() {
+    try {
+        const saved = localStorage.getItem(TYLER_SETTINGS_KEY);
+        return {
+            ...DEFAULT_SETTINGS,
+            ...(saved ? JSON.parse(saved) : {})
+        };
+    } catch {
+        return { ...DEFAULT_SETTINGS };
+    }
+}
 
-// Save a specific key/value pair
-window.updateSetting = function (key, value) {
-    try {
-        const current = window.getSettings();
-        current[key] = value;
-        localStorage.setItem("tyler_settings", JSON.stringify(current));
-    } catch (e) {
-        console.error("Error saving setting:", e);
-    }
-};
+function saveSettings(settings) {
+    localStorage.setItem(
+        TYLER_SETTINGS_KEY,
+        JSON.stringify({
+            ...DEFAULT_SETTINGS,
+            ...settings
+        })
+    );
+    applySettings();
+}
 
-// Reset settings to default
-window.resetSettings = function () {
-    try {
-        localStorage.removeItem("tyler_settings");
-    } catch (e) {
-        console.error("Error resetting settings:", e);
-    }
-};
+function updateSetting(key, value) {
+    saveSettings({
+        ...getSettings(),
+        [key]: value
+    });
+}
+
+function resetSettings() {
+    localStorage.removeItem(TYLER_SETTINGS_KEY);
+    applySettings();
+}
+
+function applySettings() {
+    const settings = getSettings();
+    const root = document.documentElement;
+
+    root.dataset.theme = settings.theme;
+    root.dataset.accent = settings.accent;
+    root.dataset.animations = settings.animations ? "on" : "off";
+}
+
+applySettings();
