@@ -6,7 +6,7 @@
     <title>Profile | tyler.fun</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <script src="/assets/js/settings.js"></script>
+    <script src="settings.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; }
         body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; overflow-x: hidden; }
@@ -45,7 +45,33 @@
         .display-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 900; color: #f8fafc; }
         
         .badge-container, .badge-list { display: inline-flex; align-items: center; gap: 6px; }
-        .badge-icon { height: 20px; width: auto; object-fit: contain; vertical-align: middle; }
+        .badge-icon { height: 20px; width: auto; object-fit: contain; vertical-align: middle; cursor: pointer; transition: transform 0.2s; user-select: none; }
+        .badge-icon:hover { transform: scale(1.15); }
+
+        /* Custom Particle Spawn Anchor */
+        .badge-container { position: relative; }
+
+        /* Dynamic Particle Styling */
+        .tiny-pfp-particle {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            object-fit: cover;
+            pointer-events: none;
+            opacity: 0;
+            top: 2px;
+            left: 2px;
+            z-index: 100;
+        }
+
+        @keyframes pfpExplodeMassive {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(var(--trot)); opacity: 0; }
+        }
+
+        .exploding-pfp-massive { animation: pfpExplodeMassive 0.8s cubic-bezier(0.1, 1, 0.3, 1) forwards; }
 
         .vcheck { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
         .vcheck .tip {
@@ -112,17 +138,17 @@
                 
                 <!-- 1. Tyler Badge -->
                 <div class="badge-container" id="tylerBadgeContainer" style="display:none;">
-                    <img src="/assets/icons/tylerpfp.png" class="badge-icon" id="tylerBadge" alt="Tyler Badge" title="Tyler">
+                    <img src="/assets/icons/tylerpfp.png" class="badge-icon explosive-badge" id="tylerBadge" alt="Tyler Badge" title="Tyler">
                 </div>
 
                 <!-- 2. Fish Badge -->
                 <div class="badge-container" id="fishBadgeContainer" style="display:none;">
-                    <img src="/assets/icons/fish-badge.png" class="badge-icon" id="fishBadge" alt="Fish Badge" title="Fish">
+                    <img src="/assets/icons/fish-badge.png" class="badge-icon explosive-badge" id="fishBadge" alt="Fish Badge" title="Fish">
                 </div>
 
                 <!-- 3. Tawsif Custom Badge -->
                 <div class="badge-container" id="tawsifBadgeContainer" style="display:none;">
-                    <img src="/assets/icons/tawsif-badge.png" alt="Tawsif Badge" class="badge-icon" id="tawsifBadge" title="Tawsif">
+                    <img src="/assets/icons/tawsif-badge.png" alt="Tawsif Badge" class="badge-icon explosive-badge" id="tawsifBadge" title="Tawsif">
                 </div>
 
                 <!-- 4. Admin Badge -->
@@ -184,60 +210,93 @@
     </div>
 </div>
 <script>
-const settings = getSettings();
+document.addEventListener("DOMContentLoaded", () => {
+    const settings = getSettings();
 
-const profileDisplayName = document.getElementById("profileDisplayName");
-const profileUsername = document.getElementById("profileUsername");
-const profileBio = document.getElementById("profileBio");
-const profileAvatar = document.getElementById("profileAvatar");
-const profileBanner = document.getElementById("profileBanner");
-const bannerPattern = document.getElementById("bannerPattern");
-const bannerLabel = document.getElementById("bannerLabel");
+    const profileDisplayName = document.getElementById("profileDisplayName");
+    const profileUsername = document.getElementById("profileUsername");
+    const profileBio = document.getElementById("profileBio");
+    const profileAvatar = document.getElementById("profileAvatar");
+    const profileBanner = document.getElementById("profileBanner");
+    const bannerPattern = document.getElementById("bannerPattern");
+    const bannerLabel = document.getElementById("bannerLabel");
 
-profileDisplayName.textContent = settings.displayName || "Guest";
-profileUsername.textContent = "@" + (settings.username || "Guest");
-profileBio.textContent = settings.bio || "Just browsing. Not logged in. Don't mind me.";
-bannerLabel.textContent = settings.displayName || "Guest";
+    // Populate user details from settings
+    profileDisplayName.textContent = settings.displayName || "Guest";
+    profileUsername.textContent = "@" + (settings.username || "Guest");
+    profileBio.textContent = settings.bio || "Just browsing. Not logged in. Don't mind me.";
+    bannerLabel.textContent = settings.displayName || "Guest";
 
-// Toggle Visibility for Badges in updated order
-const badgeMap = {
-    tylerBadge: document.getElementById("tylerBadgeContainer"),
-    fishBadge: document.getElementById("fishBadgeContainer"),
-    tawsifBadge: document.getElementById("tawsifBadgeContainer"),
-    adminBadge: document.getElementById("badgeAdmin"),
-    staffBadge: document.getElementById("badgeStaff"),
-    verifiedBadge: document.getElementById("vcheck"),
-    emailBadge: document.getElementById("badgeEmail"),
-    memberBadge: document.getElementById("badgeMember"),
-    bannedBadge: document.getElementById("badgeBanned")
-};
+    // Dynamic visibility for ordered badges
+    const badgeMap = {
+        tylerBadge: document.getElementById("tylerBadgeContainer"),
+        fishBadge: document.getElementById("fishBadgeContainer"),
+        tawsifBadge: document.getElementById("tawsifBadgeContainer"),
+        adminBadge: document.getElementById("badgeAdmin"),
+        staffBadge: document.getElementById("badgeStaff"),
+        verifiedBadge: document.getElementById("vcheck"),
+        emailBadge: document.getElementById("badgeEmail"),
+        memberBadge: document.getElementById("badgeMember"),
+        bannedBadge: document.getElementById("badgeBanned")
+    };
 
-for (let key in badgeMap) {
-    if (badgeMap[key]) {
-        badgeMap[key].style.display = settings[key] ? "inline-flex" : "none";
+    for (let key in badgeMap) {
+        if (badgeMap[key]) {
+            badgeMap[key].style.display = settings[key] ? "inline-flex" : "none";
+        }
     }
-}
 
-// Media Display
-if (settings.avatarData) {
-    profileAvatar.style.backgroundImage = `url('${settings.avatarData}')`;
-    profileAvatar.textContent = "";
-}
+    // Custom Profile Media Display
+    if (settings.avatarData) {
+        profileAvatar.style.backgroundImage = `url('${settings.avatarData}')`;
+        profileAvatar.textContent = "";
+    }
 
-if (settings.bannerData) {
-    profileBanner.style.backgroundImage = `url('${settings.bannerData}')`;
-    bannerPattern.style.display = "none";
-}
+    if (settings.bannerData) {
+        profileBanner.style.backgroundImage = `url('${settings.bannerData}')`;
+        bannerPattern.style.display = "none";
+    }
 
-// Background Particles Animation
-const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
-let W, H, stars = [];
-function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-function initStars() { stars = []; for(let i=0;i<Math.floor((W*H)/8000);i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.3,speed:Math.random()*0.14+0.03,opacity:Math.random()*0.45+0.1,ts:Math.random()*0.01+0.003,to:Math.random()*Math.PI*2}); }
-let t=0;
-function draw() { ctx.clearRect(0,0,W,H); t+=0.016; for(const s of stars){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`;ctx.fill();s.y-=s.speed;if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}} requestAnimationFrame(draw); }
-resize(); initStars(); draw();
-window.addEventListener('resize',()=>{resize();initStars();});
+    // Attach particle explosion listeners for custom badges
+    document.querySelectorAll(".explosive-badge").forEach((img) => {
+        img.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const parent = img.parentElement;
+
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement("img");
+                particle.src = img.src;
+                particle.className = "tiny-pfp-particle";
+
+                const angle = Math.random() * 2 * Math.PI;
+                const distance = 30 + Math.random() * 65;
+
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                const trot = (Math.random() - 0.5) * 720;
+
+                particle.style.setProperty("--tx", `${tx}px`);
+                particle.style.setProperty("--ty", `${ty}px`);
+                particle.style.setProperty("--trot", `${trot}deg`);
+
+                parent.appendChild(particle);
+                particle.classList.add("exploding-pfp-massive");
+
+                setTimeout(() => particle.remove(), 800);
+            }
+        });
+    });
+
+    // Background Star Particles Canvas
+    const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
+    let W, H, stars = [];
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    function initStars() { stars = []; for(let i=0;i<Math.floor((W*H)/8000);i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.3,speed:Math.random()*0.14+0.03,opacity:Math.random()*0.45+0.1,ts:Math.random()*0.01+0.003,to:Math.random()*Math.PI*2}); }
+    let t=0;
+    function draw() { ctx.clearRect(0,0,W,H); t+=0.016; for(const s of stars){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`;ctx.fill();s.y-=s.speed;if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}} requestAnimationFrame(draw); }
+    resize(); initStars(); draw();
+    window.addEventListener('resize',()=>{resize();initStars();});
+});
 </script>
 </body>
 </html>
