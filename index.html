@@ -357,6 +357,18 @@
       border-color: color-mix(in srgb, var(--accent) 30%, transparent);
     }
 
+    .game-badge.admin-badge {
+      color: #a855f7;
+      background: rgba(168, 85, 247, 0.1);
+      border-color: rgba(168, 85, 247, 0.3);
+    }
+
+    .game-badge.ban-badge {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
     .bottom-section {
       display: flex;
       flex-direction: column;
@@ -618,19 +630,21 @@
       <div class="games-label">👤 Users</div>
       <div class="games-grid" id="usersGrid">
         <a href="/users/Aaban/" class="game-card user-card">
-          <div class="game-emoji">👤</div>
+          <div class="game-emoji">⚡</div>
           <div class="game-title">Aaban</div>
           <div class="game-desc">User Profile</div>
         </a>
         <a href="/users/Admin/" class="game-card user-card">
-          <div class="game-emoji">👑</div>
+          <div class="game-emoji">🛡️</div>
           <div class="game-title">Admin</div>
-          <div class="game-desc">Administrator Profile</div>
+          <div class="game-desc">Official tyler.fun admin account. Big updates and important announcements only.</div>
+          <span class="game-badge admin-badge">Administrator</span>
         </a>
         <a href="/users/Ban/" class="game-card user-card">
-          <div class="game-emoji">👤</div>
+          <div class="game-emoji">🔨</div>
           <div class="game-title">Ban</div>
           <div class="game-desc">User Profile</div>
+          <span class="game-badge ban-badge">Banned</span>
         </a>
         <a href="/users/Fish/" class="game-card user-card">
           <div class="game-emoji">🐟</div>
@@ -654,19 +668,19 @@
           <div class="game-desc">Creator Profile</div>
         </a>
         <a href="/users/angle/" class="game-card user-card">
-          <div class="game-emoji">👤</div>
-          <div class="game-title">angle</div>
+          <div class="game-emoji">📐</div>
+          <div class="game-title">Angle</div>
           <div class="game-desc">User Profile</div>
         </a>
         <a href="/users/staff/" class="game-card user-card">
-          <div class="game-emoji">🛡️</div>
-          <div class="game-title">staff</div>
-          <div class="game-desc">Staff Account</div>
+          <div class="game-emoji">👥</div>
+          <div class="game-title">Staff</div>
+          <div class="game-desc">tyler.fun staff • Helping with general questions and keeping things smooth.</div>
           <span class="game-badge public">Staff User</span>
         </a>
         <a href="/users/tawsif/" class="game-card user-card">
-          <div class="game-emoji">👤</div>
-          <div class="game-title">tawsif</div>
+          <div class="game-emoji">🌙</div>
+          <div class="game-title">Tawsif</div>
           <div class="game-desc">User Profile</div>
         </a>
         <a href="/users/tyler.fun/" class="game-card user-card">
