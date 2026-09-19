@@ -6,18 +6,19 @@ const DEFAULT_SETTINGS = {
     animations: true,
     displayName: "Guest",
     username: "Guest",
+    bio: "Just browsing. Not logged in. Don't mind me.",
     avatarData: "",
     bannerData: "",
-    // Badge Settings
+    // Badges in updated order
     tylerBadge: false,
+    fishBadge: false,
+    tawsifBadge: false,
     adminBadge: false,
     staffBadge: false,
     verifiedBadge: false,
     emailBadge: false,
     memberBadge: true,
-    fishBadge: false,
-    bannedBadge: false,
-    tawsifBadge: false
+    bannedBadge: false
 };
 
 function getSettings() {
