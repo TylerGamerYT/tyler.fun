@@ -3,519 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings | tyler.fun</title>
+    <title>Profile | tyler.fun</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <script src="/assets/js/settings.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; }
-        :root {
-            --bg: #020617;
-            --panel: rgba(15, 23, 42, 0.72);
-            --border: rgba(51, 65, 85, 0.7);
-            --text: #f8fafc;
-            --muted: #94a3b8;
-            --dim: #475569;
-            --accent: #60a5fa;
-            --error: #f87171;
-            --warn-bg: rgba(234, 179, 8, 0.1);
-            --warn-border: rgba(234, 179, 8, 0.3);
-            --warn-text: #fde047;
+        body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; overflow-x: hidden; }
+        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e293b33 0%, transparent 70%); z-index: 0; pointer-events: none; }
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
+        .back-home:hover { color: #fff; }
+        .container { position: relative; z-index: 1; padding: 80px 24px 60px; max-width: 680px; width: 100%; margin: 0 auto; }
+
+        .banner {
+            width: 100%; height: 140px; border-radius: 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #020617 100%);
+            background-size: cover; background-position: center;
+            margin-bottom: -44px; position: relative;
+            border: 1px solid rgba(51,65,85,0.5); overflow: hidden;
+        }
+        .banner-pattern {
+            position: absolute; inset: 0; opacity: 0.15;
+            background-image: radial-gradient(circle at 20% 50%, #475569 0%, transparent 55%),
+                              radial-gradient(circle at 75% 30%, #64748b 0%, transparent 45%);
+        }
+        .banner-label { position: absolute; bottom: 14px; right: 20px; font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: rgba(100,116,139,0.4); }
+
+        .avatar-wrap { padding: 0 24px; position: relative; z-index: 2; }
+        .avatar {
+            width: 88px; height: 88px; border-radius: 50%;
+            border: 4px solid #020617; background: rgba(30,41,59,0.9);
+            background-size: cover; background-position: center;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 900;
+            color: #475569; overflow: hidden;
         }
 
-        html[data-accent="blue"] { --accent: #60a5fa; }
-        html[data-accent="purple"] { --accent: #a78bfa; }
-        html[data-accent="green"] { --accent: #34d399; }
-        html[data-accent="pink"] { --accent: #f472b6; }
+        .profile-info { padding: 12px 24px 24px; }
+        .name-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+        .display-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 900; color: #f8fafc; }
+        
+        .badge-container, .badge-list { display: inline-flex; align-items: center; gap: 6px; }
+        .badge-icon { height: 20px; width: auto; object-fit: contain; vertical-align: middle; }
 
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: "Inter", sans-serif;
-            margin: 0;
-            min-height: 100vh;
+        .vcheck { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
+        .vcheck .tip {
+            display: none; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%);
+            background: #151d2a; border: 1px solid rgba(51,65,85,0.8); border-radius: 12px;
+            padding: 12px; width: 240px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); z-index: 20;
+        }
+        .vcheck:hover .tip { display: block; }
+        .tip-title { font-size: 0.8rem; font-weight: 700; color: #f8fafc; margin-bottom: 8px; }
+        .tip-row { display: flex; align-items: center; gap: 8px; font-size: 0.72rem; color: #94a3b8; margin-bottom: 6px; }
+        .tip-row:last-child { margin-bottom: 0; }
+        .tip-row svg { width: 14px; height: 14px; }
+        .tip-link { color: #60a5fa; text-decoration: none; }
+        .tip-icon-brand { width: 14px; height: 14px; border-radius: 50%; }
+
+        .handle { font-size: 0.9rem; color: #475569; margin-bottom: 12px; }
+        .bio { font-size: 0.9rem; color: #94a3b8; line-height: 1.6; margin-bottom: 20px; max-width: 480px; }
+
+        .stats-row { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(51,65,85,0.4); }
+        .stat-item { display: flex; flex-direction: column; gap: 2px; }
+        .stat-num { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: #64748b; }
+        .stat-lbl { font-size: 0.72rem; color: #334155; text-transform: uppercase; letter-spacing: 1.5px; }
+
+        .guest-box {
+            background: rgba(15,23,42,0.65); border: 1px solid rgba(51,65,85,0.5);
+            border-radius: 16px; padding: 28px 24px; text-align: center; margin-bottom: 16px;
+        }
+        .guest-emoji { font-size: 2.5rem; margin-bottom: 10px; }
+        .guest-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: #64748b; margin-bottom: 8px; }
+        .guest-text { font-size: 0.85rem; color: #334155; line-height: 1.6; margin-bottom: 16px; }
+
+        .login-btn {
+            display: inline-block; padding: 10px 28px;
+            background: rgba(37,99,235,0.2); border: 1.5px solid rgba(96,165,250,0.3);
+            border-radius: 999px; color: #60a5fa;
+            font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700;
+            text-decoration: none; cursor: not-allowed; opacity: 0.5;
         }
 
-        .container {
-            width: min(720px, calc(100% - 32px));
-            margin: 0 auto;
-            padding: 60px 0;
-        }
+        .coming-soon { background: rgba(15,23,42,0.65); border: 1px solid rgba(51,65,85,0.5); border-radius: 14px; padding: 20px 24px; text-align: center; color: #334155; font-size: 0.85rem; font-style: italic; }
 
-        .back {
-            display: inline-block;
-            color: var(--dim);
-            text-decoration: none;
-            font-size: 0.85rem;
-            margin-bottom: 25px;
-        }
-        .back:hover { color: var(--text); }
-
-        h1 { font-family: "Syne", sans-serif; font-size: 2.4rem; margin: 0 0 8px; }
-        .subtitle { color: var(--muted); margin: 0 0 25px; }
-
-        /* Custom Notice Banner */
-        .notice-box {
-            background: var(--warn-bg);
-            border: 1px solid var(--warn-border);
-            border-radius: 12px;
-            padding: 14px 18px;
-            color: var(--warn-text);
-            font-size: 0.82rem;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .section { margin-bottom: 24px; }
-        .section-title {
-            font-family: "Syne", sans-serif;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--dim);
-            margin: 0 0 9px 6px;
-        }
-
-        .panel {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            backdrop-filter: blur(14px);
-        }
-
-        .setting {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border);
-        }
-        .setting:last-child { border-bottom: 0; }
-
-        .setting-left { display: flex; align-items: center; gap: 14px; }
-        .badge-preview { width: 36px; height: 36px; object-fit: contain; }
-        .setting-name { font-weight: 600; margin-bottom: 2px; font-size: 0.92rem; }
-        .setting-description { font-size: 0.78rem; color: var(--muted); }
-        .perm-warning { color: var(--error); font-size: 0.72rem; margin-top: 3px; font-weight: 600; }
-
-        .input-group { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-
-        input[type="text"] {
-            background: rgba(2, 6, 23, 0.7);
-            color: #fff;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-family: inherit;
-            font-size: 0.85rem;
-            outline: none;
-            width: 220px;
-        }
-        input[type="text"]:focus { border-color: var(--accent); }
-        input[type="text"].invalid { border-color: var(--error) !important; }
-
-        .error-text { font-size: 0.72rem; color: var(--error); display: none; }
-
-        .drop-zone {
-            border: 2px dashed var(--border);
-            border-radius: 12px;
-            padding: 12px 16px;
-            text-align: center;
-            cursor: pointer;
-            background: rgba(2, 6, 23, 0.4);
-            transition: border-color 0.2s, background 0.2s;
-            max-width: 240px;
-            width: 100%;
-        }
-        .drop-zone:hover, .drop-zone.dragover { border-color: var(--accent); background: rgba(30, 41, 59, 0.6); }
-        .drop-zone-text { font-size: 0.78rem; color: var(--muted); }
-        .drop-zone-text strong { color: var(--accent); }
-        .drop-zone input[type="file"] { display: none; }
-
-        .toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
-        .toggle input { opacity: 0; width: 0; height: 0; }
-        .toggle-slider {
-            position: absolute; inset: 0; cursor: pointer;
-            background: #334155; border-radius: 999px; transition: 0.2s ease;
-        }
-        .toggle-slider::before {
-            content: ""; position: absolute; width: 18px; height: 18px;
-            left: 3px; top: 3px; background: white; border-radius: 50%; transition: 0.2s ease;
-        }
-        .toggle input:checked + .toggle-slider { background: #2563eb; }
-        .toggle input:checked + .toggle-slider::before { transform: translateX(20px); }
-
-        select {
-            background: rgba(2, 6, 23, 0.7); color: #fff;
-            border: 1px solid var(--border); border-radius: 999px;
-            padding: 8px 12px; font-family: inherit; outline: none;
-        }
-
-        .accent-options { display: flex; gap: 7px; flex-wrap: wrap; justify-content: flex-end; }
-        .accent { width: 25px; height: 25px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }
-        .accent.active { border-color: #fff; box-shadow: 0 0 0 2px var(--accent); }
-        .blue { background: #60a5fa; }
-        .purple { background: #a78bfa; }
-        .green { background: #34d399; }
-        .pink { background: #f472b6; }
-
-        .danger {
-            width: 100%; margin-top: 15px; padding: 13px;
-            border-radius: 12px; border: 1px solid rgba(248, 113, 113, 0.3);
-            background: rgba(127, 29, 29, 0.15); color: #fca5a5;
-            cursor: pointer; font-family: inherit; font-weight: 600;
-        }
-        .danger:hover { background: rgba(127, 29, 29, 0.25); }
+        .fade { opacity: 0; animation: fadeUp 0.5s ease forwards; }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(12px); } }
     </style>
 </head>
 <body>
-
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
+<a href="/" class="back-home">← Back to tyler.fun</a>
 <div class="container">
-    <a href="/" class="back">← Back to tyler.fun</a>
-    <h1>Settings</h1>
-    <p class="subtitle">Customize your tyler.fun client experience.</p>
-
-    <div class="notice-box">
-        <span>⚠️</span>
-        <span>PLEASE NOTE: WHEN YOU MAKE AN ACCOUNT, THESE SETTINGS WON'T SAVE OFFICIALLY. THIS IS JUST LOCAL / CUSTOM FOR PREVIEW.</span>
+    <div class="banner fade" id="profileBanner">
+        <div class="banner-pattern" id="bannerPattern"></div>
+        <div class="banner-label" id="bannerLabel">Guest</div>
     </div>
 
-    <div class="section">
-        <div class="section-title">Profile Identity</div>
-        <div class="panel">
-            <div class="setting">
-                <div>
-                    <div class="setting-name">Display Name</div>
-                    <div class="setting-description">Your visible profile name.</div>
-                </div>
-                <input type="text" id="displayNameInput" placeholder="Guest" />
-            </div>
+    <div class="avatar-wrap fade">
+        <div class="avatar" id="profileAvatar">?</div>
+    </div>
 
-            <div class="setting">
-                <div>
-                    <div class="setting-name">Username</div>
-                    <div class="setting-description">Your account handle.</div>
+    <div class="profile-info fade">
+        <div class="name-row">
+            <span class="display-name" id="profileDisplayName">Guest</span>
+            <div class="badge-list" id="badgeContainer">
+                
+                <!-- 1. Tyler Badge -->
+                <div class="badge-container" id="tylerBadgeContainer" style="display:none;">
+                    <img src="/assets/icons/tylerpfp.png" class="badge-icon" id="tylerBadge" alt="Tyler Badge" title="Tyler">
                 </div>
-                <div class="input-group">
-                    <input type="text" id="usernameInput" placeholder="Guest" />
-                    <span class="error-text" id="usernameError">This username is reserved.</span>
+
+                <!-- 2. Fish Badge -->
+                <div class="badge-container" id="fishBadgeContainer" style="display:none;">
+                    <img src="/assets/icons/fish-badge.png" class="badge-icon" id="fishBadge" alt="Fish Badge" title="Fish">
                 </div>
+
+                <!-- 3. Tawsif Custom Badge -->
+                <div class="badge-container" id="tawsifBadgeContainer" style="display:none;">
+                    <img src="/assets/icons/tawsif-badge.png" alt="Tawsif Badge" class="badge-icon" id="tawsifBadge" title="Tawsif">
+                </div>
+
+                <!-- 4. Admin Badge -->
+                <img src="/assets/icons/admin-badge.png" class="badge-icon" id="badgeAdmin" alt="Admin Badge" title="Admin" style="display:none;">
+
+                <!-- 5. Staff Badge -->
+                <img src="/assets/icons/staff-badge.png" class="badge-icon" id="badgeStaff" alt="Staff Badge" title="Staff" style="display:none;">
+
+                <!-- 6. Verified Badge -->
+                <div class="vcheck" id="vcheck" style="display:none;">
+                    <img src="/assets/icons/verified-badge.png" class="badge-icon" alt="Verified account">
+                    <div class="tip">
+                        <div class="tip-title">Verified account</div>
+                        <div class="tip-row">
+                            <img src="/assets/icons/verified-badge.png" class="badge-icon" alt="Verified">
+                            <span>This account is verified because it's an affiliate of <a href="https://tyler-fun-dev.vercel.app/users/tyler.fun" class="tip-link">@tyler.fun</a></span>
+                        </div>
+                        <div class="tip-row">
+                            <img src="/assets/icons/tylerpfp.png" alt="tyler.fun" class="tip-icon-brand" onerror="this.src='https://tyler-fun-dev.vercel.app/logo.png'">
+                            <a href="https://tyler-fun-dev.vercel.app/users/tyler.fun" class="tip-link">tyler.fun</a>
+                        </div>
+                        <div class="tip-row">
+                            <svg fill="#71767b" viewBox="0 0 24 24"><path d="M7 4V3h2v1h6V3h2v1h2c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h2zm0 4H5v12h14V8H7zm2 3h2v2H9v-2zm4 0h2v2h-2v-2zm-4 4h2v2H9v-2zm4 0h2v2h-2v-2z"/></svg>
+                            <span>Verified since April 2026.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. Email Verified Badge -->
+                <img src="/assets/icons/email-verified-badge.png" class="badge-icon" id="badgeEmail" alt="Email Verified Badge" title="Email Verified" style="display:none;">
+
+                <!-- 8. Member Badge -->
+                <img src="/assets/icons/member-badge.png" class="badge-icon" id="badgeMember" alt="Member Badge" title="Member" style="display:none;">
+
+                <!-- 9. Banned Badge -->
+                <img src="/assets/icons/banned-badge.png" class="badge-icon" id="badgeBanned" alt="Banned Badge" title="Banned" style="display:none;">
+
             </div>
         </div>
-    </div>
+        <div class="handle" id="profileUsername">@Guest</div>
+        <p class="bio" id="profileBio">Just browsing. Not logged in. Don't mind me.</p>
 
-    <div class="section">
-        <div class="section-title">Profile Media</div>
-        <div class="panel">
-            <div class="setting">
-                <div>
-                    <div class="setting-name">Avatar Image</div>
-                    <div class="setting-description">Click or drag a photo to set your PFP.</div>
-                </div>
-                <div class="drop-zone" id="avatarDropZone">
-                    <span class="drop-zone-text" id="avatarDropText">Drag image or <strong>click to upload</strong></span>
-                    <input type="file" id="avatarFileInput" accept="image/*" />
-                </div>
-            </div>
-
-            <div class="setting">
-                <div>
-                    <div class="setting-name">Banner Image</div>
-                    <div class="setting-description">Click or drag a photo to set your Banner.</div>
-                </div>
-                <div class="drop-zone" id="bannerDropZone">
-                    <span class="drop-zone-text" id="bannerDropText">Drag image or <strong>click to upload</strong></span>
-                    <input type="file" id="bannerFileInput" accept="image/*" />
-                </div>
-            </div>
+        <div class="stats-row">
+            <div class="stat-item"><div class="stat-num">?</div><div class="stat-lbl">Games played</div></div>
+            <div class="stat-item"><div class="stat-num">?</div><div class="stat-lbl">High scores</div></div>
+            <div class="stat-item"><div class="stat-num">?</div><div class="stat-lbl">Joined</div></div>
         </div>
-    </div>
 
-    <div class="section">
-        <div class="section-title">Badges</div>
-        <div class="panel">
-            <div class="setting">
-                <div class="setting-left">
-                    <img src="/assets/icons/member-badge.png" class="badge-preview" alt="Member" />
-                    <div>
-                        <div class="setting-name">Member Badge</div>
-                        <div class="setting-description">Show standard member status on profile.</div>
-                    </div>
-                </div>
-                <label class="toggle"><input type="checkbox" id="memberBadgeToggle"><span class="toggle-slider"></span></label>
+        <div class="guest-box">
+            <div class="guest-emoji">👤</div>
+            <div class="guest-title">You're not logged in</div>
+            <div class="guest-text">
+                Guest mode. Can't save progress or break anything… yet. Create an account to track your scores, unlock a profile, and show up on leaderboards.
             </div>
-
-            <div class="setting">
-                <div class="setting-left">
-                    <img src="/assets/icons/verified-badge.png" class="badge-preview" alt="Verified" />
-                    <div>
-                        <div class="setting-name">Verified Badge</div>
-                        <div class="setting-description">Show verified badge and popover details.</div>
-                    </div>
-                </div>
-                <label class="toggle"><input type="checkbox" id="verifiedBadgeToggle"><span class="toggle-slider"></span></label>
-            </div>
-
-            <div class="setting">
-                <div class="setting-left">
-                    <img src="/assets/icons/email-verified-badge.png" class="badge-preview" alt="Email Verified" />
-                    <div>
-                        <div class="setting-name">Email Verified Badge</div>
-                        <div class="setting-description">Display email verification icon.</div>
-                    </div>
-                </div>
-                <label class="toggle"><input type="checkbox" id="emailBadgeToggle"><span class="toggle-slider"></span></label>
-            </div>
-
-            <div class="setting">
-                <div class="setting-left">
-                    <img src="/assets/icons/staff-badge.png" class="badge-preview" alt="Staff" />
-                    <div>
-                        <div class="setting-name">Staff Badge</div>
-                        <div class="setting-description">Display staff badge on profile.</div>
-                        <div class="perm-warning">Warning: This does not grant you staff perms or admin perms.</div>
-                    </div>
-                </div>
-                <label class="toggle"><input type="checkbox" id="staffBadgeToggle"><span class="toggle-slider"></span></label>
-            </div>
-
-            <div class="setting">
-                <div class="setting-left">
-                    <img src="/assets/icons/admin-badge.png" class="badge-preview" alt="Admin" />
-                    <div>
-                        <div class="setting-name">Admin Badge</div>
-                        <div class="setting-description">Display administrator badge on profile.</div>
-                        <div class="perm-warning">Warning: This does not grant you staff perms or admin perms.</div>
-                    </div>
-                </div>
-                <label class="toggle"><input type="checkbox" id="adminBadgeToggle"><span class="toggle-slider"></span></label>
-            </div>
-
-            <div class="setting">
-                <div class="setting-left">
-                    <img src="/assets/icons/tylerpfp.png" class="badge-preview" alt="Tyler" />
-                    <div>
-                        <div class="setting-name">Tyler Badge</div>
-                        <div class="setting-description">Display Tyler profile badge.</div>
-                    </div>
-                </div>
-                <label class="toggle"><input type="checkbox" id="tylerBadgeToggle"><span class="toggle-slider"></span></label>
-            </div>
-
-            <div class="setting">
-                <div class="setting-left">
-                    <img src="/assets/icons/fish-badge.png" class="badge-preview" alt="Fish" />
-                    <div>
-                        <div class="setting-name">Fish Badge</div>
-                        <div class="setting-description">Display fish icon badge.</div>
-                    </div>
-                </div>
-                <label class="toggle"><input type="checkbox" id="fishBadgeToggle"><span class="toggle-slider"></span></label>
-            </div>
-
-            <div class="setting">
-                <div class="setting-left">
-                    <img src="/assets/icons/tawsif-badge.png" class="badge-preview" alt="Tawsif" />
-                    <div>
-                        <div class="setting-name">Tawsif Badge</div>
-                        <div class="setting-description">Display Tawsif custom badge.</div>
-                    </div>
-                </div>
-                <label class="toggle"><input type="checkbox" id="tawsifBadgeToggle"><span class="toggle-slider"></span></label>
-            </div>
-
-            <div class="setting">
-                <div class="setting-left">
-                    <img src="/assets/icons/banned-badge.png" class="badge-preview" alt="Banned" />
-                    <div>
-                        <div class="setting-name">Banned Badge</div>
-                        <div class="setting-description">Display banned status badge.</div>
-                    </div>
-                </div>
-                <label class="toggle"><input type="checkbox" id="bannedBadgeToggle"><span class="toggle-slider"></span></label>
-            </div>
+            <span class="login-btn">Log in coming soon</span>
         </div>
+
+        <div class="coming-soon">Account system coming eventually. Check back later.</div>
     </div>
-
-    <div class="section">
-        <div class="section-title">Appearance</div>
-        <div class="panel">
-            <div class="setting">
-                <div>
-                    <div class="setting-name">Theme</div>
-                    <div class="setting-description">Choose how tyler.fun looks.</div>
-                </div>
-                <select id="theme">
-                    <option value="dark">Dark</option>
-                    <option value="light">Light</option>
-                </select>
-            </div>
-
-            <div class="setting">
-                <div>
-                    <div class="setting-name">Accent colour</div>
-                    <div class="setting-description">Change the main highlight colour.</div>
-                </div>
-                <div class="accent-options">
-                    <button class="accent blue" data-accent="blue"></button>
-                    <button class="accent purple" data-accent="purple"></button>
-                    <button class="accent green" data-accent="green"></button>
-                    <button class="accent pink" data-accent="pink"></button>
-                </div>
-            </div>
-
-            <div class="setting">
-                <div>
-                    <div class="setting-name">Animations</div>
-                    <div class="setting-description">Enable interface animations.</div>
-                </div>
-                <label class="toggle">
-                    <input type="checkbox" id="animationsToggle">
-                    <span class="toggle-slider"></span>
-                </label>
-            </div>
-        </div>
-    </div>
-
-    <button class="danger" id="reset">Reset all settings</button>
 </div>
-
 <script>
-    const RESERVED_USERNAMES = [
-        "aaban", "admin", "ban", "fish", "guest", 
-        "support", "tyler", "angle", "staff", 
-        "tawsif", "tyler.fun", "yoiashley"
-    ];
+const settings = getSettings();
 
-    const displayNameInput = document.getElementById("displayNameInput");
-    const usernameInput = document.getElementById("usernameInput");
-    const usernameError = document.getElementById("usernameError");
-    const themeSelect = document.getElementById("theme");
-    const animationsToggle = document.getElementById("animationsToggle");
-    const resetBtn = document.getElementById("reset");
+const profileDisplayName = document.getElementById("profileDisplayName");
+const profileUsername = document.getElementById("profileUsername");
+const profileBio = document.getElementById("profileBio");
+const profileAvatar = document.getElementById("profileAvatar");
+const profileBanner = document.getElementById("profileBanner");
+const bannerPattern = document.getElementById("bannerPattern");
+const bannerLabel = document.getElementById("bannerLabel");
 
-    // Badge Toggles
-    const badgeToggles = {
-        memberBadge: document.getElementById("memberBadgeToggle"),
-        verifiedBadge: document.getElementById("verifiedBadgeToggle"),
-        emailBadge: document.getElementById("emailBadgeToggle"),
-        staffBadge: document.getElementById("staffBadgeToggle"),
-        adminBadge: document.getElementById("adminBadgeToggle"),
-        tylerBadge: document.getElementById("tylerBadgeToggle"),
-        fishBadge: document.getElementById("fishBadgeToggle"),
-        tawsifBadge: document.getElementById("tawsifBadgeToggle"),
-        bannedBadge: document.getElementById("bannedBadgeToggle")
-    };
+profileDisplayName.textContent = settings.displayName || "Guest";
+profileUsername.textContent = "@" + (settings.username || "Guest");
+profileBio.textContent = settings.bio || "Just browsing. Not logged in. Don't mind me.";
+bannerLabel.textContent = settings.displayName || "Guest";
 
-    // Drop Zones
-    const avatarDropZone = document.getElementById("avatarDropZone");
-    const avatarFileInput = document.getElementById("avatarFileInput");
-    const avatarDropText = document.getElementById("avatarDropText");
+// Toggle Visibility for Badges in updated order
+const badgeMap = {
+    tylerBadge: document.getElementById("tylerBadgeContainer"),
+    fishBadge: document.getElementById("fishBadgeContainer"),
+    tawsifBadge: document.getElementById("tawsifBadgeContainer"),
+    adminBadge: document.getElementById("badgeAdmin"),
+    staffBadge: document.getElementById("badgeStaff"),
+    verifiedBadge: document.getElementById("vcheck"),
+    emailBadge: document.getElementById("badgeEmail"),
+    memberBadge: document.getElementById("badgeMember"),
+    bannedBadge: document.getElementById("badgeBanned")
+};
 
-    const bannerDropZone = document.getElementById("bannerDropZone");
-    const bannerFileInput = document.getElementById("bannerFileInput");
-    const bannerDropText = document.getElementById("bannerDropText");
-
-    function renderUI() {
-        const settings = getSettings();
-
-        displayNameInput.value = settings.displayName || "";
-        usernameInput.value = settings.username || "";
-        themeSelect.value = settings.theme;
-        animationsToggle.checked = settings.animations;
-
-        // Sync badge toggles
-        for (let key in badgeToggles) {
-            if (badgeToggles[key]) badgeToggles[key].checked = !!settings[key];
-        }
-
-        avatarDropText.innerHTML = settings.avatarData 
-            ? "Photo loaded! <strong>Click to replace</strong>" 
-            : "Drag image or <strong>click to upload</strong>";
-
-        bannerDropText.innerHTML = settings.bannerData 
-            ? "Photo loaded! <strong>Click to replace</strong>" 
-            : "Drag image or <strong>click to upload</strong>";
-
-        document.querySelectorAll(".accent").forEach(button => {
-            button.classList.toggle("active", button.dataset.accent === settings.accent);
-        });
+for (let key in badgeMap) {
+    if (badgeMap[key]) {
+        badgeMap[key].style.display = settings[key] ? "inline-flex" : "none";
     }
+}
 
-    function handleFileUpload(file, settingKey) {
-        if (!file || !file.type.startsWith("image/")) return;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            updateSetting(settingKey, e.target.result);
-            renderUI();
-        };
-        reader.readAsDataURL(file);
-    }
+// Media Display
+if (settings.avatarData) {
+    profileAvatar.style.backgroundImage = `url('${settings.avatarData}')`;
+    profileAvatar.textContent = "";
+}
 
-    function setupDropZone(dropZone, fileInput, settingKey) {
-        dropZone.addEventListener("click", () => fileInput.click());
-        fileInput.addEventListener("change", () => {
-            if (fileInput.files.length) handleFileUpload(fileInput.files[0], settingKey);
-        });
-        dropZone.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.classList.add("dragover"); });
-        dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
-        dropZone.addEventListener("drop", (e) => {
-            e.preventDefault();
-            dropZone.classList.remove("dragover");
-            if (e.dataTransfer.files.length) handleFileUpload(e.dataTransfer.files[0], settingKey);
-        });
-    }
+if (settings.bannerData) {
+    profileBanner.style.backgroundImage = `url('${settings.bannerData}')`;
+    bannerPattern.style.display = "none";
+}
 
-    setupDropZone(avatarDropZone, avatarFileInput, "avatarData");
-    setupDropZone(bannerDropZone, bannerFileInput, "bannerData");
-
-    displayNameInput.addEventListener("change", () => updateSetting("displayName", displayNameInput.value.trim()));
-    
-    usernameInput.addEventListener("input", () => {
-        const cleanUsername = usernameInput.value.trim().replace(/^@/, '').toLowerCase();
-        if (RESERVED_USERNAMES.includes(cleanUsername)) {
-            usernameInput.classList.add("invalid");
-            usernameError.style.display = "block";
-        } else {
-            usernameInput.classList.remove("invalid");
-            usernameError.style.display = "none";
-            updateSetting("username", usernameInput.value.trim().replace(/^@/, ''));
-        }
-    });
-
-    // Attach Toggle Handlers for Badges
-    for (let key in badgeToggles) {
-        if (badgeToggles[key]) {
-            badgeToggles[key].addEventListener("change", () => updateSetting(key, badgeToggles[key].checked));
-        }
-    }
-
-    themeSelect.addEventListener("change", () => updateSetting("theme", themeSelect.value));
-
-    document.querySelectorAll(".accent").forEach(button => {
-        button.addEventListener("click", () => {
-            updateSetting("accent", button.dataset.accent);
-            renderUI();
-        });
-    });
-
-    animationsToggle.addEventListener("change", () => updateSetting("animations", animationsToggle.checked));
-
-    resetBtn.addEventListener("click", () => {
-        if (!confirm("Reset all tyler.fun settings?")) return;
-        resetSettings();
-        usernameInput.classList.remove("invalid");
-        usernameError.style.display = "none";
-        renderUI();
-    });
-
-    renderUI();
+// Background Particles Animation
+const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
+let W, H, stars = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+function initStars() { stars = []; for(let i=0;i<Math.floor((W*H)/8000);i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.3,speed:Math.random()*0.14+0.03,opacity:Math.random()*0.45+0.1,ts:Math.random()*0.01+0.003,to:Math.random()*Math.PI*2}); }
+let t=0;
+function draw() { ctx.clearRect(0,0,W,H); t+=0.016; for(const s of stars){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`;ctx.fill();s.y-=s.speed;if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}} requestAnimationFrame(draw); }
+resize(); initStars(); draw();
+window.addEventListener('resize',()=>{resize();initStars();});
 </script>
 </body>
 </html>
