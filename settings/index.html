@@ -17,6 +17,7 @@
             --muted: #94a3b8;
             --dim: #475569;
             --accent: #60a5fa;
+            --error: #f87171;
         }
 
         html[data-accent="blue"] { --accent: #60a5fa; }
@@ -81,6 +82,13 @@
         .setting-name { font-weight: 600; margin-bottom: 4px; }
         .setting-description { font-size: 0.78rem; color: var(--muted); }
 
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
         input[type="text"] {
             background: rgba(2, 6, 23, 0.7);
             color: #fff;
@@ -91,8 +99,16 @@
             font-size: 0.85rem;
             outline: none;
             width: 220px;
+            transition: border-color 0.2s;
         }
         input[type="text"]:focus { border-color: var(--accent); }
+        input[type="text"].invalid { border-color: var(--error) !important; }
+
+        .error-text {
+            font-size: 0.72rem;
+            color: var(--error);
+            display: none;
+        }
 
         /* Drop Zone Formatting */
         .drop-zone {
@@ -188,7 +204,10 @@
                     <div class="setting-name">Username</div>
                     <div class="setting-description">Your account handle (e.g. @Guest).</div>
                 </div>
-                <input type="text" id="usernameInput" placeholder="Guest" />
+                <div class="input-group">
+                    <input type="text" id="usernameInput" placeholder="Guest" />
+                    <span class="error-text" id="usernameError">This username is reserved.</span>
+                </div>
             </div>
         </div>
     </div>
@@ -281,8 +300,16 @@
 </div>
 
 <script>
+    // List of reserved usernames based on the users folder structure
+    const RESERVED_USERNAMES = [
+        "aaban", "admin", "ban", "fish", "guest", 
+        "support", "tyler", "angle", "staff", 
+        "tawsif", "tyler.fun", "yoiashley"
+    ];
+
     const displayNameInput = document.getElementById("displayNameInput");
     const usernameInput = document.getElementById("usernameInput");
+    const usernameError = document.getElementById("usernameError");
     const themeSelect = document.getElementById("theme");
     const animationsToggle = document.getElementById("animationsToggle");
     const memberBadgeToggle = document.getElementById("memberBadgeToggle");
@@ -319,7 +346,6 @@
         });
     }
 
-    // Process Image Files into Base64
     function handleFileUpload(file, settingKey) {
         if (!file || !file.type.startsWith("image/")) return;
         const reader = new FileReader();
@@ -330,7 +356,6 @@
         reader.readAsDataURL(file);
     }
 
-    // Setup Drag-and-Drop & Click Handlers for Drop Zones
     function setupDropZone(dropZone, fileInput, settingKey) {
         dropZone.addEventListener("click", () => fileInput.click());
 
@@ -358,7 +383,21 @@
     setupDropZone(bannerDropZone, bannerFileInput, "bannerData");
 
     displayNameInput.addEventListener("change", () => updateSetting("displayName", displayNameInput.value.trim()));
-    usernameInput.addEventListener("change", () => updateSetting("username", usernameInput.value.trim().replace(/^@/, '')));
+    
+    // Reserved Username Validation
+    usernameInput.addEventListener("input", () => {
+        const cleanUsername = usernameInput.value.trim().replace(/^@/, '').toLowerCase();
+        
+        if (RESERVED_USERNAMES.includes(cleanUsername)) {
+            usernameInput.classList.add("invalid");
+            usernameError.style.display = "block";
+        } else {
+            usernameInput.classList.remove("invalid");
+            usernameError.style.display = "none";
+            updateSetting("username", usernameInput.value.trim().replace(/^@/, ''));
+        }
+    });
+
     themeSelect.addEventListener("change", () => updateSetting("theme", themeSelect.value));
 
     document.querySelectorAll(".accent").forEach(button => {
@@ -374,6 +413,8 @@
     resetBtn.addEventListener("click", () => {
         if (!confirm("Reset all tyler.fun settings?")) return;
         resetSettings();
+        usernameInput.classList.remove("invalid");
+        usernameError.style.display = "none";
         renderUI();
     });
 
