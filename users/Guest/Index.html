@@ -19,6 +19,7 @@
         .banner {
             width: 100%; height: 140px; border-radius: 20px;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #020617 100%);
+            background-size: cover; background-position: center;
             margin-bottom: -44px; position: relative;
             border: 1px solid rgba(51,65,85,0.5); overflow: hidden;
         }
@@ -34,9 +35,10 @@
             width: 88px; height: 88px; border-radius: 50%;
             border: 4px solid #020617;
             background: rgba(30,41,59,0.9);
+            background-size: cover; background-position: center;
             display: flex; align-items: center; justify-content: center;
             font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 900;
-            color: #475569;
+            color: #475569; overflow: hidden;
         }
 
         .profile-info { padding: 12px 24px 24px; }
@@ -52,8 +54,6 @@
         .stat-item { display: flex; flex-direction: column; gap: 2px; }
         .stat-num { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: #64748b; }
         .stat-lbl { font-size: 0.72rem; color: #334155; text-transform: uppercase; letter-spacing: 1.5px; }
-
-        .section-title { font-family: 'Syne', sans-serif; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #475569; margin-bottom: 14px; }
 
         .guest-box {
             background: rgba(15,23,42,0.65); border: 1px solid rgba(51,65,85,0.5);
@@ -87,10 +87,13 @@
 <div class="bg-glow"></div>
 <a href="/" class="back-home">← Back to tyler.fun</a>
 <div class="container">
-    <div class="banner fade"><div class="banner-pattern"></div><div class="banner-label">Guest</div></div>
+    <div class="banner fade" id="profileBanner">
+        <div class="banner-pattern" id="bannerPattern"></div>
+        <div class="banner-label">Guest</div>
+    </div>
 
     <div class="avatar-wrap fade">
-        <div class="avatar">?</div>
+        <div class="avatar" id="profileAvatar">?</div>
     </div>
 
     <div class="profile-info fade">
@@ -125,15 +128,31 @@
     </div>
 </div>
 <script>
-// Check badge state on load
+// Check saved preferences
 const profileBadge = document.getElementById("memberBadge");
+const profileAvatar = document.getElementById("profileAvatar");
+const profileBanner = document.getElementById("profileBanner");
+const bannerPattern = document.getElementById("bannerPattern");
 const settings = getSettings();
 
+// Toggle Badge
 if (!settings.memberBadge && profileBadge) {
     profileBadge.style.display = "none";
 }
 
-// Particles script
+// Render Custom Avatar
+if (settings.avatarUrl) {
+    profileAvatar.style.backgroundImage = `url('${settings.avatarUrl}')`;
+    profileAvatar.textContent = "";
+}
+
+// Render Custom Banner
+if (settings.bannerUrl) {
+    profileBanner.style.backgroundImage = `url('${settings.bannerUrl}')`;
+    bannerPattern.style.display = "none";
+}
+
+// Particle Canvas
 const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
 let W, H, stars = [];
 function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
