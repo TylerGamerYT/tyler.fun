@@ -4,11 +4,20 @@ const DEFAULT_SETTINGS = {
     theme: "dark",
     accent: "blue",
     animations: true,
-    memberBadge: true,
     displayName: "Guest",
     username: "Guest",
     avatarData: "",
-    bannerData: ""
+    bannerData: "",
+    // Badge Settings
+    tylerBadge: false,
+    adminBadge: false,
+    staffBadge: false,
+    verifiedBadge: false,
+    emailBadge: false,
+    memberBadge: true,
+    fishBadge: false,
+    bannedBadge: false,
+    tawsifBadge: false
 };
 
 function getSettings() {
@@ -31,7 +40,6 @@ function saveSettings(settings) {
             ...settings
         })
     );
-
     applySettings();
 }
 
@@ -53,12 +61,7 @@ function applySettings() {
 
     root.dataset.theme = settings.theme;
     root.dataset.accent = settings.accent;
-
-    if (settings.animations) {
-        root.dataset.animations = "on";
-    } else {
-        root.dataset.animations = "off";
-    }
+    root.dataset.animations = settings.animations ? "on" : "off";
 }
 
 applySettings();
