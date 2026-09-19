@@ -1,4 +1,4 @@
-no no take  this: const TYLER_SETTINGS_KEY = "tyler.fun.settings";
+const TYLER_SETTINGS_KEY = "tyler.fun.settings";
 
 const DEFAULT_SETTINGS = {
     theme: "dark",
