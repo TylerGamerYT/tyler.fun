@@ -6,7 +6,7 @@
     <title>Settings | tyler.fun</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <script src="/assets/js/settings.js"></script>
+    <script src="/assets/js/settings.js" defer></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; }
         :root {
@@ -248,7 +248,6 @@
     <div class="section">
         <div class="section-title">Badges</div>
         <div class="panel">
-            <!-- 1. Tyler Badge -->
             <div class="setting">
                 <div class="setting-left">
                     <img src="/assets/icons/tylerpfp.png" class="badge-preview" alt="Tyler Badge" />
@@ -260,7 +259,6 @@
                 <label class="toggle"><input type="checkbox" id="tylerBadgeToggle"><span class="toggle-slider"></span></label>
             </div>
 
-            <!-- 2. Fish Badge -->
             <div class="setting">
                 <div class="setting-left">
                     <img src="/assets/icons/fish-badge.png" class="badge-preview" alt="Fish Badge" />
@@ -272,7 +270,6 @@
                 <label class="toggle"><input type="checkbox" id="fishBadgeToggle"><span class="toggle-slider"></span></label>
             </div>
 
-            <!-- 3. Tawsif Badge -->
             <div class="setting">
                 <div class="setting-left">
                     <img src="/assets/icons/tawsif-badge.png" class="badge-preview" alt="Tawsif Badge" />
@@ -284,7 +281,6 @@
                 <label class="toggle"><input type="checkbox" id="tawsifBadgeToggle"><span class="toggle-slider"></span></label>
             </div>
 
-            <!-- 4. Admin Badge -->
             <div class="setting">
                 <div class="setting-left">
                     <img src="/assets/icons/admin-badge.png" class="badge-preview" alt="Admin Badge" />
@@ -297,7 +293,6 @@
                 <label class="toggle"><input type="checkbox" id="adminBadgeToggle"><span class="toggle-slider"></span></label>
             </div>
 
-            <!-- 5. Staff Badge -->
             <div class="setting">
                 <div class="setting-left">
                     <img src="/assets/icons/staff-badge.png" class="badge-preview" alt="Staff Badge" />
@@ -310,7 +305,6 @@
                 <label class="toggle"><input type="checkbox" id="staffBadgeToggle"><span class="toggle-slider"></span></label>
             </div>
 
-            <!-- 6. Verified Badge -->
             <div class="setting">
                 <div class="setting-left">
                     <img src="/assets/icons/verified-badge.png" class="badge-preview" alt="Verified Badge" />
@@ -322,7 +316,6 @@
                 <label class="toggle"><input type="checkbox" id="verifiedBadgeToggle"><span class="toggle-slider"></span></label>
             </div>
 
-            <!-- 7. Email Verified Badge -->
             <div class="setting">
                 <div class="setting-left">
                     <img src="/assets/icons/email-verified-badge.png" class="badge-preview" alt="Email Verified Badge" />
@@ -334,7 +327,6 @@
                 <label class="toggle"><input type="checkbox" id="emailBadgeToggle"><span class="toggle-slider"></span></label>
             </div>
 
-            <!-- 8. Member Badge -->
             <div class="setting">
                 <div class="setting-left">
                     <img src="/assets/icons/member-badge.png" class="badge-preview" alt="Member Badge" />
@@ -346,7 +338,6 @@
                 <label class="toggle"><input type="checkbox" id="memberBadgeToggle"><span class="toggle-slider"></span></label>
             </div>
 
-            <!-- 9. Banned Badge -->
             <div class="setting">
                 <div class="setting-left">
                     <img src="/assets/icons/banned-badge.png" class="badge-preview" alt="Banned Badge" />
@@ -404,134 +395,136 @@
 </div>
 
 <script>
-    const RESERVED_USERNAMES = [
-        "aaban", "admin", "ban", "fish", "guest", 
-        "support", "tyler", "angle", "staff", 
-        "tawsif", "tyler.fun", "yoiashley"
-    ];
+    document.addEventListener("DOMContentLoaded", () => {
+        const RESERVED_USERNAMES = [
+            "aaban", "admin", "ban", "fish", "guest", 
+            "support", "tyler", "angle", "staff", 
+            "tawsif", "tyler.fun", "yoiashley"
+        ];
 
-    const displayNameInput = document.getElementById("displayNameInput");
-    const usernameInput = document.getElementById("usernameInput");
-    const bioInput = document.getElementById("bioInput");
-    const usernameError = document.getElementById("usernameError");
-    const themeSelect = document.getElementById("theme");
-    const animationsToggle = document.getElementById("animationsToggle");
-    const resetBtn = document.getElementById("reset");
+        const displayNameInput = document.getElementById("displayNameInput");
+        const usernameInput = document.getElementById("usernameInput");
+        const bioInput = document.getElementById("bioInput");
+        const usernameError = document.getElementById("usernameError");
+        const themeSelect = document.getElementById("theme");
+        const animationsToggle = document.getElementById("animationsToggle");
+        const resetBtn = document.getElementById("reset");
 
-    const badgeToggles = {
-        tylerBadge: document.getElementById("tylerBadgeToggle"),
-        fishBadge: document.getElementById("fishBadgeToggle"),
-        tawsifBadge: document.getElementById("tawsifBadgeToggle"),
-        adminBadge: document.getElementById("adminBadgeToggle"),
-        staffBadge: document.getElementById("staffBadgeToggle"),
-        verifiedBadge: document.getElementById("verifiedBadgeToggle"),
-        emailBadge: document.getElementById("emailBadgeToggle"),
-        memberBadge: document.getElementById("memberBadgeToggle"),
-        bannedBadge: document.getElementById("bannedBadgeToggle")
-    };
+        const badgeToggles = {
+            tylerBadge: document.getElementById("tylerBadgeToggle"),
+            fishBadge: document.getElementById("fishBadgeToggle"),
+            tawsifBadge: document.getElementById("tawsifBadgeToggle"),
+            adminBadge: document.getElementById("adminBadgeToggle"),
+            staffBadge: document.getElementById("staffBadgeToggle"),
+            verifiedBadge: document.getElementById("verifiedBadgeToggle"),
+            emailBadge: document.getElementById("emailBadgeToggle"),
+            memberBadge: document.getElementById("memberBadgeToggle"),
+            bannedBadge: document.getElementById("bannedBadgeToggle")
+        };
 
-    const avatarDropZone = document.getElementById("avatarDropZone");
-    const avatarFileInput = document.getElementById("avatarFileInput");
-    const avatarDropText = document.getElementById("avatarDropText");
+        const avatarDropZone = document.getElementById("avatarDropZone");
+        const avatarFileInput = document.getElementById("avatarFileInput");
+        const avatarDropText = document.getElementById("avatarDropText");
 
-    const bannerDropZone = document.getElementById("bannerDropZone");
-    const bannerFileInput = document.getElementById("bannerFileInput");
-    const bannerDropText = document.getElementById("bannerDropText");
+        const bannerDropZone = document.getElementById("bannerDropZone");
+        const bannerFileInput = document.getElementById("bannerFileInput");
+        const bannerDropText = document.getElementById("bannerDropText");
 
-    function renderUI() {
-        const settings = getSettings();
+        function renderUI() {
+            const settings = getSettings();
 
-        displayNameInput.value = settings.displayName || "";
-        usernameInput.value = settings.username || "";
-        bioInput.value = settings.bio || "";
-        themeSelect.value = settings.theme;
-        animationsToggle.checked = settings.animations;
+            displayNameInput.value = settings.displayName || "";
+            usernameInput.value = settings.username || "";
+            bioInput.value = settings.bio || "";
+            themeSelect.value = settings.theme || "dark";
+            animationsToggle.checked = settings.animations;
+
+            for (let key in badgeToggles) {
+                if (badgeToggles[key]) badgeToggles[key].checked = !!settings[key];
+            }
+
+            avatarDropText.innerHTML = settings.avatarData 
+                ? "Photo loaded! <strong>Click to replace</strong>" 
+                : "Drag image or <strong>click to upload</strong>";
+
+            bannerDropText.innerHTML = settings.bannerData 
+                ? "Photo loaded! <strong>Click to replace</strong>" 
+                : "Drag image or <strong>click to upload</strong>";
+
+            document.querySelectorAll(".accent").forEach(button => {
+                button.classList.toggle("active", button.dataset.accent === settings.accent);
+            });
+        }
+
+        function handleFileUpload(file, settingKey) {
+            if (!file || !file.type.startsWith("image/")) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                updateSetting(settingKey, e.target.result);
+                renderUI();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function setupDropZone(dropZone, fileInput, settingKey) {
+            dropZone.addEventListener("click", () => fileInput.click());
+            fileInput.addEventListener("change", () => {
+                if (fileInput.files.length) handleFileUpload(fileInput.files[0], settingKey);
+            });
+            dropZone.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.classList.add("dragover"); });
+            dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+            dropZone.addEventListener("drop", (e) => {
+                e.preventDefault();
+                dropZone.classList.remove("dragover");
+                if (e.dataTransfer.files.length) handleFileUpload(e.dataTransfer.files[0], settingKey);
+            });
+        }
+
+        setupDropZone(avatarDropZone, avatarFileInput, "avatarData");
+        setupDropZone(bannerDropZone, bannerFileInput, "bannerData");
+
+        displayNameInput.addEventListener("input", () => updateSetting("displayName", displayNameInput.value.trim()));
+        bioInput.addEventListener("input", () => updateSetting("bio", bioInput.value.trim()));
+        
+        usernameInput.addEventListener("input", () => {
+            const cleanUsername = usernameInput.value.trim().replace(/^@/, '').toLowerCase();
+            if (RESERVED_USERNAMES.includes(cleanUsername)) {
+                usernameInput.classList.add("invalid");
+                usernameError.style.display = "block";
+            } else {
+                usernameInput.classList.remove("invalid");
+                usernameError.style.display = "none";
+                updateSetting("username", usernameInput.value.trim().replace(/^@/, ''));
+            }
+        });
 
         for (let key in badgeToggles) {
-            if (badgeToggles[key]) badgeToggles[key].checked = !!settings[key];
+            if (badgeToggles[key]) {
+                badgeToggles[key].addEventListener("change", () => updateSetting(key, badgeToggles[key].checked));
+            }
         }
 
-        avatarDropText.innerHTML = settings.avatarData 
-            ? "Photo loaded! <strong>Click to replace</strong>" 
-            : "Drag image or <strong>click to upload</strong>";
-
-        bannerDropText.innerHTML = settings.bannerData 
-            ? "Photo loaded! <strong>Click to replace</strong>" 
-            : "Drag image or <strong>click to upload</strong>";
+        themeSelect.addEventListener("change", () => updateSetting("theme", themeSelect.value));
 
         document.querySelectorAll(".accent").forEach(button => {
-            button.classList.toggle("active", button.dataset.accent === settings.accent);
+            button.addEventListener("click", () => {
+                updateSetting("accent", button.dataset.accent);
+                renderUI();
+            });
         });
-    }
 
-    function handleFileUpload(file, settingKey) {
-        if (!file || !file.type.startsWith("image/")) return;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            updateSetting(settingKey, e.target.result);
-            renderUI();
-        };
-        reader.readAsDataURL(file);
-    }
+        animationsToggle.addEventListener("change", () => updateSetting("animations", animationsToggle.checked));
 
-    function setupDropZone(dropZone, fileInput, settingKey) {
-        dropZone.addEventListener("click", () => fileInput.click());
-        fileInput.addEventListener("change", () => {
-            if (fileInput.files.length) handleFileUpload(fileInput.files[0], settingKey);
-        });
-        dropZone.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.classList.add("dragover"); });
-        dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
-        dropZone.addEventListener("drop", (e) => {
-            e.preventDefault();
-            dropZone.classList.remove("dragover");
-            if (e.dataTransfer.files.length) handleFileUpload(e.dataTransfer.files[0], settingKey);
-        });
-    }
-
-    setupDropZone(avatarDropZone, avatarFileInput, "avatarData");
-    setupDropZone(bannerDropZone, bannerFileInput, "bannerData");
-
-    displayNameInput.addEventListener("change", () => updateSetting("displayName", displayNameInput.value.trim()));
-    bioInput.addEventListener("change", () => updateSetting("bio", bioInput.value.trim()));
-    
-    usernameInput.addEventListener("input", () => {
-        const cleanUsername = usernameInput.value.trim().replace(/^@/, '').toLowerCase();
-        if (RESERVED_USERNAMES.includes(cleanUsername)) {
-            usernameInput.classList.add("invalid");
-            usernameError.style.display = "block";
-        } else {
+        resetBtn.addEventListener("click", () => {
+            if (!confirm("Reset all tyler.fun settings?")) return;
+            resetSettings();
             usernameInput.classList.remove("invalid");
             usernameError.style.display = "none";
-            updateSetting("username", usernameInput.value.trim().replace(/^@/, ''));
-        }
-    });
-
-    for (let key in badgeToggles) {
-        if (badgeToggles[key]) {
-            badgeToggles[key].addEventListener("change", () => updateSetting(key, badgeToggles[key].checked));
-        }
-    }
-
-    themeSelect.addEventListener("change", () => updateSetting("theme", themeSelect.value));
-
-    document.querySelectorAll(".accent").forEach(button => {
-        button.addEventListener("click", () => {
-            updateSetting("accent", button.dataset.accent);
             renderUI();
         });
-    });
 
-    animationsToggle.addEventListener("change", () => updateSetting("animations", animationsToggle.checked));
-
-    resetBtn.addEventListener("click", () => {
-        if (!confirm("Reset all tyler.fun settings?")) return;
-        resetSettings();
-        usernameInput.classList.remove("invalid");
-        usernameError.style.display = "none";
         renderUI();
     });
-
-    renderUI();
 </script>
 </body>
 </html>
