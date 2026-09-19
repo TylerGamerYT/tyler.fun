@@ -3,7 +3,8 @@ const TYLER_SETTINGS_KEY = "tyler.fun.settings";
 const DEFAULT_SETTINGS = {
     theme: "dark",
     accent: "blue",
-    animations: true
+    animations: true,
+    memberBadge: true
 };
 
 function getSettings() {
