@@ -23,10 +23,17 @@
             --warn-text: #fde047;
         }
 
+        /* Accent Theme Variations */
+        html[data-accent="red"] { --accent: #ef4444; }
+        html[data-accent="orange"] { --accent: #f97316; }
+        html[data-accent="yellow"] { --accent: #eab308; }
+        html[data-accent="green"] { --accent: #34d399; }
         html[data-accent="blue"] { --accent: #60a5fa; }
         html[data-accent="purple"] { --accent: #a78bfa; }
-        html[data-accent="green"] { --accent: #34d399; }
         html[data-accent="pink"] { --accent: #f472b6; }
+        html[data-accent="white"] { --accent: #ffffff; }
+        html[data-accent="gray"] { --accent: #94a3b8; }
+        html[data-accent="black"] { --accent: #0f172a; }
 
         body {
             background: var(--bg);
@@ -157,13 +164,22 @@
             padding: 8px 12px; font-family: inherit; outline: none;
         }
 
-        .accent-options { display: flex; gap: 7px; flex-wrap: wrap; justify-content: flex-end; }
-        .accent { width: 25px; height: 25px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }
+        .accent-options { display: flex; gap: 7px; flex-wrap: wrap; justify-content: flex-end; max-width: 260px; }
+        .accent { width: 25px; height: 25px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: transform 0.1s ease; }
+        .accent:hover { transform: scale(1.1); }
         .accent.active { border-color: #fff; box-shadow: 0 0 0 2px var(--accent); }
+
+        /* Accent Swatches */
+        .red { background: #ef4444; }
+        .orange { background: #f97316; }
+        .yellow { background: #eab308; }
+        .green { background: #34d399; }
         .blue { background: #60a5fa; }
         .purple { background: #a78bfa; }
-        .green { background: #34d399; }
         .pink { background: #f472b6; }
+        .white { background: #ffffff; }
+        .gray { background: #94a3b8; }
+        .black { background: #0f172a; border: 1px solid #334155; }
 
         .danger {
             width: 100%; margin-top: 15px; padding: 13px;
@@ -371,10 +387,16 @@
                     <div class="setting-description">Change the main highlight colour.</div>
                 </div>
                 <div class="accent-options">
-                    <button class="accent blue" data-accent="blue"></button>
-                    <button class="accent purple" data-accent="purple"></button>
-                    <button class="accent green" data-accent="green"></button>
-                    <button class="accent pink" data-accent="pink"></button>
+                    <button class="accent red" data-accent="red" title="Red"></button>
+                    <button class="accent orange" data-accent="orange" title="Orange"></button>
+                    <button class="accent yellow" data-accent="yellow" title="Yellow"></button>
+                    <button class="accent green" data-accent="green" title="Green"></button>
+                    <button class="accent blue" data-accent="blue" title="Blue"></button>
+                    <button class="accent purple" data-accent="purple" title="Purple"></button>
+                    <button class="accent pink" data-accent="pink" title="Pink"></button>
+                    <button class="accent white" data-accent="white" title="White"></button>
+                    <button class="accent gray" data-accent="gray" title="Gray"></button>
+                    <button class="accent black" data-accent="black" title="Black"></button>
                 </div>
             </div>
 
