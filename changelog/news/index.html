@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -27,6 +26,7 @@
       min-height: 100vh;
       margin: 0;
       overflow-x: hidden;
+      padding-bottom: 60px; /* Space for fixed bottom bar */
     }
 
     #particles {
@@ -150,6 +150,7 @@
     .release-card:nth-child(13) { animation-delay: 0.65s; }
     .release-card:nth-child(14) { animation-delay: 0.7s; }
     .release-card:nth-child(15) { animation-delay: 0.75s; }
+    .release-card:nth-child(16) { animation-delay: 0.8s; }
 
     .release-card:hover {
       transform: translateY(-3px);
@@ -285,6 +286,47 @@
       transform: translateX(3px);
     }
 
+    /* Fixed Bottom Bar */
+
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 48px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(51, 65, 85, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 100;
+      font-size: 0.8rem;
+    }
+
+    .bottom-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #94a3b8;
+    }
+
+    .bottom-bar-left strong {
+      color: #60a5fa;
+      font-weight: 600;
+    }
+
+    .bottom-bar-right a {
+      color: #64748b;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .bottom-bar-right a:hover {
+      color: #fff;
+    }
+
     @keyframes fadeUp {
       to {
         opacity: 1;
@@ -320,6 +362,11 @@
       .view {
         display: none;
       }
+
+      .bottom-bar {
+        padding: 0 16px;
+        font-size: 0.75rem;
+      }
     }
   </style>
 
@@ -327,514 +374,560 @@
 
 <body>
 
-<canvas id="particles"></canvas>
-
+  <canvas id="particles"></canvas>
   <div class="bg-glow"></div>
 
-<a href="/changelog/" class="back-home">← Back to Changelog</a>
+  <a href="/changelog/" class="back-home">← Back to Changelog</a>
 
   <main class="container">
 
-<header class="page-header">
-  <div class="eyebrow">tyler.fun history</div>
-  <h1>News & Releases</h1>
-  <p>Every version. Every update. All in one place.</p>
-</header>
-
-<section class="archive">
-
-  <!-- v1.4 -->
-  <a
-    href="/changelog/news/v1.4/"  
-    class="release-card latest news"
-  >
-    <div class="card-top">
-      <div class="version-wrap">
-        <div class="version">v1.4</div>
-        <div class="latest-badge">Latest</div>
-        <div class="news-badge">News</div>
-      </div>
-
-      <div class="date">September 2026</div>
-    </div>
-
-    <div class="title">
-      Custom Theme Colors, Settings Panel & Personalization
-    </div>
-
-    <div class="description">
-      A major feature update introducing full color customization and dedicated user settings! 
-      Select custom accent colors across the site, adjust visual preferences, and save your preferences persistent to your device.
-    </div>
-
-    <div class="card-bottom">
-      <div class="stats">
-        <div class="stat"><strong>4</strong> New</div>
-        <div class="stat"><strong>2</strong> Changes</div>
-        <div class="stat"><strong>1</strong> Fix</div>
-        <div class="stat"><strong>7</strong> Changes</div>
-      </div>
-
-      <div class="view">View release →</div>
-    </div>
-  </a>
-
-  <!-- v1.3.1 -->
-  <a
-    href="/changelog/news/v1.3.1/"
-    class="release-card"
-  >
-    <div class="card-top">
-      <div class="version-wrap">
-        <div class="version">v1.3.1</div>
-      </div>
-
-      <div class="date">September 2026</div>
-    </div>
-
-    <div class="title">
-      News archive & individual release pages
-    </div>
-
-    <div class="description">
-      The changelog is getting a new structure with a dedicated news
-      archive and individual pages for each release, making updates easier
-      to browse and giving every version its own permanent page.
-    </div>
-
-    <div class="card-bottom">
-      <div class="stats">
-        <div class="stat"><strong>3</strong> New</div>
-        <div class="stat"><strong>1</strong> Change</div>
-        <div class="stat"><strong>4</strong> Changes</div>
-      </div>
-
-      <div class="view">View release →</div>
-    </div>
-  </a>
-
-  <!-- v1.3 -->
-  <a
-    href="/changelog/news/v1.3/"
-    class="release-card"
-  >
-    <div class="card-top">
-      <div class="version-wrap">
-        <div class="version">v1.3</div>
-      </div>
-
-      <div class="date">August 2026</div>
-    </div>
-
-    <div class="title">
-      Profile badges, email verification & account identity
-    </div>
-
-    <div class="description">
-      A major profile identity update with verified, member and email
-      verification badges, clearer account roles and improved badge
-      interactions.
-    </div>
-
-    <div class="card-bottom">
-      <div class="stats">
-        <div class="stat"><strong>6</strong> New</div>
-        <div class="stat"><strong>1</strong> Change</div>
-        <div class="stat"><strong>1</strong> Fix</div>
-        <div class="stat"><strong>8</strong> Changes</div>
-      </div>
-
-      <div class="view">View release →</div>
-    </div>
-  </a>
-
-  <!-- v1.2 -->
-  <a
-    href="/changelog/news/v1.2/"
-    class="release-card"
-  >
-    <div class="card-top">
-      <div class="version-wrap">
-        <div class="version">v1.2</div>
-      </div>
-
-      <div class="date">July 2026</div>
-    </div>
-
-    <div class="title">
-      Badges, Clickable Tooltips & Timeline Expansion
-    </div>
-
-    <div class="description">
-      Interactive profile badges, badge information popups, older update
-      history and improvements to the site's glassmorphism design.
-    </div>
-
-    <div class="card-bottom">
-      <div class="stats">
-        <div class="stat"><strong>3</strong> New</div>
-        <div class="stat"><strong>1</strong> Change</div>
-        <div class="stat"><strong>1</strong> Fix</div>
-        <div class="stat"><strong>5</strong> Changes</div>
-      </div>
-
-      <div class="view">View release →</div>
-    </div>
-  </a>
-
-  <!-- v1.1 -->
-  <a
-    href="/changelog/news/v1.1/"
-    class="release-card"
-  >
-    <div class="card-top">
-      <div class="version-wrap">
-        <div class="version">v1.1</div>
-      </div>
-
-      <div class="date">July 2026</div>
-    </div>
-
-    <div class="title">
-      Cleaner URLs for games, changelog, and site pages
-    </div>
-
-    <div class="description">
-      Game pages, user profiles and the changelog were reorganised into
-      cleaner folder-based URLs.
-    </div>
-
-    <div class="card-bottom">
-      <div class="stats">
-        <div class="stat"><strong>1</strong> New</div>
-        <div class="stat"><strong>3</strong> Changes</div>
-        <div class="stat"><strong>4</strong> Changes</div>
-      </div>
-
-      <div class="view">View release →</div>
-    </div>
-  </a>
-
-  <!-- v1.0 -->
-  <a
-    href="/changelog/news/v1.0/"
-    class="release-card"
-  >
-    <div class="card-top">
-      <div class="version-wrap">
-        <div class="version">v1.0</div>
-      </div>
-
-      <div class="date">April 2026</div>
-    </div>
-
-    <div class="title">
-      22 public games + 10 new preview games + login/signup
-    </div>
-
-    <div class="description">
-      The first major public release. More games went live and the
-      foundation for accounts and authentication was added.
-    </div>
-
-    <div class="card-bottom">
-      <div class="stats">
-        <div class="stat"><strong>4</strong> New</div>
-        <div class="stat"><strong>4</strong> Changes</div>
-      </div>
-
-      <div class="view">View release →</div>
-    </div>
-  </a>
-
-  <!-- v0.9 -->
-  <a
-    href="/changelog/news/v0.9/"
-    class="release-card"
-  >
-    <div class="card-top">
-      <div class="version-wrap">
-        <div class="version">v0.9</div>
-      </div>
-
-      <div class="date">April 2026</div>
-    </div>
-
-    <div class="title">
-      Moved to Vercel + profiles restructured into /users/
-    </div>
-
-    <div class="description">
-      tyler.fun moved from GitHub Pages to Vercel and the profile system
-      was reorganised into the new users structure.
-    </div>
-
-    <div class="card-bottom">
-      <div class="stats">
-        <div class="stat"><strong>1</strong> New</div>
-        <div class="stat"><strong>3</strong> Changes</div>
-        <div class="stat"><strong>4</strong> Changes</div>
-      </div>
-
-      <div class="view">View release →</div>
-    </div>
-  </a>
-
-  <!-- v0.8 -->
-  <a
-    href="/changelog/news/v0.8/"
-    class="release-card"
-  >
-    <div class="card-top">
-      <div class="version-wrap">
-        <div class="version">v0.8</div>
-      </div>
-
-      <div class="date">April 2026</div>
-    </div>
-
-    <div class="title">
-      Profiles, system accounts, search bar and guest mode
-    </div>
-
-    <div class="description">
-      User profiles, system accounts, Guest mode and real-time game
-      searching were introduced.
-    </div>
-
-    <div class="card-bottom">
-      <div class="stats">
-        <div class="stat"><strong>6</strong> New</div>
-      </div>
-
-      <div class="view">View release →</div>
-    </div>
-  </a>
-
-  <!-- v0.7 -->
-  <a
-    href="/changelog/news/v0.7/"
-    class="release-card"
-  >
-    <div class="card-top">
-      <div class="version-wrap">
-        <div class="version">v0.7</div>
-      </div>
-
-      <div class="date">April 2026</div>
-    </div>
-
-    <div class="title">
-      7 more preview games added
-    </div>
-
-    <div class="description">
-      Seven new experimental games joined the growing preview library.
-    </div>
-
-    <div class="card-bottom">
-      <div class="stats">
-        <div class="stat"><strong>7</strong> New</div>
-      </div>
-
-      <div class="view">View release →</div>
-    </div>
-  </a>
-
-  <!-- v0.6 -->
-  <a
-    href="/changelog/news/v0.6/"
-    class="release-card"
-  >
-    <div class="card-top">
-      <div class="version-wrap">
-        <div class="version">v0.6</div>
-      </div>
-
-      <div class="date">April 2026</div>
-    </div>
-
-    <div class="title">
-      6 more games go public + 404 page
-    </div>
-
-    <div class="description">
-      Another six games became public and the site got its custom 404
-      experience.
-    </div>
-
-    <div class="card-bottom">
-      <div class="stats">
-        <div class="stat"><strong>1</strong> New</div>
-        <div class="stat"><strong>1</strong> Change</div>
-      </div>
-
-      <div class="view">View release →</div>
-    </div>
-  </a>
-
-  <!-- v0.5 -->
-  <a
-    href="/changelog/news/v0.5/"
-    class="release-card"
-  >
-    <div class="card-top">
-      <div class="version-wrap">
-        <div class="version">v0.5</div>
-      </div>
-
-      <div class="date">April 2026</div>
-    </div>
-
-    <div class="title">
-      Changelog added - the site now tells you what changed
-    </div>
-
-    <div class="description">
-      The changelog system itself was introduced and linked from the
-      homepage.
-    </div>
-
-    <div class="card-bottom">
-      <div class="stats">
-        <div class="stat"><strong>2</strong> New</div>
-      </div>
-
-      <div class="view">View release →</div>
-    </div>
-  </a>
-
-  <!-- v0.4 -->
-  <a
-    href="/changelog/news/v0.4/"
-    class="release-card"
-  >
-    <div class="card-top">
-      <div class="version-wrap">
-        <div class="version">v0.4</div>
-      </div>
-
-      <div class="date">April 2026</div>
-    </div>
-
-    <div class="title">
-      The big games drop - 25 games and counting
-    </div>
-
-    <div class="description">
-      The game library exploded with new preview titles, the first public
-      games and shared leaderboard functionality.
-    </div>
-
-    <div class="card-bottom">
-      <div class="stats">
-        <div class="stat"><strong>4</strong> New</div>
-        <div class="stat"><strong>1</strong> Change</div>
-        <div class="stat"><strong>5</strong> Changes</div>
-      </div>
-
-      <div class="view">View release →</div>
-    </div>
-  </a>
-
-  <!-- v0.3 -->
-  <a
-    href="/changelog/news/v0.3/"
-    class="release-card"
-  >
-    <div class="card-top">
-      <div class="version-wrap">
-        <div class="version">v0.3</div>
-      </div>
-
-      <div class="date">April 2026</div>
-    </div>
-
-    <div class="title">
-      First batch of games - the site actually does something now
-    </div>
-
-    <div class="description">
-      The first playable games arrived, including Roast Clicker,
-      Impossible Button, Hold the Key and Word Scramble.
-    </div>
-
-    <div class="card-bottom">
-      <div class="stats">
-        <div class="stat"><strong>7</strong> New</div>
-      </div>
-
-      <div class="view">View release →</div>
-    </div>
-  </a>
-
-  <!-- v0.2 -->
-  <a
-    href="/changelog/news/v0.2/"
-    class="release-card"
-  >
-    <div class="card-top">
-      <div class="version-wrap">
-        <div class="version">v0.2</div>
-      </div>
-
-      <div class="date">April 2026</div>
-    </div>
-
-    <div class="title">
-      Site redesign - actually looks good now
-    </div>
-
-    <div class="description">
-      The dark blue visual identity, animated particles, new typography,
-      socials page and logo animation arrived.
-    </div>
-
-    <div class="card-bottom">
-      <div class="stats">
-        <div class="stat"><strong>3</strong> New</div>
-        <div class="stat"><strong>2</strong> Changes</div>
-        <div class="stat"><strong>1</strong> Fix</div>
-      </div>
-
-      <div class="view">View release →</div>
-    </div>
-  </a>
-
-  <!-- v0.1 -->
-  <a
-    href="/changelog/news/v0.1/"
-    class="release-card"
-  >
-    <div class="card-top">
-      <div class="version-wrap">
-        <div class="version">v0.1</div>
-      </div>
-
-      <div class="date">April 2026</div>
-    </div>
-
-    <div class="title">
-      The beginning - it exists
-    </div>
-
-    <div class="description">
-      The original tyler.fun launch on GitHub Pages. A coming-soon page,
-      socials button and the first repository.
-    </div>
-
-    <div class="card-bottom">
-      <div class="stats">
-        <div class="stat"><strong>3</strong> New</div>
-      </div>
-
-      <div class="view">View release →</div>
-    </div>
-  </a>
-
-</section>
+    <header class="page-header">
+      <div class="eyebrow">tyler.fun history</div>
+      <h1>News & Releases</h1>
+      <p>Every version. Every update. All in one place.</p>
+    </header>
+
+    <section class="archive">
+
+      <!-- v1.4.1 -->
+      <a
+        href="/changelog/news/v1.4.1/"  
+        class="release-card latest news"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v1.4.1</div>
+            <div class="latest-badge">Latest</div>
+            <div class="news-badge">News</div>
+          </div>
+
+          <div class="date">September 2026</div>
+        </div>
+
+        <div class="title">
+          Codebase Refactoring & Universal Bottom Navigation
+        </div>
+
+        <div class="description">
+          A maintenance update focusing on project structure and navigation.
+          Extracted CSS styles and JavaScript logic into dedicated external files for each game,
+          and added a persistent bottom status bar across the platform.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>2</strong> Features</div>
+            <div class="stat"><strong>3</strong> Refactors</div>
+            <div class="stat"><strong>5</strong> Total changes</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+      <!-- v1.4 -->
+      <a
+        href="/changelog/news/v1.4/"  
+        class="release-card"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v1.4</div>
+          </div>
+
+          <div class="date">September 2026</div>
+        </div>
+
+        <div class="title">
+          Custom Theme Colors, Settings Panel & Personalization
+        </div>
+
+        <div class="description">
+          A major feature update introducing full color customization and dedicated user settings! 
+          Select custom accent colors across the site, adjust visual preferences, and save your preferences persistent to your device.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>4</strong> New</div>
+            <div class="stat"><strong>2</strong> Changes</div>
+            <div class="stat"><strong>1</strong> Fix</div>
+            <div class="stat"><strong>7</strong> Changes</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+      <!-- v1.3.1 -->
+      <a
+        href="/changelog/news/v1.3.1/"
+        class="release-card"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v1.3.1</div>
+          </div>
+
+          <div class="date">September 2026</div>
+        </div>
+
+        <div class="title">
+          News archive & individual release pages
+        </div>
+
+        <div class="description">
+          The changelog is getting a new structure with a dedicated news
+          archive and individual pages for each release, making updates easier
+          to browse and giving every version its own permanent page.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>3</strong> New</div>
+            <div class="stat"><strong>1</strong> Change</div>
+            <div class="stat"><strong>4</strong> Changes</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+      <!-- v1.3 -->
+      <a
+        href="/changelog/news/v1.3/"
+        class="release-card"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v1.3</div>
+          </div>
+
+          <div class="date">August 2026</div>
+        </div>
+
+        <div class="title">
+          Profile badges, email verification & account identity
+        </div>
+
+        <div class="description">
+          A major profile identity update with verified, member and email
+          verification badges, clearer account roles and improved badge
+          interactions.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>6</strong> New</div>
+            <div class="stat"><strong>1</strong> Change</div>
+            <div class="stat"><strong>1</strong> Fix</div>
+            <div class="stat"><strong>8</strong> Changes</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+      <!-- v1.2 -->
+      <a
+        href="/changelog/news/v1.2/"
+        class="release-card"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v1.2</div>
+          </div>
+
+          <div class="date">July 2026</div>
+        </div>
+
+        <div class="title">
+          Badges, Clickable Tooltips & Timeline Expansion
+        </div>
+
+        <div class="description">
+          Interactive profile badges, badge information popups, older update
+          history and improvements to the site's glassmorphism design.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>3</strong> New</div>
+            <div class="stat"><strong>1</strong> Change</div>
+            <div class="stat"><strong>1</strong> Fix</div>
+            <div class="stat"><strong>5</strong> Changes</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+      <!-- v1.1 -->
+      <a
+        href="/changelog/news/v1.1/"
+        class="release-card"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v1.1</div>
+          </div>
+
+          <div class="date">July 2026</div>
+        </div>
+
+        <div class="title">
+          Cleaner URLs for games, changelog, and site pages
+        </div>
+
+        <div class="description">
+          Game pages, user profiles and the changelog were reorganised into
+          cleaner folder-based URLs.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>1</strong> New</div>
+            <div class="stat"><strong>3</strong> Changes</div>
+            <div class="stat"><strong>4</strong> Changes</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+      <!-- v1.0 -->
+      <a
+        href="/changelog/news/v1.0/"
+        class="release-card"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v1.0</div>
+          </div>
+
+          <div class="date">April 2026</div>
+        </div>
+
+        <div class="title">
+          22 public games + 10 new preview games + login/signup
+        </div>
+
+        <div class="description">
+          The first major public release. More games went live and the
+          foundation for accounts and authentication was added.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>4</strong> New</div>
+            <div class="stat"><strong>4</strong> Changes</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+      <!-- v0.9 -->
+      <a
+        href="/changelog/news/v0.9/"
+        class="release-card"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v0.9</div>
+          </div>
+
+          <div class="date">April 2026</div>
+        </div>
+
+        <div class="title">
+          Moved to Vercel + profiles restructured into /users/
+        </div>
+
+        <div class="description">
+          tyler.fun moved from GitHub Pages to Vercel and the profile system
+          was reorganised into the new users structure.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>1</strong> New</div>
+            <div class="stat"><strong>3</strong> Changes</div>
+            <div class="stat"><strong>4</strong> Changes</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+      <!-- v0.8 -->
+      <a
+        href="/changelog/news/v0.8/"
+        class="release-card"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v0.8</div>
+          </div>
+
+          <div class="date">April 2026</div>
+        </div>
+
+        <div class="title">
+          Profiles, system accounts, search bar and guest mode
+        </div>
+
+        <div class="description">
+          User profiles, system accounts, Guest mode and real-time game
+          searching were introduced.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>6</strong> New</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+      <!-- v0.7 -->
+      <a
+        href="/changelog/news/v0.7/"
+        class="release-card"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v0.7</div>
+          </div>
+
+          <div class="date">April 2026</div>
+        </div>
+
+        <div class="title">
+          7 more preview games added
+        </div>
+
+        <div class="description">
+          Seven new experimental games joined the growing preview library.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>7</strong> New</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+      <!-- v0.6 -->
+      <a
+        href="/changelog/news/v0.6/"
+        class="release-card"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v0.6</div>
+          </div>
+
+          <div class="date">April 2026</div>
+        </div>
+
+        <div class="title">
+          6 more games go public + 404 page
+        </div>
+
+        <div class="description">
+          Another six games became public and the site got its custom 404
+          experience.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>1</strong> New</div>
+            <div class="stat"><strong>1</strong> Change</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+      <!-- v0.5 -->
+      <a
+        href="/changelog/news/v0.5/"
+        class="release-card"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v0.5</div>
+          </div>
+
+          <div class="date">April 2026</div>
+        </div>
+
+        <div class="title">
+          Changelog added - the site now tells you what changed
+        </div>
+
+        <div class="description">
+          The changelog system itself was introduced and linked from the
+          homepage.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>2</strong> New</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+      <!-- v0.4 -->
+      <a
+        href="/changelog/news/v0.4/"
+        class="release-card"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v0.4</div>
+          </div>
+
+          <div class="date">April 2026</div>
+        </div>
+
+        <div class="title">
+          The big games drop - 25 games and counting
+        </div>
+
+        <div class="description">
+          The game library exploded with new preview titles, the first public
+          games and shared leaderboard functionality.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>4</strong> New</div>
+            <div class="stat"><strong>1</strong> Change</div>
+            <div class="stat"><strong>5</strong> Changes</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+      <!-- v0.3 -->
+      <a
+        href="/changelog/news/v0.3/"
+        class="release-card"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v0.3</div>
+          </div>
+
+          <div class="date">April 2026</div>
+        </div>
+
+        <div class="title">
+          First batch of games - the site actually does something now
+        </div>
+
+        <div class="description">
+          The first playable games arrived, including Roast Clicker,
+          Impossible Button, Hold the Key and Word Scramble.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>7</strong> New</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+      <!-- v0.2 -->
+      <a
+        href="/changelog/news/v0.2/"
+        class="release-card"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v0.2</div>
+          </div>
+
+          <div class="date">April 2026</div>
+        </div>
+
+        <div class="title">
+          Site redesign - actually looks good now
+        </div>
+
+        <div class="description">
+          The dark blue visual identity, animated particles, new typography,
+          socials page and logo animation arrived.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>3</strong> New</div>
+            <div class="stat"><strong>2</strong> Changes</div>
+            <div class="stat"><strong>1</strong> Fix</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+      <!-- v0.1 -->
+      <a
+        href="/changelog/news/v0.1/"
+        class="release-card"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v0.1</div>
+          </div>
+
+          <div class="date">April 2026</div>
+        </div>
+
+        <div class="title">
+          The beginning - it exists
+        </div>
+
+        <div class="description">
+          The original tyler.fun launch on GitHub Pages. A coming-soon page,
+          socials button and the first repository.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>3</strong> New</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
+    </section>
 
   </main>
+
+  <!-- Bottom Bar -->
+
+  <footer class="bottom-bar">
+    <div class="bottom-bar-left">
+      <span>tyler.fun</span>
+      <span>•</span>
+      <strong>v1.4.1</strong>
+    </div>
+    <div class="bottom-bar-right">
+      <a href="/changelog">Changelog</a>
+    </div>
+  </footer>
 
   <script>
     const canvas = document.getElementById("particles");
