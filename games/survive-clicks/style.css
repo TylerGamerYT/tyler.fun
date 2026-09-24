@@ -1,0 +1,51 @@
+*, *::before, *::after { box-sizing: border-box; }
+body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; overflow: hidden; user-select: none; transition: background 0.4s; }
+#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%); z-index: 0; pointer-events: none; }
+.back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
+.back-home:hover { color: #fff; }
+.container { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 40px 24px; max-width: 560px; width: 100%; }
+h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem,8vw,3rem); font-weight: 900; margin: 0 0 4px; letter-spacing: -2px; }
+.subtitle { font-size: 0.9rem; color: #64748b; margin-bottom: 28px; }
+
+.click-count { font-family: 'Syne', sans-serif; font-size: clamp(4rem,16vw,7rem); font-weight: 900; line-height: 1; margin-bottom: 6px; color: #f8fafc; }
+.click-label { font-size: 0.8rem; color: #475569; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 32px; }
+
+/* THE BUTTON — gets harder */
+#theBtn {
+    padding: 20px 48px;
+    background: rgba(37,99,235,0.25);
+    border: 2px solid rgba(96,165,250,0.45);
+    border-radius: 999px; color: #fff;
+    font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.2s, border-color 0.2s, box-shadow 0.2s, filter 0.3s;
+    margin-bottom: 32px;
+    position: relative;
+}
+#theBtn:hover { background: rgba(37,99,235,0.45); border-color: #60a5fa; }
+
+.challenge-box {
+    background: rgba(15,23,42,0.7); border: 1px solid rgba(51,65,85,0.6);
+    border-radius: 16px; padding: 18px 24px; width: 100%;
+    backdrop-filter: blur(14px); margin-bottom: 16px;
+    min-height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.challenge-label { font-size: 0.65rem; color: #475569; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; font-weight: 700; }
+.challenge-text { font-size: 0.95rem; color: #cbd5e1; }
+.challenge-text.urgent { color: #fbbf24; font-weight: 600; }
+
+.status { font-size: 0.9rem; color: #64748b; min-height: 20px; }
+
+/* hold progress bar for hold challenges */
+.hold-bar-wrap { width: 100%; height: 8px; background: rgba(30,58,138,0.25); border-radius: 999px; overflow: hidden; margin-top: 10px; display: none; }
+.hold-bar { height: 100%; border-radius: 999px; background: #60a5fa; width: 0%; transition: width 0.05s linear; }
+
+.gameover { position: fixed; inset: 0; background: rgba(2,6,23,0.92); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.4s; backdrop-filter: blur(8px); }
+.gameover.show { opacity: 1; pointer-events: all; }
+.go-emoji { font-size: 4rem; margin-bottom: 12px; }
+.go-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem,7vw,2.8rem); font-weight: 900; margin: 0 0 8px; }
+.go-sub { color: #64748b; font-size: 1rem; margin-bottom: 28px; }
+.go-sub span { color: #60a5fa; font-weight: 700; }
+.go-btn { padding: 13px 36px; background: rgba(37,99,235,0.3); border: 1.5px solid rgba(96,165,250,0.45); border-radius: 999px; color: #fff; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; }
+.go-btn:hover { background: rgba(37,99,235,0.5); }
