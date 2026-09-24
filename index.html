@@ -41,8 +41,8 @@
       color: #ffffff;
       font-family: "Inter", sans-serif;
       display: flex;
-      justify-content: center;
-      align-items: flex-start;
+      flex-direction: column;
+      align-items: center;
       min-height: 100vh;
       margin: 0;
       text-align: center;
@@ -78,6 +78,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      flex: 1 0 auto;
     }
 
     .badge {
@@ -580,12 +581,119 @@
       display: none;
     }
 
+    /* FOOTER STYLING */
+    .site-footer {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      background: rgba(15, 23, 42, 0.8);
+      border-top: 1px solid rgba(51, 65, 85, 0.6);
+      backdrop-filter: blur(12px);
+      padding: 48px 24px 24px;
+      margin-top: 60px;
+      text-align: left;
+      flex-shrink: 0;
+    }
+
+    .footer-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand {
+      font-family: "Syne", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #fff;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    .footer-brand span {
+      color: var(--accent);
+    }
+
+    .footer-description {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      margin: 0;
+      max-width: 280px;
+    }
+
+    .footer-heading {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #f8fafc;
+      margin: 0 0 16px 0;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .footer-bottom {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding-top: 24px;
+      border-top: 1px solid rgba(51, 65, 85, 0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+
+    .footer-meta {
+      display: flex;
+      gap: 18px;
+    }
+
+    .footer-meta a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-meta a:hover {
+      color: var(--text-muted);
+    }
+
     html[data-animations="off"] *,
     html[data-animations="off"] *::before,
     html[data-animations="off"] *::after {
       animation-duration: 0s !important;
       animation-delay: 0s !important;
       transition-duration: 0s !important;
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr 1fr;
+      }
+      .footer-brand-column {
+        grid-column: span 2;
+      }
     }
 
     @media (max-width: 700px) {
@@ -596,6 +704,20 @@
       .profile-name { display: none; }
       .changelog-link { right: 80px; }
       .settings-link { right: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+      .footer-brand-column {
+        grid-column: span 1;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+      }
     }
   </style>
 </head>
@@ -654,7 +776,7 @@
       No games or users found for that search.
     </div>
 
-   <!-- USERS SECTION (SEARCH ONLY) -->
+    <!-- USERS SECTION (SEARCH ONLY) -->
     <div class="games-section" id="usersSection" style="display: none;">
       <div class="games-label">👤 Users</div>
       <div class="games-grid" id="usersGrid">
@@ -1049,6 +1171,53 @@
       </a>
     </div>
   </div>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-brand-column">
+        <a class="footer-brand" href="/" aria-label="tyler.fun home">tyler<span>.fun</span></a>
+        <p class="footer-description">Small games, strange experiments, and other things worth clicking on.</p>
+      </div>
+
+      <nav aria-label="Explore">
+        <h2 class="footer-heading">Explore</h2>
+        <div class="footer-links">
+          <a href="/">Home</a>
+          <a href="/#publicGames">Games</a>
+          <a href="/events/">Events</a>
+          <a href="/changelog/">Changelog</a>
+        </div>
+      </nav>
+
+      <nav aria-label="Account">
+        <h2 class="footer-heading">Account</h2>
+        <div class="footer-links">
+          <a href="/login/">Log in</a>
+          <a href="/signup/">Sign up</a>
+          <a href="/settings/">Settings</a>
+          <a href="/users/Guest/">Your profile</a>
+        </div>
+      </nav>
+
+      <nav aria-label="More links">
+        <h2 class="footer-heading">More</h2>
+        <div class="footer-links">
+          <a href="/socials/">Socials</a>
+          <a href="https://github.com/TylerGamerYT" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="/privacy-policy/">Privacy policy</a>
+          <a href="/terms-of-service/">Terms of service</a>
+        </div>
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 tyler.fun. Made by Tyler.</span>
+      <div class="footer-meta">
+        <a href="/privacy-policy/">Privacy</a>
+        <a href="/terms-of-service/">Terms</a>
+      </div>
+    </div>
+  </footer>
 
   <script>
     if (window.location.search.includes("preview")) {
