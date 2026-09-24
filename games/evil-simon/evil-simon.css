@@ -1,0 +1,238 @@
+*, *::before, *::after { 
+    box-sizing: border-box; 
+}
+
+body { 
+    background: #020617; 
+    color: #fff; 
+    font-family: 'Inter', sans-serif; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    min-height: 100vh; 
+    margin: 0; 
+    text-align: center; 
+    overflow: hidden; 
+    user-select: none; 
+}
+
+#particles { 
+    position: fixed; 
+    inset: 0; 
+    z-index: 0; 
+    pointer-events: none; 
+}
+
+.bg-glow { 
+    position: fixed; 
+    inset: 0; 
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%); 
+    z-index: 0; 
+    pointer-events: none; 
+}
+
+.back-home { 
+    position: fixed; 
+    top: 20px; 
+    left: 24px; 
+    font-size: 0.85rem; 
+    color: #475569; 
+    text-decoration: none; 
+    transition: color 0.2s; 
+    z-index: 10; 
+}
+
+.back-home:hover { 
+    color: #fff; 
+}
+
+.container { 
+    position: relative; 
+    z-index: 1; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    padding: 40px 24px; 
+    max-width: 500px; 
+    width: 100%; 
+}
+
+h1 { 
+    font-family: 'Syne', sans-serif; 
+    font-size: clamp(2rem, 8vw, 3rem); 
+    font-weight: 900; 
+    margin: 0 0 4px; 
+    letter-spacing: -2px; 
+}
+
+.subtitle { 
+    font-size: 0.9rem; 
+    color: #64748b; 
+    margin-bottom: 28px; 
+}
+
+.stats-row { 
+    display: flex; 
+    gap: 24px; 
+    margin-bottom: 24px; 
+}
+
+.stat { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 3px; 
+}
+
+.stat-val { 
+    font-family: 'Syne', sans-serif; 
+    font-size: 1.8rem; 
+    font-weight: 900; 
+    color: #f8fafc; 
+}
+
+.stat-label { 
+    font-size: 0.7rem; 
+    color: #475569; 
+    text-transform: uppercase; 
+    letter-spacing: 1.5px; 
+}
+
+/* Simon Grid */
+.simon-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 12px; 
+    width: 280px; 
+    height: 280px; 
+    margin-bottom: 24px; 
+}
+
+.simon-btn {
+    border-radius: 16px; 
+    border: none; 
+    cursor: pointer;
+    opacity: 0.35; 
+    transition: opacity 0.15s, transform 0.1s;
+    position: relative; 
+    overflow: hidden;
+}
+
+.simon-btn.lit { 
+    opacity: 1; 
+    transform: scale(1.04); 
+}
+
+.simon-btn.clicked { 
+    opacity: 0.85; 
+    transform: scale(0.96); 
+}
+
+.simon-btn[data-color="red"]    { background: #ef4444; }
+.simon-btn[data-color="blue"]   { background: #3b82f6; }
+.simon-btn[data-color="green"]  { background: #10b981; }
+.simon-btn[data-color="yellow"] { background: #fbbf24; }
+
+.simon-btn:disabled { 
+    cursor: not-allowed; 
+}
+
+/* Evil Trick Banner */
+.trick-label {
+    position: fixed; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    font-family: 'Syne', sans-serif; 
+    font-size: clamp(1.2rem, 5vw, 2rem); 
+    font-weight: 900;
+    color: #f87171; 
+    background: rgba(2, 6, 23, 0.9); 
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    border-radius: 16px; 
+    padding: 16px 28px; 
+    z-index: 30;
+    opacity: 0; 
+    pointer-events: none; 
+    transition: opacity 0.3s;
+    text-align: center; 
+    max-width: 320px;
+}
+
+.trick-label.show { 
+    opacity: 1; 
+}
+
+/* Status Messages */
+.status { 
+    font-size: 1rem; 
+    color: #64748b; 
+    min-height: 24px; 
+    margin-bottom: 20px; 
+    transition: color 0.3s; 
+}
+
+.status.good { color: #10b981; }
+.status.bad  { color: #f87171; }
+.status.evil { color: #fbbf24; }
+
+/* Gameover Overlay */
+.gameover { 
+    position: fixed; 
+    inset: 0; 
+    background: rgba(2, 6, 23, 0.92); 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    z-index: 50; 
+    opacity: 0; 
+    pointer-events: none; 
+    transition: opacity 0.4s; 
+    backdrop-filter: blur(8px); 
+}
+
+.gameover.show { 
+    opacity: 1; 
+    pointer-events: all; 
+}
+
+.go-emoji { 
+    font-size: 4rem; 
+    margin-bottom: 12px; 
+}
+
+.go-title { 
+    font-family: 'Syne', sans-serif; 
+    font-size: clamp(1.8rem, 7vw, 2.8rem); 
+    font-weight: 900; 
+    margin: 0 0 8px; 
+}
+
+.go-sub { 
+    color: #64748b; 
+    font-size: 1rem; 
+    margin-bottom: 28px; 
+}
+
+.go-sub span { 
+    color: #60a5fa; 
+    font-weight: 700; 
+}
+
+.go-btn { 
+    padding: 13px 36px; 
+    background: rgba(37, 99, 235, 0.3); 
+    border: 1.5px solid rgba(96, 165, 250, 0.45); 
+    border-radius: 999px; 
+    color: #fff; 
+    font-family: 'Syne', sans-serif; 
+    font-size: 1rem; 
+    font-weight: 700; 
+    cursor: pointer; 
+}
+
+.go-btn:hover { 
+    background: rgba(37, 99, 235, 0.5); 
+}
