@@ -1,0 +1,203 @@
+*, *::before, *::after { 
+    box-sizing: border-box; 
+}
+
+body {
+    background: #020617;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    text-align: center;
+}
+
+#particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bg-glow {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 24px;
+    max-width: 600px;
+    width: 100%;
+}
+
+.back-home {
+    position: fixed;
+    top: 20px;
+    left: 24px;
+    font-size: 0.85rem;
+    color: #475569;
+    text-decoration: none;
+    transition: color 0.2s;
+    z-index: 10;
+}
+
+.back-home:hover { 
+    color: #fff; 
+}
+
+h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 8vw, 3rem);
+    font-weight: 900;
+    margin: 0 0 6px;
+    letter-spacing: -2px;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin-bottom: 36px;
+}
+
+/* Click Counter */
+.counter {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(4rem, 16vw, 7rem);
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 8px;
+    transition: transform 0.07s ease;
+    color: #f8fafc;
+}
+
+.counter.bump { 
+    transform: scale(1.12); 
+}
+
+.clicks-label {
+    font-size: 0.8rem;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 36px;
+}
+
+/* Roast Box */
+.roast-box {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(51, 65, 85, 0.7);
+    border-radius: 16px;
+    padding: 20px 28px;
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 36px;
+    width: 100%;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.roast-text {
+    font-size: 1.05rem;
+    color: #cbd5e1;
+    line-height: 1.55;
+    transition: opacity 0.2s ease;
+}
+
+.roast-text.hidden { 
+    opacity: 0; 
+}
+
+/* Big Click Button */
+.click-btn {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: rgba(37, 99, 235, 0.25);
+    border: 2px solid rgba(96, 165, 250, 0.4);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.1s ease, background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.click-btn:hover {
+    background: rgba(37, 99, 235, 0.45);
+    border-color: #60a5fa;
+    box-shadow: 0 0 30px rgba(96, 165, 250, 0.2);
+}
+
+.click-btn:active { 
+    transform: scale(0.93); 
+}
+
+/* Floating +1 */
+.float-text {
+    position: fixed;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #60a5fa;
+    pointer-events: none;
+    animation: floatUp 0.8s ease forwards;
+    z-index: 999;
+}
+
+@keyframes floatUp {
+    0%   { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-60px) scale(0.7); }
+}
+
+/* Milestone Flash */
+.milestone {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.milestone.show { 
+    animation: flashIn 1.4s ease forwards; 
+}
+
+.milestone-text {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    font-weight: 900;
+    color: #fbbf24;
+    text-align: center;
+    padding: 20px 32px;
+    background: rgba(2, 6, 23, 0.85);
+    border: 1px solid rgba(251, 191, 36, 0.4);
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+}
+
+@keyframes flashIn {
+    0%   { opacity: 0; transform: scale(0.8); }
+    15%  { opacity: 1; transform: scale(1.05); }
+    30%  { transform: scale(1); }
+    70%  { opacity: 1; }
+    100% { opacity: 0; transform: scale(0.95); }
+}
