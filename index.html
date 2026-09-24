@@ -1,160 +1,1352 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>App Hub</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet" />
-  
-  <!-- Main CSS Link -->
-  <link rel="stylesheet" href="assets/css/main.css" />
+  <title>tyler.fun | Coming Soon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="/assets/js/settings.js"></script>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue-deep: #020617;
+      --blue-mid: #1e3a8a;
+      --blue-accent: #60a5fa;
+      --green: #10b981;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --accent: var(--blue-accent);
+    }
+
+    html[data-accent="blue"] { --accent: #60a5fa; }
+    html[data-accent="purple"] { --accent: #a78bfa; }
+    html[data-accent="green"] { --accent: #34d399; }
+    html[data-accent="pink"] { --accent: #f472b6; }
+    html[data-accent="red"] { --accent: #f87171; }
+    html[data-accent="orange"] { --accent: #fb923c; }
+    html[data-accent="yellow"] { --accent: #facc15; }
+    html[data-accent="teal"] { --accent: #2dd4bf; }
+    html[data-accent="cyan"] { --accent: #38bdf8; }
+    html[data-accent="indigo"] { --accent: #818cf8; }
+
+    body {
+      background: var(--blue-deep);
+      color: #ffffff;
+      font-family: "Inter", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    #particles {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(
+        ellipse 80% 60% at 50% 40%,
+        color-mix(in srgb, var(--accent) 35%, transparent) 0%,
+        transparent 70%
+      );
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      padding: 60px 24px 80px;
+      max-width: 900px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1 0 auto;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--green);
+      padding: 7px 16px;
+      border-radius: 99px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 2.2s;
+    }
+
+    .dot {
+      height: 8px;
+      width: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      margin-right: 9px;
+      box-shadow: 0 0 8px var(--green);
+      animation: blink 2.2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    @keyframes fadeUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo-wrapper {
+      margin-bottom: 20px;
+      animation: shake 0.25s linear forwards 1.55s;
+    }
+
+    h1.animated-logo {
+      font-family: "Syne", sans-serif;
+      font-size: clamp(3.8rem, 13vw, 5.5rem);
+      font-weight: 900;
+      margin: 0;
+      letter-spacing: -3px;
+      line-height: 1;
+      display: flex;
+      align-items: baseline;
+    }
+
+    .name {
+      display: inline-block;
+      opacity: 0;
+      animation: slideIn 1.6s cubic-bezier(0.19, 1, 0.22, 1) forwards 0s;
+    }
+
+    .logo-dot {
+      display: inline-block;
+      color: var(--accent);
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+      animation: dotPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 1.55s;
+    }
+
+    .fun {
+      display: inline-block;
+      color: var(--accent);
+      text-shadow: 0 0 50px color-mix(in srgb, var(--accent) 35%, transparent);
+      opacity: 0;
+      animation: fadeScale 0.5s ease forwards 0.45s;
+    }
+
+    @keyframes slideIn {
+      0% { transform: translateX(-110vw); opacity: 0; }
+      65% { transform: translateX(0); opacity: 1; }
+      80% { transform: translateX(-12px); opacity: 1; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes fadeScale {
+      0% { opacity: 0; transform: scale(0.88); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes dotPop {
+      0% { opacity: 0; width: 0; transform: scale(0); }
+      100% { opacity: 1; width: 0.28em; transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(8px); }
+      50% { transform: translateX(-8px); }
+      80% { transform: translateX(4px); }
+    }
+
+    .tagline {
+      font-size: 1.05rem;
+      color: #cbd5e1;
+      margin: 16px 0 28px;
+      line-height: 1.75;
+      max-width: 560px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 2.3s;
+    }
+
+    .tagline a {
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .tagline a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .info-box {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(51, 65, 85, 0.7);
+      padding: 24px 28px;
+      border-radius: 18px;
+      backdrop-filter: blur(14px);
+      margin-bottom: 28px;
+      width: 100%;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 2.4s;
+    }
+
+    .label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .value {
+      font-family: "Syne", sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+
+    .value span {
+      color: #fbbf24;
+    }
+
+    .disclaimer {
+      margin-top: 12px;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    .games-section {
+      display: block;
+      width: 100%;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 2.45s;
+      transition: opacity 0.3s ease;
+    }
+
+    #gamesSection:not(.visible) {
+      display: none;
+    }
+
+    .games-label {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      font-weight: 600;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .games-label::before,
+    .games-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(51, 65, 85, 0.6);
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      width: 100%;
+    }
+
+    .game-card {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(51, 65, 85, 0.7);
+      border-radius: 16px;
+      padding: 22px 20px;
+      text-decoration: none;
+      color: #fff;
+      text-align: left;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      backdrop-filter: blur(14px);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .game-card:hover {
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+      background: rgba(15, 23, 42, 0.85);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .game-emoji {
+      font-size: 1.5rem;
+      margin-bottom: 4px;
+    }
+
+    /* Circular Avatar Styling */
+    .user-card .user-avatar-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(100, 116, 139, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+
+    .user-card .user-avatar-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .user-title-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .game-title {
+      font-family: "Syne", sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+
+    .game-desc {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      line-height: 1.45;
+    }
+
+    /* User Icon Badges */
+    .user-badge-icons {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .badge-icon {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+    }
+
+    .game-badge {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #fbbf24;
+      background: rgba(251, 191, 36, 0.1);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      padding: 3px 9px;
+      border-radius: 99px;
+      width: fit-content;
+    }
+
+    .game-badge.public {
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .game-badge.new-game {
+      color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+      border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+    }
+
+    .bottom-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 2.5s;
+    }
+
+    .made-by-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .made-by-text a {
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .made-by-text a:hover {
+      color: var(--accent);
+    }
+
+    .social-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: color-mix(in srgb, var(--accent) 20%, transparent);
+      border: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent);
+      padding: 13px 32px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .social-button:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 38%, transparent);
+      box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 20%, transparent);
+    }
+
+    .social-button:active {
+      transform: translateY(-1px);
+    }
+
+    .arrow {
+      display: inline-block;
+      transition: transform 0.2s ease;
+      font-style: normal;
+      font-size: 1.1rem;
+    }
+
+    .social-button:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    .changelog-link {
+      position: fixed;
+      top: 20px;
+      right: 115px;
+      font-size: 0.85rem;
+      color: #475569;
+      text-decoration: none;
+      transition: color 0.2s;
+      z-index: 10;
+    }
+
+    .changelog-link:hover {
+      color: #fff;
+    }
+
+    .settings-link {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      font-size: 0.85rem;
+      color: #475569;
+      text-decoration: none;
+      transition: color 0.2s;
+      z-index: 10;
+    }
+
+    .settings-link:hover {
+      color: var(--accent);
+    }
+
+    .profile-icon {
+      position: fixed;
+      top: 14px;
+      right: 210px;
+      z-index: 10;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      border-radius: 999px;
+      padding: 5px 12px 5px 6px;
+      transition: border-color 0.2s, background 0.2s;
+      backdrop-filter: blur(10px);
+    }
+
+    .profile-icon:hover {
+      border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+    }
+
+    .profile-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(51, 65, 85, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #64748b;
+      border: 1px solid rgba(51, 65, 85, 0.6);
+    }
+
+    .profile-name {
+      font-size: 0.75rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .search-wrap {
+      width: 100%;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 2.45s;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 44px 12px 18px;
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(51, 65, 85, 0.7);
+      border-radius: 14px;
+      color: #fff;
+      font-family: "Inter", sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      backdrop-filter: blur(14px);
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .search-input::placeholder {
+      color: #334155;
+    }
+
+    .search-input:focus {
+      border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #334155;
+      pointer-events: none;
+      font-size: 1rem;
+    }
+
+    .no-results {
+      font-size: 0.9rem;
+      color: #334155;
+      padding: 16px 0;
+      display: none;
+    }
+
+    /* FOOTER STYLING */
+    .site-footer {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      background: rgba(15, 23, 42, 0.8);
+      border-top: 1px solid rgba(51, 65, 85, 0.6);
+      backdrop-filter: blur(12px);
+      padding: 48px 24px 24px;
+      margin-top: 60px;
+      text-align: left;
+      flex-shrink: 0;
+    }
+
+    .footer-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand {
+      font-family: "Syne", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #fff;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    .footer-brand span {
+      color: var(--accent);
+    }
+
+    .footer-description {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      margin: 0;
+      max-width: 280px;
+    }
+
+    .footer-heading {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #f8fafc;
+      margin: 0 0 16px 0;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .footer-bottom {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding-top: 24px;
+      border-top: 1px solid rgba(51, 65, 85, 0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+
+    .footer-meta {
+      display: flex;
+      gap: 18px;
+    }
+
+    .footer-meta a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-meta a:hover {
+      color: var(--text-muted);
+    }
+
+    html[data-animations="off"] *,
+    html[data-animations="off"] *::before,
+    html[data-animations="off"] *::after {
+      animation-duration: 0s !important;
+      animation-delay: 0s !important;
+      transition-duration: 0s !important;
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr 1fr;
+      }
+      .footer-brand-column {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .games-grid {
+        grid-template-columns: 1fr;
+      }
+      .profile-icon { right: 145px; }
+      .profile-name { display: none; }
+      .changelog-link { right: 80px; }
+      .settings-link { right: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+      .footer-brand-column {
+        grid-column: span 1;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
-
-  <!-- Background Layer -->
-  <div class="bg-glow"></div>
   <canvas id="particles"></canvas>
 
-  <!-- Top Navigation Links -->
-  <a href="/profile" class="profile-icon">
-    <div class="profile-avatar">U</div>
-    <span class="profile-name">User</span>
-  </a>
-  <a href="/changelog" class="changelog-link">Changelog</a>
-  <a href="/settings" class="settings-link">Settings</a>
+  <div class="bg-glow"></div>
+  <a href="/changelog/" class="changelog-link">Changelog</a>
+  <a href="/settings/" class="settings-link">⚙ Settings</a>
+  <a href="/users/Guest/" class="profile-icon" title="You are browsing as Guest">
+    <div class="profile-avatar">?</div>
+    <span class="profile-name">@Guest</span>
 
-  <!-- Main Container -->
-  <main class="container">
-    
-    <!-- Status Badge -->
+  </a>
+
+
+
+  <div class="container">
+
+
+
     <div class="badge">
-      <span class="dot"></span> System Active
+      <span class="dot"></span>
+      Development Active
     </div>
 
-    <!-- Animated Logo -->
+
     <div class="logo-wrapper">
       <h1 class="animated-logo">
-        <span class="name">Main</span><span class="logo-dot">.</span><span class="fun">Hub</span>
+        <span class="name">tyler</span>
+        <span class="logo-dot">.</span>
+        <span class="fun">fun</span>
       </h1>
     </div>
 
-    <!-- Tagline -->
+
     <p class="tagline">
-      Welcome to the main dashboard. Explore features, launch tools, or check out <a href="/about">our story</a>.
+      A collection of interactive web experiments and creative projects,
+      inspired by <a href="https://neal.fun/" target="_blank">neal.fun</a>
+      and the work of <a href="https://en.wikipedia.org/wiki/Neal_Agarwal" target="_blank">Neal Agarwal</a>.
     </p>
 
-    <!-- Info Box -->
+
     <div class="info-box">
-      <div class="label">Featured Highlight</div>
-      <div class="value">Version 2.0 <span>Live</span></div>
-      <p class="disclaimer">*All services running at optimal performance.</p>
+      <div class="label">Current Status</div>
+      <div class="value"><span>Coming Soon</span> (Summer 2026 / Early 2027)</div>
+      <div class="disclaimer">
+        To be honest, I'm not sure if this will ever be finished or if I'll
+        actually commit to the project.
+      </div>
     </div>
 
-    <!-- Search Section -->
-    <div class="search-wrap">
-      <input type="text" class="search-input" id="searchInput" placeholder="Search applications..." />
-      <span class="search-icon">🔍</span>
+    <!-- SEARCH -->
+    <div class="search-wrap" id="searchWrap">
+      <input
+        type="text"
+        class="search-input"
+        id="searchInput"
+        placeholder="Search games or users..."
+        oninput="filterGamesAndUsers(this.value)"
+      />
+      <span class="search-icon">⌕</span>
     </div>
 
-    <!-- Applications / Games Section -->
-    <section class="games-section visible" id="gamesSection">
-      <div class="games-label">Applications</div>
-      
-      <div class="games-grid">
-        <!-- App Card 1 -->
-        <a href="/app-1" class="game-card">
-          <div class="game-emoji">🚀</div>
+    <div class="no-results" id="noResults">
+      No games or users found for that search.
+
+
+    </div>
+
+    <!-- USERS SECTION (SEARCH ONLY) -->
+    <div class="games-section" id="usersSection" style="display: none;">
+      <div class="games-label">👤 Users</div>
+      <div class="games-grid" id="usersGrid">
+        <a href="/users/Aaban/" class="game-card user-card">
+          <div class="user-avatar-circle">⚡</div>
           <div class="user-title-row">
-            <span class="game-title">Dashboard</span>
+            <div class="game-title">Aaban</div>
+            <div class="user-badge-icons">
+              <img src="assets/icons/member-badge.png" class="badge-icon" alt="Member" />
+            </div>
           </div>
-          <span class="game-desc">Real-time stats and metrics tracking.</span>
-          <span class="game-badge public">Active</span>
+          <div class="game-desc">User Profile</div>
         </a>
 
-        <!-- App Card 2 -->
-        <a href="/app-2" class="game-card">
-          <div class="game-emoji">⚡</div>
+        <a href="/users/Admin/" class="game-card user-card">
+          <div class="user-avatar-circle">🛡️</div>
           <div class="user-title-row">
-            <span class="game-title">Analytics</span>
+            <div class="game-title">Admin</div>
+            <div class="user-badge-icons">
+              <img src="assets/icons/admin-badge.png" class="badge-icon" alt="Admin" />
+              <img src="assets/icons/staff-badge.png" class="badge-icon" alt="Staff" />
+              <img src="assets/icons/verified-badge.png" class="badge-icon" alt="Verified" />
+            </div>
           </div>
-          <span class="game-desc">In-depth reporting and dynamic visualizer.</span>
-          <span class="game-badge new-game">Updated</span>
+          <div class="game-desc">Official tyler.fun admin account. Big updates and important announcements only.</div>
         </a>
 
-        <!-- App Card 3 -->
-        <a href="/app-3" class="game-card">
-          <div class="game-emoji">🔒</div>
+        <a href="/users/Ban/" class="game-card user-card">
+          <div class="user-avatar-circle">🔨</div>
           <div class="user-title-row">
-            <span class="game-title">Vault</span>
+            <div class="game-title">Ban</div>
+            <div class="user-badge-icons">
+              <img src="assets/icons/banned-badge.png" class="badge-icon" alt="Banned" />
+              <img src="assets/icons/member-badge.png" class="badge-icon" alt="Member" />
+            </div>
           </div>
-          <span class="game-desc">Secure storage and access management.</span>
-          <span class="game-badge">Pro</span>
+          <div class="game-desc">User Profile</div>
+        </a>
+
+        <a href="/users/Fish/" class="game-card user-card">
+          <div class="user-avatar-circle">🐟</div>
+          <div class="user-title-row">
+            <div class="game-title">Fish</div>
+            <div class="user-badge-icons">
+              <img src="assets/icons/fish-badge.png" class="badge-icon" alt="Fish" />
+              <img src="assets/icons/staff-badge.png" class="badge-icon" alt="Staff" />
+              <img src="assets/icons/verified-badge.png" class="badge-icon" alt="Verified" />
+              <img src="assets/icons/member-badge.png" class="badge-icon" alt="Member" />
+            </div>
+          </div>
+          <div class="game-desc">Staff Member</div>
+        </a>
+
+        <a href="/users/Guest/" class="game-card user-card">
+          <div class="user-avatar-circle">👤</div>
+          <div class="user-title-row">
+            <div class="game-title">Guest</div>
+          </div>
+          <div class="game-desc">Guest Profile</div>
+        </a>
+
+        <a href="/users/Support/" class="game-card user-card">
+          <div class="user-avatar-circle">🛠️</div>
+          <div class="user-title-row">
+            <div class="game-title">Support</div>
+            <div class="user-badge-icons">
+              <img src="assets/icons/staff-badge.png" class="badge-icon" alt="Staff" />
+              <img src="assets/icons/verified-badge.png" class="badge-icon" alt="Verified" />
+            </div>
+          </div>
+          <div class="game-desc">Support Account</div>
+        </a>
+
+        <a href="/users/Tyler/" class="game-card user-card">
+          <div class="user-avatar-circle">
+            <img src="assets/icons/tylerpfp.png" alt="Tyler" />
+          </div>
+          <div class="user-title-row">
+            <div class="game-title">Tyler</div>
+            <div class="user-badge-icons">
+              <img src="assets/icons/tylerpfp.png" class="badge-icon" alt="Tyler" />
+              <img src="assets/icons/admin-badge.png" class="badge-icon" alt="Admin" />
+              <img src="assets/icons/staff-badge.png" class="badge-icon" alt="Staff" />
+              <img src="assets/icons/verified-badge.png" class="badge-icon" alt="Verified" />
+              <img src="assets/icons/email-verified-badge.png" class="badge-icon" alt="Email Verified" />
+              <img src="assets/icons/member-badge.png" class="badge-icon" alt="Member" />
+            </div>
+          </div>
+          <div class="game-desc">Made tyler.fun. Building weird, fun, and interactive web experiments inspired by neal.fun. Probably procrastinating on the next game right now.</div>
+        </a>
+
+        <a href="/users/angle/" class="game-card user-card">
+          <div class="user-avatar-circle">📐</div>
+          <div class="user-title-row">
+            <div class="game-title">Angle</div>
+            <div class="user-badge-icons">
+              <img src="assets/icons/member-badge.png" class="badge-icon" alt="Member" />
+            </div>
+          </div>
+          <div class="game-desc">User Profile</div>
+        </a>
+
+        <a href="/users/staff/" class="game-card user-card">
+          <div class="user-avatar-circle">👥</div>
+          <div class="user-title-row">
+            <div class="game-title">Staff</div>
+            <div class="user-badge-icons">
+              <img src="assets/icons/staff-badge.png" class="badge-icon" alt="Staff" />
+              <img src="assets/icons/verified-badge.png" class="badge-icon" alt="Verified" />
+            </div>
+          </div>
+          <div class="game-desc">tyler.fun staff • Helping with general questions and keeping things smooth.</div>
+        </a>
+
+        <a href="/users/tawsif/" class="game-card user-card">
+          <div class="user-avatar-circle">🌙</div>
+          <div class="user-title-row">
+            <div class="game-title">Tawsif</div>
+            <div class="user-badge-icons">
+              <img src="assets/icons/tawsif-badge.png" class="badge-icon" alt="Tawsif" />
+              <img src="assets/icons/member-badge.png" class="badge-icon" alt="Member" />
+            </div>
+          </div>
+          <div class="game-desc">User Profile</div>
+
+        </a>
+
+        <a href="/users/tyler.fun/" class="game-card user-card">
+          <div class="user-avatar-circle">t.fun</div>
+
+          <div class="user-title-row">
+            <div class="game-title">tyler.fun</div>
+            <div class="user-badge-icons">
+              <img src="assets/icons/staff-badge.png" class="badge-icon" alt="Staff" />
+              <img src="assets/icons/verified-badge.png" class="badge-icon" alt="Verified" />
+            </div>
+          </div>
+          <div class="game-desc">The official tyler.fun account. A collection of weird, fun, and interactive web experiments. Built by Tyler, tested by the crew. More games always coming.</div>
+
+        </a>
+
+        <a href="/users/yoiashley/" class="game-card user-card">
+          <div class="user-avatar-circle">✨</div>
+
+          <div class="user-title-row">
+            <div class="game-title">Ashley</div>
+          </div>
+          <div class="game-desc">User Profile</div>
+
         </a>
       </div>
+    </div>
+    
+    <!-- PUBLIC GAMES -->
+    <div class="games-section" id="publicGames">
+      <div class="games-label">🎮 Games</div>
+      <div class="games-grid">
+        <a href="games/roast-clicker/" class="game-card">
+          <div class="game-emoji">🔥</div>
+          <div class="game-title">Roast Clicker</div>
+          <div class="game-desc">Click a button. Get roasted. Keep clicking. Get destroyed.</div>
+          <span class="game-badge public">Public</span>
+        </a>
 
-      <div class="no-results" id="noResults">No applications found.</div>
-    </section>
+        <a href="games/impossible-button/" class="game-card">
+          <div class="game-emoji">🏃</div>
+          <div class="game-title">Impossible Button</div>
+          <div class="game-desc">A button that refuses to be clicked. It runs. Forever.</div>
+          <span class="game-badge public">Public</span>
+        </a>
 
-    <!-- Bottom CTA -->
+        <a href="games/hold-the-key/" class="game-card">
+          <div class="game-emoji">⌨️</div>
+          <div class="game-title">Hold the Key</div>
+          <div class="game-desc">Hold spacebar as long as you can. Global leaderboard. No excuses.</div>
+          <span class="game-badge public">Public</span>
+        </a>
+
+        <a href="games/useless-machine/" class="game-card">
+          <div class="game-emoji">🔘</div>
+          <div class="game-title">Useless Machine</div>
+          <div class="game-desc">Turn it on. It turns itself off. There is no point. That's the point.</div>
+          <span class="game-badge public">Public</span>
+        </a>
+
+        <a href="games/scroll-to-win/" class="game-card">
+          <div class="game-emoji">📜</div>
+          <div class="game-title">Scroll to Win</div>
+          <div class="game-desc">Scroll up to fill the bar. It drains the moment you stop. Pure evil.</div>
+          <span class="game-badge public">Public</span>
+        </a>
+
+        <a href="games/word-scramble/" class="game-card">
+          <div class="game-emoji">🔤</div>
+          <div class="game-title">Word Scramble</div>
+          <div class="game-desc">Unscramble the word before the timer hits zero. 40+ words across 6 categories.</div>
+          <span class="game-badge public">Public</span>
+        </a>
+
+        <a href="games/reaction-time/" class="game-card">
+          <div class="game-emoji">⚡</div>
+          <div class="game-title">Reaction Time</div>
+          <div class="game-desc">Click when the circle turns green. How fast are your reflexes?</div>
+          <span class="game-badge public">Public</span>
+        </a>
+
+        <a href="games/higher-or-lower/" class="game-card">
+          <div class="game-emoji">🔢</div>
+          <div class="game-title">Higher or Lower</div>
+          <div class="game-desc">Will the next number be higher or lower? Easy to learn, hard to master.</div>
+          <span class="game-badge public">Public</span>
+        </a>
+
+        <a href="games/floor-is-lava/" class="game-card">
+          <div class="game-emoji">🌋</div>
+          <div class="game-title">The Floor is Lava</div>
+          <div class="game-desc">Keep your cursor off the floor. The lava rises over time. Good luck.</div>
+          <span class="game-badge public">Public</span>
+        </a>
+
+        <a href="games/type-fast/" class="game-card">
+          <div class="game-emoji">⌨️</div>
+          <div class="game-title">Type Fast</div>
+          <div class="game-desc">Type as fast as you can. There's a twist at the end based on your WPM.</div>
+          <span class="game-badge public">Public</span>
+        </a>
+
+        <a href="games/cursed-breakout/" class="game-card">
+          <div class="game-emoji">🧱</div>
+          <div class="game-title">Cursed Breakout</div>
+          <div class="game-desc">Classic brick breaker — but bricks dodge, split, and make the ball faster.</div>
+          <span class="game-badge public">Public</span>
+        </a>
+
+        <a href="games/dont-press/" class="game-card">
+          <div class="game-emoji">🔴</div>
+          <div class="game-title">Don't Press It</div>
+          <div class="game-desc">There is a red button. You should not press it. You will press it.</div>
+          <span class="game-badge public">Public</span>
+        </a>
+
+        <a href="games/memory-grid/" class="game-card">
+          <div class="game-emoji">🧩</div>
+          <div class="game-title">Memory Grid</div>
+          <div class="game-desc">Memorise which tiles lit up. Recreate the pattern. Get it wrong and it's over.</div>
+          <span class="game-badge new-game">New</span>
+        </a>
+
+        <a href="games/number-memory/" class="game-card">
+          <div class="game-emoji">🔢</div>
+          <div class="game-title">Number Memory</div>
+          <div class="game-desc">Remember an increasingly long sequence of numbers before it disappears.</div>
+          <span class="game-badge new-game">New</span>
+        </a>
+
+        <a href="games/rps-ai/" class="game-card">
+          <div class="game-emoji">🤖</div>
+          <div class="game-title">RPS vs AI</div>
+          <div class="game-desc">Rock paper scissors against an AI that studies your patterns and adapts.</div>
+          <span class="game-badge new-game">New</span>
+        </a>
+
+        <a href="games/whack-a-mole/" class="game-card">
+          <div class="game-emoji">🐭</div>
+          <div class="game-title">Whack-a-Mole</div>
+          <div class="game-desc">Whack the moles before they disappear. Miss and they roast you.</div>
+          <span class="game-badge new-game">New</span>
+        </a>
+
+        <a href="games/runaway-snake/" class="game-card">
+          <div class="game-emoji">🐍</div>
+          <div class="game-title">Runaway Snake</div>
+          <div class="game-desc">Classic snake — except the food runs away from you. Good luck.</div>
+          <span class="game-badge new-game">New</span>
+        </a>
+
+        <a href="games/gravity-flip/" class="game-card">
+          <div class="game-emoji">🔄</div>
+          <div class="game-title">Gravity Flip</div>
+          <div class="game-desc">Flip gravity to dodge obstacles. It gets faster. You will die a lot.</div>
+          <span class="game-badge new-game">New</span>
+        </a>
+
+        <a href="games/cursed-clicker/" class="game-card">
+          <div class="game-emoji">🍪</div>
+          <div class="game-title">Cursed Clicker</div>
+          <div class="game-desc">Cookie clicker — but every upgrade makes something progressively worse.</div>
+          <span class="game-badge new-game">New</span>
+        </a>
+
+        <a href="games/dodge-dots/" class="game-card">
+          <div class="game-emoji">🔵</div>
+          <div class="game-title">Dodge the Dots</div>
+          <div class="game-desc">Move your cursor to survive. Red circles close in. They get faster.</div>
+          <span class="game-badge new-game">New</span>
+        </a>
+
+        <a href="games/evil-simon/" class="game-card">
+          <div class="game-emoji">😈</div>
+          <div class="game-title">Evil Simon</div>
+          <div class="game-desc">Repeat the colour pattern. Simon cheats. Buttons swap. Colours switch.</div>
+          <span class="game-badge new-game">New</span>
+        </a>
+
+        <a href="games/spin-wheel/" class="game-card">
+          <div class="game-emoji">🎰</div>
+          <div class="game-title">Spin the Wheel</div>
+          <div class="game-desc">Every spin has a consequence. Confetti, screen flips, grandmas. Spin responsibly.</div>
+          <span class="game-badge new-game">New</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- PREVIEW ONLY -->
+    <div class="games-section" id="gamesSection">
+      <div class="games-label">🔒 Preview Only</div>
+      <div class="games-grid">
+        <a href="games/guess-colour/" class="game-card">
+          <div class="game-emoji">🎨</div>
+          <div class="game-title">Guess the Colour</div>
+          <div class="game-desc">Which hex code matches the swatch? Easy mode or brutal hard mode.</div>
+          <span class="game-badge">In Development</span>
+        </a>
+
+        <a href="games/survive-clicks/" class="game-card">
+          <div class="game-emoji">🖱️</div>
+          <div class="game-title">Survive the Clicks</div>
+          <div class="game-desc">Click the button. Each click introduces a new challenge. How far can you go?</div>
+          <span class="game-badge">In Development</span>
+        </a>
+
+        <a href="games/chair-simulator/" class="game-card">
+          <div class="game-emoji">🪑</div>
+          <div class="game-title">Chair Simulator</div>
+          <div class="game-desc">You are a chair. That is all. Invite people to sit. Contemplate existence.</div>
+          <span class="game-badge">In Development</span>
+        </a>
+
+        <a href="games/aim-trainer/" class="game-card">
+          <div class="game-emoji">🎯</div>
+          <div class="game-title">Aim Trainer</div>
+          <div class="game-desc">Click the targets as fast as you can. 30 seconds. No excuses.</div>
+          <span class="game-badge">In Development</span>
+        </a>
+
+        <a href="games/two-truths/" class="game-card">
+          <div class="game-emoji">🤥</div>
+          <div class="game-title">Two Truths One Lie</div>
+          <div class="game-desc">Three statements. Two are true. One is a lie. Pick the fake.</div>
+          <span class="game-badge">In Development</span>
+        </a>
+
+        <a href="games/math-sprint/" class="game-card">
+          <div class="game-emoji">🧮</div>
+          <div class="game-title">Math Sprint</div>
+          <div class="game-desc">Answer maths questions as fast as possible. Easy, medium, hard.</div>
+          <span class="game-badge">In Development</span>
+        </a>
+
+        <a href="games/pixel-art/" class="game-card">
+          <div class="game-emoji">🎨</div>
+          <div class="game-title">Pixel Art</div>
+          <div class="game-desc">Draw on a grid. Save your masterpiece. No talent required.</div>
+          <span class="game-badge">In Development</span>
+        </a>
+
+        <a href="games/colour-flood/" class="game-card">
+          <div class="game-emoji">🌊</div>
+          <div class="game-title">Colour Flood</div>
+          <div class="game-desc">Flood fill the board with one colour in as few moves as possible.</div>
+          <span class="game-badge">In Development</span>
+        </a>
+
+        <a href="games/moving-minesweeper/" class="game-card">
+          <div class="game-emoji">💣</div>
+          <div class="game-title">Moving Minesweeper</div>
+          <div class="game-desc">Classic minesweeper — but the mines drift every few clicks.</div>
+          <span class="game-badge">In Development</span>
+        </a>
+
+        <a href="games/scared-asteroids/" class="game-card">
+          <div class="game-emoji">😰</div>
+          <div class="game-title">Scared Asteroids</div>
+          <div class="game-desc">Asteroids — but your ship panics randomly and shoots everywhere.</div>
+          <span class="game-badge">In Development</span>
+        </a>
+      </div>
+    </div>
+
+
     <div class="bottom-section">
-      <p class="made-by-text">Built with precision for seamless operations.</p>
-      <a href="/get-started" class="social-button">
-        Get Started <span class="arrow">→</span>
+      <div class="made-by-text">
+        Made by <a href="https://github.com/TylerGamerYT" target="_blank">Tyler</a>
+      </div>
+      <a href="/socials/" class="social-button">
+        View My Socials
+        <span class="arrow">→</span>
       </a>
     </div>
+  </div>
 
-  </main>
 
-  <!-- Site Footer -->
+
+
   <footer class="site-footer">
     <div class="footer-content">
-      
+
       <div class="footer-brand-column">
-        <a href="#" class="footer-brand">Main<span>.Hub</span></a>
-        <p class="footer-description">
-          A centralized platform designed to streamline your daily workflow and project management.
-        </p>
+        <a class="footer-brand" href="/" aria-label="tyler.fun home">tyler<span>.fun</span></a>
+        <p class="footer-description">Small games, strange experiments, and other things worth clicking on.</p>
+
+
       </div>
 
-      <div>
-        <h4 class="footer-heading">Product</h4>
+      <nav aria-label="Explore">
+        <h2 class="footer-heading">Explore</h2>
         <div class="footer-links">
-          <a href="/features">Features</a>
-          <a href="/integrations">Integrations</a>
-          <a href="/releases">Releases</a>
+          <a href="/">Home</a>
+          <a href="/#publicGames">Games</a>
+          <a href="/events/">Events</a>
+          <a href="/changelog/">Changelog</a>
         </div>
-      </div>
+      </nav>
 
-      <div>
-        <h4 class="footer-heading">Resources</h4>
+      <nav aria-label="Account">
+        <h2 class="footer-heading">Account</h2>
         <div class="footer-links">
-          <a href="/docs">Documentation</a>
-          <a href="/community">Community</a>
-          <a href="/support">Support</a>
+          <a href="/login/">Log in</a>
+          <a href="/signup/">Sign up</a>
+          <a href="/settings/">Settings</a>
+          <a href="/users/Guest/">Your profile</a>
         </div>
-      </div>
+      </nav>
 
-      <div>
-        <h4 class="footer-heading">Company</h4>
+      <nav aria-label="More links">
+        <h2 class="footer-heading">More</h2>
         <div class="footer-links">
-          <a href="/about">About Us</a>
-          <a href="/careers">Careers</a>
-          <a href="/contact">Contact</a>
+          <a href="/socials/">Socials</a>
+          <a href="https://github.com/TylerGamerYT" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="/privacy-policy/">Privacy policy</a>
+          <a href="/terms-of-service/">Terms of service</a>
         </div>
-      </div>
+      </nav>
 
     </div>
 
     <div class="footer-bottom">
-      <span>&copy; 2026 MainHub Inc. All rights reserved.</span>
+      <span>© 2026 tyler.fun. Made by Tyler.</span>
       <div class="footer-meta">
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms of Service</a>
+        <a href="/privacy-policy/">Privacy</a>
+        <a href="/terms-of-service/">Terms</a>
       </div>
     </div>
   </footer>
 
+  <script>
+    if (window.location.search.includes("preview")) {
+      document.getElementById("gamesSection").classList.add("visible");
+    }
+
+    function filterGamesAndUsers(query) {
+      const q = query.toLowerCase().trim();
+      const cleanQ = q.startsWith('@') ? q.slice(1) : q;
+
+      const cards = document.querySelectorAll(".game-card");
+      const usersSection = document.getElementById("usersSection");
+
+      let visibleGamesCount = 0;
+      let visibleUsersCount = 0;
+
+      cards.forEach((card) => {
+        const isUser = card.classList.contains("user-card");
+        const title = card.querySelector(".game-title")?.textContent.toLowerCase() || "";
+        const desc = card.querySelector(".game-desc")?.textContent.toLowerCase() || "";
+        const match = !cleanQ || title.includes(cleanQ) || desc.includes(cleanQ);
+
+        if (isUser) {
+          const showUser = q.length > 0 && match;
+          card.style.display = showUser ? "" : "none";
+          if (showUser) visibleUsersCount++;
+        } else {
+          card.style.display = match ? "" : "none";
+          if (match) visibleGamesCount++;
+        }
+      });
+
+      usersSection.style.display = visibleUsersCount > 0 ? "block" : "none";
+
+      const totalVisible = visibleGamesCount + visibleUsersCount;
+      document.getElementById("noResults").style.display = q && totalVisible === 0 ? "block" : "none";
+
+      document.querySelectorAll(".games-section").forEach((sec) => {
+        const anyVisible = [...sec.querySelectorAll(".game-card")].some((c) => c.style.display !== "none");
+        sec.style.opacity = anyVisible ? "1" : "0.3";
+      });
+    }
+
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+
+    let W;
+    let H;
+    let stars = [];
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function initStars() {
+      stars = [];
+      const count = Math.floor((W * H) / 8000);
+
+      for (let i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 1.2 + 0.3,
+          speed: Math.random() * 0.15 + 0.03,
+          opacity: Math.random() * 0.5 + 0.1,
+          twinkleSpeed: Math.random() * 0.01 + 0.003,
+          twinkleOffset: Math.random() * Math.PI * 2
+        });
+      }
+    }
+
+    let t = 0;
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      t += 0.016;
+
+      for (const s of stars) {
+        const alpha = s.opacity + Math.sin(t * s.twinkleSpeed * 60 + s.twinkleOffset) * 0.15;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(148, 197, 255, ${Math.max(0, alpha)})`;
+        ctx.fill();
+
+        s.y -= s.speed;
+
+        if (s.y < -2) {
+          s.y = H + 2;
+          s.x = Math.random() * W;
+        }
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    resize();
+    initStars();
+    draw();
+
+    window.addEventListener("resize", () => {
+      resize();
+      initStars();
+    });
+  </script>
 </body>
 </html>
