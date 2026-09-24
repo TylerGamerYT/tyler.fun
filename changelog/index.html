@@ -26,6 +26,7 @@
       min-height: 100vh;
       margin: 0;
       overflow-x: hidden;
+      padding-bottom: 60px; /* Space for the fixed bottom bar */
     }
 
     #particles {
@@ -270,6 +271,47 @@
       margin-top: 30px;
     }
 
+    /* Fixed Bottom Bar */
+
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 48px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(51, 65, 85, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 100;
+      font-size: 0.8rem;
+    }
+
+    .bottom-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #94a3b8;
+    }
+
+    .bottom-bar-left strong {
+      color: #60a5fa;
+      font-weight: 600;
+    }
+
+    .bottom-bar-right a {
+      color: #64748b;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .bottom-bar-right a:hover {
+      color: #fff;
+    }
+
     @keyframes fadeUp {
       to {
         opacity: 1;
@@ -305,6 +347,11 @@
       .version {
         font-size: 1.5rem;
       }
+
+      .bottom-bar {
+        padding: 0 16px;
+        font-size: 0.75rem;
+      }
     }
   </style>
 </head>
@@ -331,25 +378,24 @@
       <div class="latest-label">Latest Release</div>
 
       <div class="release-top">
-        <div class="version">v1.4</div>
+        <div class="version">v1.4.1</div>
         <div class="date">September 2026</div>
       </div>
 
       <div class="release-title">
-        Custom Theme Colors, Settings Panel & Personalization
+        Codebase Refactoring & Universal Bottom Navigation
       </div>
 
       <p class="summary">
-        A major feature update introducing full color customization and dedicated user settings! 
-        You can now select custom accent colors across the site, adjust visual preferences, 
-        and save your site settings persistently.
+        A maintenance update focusing on project structure and navigation.
+        Extracted CSS styles and JavaScript logic into dedicated external files for each game,
+        and added a persistent bottom status bar across the platform.
       </p>
 
       <div class="stats">
-        <div class="stat"><strong>4</strong> New</div>
-        <div class="stat"><strong>2</strong> Changes</div>
-        <div class="stat"><strong>1</strong> Fix</div>
-        <div class="stat"><strong>7</strong> Total changes</div>
+        <div class="stat"><strong>2</strong> Features</div>
+        <div class="stat"><strong>3</strong> Refactors</div>
+        <div class="stat"><strong>5</strong> Total changes</div>
       </div>
 
     </section>
@@ -362,10 +408,23 @@
     </div>
 
     <div class="footer-note">
-      v1.4 is currently the latest version of tyler.fun.
+      v1.4.1 is currently the latest version of tyler.fun.
     </div>
 
   </main>
+
+  <!-- Bottom Bar -->
+
+  <footer class="bottom-bar">
+    <div class="bottom-bar-left">
+      <span>tyler.fun</span>
+      <span>•</span>
+      <strong>v1.4.1</strong>
+    </div>
+    <div class="bottom-bar-right">
+      <a href="/changelog">Changelog</a>
+    </div>
+  </footer>
 
   <script>
     const canvas = document.getElementById("particles");
