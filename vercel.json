@@ -10,6 +10,7 @@
     { "source": "/changelog", "destination": "/changelog/index.html" },
 
     { "source": "/changelog/news", "destination": "/changelog/news/index.html" },
+    { "source": "/changelog/news/v1.4.1", "destination": "/changelog/news/v1.4.1/index.html" },
     { "source": "/changelog/news/v1.4", "destination": "/changelog/news/v1.4/index.html" },
     { "source": "/changelog/news/v1.3.1", "destination": "/changelog/news/v1.3.1/index.html" },
     { "source": "/changelog/news/v1.3", "destination": "/changelog/news/v1.3/index.html" },
@@ -26,6 +27,7 @@
     { "source": "/changelog/news/v0.2", "destination": "/changelog/news/v0.2/index.html" },
     { "source": "/changelog/news/v0.1", "destination": "/changelog/news/v0.1/index.html" },
 
+    { "source": "/events", "destination": "/events/index.html" },
     { "source": "/events/easter-2027", "destination": "/events/easter-2027/Index.html" },
     { "source": "/events/easter-2027/leaderboard", "destination": "/events/easter-2027/leaderboard/Index.html" },
 
@@ -43,9 +45,7 @@
     { "source": "/games/guess-colour", "destination": "/games/guess-colour/index.html" },
     { "source": "/games/higher-or-lower", "destination": "/games/higher-or-lower/index.html" },
     { "source": "/games/hold-the-key", "destination": "/games/hold-the-key/index.html" },
-    { "source": "/games/hold-the-key-v2", "destination": "/games/hold-the-key-v2/index.html" },
     { "source": "/games/impossible-button", "destination": "/games/impossible-button/index.html" },
-    { "source": "/games/impossible-button-v2", "destination": "/games/impossible-button-v2/index.html" },
     { "source": "/games/math-sprint", "destination": "/games/math-sprint/index.html" },
     { "source": "/games/memory-grid", "destination": "/games/memory-grid/index.html" },
     { "source": "/games/moving-minesweeper", "destination": "/games/moving-minesweeper/index.html" },
@@ -54,7 +54,6 @@
     { "source": "/games/pixel-art", "destination": "/games/pixel-art/index.html" },
     { "source": "/games/reaction-time", "destination": "/games/reaction-time/index.html" },
     { "source": "/games/roast-clicker", "destination": "/games/roast-clicker/index.html" },
-    { "source": "/games/roast-clicker-v2", "destination": "/games/roast-clicker-v2/index.html" },
     { "source": "/games/rotating-ttt", "destination": "/games/rotating-ttt/index.html" },
     { "source": "/games/rps-ai", "destination": "/games/rps-ai/index.html" },
     { "source": "/games/runaway-snake", "destination": "/games/runaway-snake/index.html" },
