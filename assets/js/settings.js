@@ -15,7 +15,6 @@ const DEFAULT_SETTINGS = {
     bio: "Just browsing. Not logged in. Don't mind me.",
     avatarData: "",
     bannerData: "",
-    // Badges in updated order
     tylerBadge: false,
     fishBadge: false,
     tawsifBadge: false,
@@ -32,7 +31,6 @@ function getSettings() {
         const saved = localStorage.getItem(TYLER_SETTINGS_KEY);
         const parsed = saved ? JSON.parse(saved) : {};
         
-        // Validate accent selection against supported colors
         if (parsed.accent && !ALLOWED_ACCENTS.includes(parsed.accent)) {
             parsed.accent = DEFAULT_SETTINGS.accent;
         }
@@ -82,5 +80,4 @@ function applySettings() {
     root.dataset.animations = settings.animations ? "on" : "off";
 }
 
-// Initial execution
 applySettings();
