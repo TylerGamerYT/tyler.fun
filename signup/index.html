@@ -178,7 +178,7 @@ setInterval(() => {
 // SUPABASE CONFIGURATION
 const SUPABASE_URL = 'https://gcdsqkrcngwnokzfajxv.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_KZyBTbQ2cuEjiDIud4vRjQ_iqwp5atS';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // GitHub Sign Up Handler
 document.getElementById('github-signup-btn').addEventListener('click', async () => {
