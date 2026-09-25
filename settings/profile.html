@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="/assets/js/settings.js" defer></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        
+        :root {
+            --accent: #60a5fa;
+            --bg: #020617;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --dim: #475569;
+        }
+
+        /* Accent Themes */
+        html[data-accent="red"] { --accent: #ef4444; }
+        html[data-accent="orange"] { --accent: #f97316; }
+        html[data-accent="yellow"] { --accent: #eab308; }
+        html[data-accent="green"] { --accent: #34d399; }
+        html[data-accent="blue"] { --accent: #60a5fa; }
+        html[data-accent="purple"] { --accent: #a78bfa; }
+        html[data-accent="pink"] { --accent: #f472b6; }
+        html[data-accent="white"] { --accent: #ffffff; }
+        html[data-accent="gray"] { --accent: #94a3b8; }
+        html[data-accent="black"] { --accent: #0f172a; }
+
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Inter', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; 
+            min-height: 100vh; 
+            margin: 0; 
+            overflow-x: hidden; 
+        }
+
+        .bg-glow { 
+            position: fixed; 
+            inset: 0; 
+            background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(12, 26, 74, 0.25) 0%, transparent 70%); 
+            z-index: 0; 
+            pointer-events: none; 
+        }
+        
+        .nav-links {
+            position: fixed; top: 20px; left: 24px; font-size: 0.85rem; z-index: 10; display: flex; gap: 16px;
+        }
+        .nav-links a { color: var(--dim); text-decoration: none; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text); }
+
+        .container { 
+            position: relative; 
+            z-index: 1; 
+            padding: 80px 24px 60px; 
+            max-width: 680px; 
+            width: 100%; 
+            margin: 0 auto; 
+        }
+
+        .banner {
+            width: 100%; 
+            height: 180px; 
+            border-radius: 20px;
+            background: linear-gradient(135deg, #0c1a4a 0%, #1e3a8a 50%, #0f172a 100%);
+            margin-bottom: -48px; 
+            position: relative;
+            border: 1px solid rgba(51,65,85,0.6); 
+            overflow: hidden;
+            background-size: cover; 
+            background-position: center;
+        }
+
+        .avatar-wrap { padding: 0 24px; position: relative; z-index: 2; }
+        .avatar {
+            width: 96px; 
+            height: 96px; 
+            border-radius: 50%;
+            border: 4px solid var(--bg);
+            background: #0c1a4a;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-size: 2.5rem; 
+            overflow: hidden;
+            background-size: cover; 
+            background-position: center;
+        }
+
+        .profile-info { padding: 16px 24px 24px; }
+        
+        .name-row { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            flex-wrap: wrap; 
+            margin-bottom: 4px; 
+        }
+
+        .display-name { 
+            font-family: 'Syne', sans-serif; 
+            font-size: 1.6rem; 
+            font-weight: 900; 
+            color: var(--text); 
+        }
+
+        .badges-container { display: inline-flex; align-items: center; gap: 6px; }
+        .badge-icon {
+            width: 22px; 
+            height: 22px; 
+            object-fit: contain; 
+            vertical-align: middle;
+            transition: transform 0.2s ease; 
+            cursor: pointer;
+        }
+        .badge-icon:hover { transform: scale(1.2); }
+
+        .handle { font-size: 0.9rem; color: var(--dim); margin-bottom: 14px; }
+        .bio { 
+            font-size: 0.92rem; 
+            color: var(--muted); 
+            line-height: 1.6; 
+            white-space: pre-wrap; 
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(51, 65, 85, 0.4);
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<div class="nav-links">
+    <a href="/">← Home</a>
+    <a href="/settings">⚙️ Settings</a>
+</div>
+
+<div class="container">
+    <div class="banner" id="profileBanner"></div>
+
+    <div class="avatar-wrap">
+        <div class="avatar" id="profileAvatar">👤</div>
+    </div>
+
+    <div class="profile-info">
+        <div class="name-row">
+            <span class="display-name" id="profileDisplayName">Guest</span>
+            <div class="badges-container" id="badgesContainer"></div>
+        </div>
+        <div class="handle" id="profileHandle">@Guest</div>
+        <div class="bio" id="profileBio"></div>
+    </div>
+</div>
+
+<script>
+    const BADGES = [
+        { key: "tylerBadge", src: "/assets/icons/tylerpfp.png", title: "Tyler Badge" },
+        { key: "fishBadge", src: "/assets/icons/fish-badge.png", title: "Fish Badge" },
+        { key: "tawsifBadge", src: "/assets/icons/tawsif-badge.png", title: "Tawsif Badge" },
+        { key: "adminBadge", src: "/assets/icons/admin-badge.png", title: "Admin" },
+        { key: "staffBadge", src: "/assets/icons/staff-badge.png", title: "Staff" },
+        { key: "verifiedBadge", src: "/assets/icons/verified-badge.png", title: "Verified" },
+        { key: "emailBadge", src: "/assets/icons/email-verified-badge.png", title: "Email Verified" },
+        { key: "memberBadge", src: "/assets/icons/member-badge.png", title: "Member" },
+        { key: "bannedBadge", src: "/assets/icons/banned-badge.png", title: "Banned" }
+    ];
+
+    function loadProfileData() {
+        if (typeof getSettings !== "function") return;
+
+        const settings = getSettings();
+
+        // 1. Display Name & Handle
+        document.getElementById("profileDisplayName").textContent = settings.displayName || "Guest";
+        document.getElementById("profileHandle").textContent = "@" + (settings.username || "Guest");
+
+        // 2. Bio
+        const bioEl = document.getElementById("profileBio");
+        if (settings.bio && settings.bio.trim() !== "") {
+            bioEl.textContent = settings.bio;
+            bioEl.style.display = "block";
+        } else {
+            bioEl.style.display = "none";
+        }
+
+        // 3. Avatar Image
+        const avatarEl = document.getElementById("profileAvatar");
+        if (settings.avatarData) {
+            avatarEl.style.backgroundImage = `url(${settings.avatarData})`;
+            avatarEl.textContent = "";
+        } else {
+            avatarEl.style.backgroundImage = "none";
+            avatarEl.textContent = "👤";
+        }
+
+        // 4. Banner Image
+        const bannerEl = document.getElementById("profileBanner");
+        if (settings.bannerData) {
+            bannerEl.style.backgroundImage = `url(${settings.bannerData})`;
+        } else {
+            bannerEl.style.backgroundImage = "none";
+        }
+
+        // 5. Badges
+        const container = document.getElementById("badgesContainer");
+        container.innerHTML = "";
+        BADGES.forEach(badge => {
+            if (settings[badge.key]) {
+                const img = document.createElement("img");
+                img.src = badge.src;
+                img.alt = badge.title;
+                img.title = badge.title;
+                img.className = "badge-icon";
+                container.appendChild(img);
+            }
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", loadProfileData);
+</script>
+
+</body>
+</html>
