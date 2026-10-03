@@ -111,27 +111,28 @@ h2 {
     transform: translateY(0px);
 }
 
-.social-link svg {
+.social-link img {
     width: 22px;
     height: 22px;
     flex-shrink: 0;
+    object-fit: contain;
 }
 
-/* per-platform colours */
-.tiktok svg {
+/* per-platform image styles */
+.tiktok img {
     filter: drop-shadow(1.5px 0 0 #ff0050) drop-shadow(-1.5px 0 0 #00f2ea);
 }
 
-.twitter svg {
-    fill: #1d9bf0;
+.twitter img {
+    /* Optional: recolor black SVGs to Twitter blue if needed */
+    /* filter: invert(47%) sepia(87%) saturate(1987%) hue-rotate(182deg) brightness(98%) contrast(96%); */
 }
 
-.insta svg {
-    fill: url(#instaGradient);
-}
-
-.github svg {
-    fill: #e6edf3;
+.insta img {
+    /* Optional gradient clip effect if your SVG is black with a transparent background */
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    -webkit-mask: url("/assets/icons/Instagram-icon.svg") no-repeat center / contain;
+    mask: url("/assets/icons/Instagram-icon.svg") no-repeat center / contain;
 }
 
 /* staggered reveals */
