@@ -205,12 +205,6 @@ li::before {
   transform: translateY(-2px);
 }
 
-.nav-link-disabled {
-  opacity: 0.5;
-  pointer-events: none;
-  cursor: default;
-}
-
 @media (max-width: 600px) {
   .page {
     width: min(100% - 26px, 900px);
