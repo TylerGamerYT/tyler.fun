@@ -1,47 +1,63 @@
-const canvas = document.getElementById("stars");
-const ctx = canvas.getContext("2d");
+const canvas = document.getElementById("stars") || document.getElementById("particles");
 
-let width;
-let height;
-let stars = [];
+if (canvas) {
+  const ctx = canvas.getContext("2d");
 
-function resize() {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
+  let W, H;
+  let stars = [];
+  let t = 0;
 
-  stars = Array.from(
-    { length: Math.min(140, Math.floor(width / 9)) },
-    () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      size: Math.random() * 1.5 + 0.3,
-      speed: Math.random() * 0.18 + 0.03,
-      opacity: Math.random() * 0.7 + 0.2
-    })
-  );
-}
-
-function animate() {
-  ctx.clearRect(0, 0, width, height);
-
-  for (const star of stars) {
-    star.y -= star.speed;
-
-    if (star.y < -5) {
-      star.y = height + 5;
-      star.x = Math.random() * width;
-    }
-
-    ctx.beginPath();
-    ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(180, 195, 255, ${star.opacity})`;
-    ctx.fill();
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
   }
 
-  requestAnimationFrame(animate);
+  function initStars() {
+    stars = [];
+    const count = Math.min(140, Math.floor((W * H) / 8000));
+
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.2 + 0.3,
+        speed: Math.random() * 0.16 + 0.03,
+        opacity: Math.random() * 0.5 + 0.2,
+        ts: Math.random() * 0.01 + 0.003,
+        to: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    t += 0.016;
+
+    for (const s of stars) {
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+
+      const alpha = Math.max(0, s.opacity + Math.sin(t * s.ts * 60 + s.to) * 0.14);
+      ctx.fillStyle = `rgba(180, 195, 255, ${alpha})`;
+      ctx.fill();
+
+      s.y -= s.speed;
+
+      if (s.y < -5) {
+        s.y = H + 5;
+        s.x = Math.random() * W;
+      }
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener("resize", () => {
+    resize();
+    initStars();
+  });
+
+  resize();
+  initStars();
+  draw();
 }
-
-window.addEventListener("resize", resize);
-
-resize();
-animate();
