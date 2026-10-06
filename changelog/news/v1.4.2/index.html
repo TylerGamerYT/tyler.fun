@@ -1,1 +1,162 @@
-# COMING SOON
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>v1.4.2 Cloudflare Pages Migration | tyler.fun</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <canvas id="stars"></canvas>
+
+  <main class="page">
+
+    <a href="/changelog/news" class="back">
+      ← Back to News &amp; Releases
+    </a>
+
+    <header>
+      <div class="version">v1.4.2</div>
+
+      <h1>Moved to Cloudflare Pages<br>&amp; Infrastructure Upgrade</h1>
+
+      <p class="subtitle">
+        A major hosting update moving tyler.fun from Vercel to Cloudflare Pages, 
+        delivering improved global edge performance and faster deployment pipelines.
+      </p>
+
+      <p class="date">October 2026</p>
+    </header>
+
+    <section class="content">
+
+      <article class="release-section">
+        <h2 class="section-label">
+          <span class="icon">✦</span>
+          New
+        </h2>
+
+        <ul>
+          <li>
+            Migrated full platform deployment from Vercel to <strong>Cloudflare Pages</strong>.
+          </li>
+
+          <li>
+            Updated build configurations and automated edge deployment pipelines.
+          </li>
+
+          <li>
+            Optimized static asset routing across Cloudflare's global edge network.
+          </li>
+        </ul>
+      </article>
+
+      <article class="release-section">
+        <h2 class="section-label">
+          <span class="icon">↗</span>
+          Infrastructure
+        </h2>
+
+        <ul>
+          <li>
+            Cloudflare Pages is now the primary hosting platform for <strong>tyler.fun</strong>.
+          </li>
+
+          <li>
+            Improved cold-start build times and reduced latency for international users.
+          </li>
+
+          <li>
+            Upgraded DNS routing and SSL configurations for unified edge performance.
+          </li>
+        </ul>
+      </article>
+
+      <article class="release-section">
+        <h2 class="section-label">
+          <span class="icon">★</span>
+          Why this update?
+        </h2>
+
+        <div class="highlight">
+          <strong>A long-term infrastructure step forward.</strong>
+          <br><br>
+
+          8 versions after moving to Vercel back in v0.9, tyler.fun has officially migrated to Cloudflare Pages. This change provides lower latency, faster deployment pipelines, and a stronger foundation as the site and its game library continue to scale.
+        </div>
+      </article>
+
+    </section>
+
+    <nav class="footer-nav">
+      <span class="nav-link" style="opacity:0.5; pointer-events:none; cursor:default;">
+        ← Latest Release
+      </span>
+
+      <a href="/changelog/news/v1.4.1" class="nav-link">
+        v1.4.1 →
+      </a>
+    </nav>
+
+  </main>
+
+  <script>
+    const canvas = document.getElementById("stars");
+    const ctx = canvas.getContext("2d");
+
+    let width;
+    let height;
+    let stars = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+
+      stars = Array.from(
+        { length: Math.min(140, Math.floor(width / 9)) },
+        () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: Math.random() * 1.5 + 0.3,
+          speed: Math.random() * 0.18 + 0.03,
+          opacity: Math.random() * 0.7 + 0.2
+        })
+      );
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+
+      for (const star of stars) {
+        star.y -= star.speed;
+
+        if (star.y < -5) {
+          star.y = height + 5;
+          star.x = Math.random() * width;
+        }
+
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(180, 195, 255, ${star.opacity})`;
+        ctx.fill();
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener("resize", resize);
+
+    resize();
+    animate();
+  </script>
+
+</body>
+</html>
