@@ -596,66 +596,7 @@ document.addEventListener('click', (e) => {
 });
 
 
-/* Explosive mini fish-badge particle shower */
-const fishBadge = document.getElementById('fishBadge');
-const fishContainer = document.getElementById('fishBadgeContainer');
-
-fishBadge.addEventListener('click', (e) => {
-
-    e.stopPropagation();
-
-    // Spawns 45 mini fish-badge icons exploding outward
-    const count = 45;
-
-    for (let i = 0; i < count; i++) {
-
-        const fishParticle = document.createElement('img');
-
-        fishParticle.src = fishBadge.src;
-
-        fishParticle.className = 'tiny-fish-particle';
-
-        const angle =
-            Math.random() * 2 * Math.PI;
-
-        const distance =
-            35 + Math.random() * 75;
-
-        const tx =
-            Math.cos(angle) * distance;
-
-        const ty =
-            Math.sin(angle) * distance;
-
-        const trot =
-            (Math.random() - 0.5) * 720;
-
-        fishParticle.style.setProperty(
-            '--tx',
-            `${tx}px`
-        );
-
-        fishParticle.style.setProperty(
-            '--ty',
-            `${ty}px`
-        );
-
-        fishParticle.style.setProperty(
-            '--trot',
-            `${trot}deg`
-        );
-
-        fishContainer.appendChild(fishParticle);
-
-        fishParticle.classList.add(
-            'exploding-fish-massive'
-        );
-
-        setTimeout(() => {
-            fishParticle.remove();
-        }, 800);
-    }
-});
+<script src="/assets/js/badges.js"></script>
 </script>
 </body>
 </html>
