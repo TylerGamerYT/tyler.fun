@@ -575,26 +575,7 @@
 </div>
 
 <script src="/assets/js/stars.js"></script>
-
-<script>
-  /* Toggle verified badge popup */
-  const vcheck = document.getElementById('vcheck');
-
-  if (vcheck) {
-    vcheck.addEventListener('click', (e) => {
-        e.stopPropagation();
-        vcheck.classList.toggle('active');
-    });
-
-    /* Close popup when clicking anywhere outside */
-    document.addEventListener('click', (e) => {
-        if (!vcheck.contains(e.target)) {
-            vcheck.classList.remove('active');
-        }
-    });
-  }
-</script>
-
+<script src="/assets/js/verified.js"></script>
 <script src="/assets/js/badges.js"></script>
 </body>
 </html>
