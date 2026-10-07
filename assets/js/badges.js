@@ -1,6 +1,4 @@
-// Generic Badge Explosion Helper
-function setupBadgeExplosion(config) {
-  const { badgeId, containerId, baseClass, animClass, fallbackSrc, count = 45, duration = 800 } = config;
+function setupBadgeExplosion(badgeId, containerId, particleClass, animClass, count = 45, duration = 800) {
   const badge = document.getElementById(badgeId);
   const container = document.getElementById(containerId);
 
@@ -9,13 +7,11 @@ function setupBadgeExplosion(config) {
   badge.addEventListener('click', (e) => {
     e.stopPropagation();
 
-    // Use current badge image src, or fall back to the exact icon file path
-    const particleSrc = badge.getAttribute('src') || fallbackSrc;
-
     for (let i = 0; i < count; i++) {
       const particle = document.createElement('img');
-      particle.src = particleSrc;
-      particle.className = baseClass;
+      // badge.src gives the exact loaded image source
+      particle.src = badge.src;
+      particle.className = particleClass;
 
       const angle = Math.random() * 2 * Math.PI;
       const distance = 35 + Math.random() * 75;
@@ -37,32 +33,20 @@ function setupBadgeExplosion(config) {
   });
 }
 
-// Auto-initialize all badge triggers when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+function initBadges() {
   // Fish Badge
-  setupBadgeExplosion({
-    badgeId: 'fishBadge',
-    containerId: 'fishBadgeContainer',
-    baseClass: 'tiny-fish-particle',
-    animClass: 'exploding-fish-massive',
-    fallbackSrc: '/assets/icons/fish-badge.png'
-  });
+  setupBadgeExplosion('fishBadge', 'fishBadgeContainer', 'tiny-fish-particle', 'exploding-fish-massive');
 
   // Tawsif Badge
-  setupBadgeExplosion({
-    badgeId: 'tawsifBadge',
-    containerId: 'tawsifBadgeContainer',
-    baseClass: 'tiny-pfp-particle',
-    animClass: 'exploding-pfp-massive',
-    fallbackSrc: '/assets/icons/tawsif-badge.png'
-  });
+  setupBadgeExplosion('tawsifBadge', 'tawsifBadgeContainer', 'tiny-pfp-particle', 'exploding-pfp-massive');
 
   // Tyler Badge
-  setupBadgeExplosion({
-    badgeId: 'tylerBadge',
-    containerId: 'tylerBadgeContainer',
-    baseClass: 'tiny-pfp-particle',
-    animClass: 'exploding-pfp-massive',
-    fallbackSrc: '/assets/icons/tylerpfp.png'
-  });
-});
+  setupBadgeExplosion('tylerBadge', 'tylerBadgeContainer', 'tiny-pfp-particle', 'exploding-pfp-massive');
+}
+
+// Handles both early and late script loading
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initBadges);
+} else {
+  initBadges();
+}
