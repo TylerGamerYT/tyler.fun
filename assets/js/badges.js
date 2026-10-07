@@ -1,3 +1,4 @@
+// Generic Badge Explosion Helper
 function setupBadgeExplosion(badgeId, containerId, particleClass, animClass, count = 45, duration = 800) {
   const badge = document.getElementById(badgeId);
   const container = document.getElementById(containerId);
@@ -9,7 +10,6 @@ function setupBadgeExplosion(badgeId, containerId, particleClass, animClass, cou
 
     for (let i = 0; i < count; i++) {
       const particle = document.createElement('img');
-      // badge.src gives the exact loaded image source
       particle.src = badge.src;
       particle.className = particleClass;
 
@@ -33,14 +33,35 @@ function setupBadgeExplosion(badgeId, containerId, particleClass, animClass, cou
   });
 }
 
+// Verified Check Pop-up Toggle Logic
+function setupVerifiedBadge() {
+  const vcheck = document.getElementById('vcheck');
+
+  if (!vcheck) return;
+
+  vcheck.addEventListener('click', (e) => {
+    e.stopPropagation();
+    vcheck.classList.toggle('active');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!vcheck.contains(e.target)) {
+      vcheck.classList.remove('active');
+    }
+  });
+}
+
 function initBadges() {
-  // Fish Badge
+  // Verified Badge Toggle
+  setupVerifiedBadge();
+
+  // Fish Badge Explosion
   setupBadgeExplosion('fishBadge', 'fishBadgeContainer', 'tiny-fish-particle', 'exploding-fish-massive');
 
-  // Tawsif Badge
+  // Tawsif Badge Explosion
   setupBadgeExplosion('tawsifBadge', 'tawsifBadgeContainer', 'tiny-pfp-particle', 'exploding-pfp-massive');
 
-  // Tyler Badge
+  // Tyler Badge Explosion
   setupBadgeExplosion('tylerBadge', 'tylerBadgeContainer', 'tiny-pfp-particle', 'exploding-pfp-massive');
 }
 
