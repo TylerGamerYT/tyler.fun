@@ -1,0 +1,57 @@
+# General Path Aliases
+/home                           /index.html                     200
+
+# User Profiles & Case Handling
+/users/tyler                    /users/Tyler/Index.html          200
+/users/Tyler                    /users/Tyler/Index.html          200
+/users/TYLER                    /users/Tyler/Index.html          200
+
+/users/fish                     /users/Fish/Index.html           200
+/users/Fish                     /users/Fish/Index.html           200
+/users/FISH                     /users/Fish/Index.html           200
+
+/users/tawsif                   /users/tawsif/Index.html         200
+/users/Tawsif                   /users/tawsif/Index.html         200
+/users/TAWSIF                   /users/tawsif/Index.html         200
+
+/users/yoiashley                /users/yoiashley/Index.html      200
+/users/Yoiashley                /users/yoiashley/Index.html      200
+/users/YOIASHLEY                /users/yoiashley/Index.html      200
+
+/users/angle                    /users/angle/Index.html          200
+/users/Angle                    /users/angle/Index.html          200
+/users/ANGLE                    /users/angle/Index.html          200
+
+/users/aaban                    /users/Aaban/Index.html          200
+/users/Aaban                    /users/Aaban/Index.html          200
+/users/AABAN                    /users/Aaban/Index.html          200
+
+/users/ban                      /users/Ban/Index.html            200
+/users/Ban                      /users/Ban/Index.html            200
+/users/BAN                      /users/Ban/Index.html            200
+
+/users/banned                   /users/Ban/Index.html            200
+/users/Banned                   /users/Ban/Index.html            200
+/users/BANNED                   /users/Ban/Index.html            200
+
+/users/guest                    /users/Guest/Index.html          200
+/users/Guest                    /users/Guest/Index.html          200
+/users/GUEST                    /users/Guest/Index.html          200
+
+/users/admin                    /users/Admin/Index.html          200
+/users/Admin                    /users/Admin/Index.html          200
+/users/ADMIN                    /users/Admin/Index.html          200
+
+/users/staff                    /users/staff/Index.html          200
+/users/Staff                    /users/staff/Index.html          200
+/users/STAFF                    /users/staff/Index.html          200
+
+/users/support                  /users/Support/Index.html        200
+/users/Support                  /users/Support/Index.html        200
+/users/SUPPORT                  /users/Support/Index.html        200
+
+/users/tyler.fun                /users/tyler.fun/Index.html      200
+
+# Event Specific Capitalization Rules
+/events/easter-2027             /events/easter-2027/Index.html   200
+/events/easter-2027/leaderboard /events/easter-2027/leaderboard/Index.html 200
