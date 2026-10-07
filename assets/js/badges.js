@@ -1,6 +1,6 @@
 // Generic Badge Explosion Helper
 function setupBadgeExplosion(config) {
-  const { badgeId, containerId, baseClass, animClass, count = 45, duration = 800 } = config;
+  const { badgeId, containerId, baseClass, animClass, fallbackSrc, count = 45, duration = 800 } = config;
   const badge = document.getElementById(badgeId);
   const container = document.getElementById(containerId);
 
@@ -9,9 +9,12 @@ function setupBadgeExplosion(config) {
   badge.addEventListener('click', (e) => {
     e.stopPropagation();
 
+    // Use current badge image src, or fall back to the exact icon file path
+    const particleSrc = badge.getAttribute('src') || fallbackSrc;
+
     for (let i = 0; i < count; i++) {
       const particle = document.createElement('img');
-      particle.src = badge.src;
+      particle.src = particleSrc;
       particle.className = baseClass;
 
       const angle = Math.random() * 2 * Math.PI;
@@ -41,7 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
     badgeId: 'fishBadge',
     containerId: 'fishBadgeContainer',
     baseClass: 'tiny-fish-particle',
-    animClass: 'exploding-fish-massive'
+    animClass: 'exploding-fish-massive',
+    fallbackSrc: '/assets/icons/fish-badge.png'
   });
 
   // Tawsif Badge
@@ -49,7 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
     badgeId: 'tawsifBadge',
     containerId: 'tawsifBadgeContainer',
     baseClass: 'tiny-pfp-particle',
-    animClass: 'exploding-pfp-massive'
+    animClass: 'exploding-pfp-massive',
+    fallbackSrc: '/assets/icons/tawsif-badge.png'
   });
 
   // Tyler Badge
@@ -57,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     badgeId: 'tylerBadge',
     containerId: 'tylerBadgeContainer',
     baseClass: 'tiny-pfp-particle',
-    animClass: 'exploding-pfp-massive'
+    animClass: 'exploding-pfp-massive',
+    fallbackSrc: '/assets/icons/tylerpfp.png'
   });
 });
