@@ -612,40 +612,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Massive 45-icon PFP shower explosion effect
-const tylerBadge = document.getElementById('tylerBadge');
-const tylerContainer = document.getElementById('tylerBadgeContainer');
-
-tylerBadge.addEventListener('click', (e) => {
-    e.stopPropagation();
-
-    const count = 45;
-
-    for (let i = 0; i < count; i++) {
-        const pfpParticle = document.createElement('img');
-
-        pfpParticle.src = tylerBadge.src;
-        pfpParticle.className = 'tiny-pfp-particle';
-
-        const angle = Math.random() * 2 * Math.PI;
-        const distance = 35 + Math.random() * 75;
-
-        const tx = Math.cos(angle) * distance;
-        const ty = Math.sin(angle) * distance;
-        const trot = (Math.random() - 0.5) * 720;
-
-        pfpParticle.style.setProperty('--tx', `${tx}px`);
-        pfpParticle.style.setProperty('--ty', `${ty}px`);
-        pfpParticle.style.setProperty('--trot', `${trot}deg`);
-
-        tylerContainer.appendChild(pfpParticle);
-        pfpParticle.classList.add('exploding-pfp-massive');
-
-        setTimeout(() => {
-            pfpParticle.remove();
-        }, 800);
-    }
-});
+<script src="/assets/js/badges.js"></script>
 </script>
 </body>
 </html>
