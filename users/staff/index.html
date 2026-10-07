@@ -140,27 +140,6 @@
         <div class="coming-soon">Account system coming eventually. Check back later.</div>
     </div>
 </div>
-<script>
-const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
-let W, H, stars = [];
-function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-function initStars() { stars = []; for(let i=0;i<Math.floor((W*H)/8000);i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.3,speed:Math.random()*0.14+0.03,opacity:Math.random()*0.45+0.1,ts:Math.random()*0.01+0.003,to:Math.random()*Math.PI*2}); }
-let t=0;
-function draw() { ctx.clearRect(0,0,W,H); t+=0.016; for(const s of stars){ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(148,197,255,${Math.max(0,s.opacity+Math.sin(t*s.ts*60+s.to)*0.14)})`;ctx.fill();s.y-=s.speed;if(s.y<-2){s.y=H+2;s.x=Math.random()*W;}} requestAnimationFrame(draw); }
-resize(); initStars(); draw();
-window.addEventListener('resize',()=>{resize();initStars();});
-
-const vcheck = document.getElementById('vcheck');
-vcheck.addEventListener('click', (e) => {
-    e.stopPropagation();
-    vcheck.classList.toggle('active');
-});
-
-document.addEventListener('click', (e) => {
-    if (!vcheck.contains(e.target)) {
-        vcheck.classList.remove('active');
-    }
-});
-</script>
+</script><script src="/assets/js/stars.js"></script>
 </body>
 </html>
