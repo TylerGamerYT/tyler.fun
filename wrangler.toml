@@ -6,7 +6,7 @@ pages_build_output_dir = "."
 [[d1_databases]]
 binding = "DB"
 database_name = "tyler-fun-db"
-database_id = "c132d0a71fdc912453ca16b984e8ba25"
+database_id = "2c8d6901-5026-496a-b897-710322252c8c"
 
 [vars]
 GITHUB_CLIENT_ID = "Ov23lirt9Z7mn9m69pwI"   # public value (already visible in your login page)
