@@ -1,0 +1,12 @@
+{
+  "name": "tyler-fun",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler pages dev .",
+    "db:local": "wrangler d1 migrations apply tyler-fun-db --local",
+    "db:remote": "wrangler d1 migrations apply tyler-fun-db --remote",
+    "test": "node --no-warnings tests/run.mjs"
+  },
+  "devDependencies": { "wrangler": "^4" }
+}
