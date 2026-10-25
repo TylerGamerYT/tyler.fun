@@ -37,24 +37,24 @@
       <div class="latest-label">Latest Release</div>
 
       <div class="release-top">
-        <div class="version">v1.4.1</div>
-        <div class="date">September 2026</div>
+        <div class="version">v1.4.2</div>
+        <div class="date">October 2026</div>
       </div>
 
       <div class="release-title">
-        Codebase Refactoring & Universal Bottom Navigation
+        Cloudflare Pages Migration & Infrastructure Upgrade
       </div>
 
       <p class="summary">
-        A maintenance update focusing on project structure and navigation.
-        Extracted CSS styles and JavaScript logic into dedicated external files for each game,
-        and added a persistent bottom status bar across the platform.
+        A major hosting update moving tyler.fun from Vercel to Cloudflare Pages.
+        Upgraded DNS routing, continuous build deployment pipelines, and global
+        edge delivery across the platform.
       </p>
 
       <div class="stats">
-        <div class="stat"><strong>2</strong> Features</div>
-        <div class="stat"><strong>3</strong> Refactors</div>
-        <div class="stat"><strong>5</strong> Total changes</div>
+        <div class="stat"><strong>3</strong> New</div>
+        <div class="stat"><strong>3</strong> Infrastructure</div>
+        <div class="stat"><strong>6</strong> Total changes</div>
       </div>
 
     </section>
@@ -67,7 +67,7 @@
     </div>
 
     <div class="footer-note">
-      v1.4.1 is currently the latest version of tyler.fun.
+      v1.4.2 is currently the latest version of tyler.fun.
     </div>
 
   </main>
@@ -78,87 +78,14 @@
     <div class="bottom-bar-left">
       <span>tyler.fun</span>
       <span>•</span>
-      <strong>v1.4.1</strong>
+      <strong>v1.4.2</strong>
     </div>
     <div class="bottom-bar-right">
       <a href="/changelog">Changelog</a>
     </div>
   </footer>
 
-  <script>
-    const canvas = document.getElementById("particles");
-    const ctx = canvas.getContext("2d");
-
-    let W;
-    let H;
-    let stars = [];
-    let t = 0;
-
-    function resize() {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    }
-
-    function initStars() {
-      stars = [];
-
-      for (let i = 0; i < Math.floor((W * H) / 8000); i++) {
-        stars.push({
-          x: Math.random() * W,
-          y: Math.random() * H,
-          r: Math.random() * 1.1 + 0.3,
-          speed: Math.random() * 0.14 + 0.03,
-          opacity: Math.random() * 0.45 + 0.1,
-          ts: Math.random() * 0.01 + 0.003,
-          to: Math.random() * Math.PI * 2
-        });
-      }
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, W, H);
-
-      t += 0.016;
-
-      for (const s of stars) {
-        ctx.beginPath();
-
-        ctx.arc(
-          s.x,
-          s.y,
-          s.r,
-          0,
-          Math.PI * 2
-        );
-
-        ctx.fillStyle = `rgba(148,197,255,${Math.max(
-          0,
-          s.opacity +
-          Math.sin(t * s.ts * 60 + s.to) * 0.14
-        )})`;
-
-        ctx.fill();
-
-        s.y -= s.speed;
-
-        if (s.y < -2) {
-          s.y = H + 2;
-          s.x = Math.random() * W;
-        }
-      }
-
-      requestAnimationFrame(draw);
-    }
-
-    resize();
-    initStars();
-    draw();
-
-    window.addEventListener("resize", () => {
-      resize();
-      initStars();
-    });
-  </script>
+<script src="/assets/js/stars.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify email | tyler.fun</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            background: #020617;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e3a8a44 0%, transparent 70%); z-index: 0; pointer-events: none; }
+
+        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
+        .back-home:hover { color: #fff; }
+
+        /* card */
+        .card {
+            position: relative; z-index: 1;
+            background: rgba(15,23,42,0.8);
+            border: 1px solid rgba(51,65,85,0.7);
+            border-radius: 24px;
+            padding: 40px 36px;
+            width: 100%; max-width: 420px;
+            margin: 24px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            animation: fadeUp 0.5s ease forwards;
+        }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* logo */
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.4rem; font-weight: 900;
+            letter-spacing: -1px; margin-bottom: 28px;
+            text-align: center;
+        }
+        .logo span { color: #60a5fa; }
+
+        h1 { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 900; margin: 0 0 6px; letter-spacing: -1px; }
+        .sub { font-size: 0.85rem; color: #64748b; margin-bottom: 28px; }
+        .sub a { color: #60a5fa; text-decoration: none; font-weight: 600; }
+        .sub a:hover { text-decoration: underline; }
+
+        /* github btn */
+        .github-btn {
+            width: 100%; padding: 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px; color: #fff;
+            font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            gap: 10px; margin-bottom: 20px; text-decoration: none;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .github-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.25); }
+        .github-btn svg { width: 18px; height: 18px; fill: #fff; flex-shrink: 0; }
+
+        /* divider */
+        .divider { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(51,65,85,0.6); }
+        .divider span { font-size: 0.75rem; color: #334155; }
+
+        /* form */
+        .field { margin-bottom: 16px; }
+        label { font-size: 0.78rem; font-weight: 600; color: #94a3b8; display: block; margin-bottom: 6px; }
+        input {
+            width: 100%; padding: 11px 14px;
+            background: rgba(30,41,59,0.6);
+            border: 1px solid rgba(51,65,85,0.7);
+            border-radius: 10px; color: #fff;
+            font-family: 'Inter', sans-serif; font-size: 0.9rem;
+            outline: none; transition: border-color 0.2s, background 0.2s;
+        }
+        input:focus { border-color: rgba(96,165,250,0.5); background: rgba(30,41,59,0.9); }
+        input::placeholder { color: #334155; }
+
+        .forgot { font-size: 0.78rem; color: #475569; text-decoration: none; float: right; margin-top: -4px; display: block; transition: color 0.2s; }
+        .forgot:hover { color: #60a5fa; }
+
+        .submit-btn {
+            width: 100%; padding: 13px;
+            background: #2563eb;
+            border: none; border-radius: 12px; color: #fff;
+            font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+            cursor: not-allowed; margin-top: 8px; opacity: 0.6;
+            transition: opacity 0.2s;
+            position: relative;
+        }
+
+        .notice {
+            margin-top: 20px; padding: 12px 14px;
+            background: rgba(96,165,250,0.07);
+            border: 1px solid rgba(96,165,250,0.15);
+            border-radius: 10px; font-size: 0.78rem;
+            color: #475569; text-align: center; line-height: 1.5;
+        }
+        .notice span { color: #60a5fa; font-weight: 600; }
+    </style>
+    <link rel="stylesheet" href="/assets/css/auth.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
+<a href="/" class="back-home">← Back to tyler.fun</a>
+<div class="card">
+    <div class="logo">tyler<span>.fun</span></div>
+    <h1>Verify your email</h1>
+    <p class="sub" id="sub">Confirming your address…</p>
+    <div class="msg" id="msg" role="alert"></div>
+    <a class="github-btn" id="next" href="/login/" style="display:none">Continue</a>
+</div>
+<script src="/assets/js/stars.js"></script>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/auth.js"></script>
+<script>
+const $ = (id) => document.getElementById(id);
+const token = new URLSearchParams(location.search).get('token');
+history.replaceState(null, '', location.pathname);
+(async () => {
+  if (!token) { $('sub').textContent = ''; TF.setMsg($('msg'), 'This verification link is invalid.', 'error'); return; }
+  const r = await TF.api('/auth/verify-email', { method: 'POST', body: { token } });
+  $('sub').textContent = '';
+  if (r.ok) { TF.setMsg($('msg'), 'Email verified! Your Email Verified badge is now on your profile.', 'ok'); $('next').style.display = 'flex'; }
+  else TF.setMsg($('msg'), r.error.message + ' You can request a new link from Settings.', 'error');
+})();
+</script>
+</body>
+</html>

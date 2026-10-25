@@ -15,8 +15,8 @@
             color: #fff;
             font-family: 'Inter', sans-serif;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
             min-height: 100vh;
             margin: 0;
             overflow-x: hidden;
@@ -34,16 +34,39 @@
             inset: 0;
             background: radial-gradient(
                 ellipse 80% 60% at 50% 40%,
-                #2e1065 33 0%,
+                #2e1065 0%,
                 transparent 70%
             );
             z-index: 0;
             pointer-events: none;
         }
 
+        /* Announcement Notice Bar (Purple Theme) */
+        .notice-bar {
+            width: 100%;
+            background: rgba(46, 16, 101, 0.4);
+            border-bottom: 1px solid rgba(167, 139, 250, 0.25);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #ddd6fe;
+            text-align: center;
+            padding: 10px 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .notice-bar span {
+            color: #f8fafc;
+        }
+
         .back-home {
             position: fixed;
-            top: 20px;
+            top: 60px;
             left: 24px;
             font-size: 0.85rem;
             color: #475569;
@@ -59,7 +82,7 @@
         .container {
             position: relative;
             z-index: 1;
-            padding: 80px 24px 60px;
+            padding: 40px 24px 60px;
             max-width: 680px;
             width: 100%;
             margin: 0 auto;
@@ -303,6 +326,11 @@
 <canvas id="particles"></canvas>
 <div class="bg-glow"></div>
 
+<!-- Top Announcement Banner -->
+<div class="notice-bar">
+    ℹ️ <span>Account Status:</span> With our account system nearly complete, this test profile will shortly become a fully live account on the site, fully owned and operated by the user who claimed it.
+</div>
+
 <a href="index.html" class="back-home">← Back to tyler.fun</a>
 
 <div class="container">
@@ -321,7 +349,7 @@
 
             <span class="display-name">Tawsif</span>
 
-            <!-- Tawsif Custom Badge -->
+            <!-- Tawsif Badge -->
             <div class="badge-container" id="tawsifBadgeContainer">
                 <img
                     src="/assets/icons/tawsif-badge.png"
@@ -381,165 +409,7 @@
     </div>
 </div>
 
-<script>
-// ==============================
-// Background particles
-// ==============================
-
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-
-let W, H, stars = [];
-
-function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-}
-
-function initStars() {
-    stars = [];
-
-    for (
-        let i = 0;
-        i < Math.floor((W * H) / 8000);
-        i++
-    ) {
-        stars.push({
-            x: Math.random() * W,
-            y: Math.random() * H,
-            r: Math.random() * 1.1 + 0.3,
-            speed: Math.random() * 0.14 + 0.03,
-            opacity: Math.random() * 0.45 + 0.1,
-            ts: Math.random() * 0.01 + 0.003,
-            to: Math.random() * Math.PI * 2
-        });
-    }
-}
-
-let t = 0;
-
-function draw() {
-    ctx.clearRect(0, 0, W, H);
-
-    t += 0.016;
-
-    for (const s of stars) {
-
-        ctx.beginPath();
-
-        ctx.arc(
-            s.x,
-            s.y,
-            s.r,
-            0,
-            Math.PI * 2
-        );
-
-        ctx.fillStyle =
-            `rgba(148,197,255,${
-                Math.max(
-                    0,
-                    s.opacity +
-                    Math.sin(t * s.ts * 60 + s.to) * 0.14
-                )
-            })`;
-
-        ctx.fill();
-
-        s.y -= s.speed;
-
-        if (s.y < -2) {
-            s.y = H + 2;
-            s.x = Math.random() * W;
-        }
-    }
-
-    requestAnimationFrame(draw);
-}
-
-resize();
-initStars();
-draw();
-
-window.addEventListener('resize', () => {
-    resize();
-    initStars();
-});
-
-
-// ==============================
-// Tawsif Badge Explosion
-// ==============================
-
-const tawsifBadge =
-    document.getElementById('tawsifBadge');
-
-const tawsifContainer =
-    document.getElementById('tawsifBadgeContainer');
-
-tawsifBadge.addEventListener('click', (e) => {
-
-    e.stopPropagation();
-
-    // Same 45-particle explosion as Tyler's badge
-    const count = 45;
-
-    for (let i = 0; i < count; i++) {
-
-        const particle =
-            document.createElement('img');
-
-        // Use the Tawsif custom badge itself
-        particle.src = tawsifBadge.src;
-
-        particle.className =
-            'tiny-pfp-particle';
-
-        // Random direction
-        const angle =
-            Math.random() * 2 * Math.PI;
-
-        // Random explosion distance
-        const distance =
-            35 + Math.random() * 75;
-
-        const tx =
-            Math.cos(angle) * distance;
-
-        const ty =
-            Math.sin(angle) * distance;
-
-        // Random spin
-        const trot =
-            (Math.random() - 0.5) * 720;
-
-        particle.style.setProperty(
-            '--tx',
-            `${tx}px`
-        );
-
-        particle.style.setProperty(
-            '--ty',
-            `${ty}px`
-        );
-
-        particle.style.setProperty(
-            '--trot',
-            `${trot}deg`
-        );
-
-        tawsifContainer.appendChild(particle);
-
-        particle.classList.add(
-            'exploding-pfp-massive'
-        );
-
-        // Remove after animation
-        setTimeout(() => {
-            particle.remove();
-        }, 800);
-    }
-});
-</script>
+<script src="/assets/js/stars.js"></script>
+<script src="/assets/js/badges.js"></script>
 </body>
 </html>

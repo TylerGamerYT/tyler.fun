@@ -1,0 +1,19 @@
+name = "tyler-fun"
+compatibility_date = "2026-01-01"
+pages_build_output_dir = "."
+
+# Create with:  npx wrangler d1 create tyler-fun-db   then paste the id below
+[[d1_databases]]
+binding = "DB"
+database_name = "tyler-fun-db"
+database_id = "2c8d6901-5026-496a-b897-710322252c8c"
+
+[vars]
+GITHUB_CLIENT_ID = "Ov23lirt9Z7mn9m69pwI"   # public value (already visible in your login page)
+OWNER_LEGACY_USERNAME = "Tyler"   # your first GitHub login adopts this migrated account instead of creating a new one
+OWNER_GITHUB_ID = "217119891"   # numeric id of YOUR GitHub account: https://api.github.com/users/TylerGamerYT -> "id"
+SITE_URL = "https://tyler-fun.pages.dev"   # no trailing slash; must match the GitHub OAuth app exactly
+# Only used if you add RESEND_API_KEY. Needs a domain YOU own and have verified with the email provider.
+MAIL_FROM = "tyler-fun <onboarding@resend.dev>"   # Resend sandbox sender: delivers ONLY to your own Resend account email
+# Public Turnstile site key (optional, safe to commit). Secret goes in `wrangler pages secret`.
+TURNSTILE_SITEKEY = ""

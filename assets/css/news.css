@@ -136,6 +136,7 @@ body {
 .release-card:nth-child(14) { animation-delay: 0.7s; }
 .release-card:nth-child(15) { animation-delay: 0.75s; }
 .release-card:nth-child(16) { animation-delay: 0.8s; }
+.release-card:nth-child(17) { animation-delay: 0.85s; }
 
 .release-card:hover {
   transform: translateY(-3px);
