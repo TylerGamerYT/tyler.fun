@@ -8,12 +8,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; }
-        body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; overflow-x: hidden; }
+        body { background: #020617; color: #fff; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; overflow-x: hidden; }
         #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
         .bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, #4a044e33 0%, transparent 70%); z-index: 0; pointer-events: none; }
-        .back-home { position: fixed; top: 20px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
+
+        /* Announcement Notice Bar (Pink Theme) */
+        .notice-bar {
+            width: 100%;
+            background: rgba(80, 7, 36, 0.4);
+            border-bottom: 1px solid rgba(244, 114, 182, 0.25);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #fbcfe8;
+            text-align: center;
+            padding: 10px 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .notice-bar span {
+            color: #f8fafc;
+        }
+
+        .back-home { position: fixed; top: 60px; left: 24px; font-size: 0.85rem; color: #475569; text-decoration: none; transition: color 0.2s; z-index: 10; }
         .back-home:hover { color: #fff; }
-        .container { position: relative; z-index: 1; padding: 80px 24px 60px; max-width: 680px; width: 100%; margin: 0 auto; }
+        .container { position: relative; z-index: 1; padding: 40px 24px 60px; max-width: 680px; width: 100%; margin: 0 auto; }
 
         .banner {
             width: 100%; height: 140px; border-radius: 20px;
@@ -76,52 +100,4 @@
             color: #334155; font-size: 0.85rem; font-style: italic;
         }
 
-        .fade { opacity: 0; animation: fadeUp 0.5s ease forwards; }
-        .fade:nth-child(1) { animation-delay: 0.05s; }
-        .fade:nth-child(2) { animation-delay: 0.1s; }
-        .fade:nth-child(3) { animation-delay: 0.15s; }
-        .fade:nth-child(4) { animation-delay: 0.2s; }
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(12px); } }
-    </style>
-</head>
-<body>
-<canvas id="particles"></canvas>
-<div class="bg-glow"></div>
-<a href="/" class="back-home">← Back to tyler.fun</a>
-
-<div class="container">
-    <div class="banner fade"><div class="banner-pattern"></div></div>
-
-    <div class="avatar-wrap fade">
-        <div class="avatar">✨</div>
-    </div>
-
-    <div class="profile-info fade">
-        <div class="name-row">
-            <span class="display-name">Ashley</span>
-            <img src="/assets/icons/member-badge.png" alt="Member Badge" class="badge-icon" title="Member">
-        </div>
-        <div class="handle">@yoiashley</div>
-
-        <div class="stats-row">
-            <div class="stat-item"><div class="stat-num">—</div><div class="stat-lbl">Joined</div></div>
-            <div class="stat-item"><div class="stat-num">—</div><div class="stat-lbl">Games played</div></div>
-        </div>
-
-        <div class="claimed-box">
-            <div class="claimed-emoji">🔒</div>
-            <div class="claimed-title">This account has been claimed</div>
-            <div class="claimed-text">
-                This profile is reserved for Ashley. Full profile details, bio, and stats will be available once the tyler.fun account system launches.
-            </div>
-        </div>
-
-        <div class="coming-soon">
-            Account system coming eventually. Check back later.
-        </div>
-    </div>
-</div>
-
-</script><script src="/assets/js/stars.js"></script>
-</body>
-</html>
+        .fade { opacity: 0; animation: fadeUp 0.
