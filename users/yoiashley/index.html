@@ -100,4 +100,58 @@
             color: #334155; font-size: 0.85rem; font-style: italic;
         }
 
-        .fade { opacity: 0; animation: fadeUp 0.
+        .fade { opacity: 0; animation: fadeUp 0.5s ease forwards; }
+        .fade:nth-child(1) { animation-delay: 0.05s; }
+        .fade:nth-child(2) { animation-delay: 0.1s; }
+        .fade:nth-child(3) { animation-delay: 0.15s; }
+        .fade:nth-child(4) { animation-delay: 0.2s; }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(12px); } }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="bg-glow"></div>
+
+<!-- Top Announcement Banner -->
+<div class="notice-bar">
+    ℹ️ <span>Account Status:</span> With our account system nearly complete, this test profile will shortly become a fully live account on the site, fully owned and operated by the user who claimed it.
+</div>
+
+<a href="/" class="back-home">← Back to tyler.fun</a>
+
+<div class="container">
+    <div class="banner fade"><div class="banner-pattern"></div></div>
+
+    <div class="avatar-wrap fade">
+        <div class="avatar">✨</div>
+    </div>
+
+    <div class="profile-info fade">
+        <div class="name-row">
+            <span class="display-name">Ashley</span>
+            <img src="/assets/icons/member-badge.png" alt="Member Badge" class="badge-icon" title="Member">
+        </div>
+        <div class="handle">@yoiashley</div>
+
+        <div class="stats-row">
+            <div class="stat-item"><div class="stat-num">—</div><div class="stat-lbl">Joined</div></div>
+            <div class="stat-item"><div class="stat-num">—</div><div class="stat-lbl">Games played</div></div>
+        </div>
+
+        <div class="claimed-box">
+            <div class="claimed-emoji">🔒</div>
+            <div class="claimed-title">This account has been claimed</div>
+            <div class="claimed-text">
+                This profile is reserved for Ashley. Full profile details, bio, and stats will be available once the tyler.fun account system launches.
+            </div>
+        </div>
+
+        <div class="coming-soon">
+            Account system coming eventually. Check back later.
+        </div>
+    </div>
+</div>
+
+<script src="/assets/js/stars.js"></script>
+</body>
+</html>
