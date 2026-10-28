@@ -6,27 +6,23 @@ async function loadTranslations() {
   if (locale === "en") return;
 
   try {
-    const response = await fetch(
-      `/locales/${locale}.json`
-    );
+    const response = await fetch(`/locales/${locale}.json`);
 
     if (!response.ok) {
-      throw new Error("Could not load translations");
+      throw new Error("Failed to load translations");
     }
 
     const translations = await response.json();
 
-    document.querySelectorAll("[data-i18n]")
-      .forEach((element) => {
-        const key = element.dataset.i18n;
-        const translated = translations[key];
+    document.querySelectorAll("[data-i18n]").forEach((element) => {
+      const translation = translations[element.dataset.i18n];
 
-        if (typeof translated === "string") {
-          element.textContent = translated;
-        }
-      });
+      if (typeof translation === "string") {
+        element.textContent = translation;
+      }
+    });
   } catch (error) {
-    console.error("Translation loading failed:", error);
+    console.error("Translation error:", error);
   }
 }
 
