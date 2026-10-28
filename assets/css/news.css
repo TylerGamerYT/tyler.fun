@@ -354,3 +354,57 @@ body {
     font-size: 0.75rem;
   }
 }
+
+/* View More (older releases) */
+
+.view-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.view-more[hidden] {
+  display: none;
+}
+
+.view-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(30, 58, 138, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  color: #60a5fa;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 11px 20px;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-more-btn:hover {
+  background: rgba(59, 130, 246, 0.25);
+  color: #fff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+  transform: translateY(-1px);
+}
+
+.view-more-btn span {
+  transition: transform 0.2s ease;
+}
+
+.view-more-btn:hover span {
+  transform: translateY(2px);
+}
+
+.archive-older {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.archive-older[hidden] {
+  display: none;
+}
