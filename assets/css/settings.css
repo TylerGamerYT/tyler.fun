@@ -322,3 +322,17 @@ select {
 .danger:hover {
     background: rgba(127, 29, 29, 0.25);
 }
+
+.language-disclaimer {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--warn-bg);
+    color: var(--warn-text);
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+/* Planned languages are shown in the selector but can't be chosen yet */
+select option:disabled {
+    color: var(--dim);
+}
