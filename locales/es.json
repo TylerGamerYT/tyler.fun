@@ -1,5 +1,7 @@
 {
   "home.title": "Bienvenido a tyler.fun",
+  "home.description": "¡Bienvenido a mi sitio web!",
+  "nav.home": "Inicio",
   "nav.login": "Iniciar sesión",
   "nav.signup": "Crear cuenta"
 }
