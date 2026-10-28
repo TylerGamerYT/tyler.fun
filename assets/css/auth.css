@@ -6,3 +6,6 @@
 .submit-btn:not(:disabled):hover { filter: brightness(1.1); }
 input:disabled { opacity: .5; }
 #cf-turnstile { margin-top: 12px; display: flex; justify-content: center; }
+
+/* Translatable plain-text fragments inside .notice (login/signup) keep the normal notice text style */
+.notice span.plain { color: inherit; font-weight: inherit; }
