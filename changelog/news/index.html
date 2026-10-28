@@ -12,6 +12,10 @@
     rel="stylesheet"
   >
   <link rel="stylesheet" href="../../assets/css/news.css">
+  <noscript>
+    <!-- Without JavaScript, show every release instead of hiding the older ones -->
+    <style>.archive-older[hidden] { display: flex; } .view-more { display: none; }</style>
+  </noscript>
 </head>
 
 <body>
@@ -31,15 +35,50 @@
 
     <section class="archive">
 
+      <!-- v1.5 -->
+      <a
+        href="/changelog/news/v1.5/"
+        class="release-card latest"
+      >
+        <div class="card-top">
+          <div class="version-wrap">
+            <div class="version">v1.5</div>
+            <div class="latest-badge">Latest</div>
+          </div>
+
+          <div class="date">October 2026</div>
+        </div>
+
+        <div class="title">
+          French & Spanish Language Support
+        </div>
+
+        <div class="description">
+          tyler.fun is now available in French and Spanish, with a new language
+          selector in Settings. Translations may be incomplete, and Arabic and
+          Polish are planned as coming soon.
+        </div>
+
+        <div class="card-bottom">
+          <div class="stats">
+            <div class="stat"><strong>4</strong> New</div>
+            <div class="stat"><strong>2</strong> Changes</div>
+            <div class="stat"><strong>6</strong> Total changes</div>
+            <div class="stat"><strong>2</strong> Planned</div>
+          </div>
+
+          <div class="view">View release →</div>
+        </div>
+      </a>
+
       <!-- v1.4.2 -->
       <a
         href="/changelog/news/v1.4.2/"  
-        class="release-card latest news"
+        class="release-card news"
       >
         <div class="card-top">
           <div class="version-wrap">
             <div class="version">v1.4.2</div>
-            <div class="latest-badge">Latest</div>
             <div class="news-badge">News</div>
           </div>
 
@@ -302,6 +341,22 @@
           <div class="view">View release →</div>
         </div>
       </a>
+
+      <!-- View More: reveals releases older than v1.0 -->
+      <div class="view-more">
+        <button
+          type="button"
+          class="view-more-btn"
+          id="viewMoreBtn"
+          aria-expanded="false"
+          aria-controls="olderReleases"
+        >
+          View More
+          <span>↓</span>
+        </button>
+      </div>
+
+      <div class="archive-older" id="olderReleases" hidden>
 
       <!-- v0.9 -->
       <a
@@ -588,6 +643,8 @@
         </div>
       </a>
 
+      </div>
+
     </section>
 
   </main>
@@ -598,7 +655,7 @@
     <div class="bottom-bar-left">
       <span>tyler.fun</span>
       <span>•</span>
-      <strong>v1.4.2</strong>
+      <strong>v1.5</strong>
     </div>
     <div class="bottom-bar-right">
       <a href="/changelog">Changelog</a>
@@ -606,6 +663,7 @@
   </footer>
 
 <script src="/assets/js/stars.js"></script>
+<script src="/assets/js/news.js"></script>
 
 </body>
 </html>
